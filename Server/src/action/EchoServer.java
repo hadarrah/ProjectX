@@ -65,7 +65,7 @@ public class EchoServer extends AbstractServer
 	        
 	        try 
 	        {      	 
-	            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/hw2","root","hadar");
+	            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/hw2","root","root");
 	         	         
 	            System.out.println("SQL connection succeed");
 	            /* Define which kind the message the server got */
