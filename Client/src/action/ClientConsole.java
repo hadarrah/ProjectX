@@ -11,6 +11,7 @@ import common.*;
  */
 public class ClientConsole implements ChatIF
 {
+	//bulbul
 	public gui.Menu_controller mc;
 	public gui.win2_Controller win2;
   //Class variables *************************************************
@@ -36,7 +37,7 @@ public class ClientConsole implements ChatIF
    */
   public ClientConsole(String host, int port,gui.Menu_controller mc) 
   {
-	
+	//bulbulsa
 	this.mc=mc;
     try  
     {
