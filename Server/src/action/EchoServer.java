@@ -27,7 +27,7 @@ import ocsf.server.*;
  */
 public class EchoServer extends AbstractServer 
 {
-	//bulbul
+	//bulbul2
   //Class variables *************************************************
   
   /**
