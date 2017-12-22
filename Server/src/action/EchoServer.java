@@ -29,8 +29,7 @@ public class EchoServer extends AbstractServer
 {
 
 	//hadar 
-
-	//aviram habulbul
+	
 //github.com/hadarrah/ProjectX.git
   //Class variables *************************************************
   
