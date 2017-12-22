@@ -28,7 +28,7 @@ import ocsf.server.*;
 public class EchoServer extends AbstractServer 
 {
 
-	//hadar 
+	//hadar and stas
 	
 //github.com/hadarrah/ProjectX.git
   //Class variables *************************************************
