@@ -6,6 +6,7 @@ Design Conventions:
 
 Font Type - (scenebuilder default).
 Font Size - (scenebuilder default).
+
 Window Size - 471x402 (width x height) [pixels].
 Encoding - UTF-8.
 
