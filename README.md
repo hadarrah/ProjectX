@@ -10,6 +10,7 @@ Design Conventions:
 - Encoding - UTF-8.
 
 
+
 Usability Principles: (Lecture 7)
 
 1. Base UI designs on users’ tasks.
