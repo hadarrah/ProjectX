@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.ArrayList;
 import client.*;
 import common.*;
+import gui.Login_win;
+import gui.Menu_controller;
+import gui.win2_Controller;
 /**
  * This class constructs the UI for a chat client.  It implements the
  * chat interface in order to activate the display() method.
@@ -11,9 +14,13 @@ import common.*;
  */
 public class ClientConsole implements ChatIF
 {
-	//bulbul
-	public gui.Menu_controller mc;
-	public gui.win2_Controller win2;
+	 public gui.Menu_controller mc;
+	 public gui.win2_Controller win2;
+	 // ArrayList<gui.ControllerI> conI=new ArrayList();
+	 public gui.Login_win log;
+	 public gui.Main_menu main;
+
+	
   //Class variables *************************************************
   /**
    * The default port to connect on.
@@ -35,10 +42,11 @@ public class ClientConsole implements ChatIF
    * @param host The host to connect to.
    * @param port The port to connect on.
    */
-  public ClientConsole(String host, int port,gui.Menu_controller mc) 
+  public ClientConsole(String host, int port,gui.Login_win login_win) 
   {
-	//bulbulsa
-	this.mc=mc;
+
+	  
+	this.log=login_win;
     try  
     {
         client= new ChatClient(host, port, this);
@@ -50,10 +58,15 @@ public class ClientConsole implements ChatIF
     }
   }
   
-  public void SetWin2_Controller(gui.win2_Controller controller)
+  public void setMainWin(gui.Main_menu main)
   {
-	  this.win2=controller;  
+	  this.main=main;
   }
+  
+  //public void SetWin2_Controller(gui.win2_Controller win2)
+ // {
+	 // this.conI.add(win2);  
+ // }
   //Instance methods ************************************************
   
   /**
@@ -77,15 +90,16 @@ public class ClientConsole implements ChatIF
    * This method overrides the method in the ChatIF interface.  It
    * sends the results to the Client
    * this method finds out who send the request and sends back.
+ * @throws Exception 
    * 
    * @param.
    */
   public void displaytoGUI(Object message) 
-  {	 
+  {
 	 
 	   if(message instanceof ArrayList<?>)
 	   {
-		    mc.setNames(message);
+		//   ((Menu_controller) conI.get(0)).setNames(message);
 	   }
 	   if(message instanceof Msg)
 		   
@@ -94,7 +108,20 @@ public class ClientConsole implements ChatIF
 		   
 		 if(  check.getType().equals("SELECT"))
 				 {
-			   win2.setDetails(message);
+			 if(check.getRole().equals("verify user details"))
+			 {
+				
+				 Person user=(Person) check.newO;
+				 
+				 //*send the return msg from the server to client->gui*/
+					log.get_comfirmation(message);
+				 
+				 
+		 	//((Login_win)conI.get(0)).get_comfirmation(message);
+			 }
+			// else{
+				 //((win2_Controller) conI.get(2)).setDetails(message);
+			// }
 				 }
 		 
 	   }//else its an update query

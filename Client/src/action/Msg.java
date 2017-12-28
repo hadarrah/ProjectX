@@ -12,7 +12,6 @@ public class Msg implements Serializable {
 	    public Object newO;
 	    public Object oldO;
 	    public ActionEvent event;
-
 	    public enum TYPE { NULL  ,SELECT, SELECTALL,  UPDATE;}
 	    
 	   public Msg()

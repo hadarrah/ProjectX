@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import com.sun.xml.internal.bind.v2.runtime.Name;
+ 
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,7 +21,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class Menu_controller implements Initializable {
+public class Menu_controller implements ControllerI, Initializable {
 	public Button view_info,exit_menu;
 	public Label no_item_select_label;
 	public ComboBox<String> product_list;
@@ -77,7 +77,7 @@ public class Menu_controller implements Initializable {
 		{
 			no_item_select_label.setVisible(false);
 			// create a new client - the main client
-			ClientConsole toClient = new ClientConsole(main.user_host,5555,this);
+			//ClientConsole toClient = new ClientConsole(main.user_host,5555,this);
 			/*set the client */
 			Menu_controller.toClient=toClient;
 			/*creating & sending a new message */

@@ -18,7 +18,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import gui.Menu_controller;
-public class win2_Controller implements Initializable {
+public class win2_Controller implements ControllerI,Initializable {
 
 	 public Button back_to_main,update_name;
 	 public TextField product_type_label,product_id_label;
@@ -64,7 +64,7 @@ public class win2_Controller implements Initializable {
 		 
 		  fromGui.oldO=(Object)ProductDisplyDetails;
 		  /*update the client who send the msg */
-		  toClient.SetWin2_Controller(this);
+		 // toClient.SetWin2_Controller(this);
 		  /*send msg with the item name*/
 		  toClient.accept((Object)fromGui );
 	}

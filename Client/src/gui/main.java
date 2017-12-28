@@ -16,13 +16,13 @@ public class main extends Application {
 	  public void start(Stage primaryStage) throws IOException
 	  {
 
-		URL url = getClass().getResource("main_win.fxml");
+		URL url = getClass().getResource("Login_F.fxml");
 	 	Pane pane = FXMLLoader.load( url );
 	  	Scene scene = new Scene( pane );
 		
 	    // setting the stage
 	    primaryStage.setScene( scene );
-	    primaryStage.setTitle( "HW2-Prototype");
+	    primaryStage.setTitle( "login- screen");
 	    primaryStage.show();
 	  }
 	  /**
