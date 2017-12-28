@@ -12,6 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import java.sql.PreparedStatement;
 import ocsf.server.*;
 
@@ -27,17 +30,16 @@ import ocsf.server.*;
  */
 public class EchoServer extends AbstractServer 
 {
-
-	//hadar and stas and nati
-	
-//github.com/hadarrah/ProjectX.git
   //Class variables *************************************************
   
   /**
    * The default port to listen on.
    */
   final public static int DEFAULT_PORT = 5555;
-  final public static String pass ="root";
+   public static String user_pass;
+  public static String table_name;
+  public static String schema_name;
+  public static String user_name;
   //Constructors ****************************************************
   
   /**
@@ -47,7 +49,17 @@ public class EchoServer extends AbstractServer
    */
   public EchoServer(int port) 
   {
-    super(port);
+    super(port); 
+    //user_name=JOptionPane.showInputDialog("Enter User name  ");
+   // if(user_name.equals(""))
+	  // {
+	//	   JOptionPane.showMessageDialog(null, "Invalid name");
+	   	//   System.exit(0);
+	 //  }
+   // user_pass=JOptionPane.showInputDialog("Enter Password  ");
+   // schema_name = JOptionPane.showInputDialog("Enter Schema Name ");
+  
+    
   } 
 
   
@@ -69,7 +81,7 @@ public class EchoServer extends AbstractServer
 	        
 	        try 
 	        {      	 
-	            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/hw2","root","hadar");
+	            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/zerli","root","root");
 	         	         
 	            System.out.println("SQL connection succeed");
 	            /* Define which kind the message the server got */
@@ -77,11 +89,22 @@ public class EchoServer extends AbstractServer
 	        	  ViewItems(conn,client);
 	          
 	          else if(msg1.getType().equals("SELECT")) 
-	        	 getProdectdetails(msg1,conn,client);
+	          {
+	        	  if(msg1.getRole().equals("verify user details"))
+	        	  {
+	        		  check_user_details(msg1,conn,client);  
+	        	  }
+	        	  else {
+	        	   getProdectdetails(msg1,conn,client);
+	        	  }
+	          }
+	          
+	        	
 	         
 	          else if (msg1.getType().equals("UPDATE"))	          
 	        	  UpdateItem(conn,msg,client);	         
 	        }  
+	         
  			
 	        catch (SQLException ex) {
 	     	     /* handle any errors*/
@@ -91,6 +114,116 @@ public class EchoServer extends AbstractServer
 	        }      
 	          
 }  
+  public static void check_user_details(Msg msg1 ,Connection conn,ConnectionToClient client)
+	{
+		 Person user=(Person) msg1.oldO;
+		 String a;
+		   try {
+			   PreparedStatement ps=conn.prepareStatement(" SELECT * FROM zerli."+msg1.getTableName()+" "+" WHERE FirstName=? and Password=?;"); 
+				
+				/*insert the names to the query*/
+				ps.setString(1,user.getUser_name());
+				ps.setString(2,user.getUser_password());
+				ResultSet rs=ps.executeQuery();	
+				
+				
+				
+				while(rs.next()) {
+					a=rs.getString(1);
+					System.out.println("in the rs while");
+				// if the user exist
+			   if(!(a.equals("0")))
+			   {
+				   user.setIsExist("1");
+				   user.setUser_ID(rs.getString(1));
+				   user.setPrivilege(rs.getString(5));
+				   user.setUser_last_name(rs.getString(3));
+				   user.setIsOnline("1");
+				   msg1.oldO=user;
+				   
+				   /*check if it is possible to change the status of the user*/
+					if(change_online_status(msg1 ,conn)== true)
+						{
+							msg1.newO=(Person)user;
+						   client.sendToClient(msg1);
+						   return;
+						}
+					else {// if the user is already connected
+						
+						msg1.newO=(Person)user;
+						user.setAlreadyConnected(true);
+						client.sendToClient(msg1);
+						return;
+						}
+			   	}// end if
+		
+					}//while rs	
+
+				if(rs.next()==false) 	   /*if the user dosent exist in the system*/  
+				   {
+					 Person user_not_exist= new Person(null,null,null);
+					 user_not_exist.setIsExist("0");
+					 msg1.newO=user_not_exist;
+					 client.sendToClient(msg1);
+					 return;
+				
+				   }
+		}//try
+
+		      catch (SQLException e) {e.printStackTrace();}
+		   catch(IOException x) {System.err.println("unable to send msg to client");}
+	}
+  
+  public static boolean change_online_status(Msg msg1 ,Connection conn)
+  {
+		 Person user=(Person) msg1.oldO;
+		  boolean answer=false;
+		  answer= isConnected(msg1,conn);
+		  if(answer==true)
+			  return false;
+		  
+		   try {		
+				   PreparedStatement ps=conn.prepareStatement("UPDATE zerli."+msg1.getTableName()+" "+"SET Online=? WHERE ID="+user.getUser_ID()); 
+				   ps.setString(1,user.getIsOnline());
+				   ps.executeUpdate(); 
+				   answer=true;
+				 //  System.out.println("the online status was changed ");
+			 }	  
+		 
+		   
+		      catch (SQLException e) {e.printStackTrace();}
+		return answer;
+  }
+  
+   
+  public static boolean isConnected( Msg msg1 ,Connection conn)
+  {	 
+	  boolean isAlreadyCon=true;
+		 Person user=(Person) msg1.oldO;
+		 String current_status;
+		 
+		   try {
+			   PreparedStatement ps=conn.prepareStatement("SELECT Online FROM zerli."+msg1.getTableName()+" "+" WHERE ID="+user.getUser_ID()); 
+				ResultSet rs=ps.executeQuery();	
+				while(rs.next())
+				{
+					current_status=rs.getString(1);
+					if(current_status.equals("1"))	
+					{
+						
+						//System.out.println("cannot change the user status- user is already online");
+						return isAlreadyCon;
+					}
+				}
+		   }
+		      catch (SQLException e) {e.printStackTrace();}
+		   
+		   				isAlreadyCon=false;
+		   				//System.out.println("ok to log in ");
+						return isAlreadyCon;
+	   
+  }
+
   						
 	  
 	   /**
@@ -106,7 +239,7 @@ public class EchoServer extends AbstractServer
 		   try {
 		    
 		   stmt = con.createStatement();
-		   ResultSet rs = stmt.executeQuery("SELECT ProductName FROM hw2.product");
+		   ResultSet rs = stmt.executeQuery("SELECT Name FROM zerli.item");
 		    while(rs.next())
 		    {
 		     ((ArrayList<String>) temp).add(rs.getString(1));    
