@@ -50,14 +50,14 @@ public class EchoServer extends AbstractServer
   public EchoServer(int port) 
   {
     super(port); 
-    //user_name=JOptionPane.showInputDialog("Enter User name  ");
-   // if(user_name.equals(""))
-	  // {
-	//	   JOptionPane.showMessageDialog(null, "Invalid name");
-	   	//   System.exit(0);
-	 //  }
-   // user_pass=JOptionPane.showInputDialog("Enter Password  ");
-   // schema_name = JOptionPane.showInputDialog("Enter Schema Name ");
+    user_name=JOptionPane.showInputDialog("Enter User name  ");
+     if(user_name.equals(""))
+	   {
+	 	   JOptionPane.showMessageDialog(null, "Invalid name");
+	       System.exit(0);
+	   }
+     user_pass=JOptionPane.showInputDialog("Enter Password  ");
+     schema_name = JOptionPane.showInputDialog("Enter Schema Name ");
   
     
   } 
@@ -81,7 +81,7 @@ public class EchoServer extends AbstractServer
 	        
 	        try 
 	        {      	 
-	            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/zerli","root","root");
+	            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/"+schema_name,user_name,user_pass);
 	         	         
 	            System.out.println("SQL connection succeed");
 	            /* Define which kind the message the server got */
