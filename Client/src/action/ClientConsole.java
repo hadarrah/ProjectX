@@ -7,6 +7,11 @@ import common.*;
 import gui.Login_win;
 import gui.Menu_controller;
 import gui.win2_Controller;
+
+
+//import controllers.*; //Future import
+
+
 /**
  * This class constructs the UI for a chat client.  It implements the
  * chat interface in order to activate the display() method.
@@ -14,14 +19,18 @@ import gui.win2_Controller;
  */
 public class ClientConsole implements ChatIF
 {
+	/*
 	 public gui.Menu_controller mc;
 	 public gui.win2_Controller win2;
-	 // ArrayList<gui.ControllerI> conI=new ArrayList();
 	 public gui.Login_win log;
 	 public gui.Main_menu main;
 	 public gui.Managment_Controller managment_c;
 	 public gui.Create_PaymentAccount_Controller create_paymentA;
 
+	*/
+	
+	//Just one main controller.
+	public gui.ControllerI mc;
 	
   //Class variables *************************************************
   /**
@@ -44,11 +53,12 @@ public class ClientConsole implements ChatIF
    * @param host The host to connect to.
    * @param port The port to connect on.
    */
-  public ClientConsole(String host, int port,gui.Login_win login_win) 
+  public ClientConsole(String host, int port,gui.ControllerI login_win) 
   {
 
 	  
-	this.log=login_win;
+	this.mc=login_win;
+	
     try  
     {
         client= new ChatClient(host, port, this);
@@ -60,26 +70,11 @@ public class ClientConsole implements ChatIF
     }
   }
   
-  public void setMainWin(gui.Main_menu main)
-  {
-	  this.main=main;
+  
+  public void setController(gui.ControllerI cont){
+	  this.mc = cont;
   }
   
-public void Set_Management_Controller(gui.Managment_Controller m)
-  {
-	  this.managment_c = m;  
-  }
-
-public void Set_CreatePaymentAccount_Controller(gui.Create_PaymentAccount_Controller cpa)
-{
-	  this.create_paymentA = cpa;  
-}
-  
-  //public void SetWin2_Controller(gui.win2_Controller win2)
- // {
-	 // this.conI.add(win2);  
- // }
-  //Instance methods ************************************************
   
   /**
    * This method waits for input from the console.  Once it is 
@@ -109,10 +104,7 @@ public void Set_CreatePaymentAccount_Controller(gui.Create_PaymentAccount_Contro
   public void displaytoGUI(Object message) 
   {
 	 
-	   if(message instanceof ArrayList<?>)
-	   {
-		//   ((Menu_controller) conI.get(0)).setNames(message);
-	   }
+
 	   if(message instanceof Msg)
 		   
 	   {
@@ -126,19 +118,18 @@ public void Set_CreatePaymentAccount_Controller(gui.Create_PaymentAccount_Contro
 				 Person user=(Person) check.newO;
 				 
 				 //*send the return msg from the server to client->gui*/
-					log.get_comfirmation(message);
-				 
-				 
-		 	//((Login_win)conI.get(0)).get_comfirmation(message);
+				 ((gui.Login_win)mc).get_comfirmation(message);
+
 			 }
 			 if(check.getRole().equals("check if ID exist and add payment account"))
 			 {
 				 				 
-				 create_paymentA.check_if_create_success(message);
+				 ((gui.Create_PaymentAccount_Controller)mc).check_if_create_success(message);
 			 }
 			// else{
 				 //((win2_Controller) conI.get(2)).setDetails(message);
 			// }
+
 				 }
 		 
 	   }//else its an update query

@@ -179,7 +179,7 @@ public class EchoServer extends AbstractServer
 	}
   
   /**
-   * run tests to check if all detais are correct and then create the new Payment Account in DB
+   * run tests to check if all details are correct and then create the new Payment Account in DB
    * @param msg1
    * @param conn
    * @param client

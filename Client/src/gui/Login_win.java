@@ -42,6 +42,7 @@ public class Login_win  implements ControllerI,Initializable  {
 	public static Person current_user;
 	public static ActionEvent event_log;
 	 
+	
 	 
 	
 	public void hit_login(ActionEvent event) throws IOException, InterruptedException
@@ -119,6 +120,7 @@ public class Login_win  implements ControllerI,Initializable  {
 	{
 		  Parent menu;
 		  menu = FXMLLoader.load(getClass().getResource("Main_menu_F.fxml"));
+		//  to_Client.setController(new Main_menu());
 		 Scene win1= new Scene(menu);
 		 Stage win_1= (Stage) ((Node) (event_log.getSource())).getScene().getWindow();
 		 win_1.setScene(win1);

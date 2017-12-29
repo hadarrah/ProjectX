@@ -25,7 +25,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class Create_PaymentAccount_Controller implements Initializable{
+public class Create_PaymentAccount_Controller implements Initializable, ControllerI{
 
     public TextField cc_1_text;
     public TextField cc_2_text;
@@ -154,7 +154,7 @@ public class Create_PaymentAccount_Controller implements Initializable{
 	    subscription_combo.setItems(list);
 	    
 	    /*update the current controller to be management controller in general ClientConsole instance*/
-    	Login_win.to_Client.Set_CreatePaymentAccount_Controller(this);
+    	Login_win.to_Client.setController(this);
     }
 		
 }
