@@ -11,12 +11,16 @@ import javafx.application.Application;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 public class main extends Application {
+	
 	public static String user_port;
 	public  static String user_host;
+	public static String fxmlDir = "fxml/";
+	
+	
 	  public void start(Stage primaryStage) throws IOException
 	  {
 
-		URL url = getClass().getResource("Login_F.fxml");
+		URL url = getClass().getResource(fxmlDir+ "Login_F.fxml");
 	 	Pane pane = FXMLLoader.load( url );
 	  	Scene scene = new Scene( pane );
 		

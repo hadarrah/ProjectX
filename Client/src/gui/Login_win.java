@@ -119,7 +119,7 @@ public class Login_win  implements ControllerI,Initializable  {
 	public void move(ActionEvent event)throws IOException 
 	{
 		  Parent menu;
-		  menu = FXMLLoader.load(getClass().getResource("Main_menu_F.fxml"));
+		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Main_menu_F.fxml"));
 		//  to_Client.setController(new Main_menu());
 		 Scene win1= new Scene(menu);
 		 Stage win_1= (Stage) ((Node) (event_log.getSource())).getScene().getWindow();

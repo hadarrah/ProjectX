@@ -33,7 +33,7 @@ public class Main_menu  implements Initializable,ControllerI{
 		/*logout process*/
 		
 		 Parent menu;
-		 menu = FXMLLoader.load(getClass().getResource("Login_F.fxml"));
+		 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Login_F.fxml"));
 	//	 to_Client.setController(new Login_win());
 		 Scene win1= new Scene(menu);
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
@@ -45,7 +45,7 @@ public class Main_menu  implements Initializable,ControllerI{
     public void managment(ActionEvent event) throws IOException {
     	
     	 Parent menu;
-		 menu = FXMLLoader.load(getClass().getResource("Managment_F.fxml"));
+		 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Managment_F.fxml"));
 		// to_Client.setController(new Managment_Controller());
 		 Scene win1= new Scene(menu);
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();

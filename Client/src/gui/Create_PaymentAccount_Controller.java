@@ -46,7 +46,7 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
 	 */
     public void back(ActionEvent event) throws IOException {
 
-    	move(event, "Managment_F.fxml");
+    	move(event,main.fxmlDir+ "Managment_F.fxml");
     }
     
     /**
@@ -117,7 +117,7 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
 			@Override
 			public void run() {
 				 	try {
-						move(event_log , "Managment_F.fxml");
+						move(event_log , main.fxmlDir+ "Managment_F.fxml");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

@@ -58,7 +58,7 @@ public class Menu_controller implements ControllerI, Initializable {
 					/*Saving the product name that has been chosen by the user*/
 					 choosen_name=(String)product_list.getValue();	
 					
-					 Parent menu= FXMLLoader.load(getClass().getResource("win_2.fxml"));// go to next window
+					 Parent menu= FXMLLoader.load(getClass().getResource(main.fxmlDir+ "win_2.fxml"));// go to next window
 					 Scene next_win= new Scene(menu);
 					 Stage next_win2= (Stage) ((Node) (event.getSource())).getScene().getWindow();
 					 next_win2.setScene(next_win);
