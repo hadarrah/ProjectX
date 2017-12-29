@@ -36,7 +36,7 @@ public class Managment_Controller implements Initializable {
     }
 
     public void create_Sale(ActionEvent event) {
-    	System.out.println("Try");
+
     }
 
     public void create_Survey(ActionEvent event) {
