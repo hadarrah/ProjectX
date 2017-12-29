@@ -32,7 +32,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     }
 
     public void back(ActionEvent event) throws IOException {
-    	move(event, "Main_menu_F.fxml");
+    	move(event, main.fxmlDir+ "Main_menu_F.fxml");
     }
 
     public void create_Sale(ActionEvent event) {
@@ -48,11 +48,11 @@ public class Managment_Controller implements Initializable,ControllerI {
     }
 
     public void conclusion_Survey(ActionEvent event) {
-
+    	
     }
 
-    public void create_PaymentAccount(ActionEvent event) {
-
+    public void create_PaymentAccount(ActionEvent event) throws IOException {
+    	move(event ,main.fxmlDir+ "Create_PaymentAccount_F.fxml");
     }
 
     public void edit_CustomersProfile(ActionEvent event) {

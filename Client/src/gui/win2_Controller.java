@@ -36,7 +36,7 @@ public class win2_Controller implements ControllerI,Initializable {
   */
 	public void back_to_main(ActionEvent event) throws IOException 
 	 {
-		 Parent menu= FXMLLoader.load(getClass().getResource("main_win.fxml"));// go to next window
+		 Parent menu= FXMLLoader.load(getClass().getResource(main.fxmlDir+ "main_win.fxml"));// go to next window
 		 Scene win1= new Scene(menu);
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		 win_1.setScene(win1);

@@ -25,6 +25,8 @@ public class ClientConsole implements ChatIF
 	 public gui.Login_win log;
 	 public gui.Main_menu main;
 	 public gui.Managment_Controller managment_c;
+	 public gui.Create_PaymentAccount_Controller create_paymentA;
+
 	*/
 	
 	//Just one main controller.
@@ -119,6 +121,14 @@ public class ClientConsole implements ChatIF
 				 ((gui.Login_win)mc).get_comfirmation(message);
 
 			 }
+			 if(check.getRole().equals("check if ID exist and add payment account"))
+			 {
+				 				 
+				 ((gui.Create_PaymentAccount_Controller)mc).check_if_create_success(message);
+			 }
+			// else{
+				 //((win2_Controller) conI.get(2)).setDetails(message);
+			// }
 
 				 }
 		 
