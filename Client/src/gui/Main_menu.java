@@ -26,7 +26,6 @@ public class Main_menu  implements Initializable,ControllerI{
 	public static Person current_user;
 	public  static action.ClientConsole to_Client;
 
-	
  
 	public void back_logOut(ActionEvent event) throws IOException
 	{
@@ -35,6 +34,7 @@ public class Main_menu  implements Initializable,ControllerI{
 		
 		 Parent menu;
 		 menu = FXMLLoader.load(getClass().getResource("Login_F.fxml"));
+	//	 to_Client.setController(new Login_win());
 		 Scene win1= new Scene(menu);
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		 win_1.setScene(win1);
@@ -46,6 +46,7 @@ public class Main_menu  implements Initializable,ControllerI{
     	
     	 Parent menu;
 		 menu = FXMLLoader.load(getClass().getResource("Managment_F.fxml"));
+		// to_Client.setController(new Managment_Controller());
 		 Scene win1= new Scene(menu);
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		 win_1.setScene(win1);

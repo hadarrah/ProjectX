@@ -14,7 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class Managment_Controller implements Initializable {
+public class Managment_Controller implements Initializable,ControllerI {
 
     public Button create_Survey_B;
     public Button update_Catalog_B;
@@ -98,7 +98,7 @@ public class Managment_Controller implements Initializable {
     	display_Reports_B.setVisible(false);
 
     	/*update the current controller to be management controller in general ClientConsole instance*/
-    	Login_win.to_Client.Set_Management_Controller(this);
+    	Login_win.to_Client.setController(this);
     	
     	/*check which privilege has the user*/
     	String privilege = Main_menu.current_user.getPrivilege();
