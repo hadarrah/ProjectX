@@ -19,7 +19,7 @@ public class ClientConsole implements ChatIF
 	 // ArrayList<gui.ControllerI> conI=new ArrayList();
 	 public gui.Login_win log;
 	 public gui.Main_menu main;
-
+	 public gui.Managment_Controller managment_c;
 	
   //Class variables *************************************************
   /**
@@ -61,6 +61,11 @@ public class ClientConsole implements ChatIF
   public void setMainWin(gui.Main_menu main)
   {
 	  this.main=main;
+  }
+  
+public void Set_Management_Controller(gui.Managment_Controller m)
+  {
+	  this.managment_c = m;  
   }
   
   //public void SetWin2_Controller(gui.win2_Controller win2)

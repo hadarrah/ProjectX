@@ -44,7 +44,7 @@ public class Login_win  implements ControllerI,Initializable  {
 	 
 	 
 	
-	public void hit_login(ActionEvent event) throws IOException
+	public void hit_login(ActionEvent event) throws IOException, InterruptedException
 	{
 		 
 		 event_log =new ActionEvent();		 
@@ -71,7 +71,7 @@ public class Login_win  implements ControllerI,Initializable  {
 		check_user_details.oldO=user;
 		check_user_details.setRole("verify user details");
 		check_user_details.event=event;
-		to_Client.accept((Object)check_user_details);		
+		to_Client.accept((Object)check_user_details);	
 	}
 	
 	
@@ -93,9 +93,7 @@ public class Login_win  implements ControllerI,Initializable  {
 			  welcomeL.setVisible(true);
 			 
 			  /*save the details on the entered user */
-			  current_user=user;	
-			   System.out.println("3rd"+event_log.getSource());
-			   
+			  current_user=user;				   
 			   
 			   Platform.runLater(new Runnable() {
 				

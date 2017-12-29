@@ -21,7 +21,7 @@
          </font>
       </Label>
       <Button fx:id="back_B" layoutX="25.0" layoutY="356.0" mnemonicParsing="false" onAction="#back_logOut" text="LogOut" />
-      <Button fx:id="mannag_B" layoutX="381.0" layoutY="5.0" mnemonicParsing="false" text="Mannagment" visible="false" />
+      <Button fx:id="mannag_B" layoutX="381.0" layoutY="5.0" mnemonicParsing="false" onAction="#managment" text="Mannagment" visible="false" />
       <Button fx:id="view_catalog_B" layoutX="185.0" layoutY="117.0" mnemonicParsing="false" text="view catalog" />
       <Button fx:id="cancel_order_B" layoutX="194.0" layoutY="225.0" mnemonicParsing="false" text="Cancel order" />
       <Button fx:id="self_item_B" layoutX="162.0" layoutY="165.0" mnemonicParsing="false" text="Create your own product" />
