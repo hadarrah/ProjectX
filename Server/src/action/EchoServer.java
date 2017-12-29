@@ -100,7 +100,7 @@ public class EchoServer extends AbstractServer
 	           
 	        	   if(msg1.getRole().equals("verify user details"))
 	        		  check_user_details(msg1,conn,client);  
-<<<<<<< HEAD
+ 
 	           }
 	           case  "UPDATE":{
 	            
@@ -123,8 +123,7 @@ public class EchoServer extends AbstractServer
 	           
 	        }//end try   
 		        	  
-=======
-	        	  }
+ 	        	  }
 	        	  else if(msg1.getRole().equals("check if ID exist and add payment account"))
 	        	  {
 	        		  check_id_exist(msg1,conn,client);  
@@ -141,7 +140,7 @@ public class EchoServer extends AbstractServer
 	        }  
 	         
  			
->>>>>>> branch 'master' of https://github.com/hadarrah/ProjectX.git
+ 
 	        catch (SQLException ex) {
 	     	     /* handle any errors*/
 	             System.out.println("SQLException: " + ex.getMessage());
@@ -209,7 +208,7 @@ public class EchoServer extends AbstractServer
 		   catch(IOException x) {System.err.println("unable to send msg to client");}
 	}
   
-<<<<<<< HEAD
+ 
   public static boolean change_online_status(Msg msg1 ,Connection conn,String new_status)
 =======
   /**
@@ -271,27 +270,6 @@ public class EchoServer extends AbstractServer
 		}
   }
   
-  public static boolean change_online_status(Msg msg1 ,Connection conn)
->>>>>>> branch 'master' of https://github.com/hadarrah/ProjectX.git
-  {
-		 Person user=(Person) msg1.oldO;
-		  boolean answer;
-		  answer= isConnected(msg1,conn);
-		  if(answer==true && new_status.equals("1"))
-			  return false;
-		  
-		   try {		
-				   PreparedStatement ps=conn.prepareStatement("UPDATE "+msg1.getTableName()+" "+"SET Online=? WHERE ID="+user.getUser_ID()); 
-				   ps.setString(1,new_status);
-				   ps.executeUpdate(); 
-				    
-				 //  System.out.println("the online status was changed ");
-			 }	  
-		 
-		   
-		      catch (SQLException e) {e.printStackTrace();}
-		return true;
-  }
   
    
   public static boolean isConnected( Msg msg1 ,Connection conn)
