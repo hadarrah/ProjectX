@@ -42,6 +42,7 @@ public class Login_win  implements ControllerI,Initializable  {
 	public static Person current_user;
 	public static ActionEvent event_log;
 	 
+	 
 	
 	 
 	
@@ -95,7 +96,7 @@ public class Login_win  implements ControllerI,Initializable  {
 			 
 			  /*save the details on the entered user */
 			  current_user=user;				   
-			   
+			   /*opne the main menu window*/
 			   Platform.runLater(new Runnable() {
 				
 				@Override
@@ -126,6 +127,9 @@ public class Login_win  implements ControllerI,Initializable  {
 		 win_1.setScene(win1);
 		 win_1.show();
 	}
+	
+	
+	
  
 	
 	public void Quit_app()
@@ -139,6 +143,7 @@ public class Login_win  implements ControllerI,Initializable  {
 	public void initialize(URL location, ResourceBundle resources) {
 		ClientConsole toClient = new ClientConsole(gui.main.user_host,5555,this);
 		to_Client=toClient;
+		
 		// TODO Auto-generated method stub
 		
 	}

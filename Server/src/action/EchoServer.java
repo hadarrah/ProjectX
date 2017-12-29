@@ -73,39 +73,55 @@ public class EchoServer extends AbstractServer
    */
   public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {	 
+	  
 	  		 Msg msg1=(Msg)msg;
+	  		 String query_type=msg1.getType();
 	       try 
 			{
 	          Class.forName("com.mysql.jdbc.Driver").newInstance();
 	        } catch (Exception ex) {/* handle the error*/}
 	        
 	        try 
-	        {      	 
-	            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/"+schema_name,user_name,user_pass);
-	         	         
+	        {	 
+	            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/"+schema_name,user_name,user_pass);      
 	            System.out.println("SQL connection succeed");
-	            /* Define which kind the message the server got */
-	          if(msg1.getType().equals("SELECTALL"))
-	        	  ViewItems(conn,client);
-	          
-	          else if(msg1.getType().equals("SELECT")) 
-	          {
-	        	  if(msg1.getRole().equals("verify user details"))
-	        	  {
+	           
+	            
+	            
+	            
+	             /* Define which kind the message the server got */
+	            /**
+	             * first find the kind of the query 
+	             * then, check the role of the msg (the role is a simple short string)
+	             */
+	           switch(query_type)
+	           {
+	           case  "SELECT":{
+	           
+	        	   if(msg1.getRole().equals("verify user details"))
 	        		  check_user_details(msg1,conn,client);  
-	        	  }
-	        	  else {
-	        	   getProdectdetails(msg1,conn,client);
-	        	  }
-	          }
-	          
-	        	
-	         
-	          else if (msg1.getType().equals("UPDATE"))	          
-	        	  UpdateItem(conn,msg,client);	         
-	        }  
-	         
- 			
+	           }
+	           case  "UPDATE":{
+	            
+	        	   if(msg1.getRole().equals("user logout"))
+	        	   change_online_status(msg1 ,conn,"0");
+	        	   if(msg1.getRole().equals("update user details"))
+	        		   Update_user_details(msg1,conn,client);
+	        	  // else  getProdectdetails(msg1,conn,client);
+	        	  // else  UpdateItem(conn,msg,client);
+	           }
+	           
+	           case  "SELECTALL":
+	           { 
+	        	     ViewItems(conn,client);
+	           }
+	           
+	           
+	           }// end switch
+	            
+	           
+	        }//end try   
+		        	  
 	        catch (SQLException ex) {
 	     	     /* handle any errors*/
 	             System.out.println("SQLException: " + ex.getMessage());
@@ -125,12 +141,10 @@ public class EchoServer extends AbstractServer
 				ps.setString(1,user.getUser_name());
 				ps.setString(2,user.getUser_password());
 				ResultSet rs=ps.executeQuery();	
-				
-				
-				
+		
 				while(rs.next()) {
 					a=rs.getString(1);
-					System.out.println("in the rs while");
+					
 				// if the user exist
 			   if(!(a.equals("0")))
 			   {
@@ -138,11 +152,12 @@ public class EchoServer extends AbstractServer
 				   user.setUser_ID(rs.getString(1));
 				   user.setPrivilege(rs.getString(5));
 				   user.setUser_last_name(rs.getString(3));
+				   user.setWWID(rs.getString(7));
 				   user.setIsOnline("1");
 				   msg1.oldO=user;
 				   
 				   /*check if it is possible to change the status of the user*/
-					if(change_online_status(msg1 ,conn)== true)
+					if(change_online_status(msg1 ,conn,"1")== true)
 						{
 							msg1.newO=(Person)user;
 						   client.sendToClient(msg1);
@@ -174,31 +189,31 @@ public class EchoServer extends AbstractServer
 		   catch(IOException x) {System.err.println("unable to send msg to client");}
 	}
   
-  public static boolean change_online_status(Msg msg1 ,Connection conn)
+  public static boolean change_online_status(Msg msg1 ,Connection conn,String new_status)
   {
 		 Person user=(Person) msg1.oldO;
-		  boolean answer=false;
+		  boolean answer;
 		  answer= isConnected(msg1,conn);
-		  if(answer==true)
+		  if(answer==true && new_status.equals("1"))
 			  return false;
 		  
 		   try {		
 				   PreparedStatement ps=conn.prepareStatement("UPDATE "+msg1.getTableName()+" "+"SET Online=? WHERE ID="+user.getUser_ID()); 
-				   ps.setString(1,user.getIsOnline());
+				   ps.setString(1,new_status);
 				   ps.executeUpdate(); 
-				   answer=true;
+				    
 				 //  System.out.println("the online status was changed ");
 			 }	  
 		 
 		   
 		      catch (SQLException e) {e.printStackTrace();}
-		return answer;
+		return true;
   }
   
    
   public static boolean isConnected( Msg msg1 ,Connection conn)
   {	 
-	  boolean isAlreadyCon=true;
+	  boolean isAlreadyCon=false;
 		 Person user=(Person) msg1.oldO;
 		 String current_status;
 		 
@@ -210,22 +225,53 @@ public class EchoServer extends AbstractServer
 					current_status=rs.getString(1);
 					if(current_status.equals("1"))	
 					{
-						
+						isAlreadyCon=true;
 						//System.out.println("cannot change the user status- user is already online");
 						return isAlreadyCon;
 					}
 				}
 		   }
-		      catch (SQLException e) {e.printStackTrace();}
-		   
-		   				isAlreadyCon=false;
-		   				//System.out.println("ok to log in ");
+		      catch (SQLException e) {e.printStackTrace();} 
 						return isAlreadyCon;
 	   
   }
 
-  						
-	  
+	public static void Update_user_details(Object msg,Connection con,ConnectionToClient client)
+	{
+		String ans="Update done";
+		 Msg msg1 =(Msg)msg;
+		 Person  old_d=(Person) msg1.oldO;
+		 Person  new_d=(Person)msg1.newO;
+		 try {
+		PreparedStatement ps=con.prepareStatement("UPDATE "+msg1.getTableName()+" "+"SET FirstName=? , LastName=? , Password=? WHERE ID=?");
+		
+		/*insert the names to the query*/
+		ps.setString(1,new_d.getUser_name());
+		ps.setString(2,new_d.getUser_last_name());
+		ps.setString(3,new_d.getUser_password());
+	 	ps.setString(4, old_d.getUser_ID());
+		 
+		ps.executeUpdate(); 
+		
+		client.sendToClient(ans);
+		
+		 }
+		 catch (SQLException e) {
+			 e.printStackTrace();
+		 try {
+			client.sendToClient("UPDATE faild");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}}
+		catch(IOException x) {System.err.println("unable to send msg to client");}
+
+	}
+  
+  
+  
+  
+  
+  
 	   /**
 	    * send a query to DB ->Select all
 	    * returns the names of the products as an Object(ArrayList<String>)
