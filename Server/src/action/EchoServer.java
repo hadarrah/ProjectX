@@ -119,7 +119,7 @@ public class EchoServer extends AbstractServer
 		 Person user=(Person) msg1.oldO;
 		 String a;
 		   try {
-			   PreparedStatement ps=conn.prepareStatement(" SELECT * FROM zerli."+msg1.getTableName()+" "+" WHERE FirstName=? and Password=?;"); 
+			   PreparedStatement ps=conn.prepareStatement(" SELECT * FROM "+msg1.getTableName()+" "+"WHERE FirstName=? and Password=?;"); 
 				
 				/*insert the names to the query*/
 				ps.setString(1,user.getUser_name());
@@ -183,7 +183,7 @@ public class EchoServer extends AbstractServer
 			  return false;
 		  
 		   try {		
-				   PreparedStatement ps=conn.prepareStatement("UPDATE zerli."+msg1.getTableName()+" "+"SET Online=? WHERE ID="+user.getUser_ID()); 
+				   PreparedStatement ps=conn.prepareStatement("UPDATE "+msg1.getTableName()+" "+"SET Online=? WHERE ID="+user.getUser_ID()); 
 				   ps.setString(1,user.getIsOnline());
 				   ps.executeUpdate(); 
 				   answer=true;
@@ -203,7 +203,7 @@ public class EchoServer extends AbstractServer
 		 String current_status;
 		 
 		   try {
-			   PreparedStatement ps=conn.prepareStatement("SELECT Online FROM zerli."+msg1.getTableName()+" "+" WHERE ID="+user.getUser_ID()); 
+			   PreparedStatement ps=conn.prepareStatement("SELECT Online FROM "+schema_name+"."+msg1.getTableName()+" "+" WHERE ID="+user.getUser_ID()); 
 				ResultSet rs=ps.executeQuery();	
 				while(rs.next())
 				{
