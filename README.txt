@@ -3,6 +3,8 @@ Collage project - Semester 5 - "Zer-Li" application
 
 
 Design Conventions:
+-Font: System 12px
+
 - Window Size: Default - 471x402 (width x height) [pixels].
                Bigger  - 
 
