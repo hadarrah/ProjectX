@@ -209,8 +209,27 @@ public class EchoServer extends AbstractServer
 	}
   
  
-  public static boolean change_online_status(Msg msg1 ,Connection conn,String new_status)
-=======
+  public static boolean change_online_status(Msg msg1 ,Connection conn,String new_status) {
+
+		 Person user=(Person) msg1.oldO;
+		  boolean answer;
+		  answer= isConnected(msg1,conn);
+		  if(answer==true && new_status.equals("1"))
+			  return false;
+		  
+		   try {		
+				   PreparedStatement ps=conn.prepareStatement("UPDATE "+msg1.getTableName()+" "+"SET Online=? WHERE ID="+user.getUser_ID()); 
+				   ps.setString(1,new_status);
+				   ps.executeUpdate(); 
+				    
+				 //  System.out.println("the online status was changed ");
+			 }	  
+		 
+		   
+		      catch (SQLException e) {e.printStackTrace();}
+		return true;  
+  }
+ 
   /**
    * run tests to check if all details are correct and then create the new Payment Account in DB
    * @param msg1
@@ -269,6 +288,7 @@ public class EchoServer extends AbstractServer
 			e.printStackTrace();
 		}
   }
+  
   
   
    
