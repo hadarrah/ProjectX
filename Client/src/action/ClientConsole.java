@@ -20,6 +20,8 @@ public class ClientConsole implements ChatIF
 	 public gui.Login_win log;
 	 public gui.Main_menu main;
 	 public gui.Managment_Controller managment_c;
+	 public gui.Create_PaymentAccount_Controller create_paymentA;
+
 	
   //Class variables *************************************************
   /**
@@ -67,6 +69,11 @@ public void Set_Management_Controller(gui.Managment_Controller m)
   {
 	  this.managment_c = m;  
   }
+
+public void Set_CreatePaymentAccount_Controller(gui.Create_PaymentAccount_Controller cpa)
+{
+	  this.create_paymentA = cpa;  
+}
   
   //public void SetWin2_Controller(gui.win2_Controller win2)
  // {
@@ -123,6 +130,11 @@ public void Set_Management_Controller(gui.Managment_Controller m)
 				 
 				 
 		 	//((Login_win)conI.get(0)).get_comfirmation(message);
+			 }
+			 if(check.getRole().equals("check if ID exist and add payment account"))
+			 {
+				 				 
+				 create_paymentA.check_if_create_success(message);
 			 }
 			// else{
 				 //((win2_Controller) conI.get(2)).setDetails(message);

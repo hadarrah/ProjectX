@@ -48,11 +48,11 @@ public class Managment_Controller implements Initializable {
     }
 
     public void conclusion_Survey(ActionEvent event) {
-
+    	
     }
 
-    public void create_PaymentAccount(ActionEvent event) {
-
+    public void create_PaymentAccount(ActionEvent event) throws IOException {
+    	move(event , "Create_PaymentAccount_F.fxml");
     }
 
     public void edit_CustomersProfile(ActionEvent event) {

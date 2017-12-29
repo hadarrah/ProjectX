@@ -94,6 +94,10 @@ public class EchoServer extends AbstractServer
 	        	  {
 	        		  check_user_details(msg1,conn,client);  
 	        	  }
+	        	  else if(msg1.getRole().equals("check if ID exist and add payment account"))
+	        	  {
+	        		  check_id_exist(msg1,conn,client);  
+	        	  }
 	        	  else {
 	        	   getProdectdetails(msg1,conn,client);
 	        	  }
@@ -173,6 +177,65 @@ public class EchoServer extends AbstractServer
 		      catch (SQLException e) {e.printStackTrace();}
 		   catch(IOException x) {System.err.println("unable to send msg to client");}
 	}
+  
+  /**
+   * run tests to check if all detais are correct and then create the new Payment Account in DB
+   * @param msg1
+   * @param conn
+   * @param client
+   */
+  public static void check_id_exist(Msg msg1 ,Connection conn,ConnectionToClient client)
+  {
+	  
+	  Payment_Account user=(Payment_Account) msg1.oldO;
+	  PreparedStatement ps;
+	  try 
+	  {
+		  /*check if the id exist in person table*/
+			ps = conn.prepareStatement(" SELECT * FROM "+msg1.getTableName()+" "+"WHERE ID=?;");
+			ps.setString(1,user.getID());
+			ResultSet rs;
+			rs = ps.executeQuery();
+			if(!rs.next())
+			{
+				msg1.newO = null;	//this is mean that the id was not found in DB
+				client.sendToClient(msg1);
+				return;
+			}
+			else //the user is exist in person table --> create the payment account
+			{
+				/*check if the user already exist in payment_account table*/
+				ps = conn.prepareStatement(" SELECT * FROM payment_account WHERE ID=?;");
+				ps.setString(1, user.getID());
+				rs = ps.executeQuery();
+				if(rs.next())
+				{
+					msg1.newO = null;	//this is mean that the id already in DB
+					client.sendToClient(msg1);
+					return;
+				}
+				
+				/*if we reach here --> all the test are fine and we insert the new payment account*/
+				ps=conn.prepareStatement("INSERT INTO payment_account (ID, CreditCard, Status, Subscription) VALUES (?, ?, ?, ?);");
+				ps.setString(1, user.getID());
+				ps.setString(2, user.getCreditCard());
+				ps.setString(3, user.getStatus());
+				ps.setString(4, user.getSubscription());
+				ps.executeUpdate();
+				msg1.newO = user;
+				client.sendToClient(msg1);
+				return;
+			}
+		} 
+		catch (SQLException e) 
+	  	{
+			e.printStackTrace();
+	  	} 
+	  catch (IOException e) 
+	    {
+			e.printStackTrace();
+		}
+  }
   
   public static boolean change_online_status(Msg msg1 ,Connection conn)
   {
