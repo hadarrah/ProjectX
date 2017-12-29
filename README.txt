@@ -3,11 +3,17 @@ Collage project - Semester 5 - "Zer-Li" application
 
 
 Design Conventions:
+- Window Size: Default - 471x402 (width x height) [pixels].
+               Bigger  - 
 
-- Font Type - (scenebuilder default).
-- Font Size - (scenebuilder default).
-- Window Size - 471x402 (width x height) [pixels].
-- Encoding - UTF-8.
+
+- Acceptance buttons (√ ,yes, ok, order, add, etc..) will be on the LEFT.
+- Denial Buttons (Ꭓ, not, cancel, back, etc..) on RIGHT.
+
+- ComboBoxing.
+
+
+
 
 
 
