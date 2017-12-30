@@ -74,8 +74,14 @@ public class Update_Personal_Info_Controller implements ControllerI,Initializabl
 	 
 	 public void get_new_user_details(Object message)
 	 {
+		Msg msg= (Msg)message;
+		System.out.println(msg.getRole());
+		Person new_user_details=(Person) msg.newO;
+		System.out.println(new_user_details.getUser_name());
+		gui.Login_win.current_user=(Person) msg.newO;
 		
-
+		
+		System.out.println(gui.Login_win.current_user.getUser_name()+gui.Login_win.current_user.getUser_last_name());
 	 }
 	 
 	 

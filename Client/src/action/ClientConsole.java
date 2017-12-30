@@ -113,13 +113,13 @@ public class ClientConsole implements ChatIF {
 				if (check.getRole().equals("insert survey"))
 					((gui.Survey_Controller) mc).create_survey_success(message);
 			}
-
-		} // else its an update query
-
-		if (message instanceof String) {
+			else if (check.getRole().equals("update user details")) {
 			  ((gui.Update_Personal_Info_Controller)mc).get_new_user_details(message);
 			
 		}
+		} // else its an update query
+
+		
 
 
 

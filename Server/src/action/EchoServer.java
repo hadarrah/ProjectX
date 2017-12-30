@@ -439,7 +439,7 @@ public class EchoServer extends AbstractServer {
 
 			ps.executeUpdate();
 
-			client.sendToClient(ans);
+			client.sendToClient(msg);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
