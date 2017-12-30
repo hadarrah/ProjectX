@@ -126,7 +126,7 @@ public class ClientConsole implements ChatIF
 				 				 
 				 ((gui.Create_PaymentAccount_Controller)mc).check_if_create_success(message);
 			 }
-			 if(check.getRole().equals("check if there is active survey"))
+			 if(check.getRole().equals("check if there is active survey for insert") || check.getRole().equals("check if there is active survey for close"))
 			 {
 					((gui.Managment_Controller)mc).check_if_survey_active(message);
 			 }
@@ -139,6 +139,11 @@ public class ClientConsole implements ChatIF
 		 {
 			 if(check.getRole().equals("insert survey"))
 				 ((gui.Survey_Controller)mc).create_survey_success(message);
+		 }
+		 if(check.getType().equals("UPDATE"))
+		 {
+			 if(check.getRole().equals("close survey"))
+				 ((gui.Close_Survey_Controller)mc).close_survey_success(message);
 		 }
 		 
 	   }//else its an update query

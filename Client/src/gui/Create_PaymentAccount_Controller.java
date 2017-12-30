@@ -75,7 +75,7 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
     		invalid_detailsL_ID.setVisible(true);
     		return;
     	}
-    	if(CreditCard.length()!=16) 
+    	if(cc_1_text.getText().length()!=4 || cc_2_text.getText().length()!=4 || cc_3_text.getText().length()!=4 || cc_4_text.getText().length()!=4) 
     	{
     		invalid_detailsL_credit.setVisible(true);
     		return;

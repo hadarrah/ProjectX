@@ -108,13 +108,13 @@ public class Survey_Controller implements Initializable, ControllerI{
 		
 		/*insert the input from user to instance of Survey"*/
     	Survey new_survey = new Survey(q1, q2, q3, q4, q5, q6);
-		Msg check_user_details= new Msg();
-		check_user_details.setInsert();
-		check_user_details.setTableName("survey");
-		check_user_details.oldO=new_survey;
-		check_user_details.setRole("insert survey");
-		check_user_details.event=event;
-		Login_win.to_Client.accept((Object)check_user_details);
+		Msg toServer= new Msg();
+		toServer.setInsert();
+		toServer.setTableName("survey");
+		toServer.oldO=new_survey;
+		toServer.setRole("insert survey");
+		toServer.event=event;
+		Login_win.to_Client.accept((Object)toServer);
     }
 
     

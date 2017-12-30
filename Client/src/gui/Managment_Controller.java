@@ -31,8 +31,10 @@ public class Managment_Controller implements Initializable,ControllerI {
     public Button conclusion_Survey_B;
     public Button edit_CustomersProfile_B;
     public Button display_Reports_B;
+    public Button close_Survey_B;
 	public static ActionEvent event_log;
-
+	public static Survey active_survey;
+	
     public void update_Catalog(ActionEvent event) {
 
     }
@@ -45,6 +47,11 @@ public class Managment_Controller implements Initializable,ControllerI {
 
     }
 
+    /**
+     * handle function for pressing 'create survey' -> first we check if already exist active survey
+     * @param event
+     * @throws IOException
+     */
     public void create_Survey(ActionEvent event) throws IOException {
 		
     	/*save the event*/
@@ -57,12 +64,34 @@ public class Managment_Controller implements Initializable,ControllerI {
     	check_survey_exist.setSelect();
     	check_survey_exist.oldO = temp_survey;
     	check_survey_exist.setTableName("survey");
-    	check_survey_exist.setRole("check if there is active survey");
+    	check_survey_exist.setRole("check if there is active survey for insert");
     	check_survey_exist.event=event;
 		Login_win.to_Client.accept((Object)check_survey_exist);
 		
     }
 
+    /**
+     * handle function for pressing 'close survey' -> first we check if there is active survey
+     * @param event
+     */
+    public void close_Survey(ActionEvent event) {
+
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+		
+		/*check if already exist an active survey*/
+    	Survey temp_survey = new Survey();
+    	Msg check_survey_exist = new Msg();
+    	check_survey_exist.setSelect();
+    	check_survey_exist.oldO = temp_survey;
+    	check_survey_exist.setTableName("survey");
+    	check_survey_exist.setRole("check if there is active survey for close");
+    	check_survey_exist.event=event;
+		Login_win.to_Client.accept((Object)check_survey_exist);
+		
+    }
+    
     public void answer_Complaint(ActionEvent event) {
 
     }
@@ -87,31 +116,70 @@ public class Managment_Controller implements Initializable,ControllerI {
     public void compare_Reports(ActionEvent event) {
 
     }
-    
+    /**
+     * get message from server and act regarding to the answer
+     * for "create survey" => if there is active survey we pop up a error message, else we continue to the next window
+     * for "close survey" => if there is no active survey we pop up a error message, else we continue to the next window
+     * @param message
+     */
     public void check_if_survey_active(Object message)
     {
+    	/*save the answer from server*/
     	Survey to_check = (Survey) (((Msg) message).newO);
     	
-    	if(to_check == null)
+    	if(((Msg) message).getRole().equals("check if there is active survey for close")) //for close
     	{
-    		JOptionPane.showMessageDialog(null, "There is already active survey, please close this survey before you try again...");
-    		return;
+    		if(to_check == null)
+        	{
+    			JOptionPane.showMessageDialog(null, "There is no active survey");
+        		return;
+        	}
+    		else
+    		{
+    			/*save the instance of survey in static var for future uses in other controller*/
+    			active_survey = to_check;
+    			
+    			/*the creating was successful -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+        				 	try {
+        						move(event_log , main.fxmlDir+ "Close_Survey_F.fxml");
+        					} catch (IOException e) {
+        						// TODO Auto-generated catch block
+        						e.printStackTrace();
+        					}  
+        			}
+        		});
+    		}
+    	}
+    	else if(((Msg) message).getRole().equals("check if there is active survey for insert")) //for create
+    	{
+    		if(to_check == null)
+        	{
+    			/*the creating was successful -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+        				 	try {
+        						move(event_log , main.fxmlDir+ "Create_Survey_F.fxml");
+        					} catch (IOException e) {
+        						// TODO Auto-generated catch block
+        						e.printStackTrace();
+        					}  
+        				
+        			}
+        		}); 
+        	}
+    		else
+    		{
+    			JOptionPane.showMessageDialog(null, "There is already active survey, please close this survey before you try again...");
+        		return;
+    		}
     	}
     	
-    	/*the creating was successful -> run in new thread the new window*/
-    	Platform.runLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				 	try {
-						move(event_log , main.fxmlDir+ "Create_Survey_F.fxml");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}  
-				
-			}
-		}); 
     }
     
     /**
@@ -159,6 +227,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     		case "Customer Service Employee":
     			create_Survey_B.setVisible(true);
     			answer_Complaint_B.setVisible(true);
+    			close_Survey_B.setVisible(true);
         		break;
     		case "Chain Manager":
     			display_Reports_B.setVisible(true);

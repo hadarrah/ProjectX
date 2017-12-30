@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="471.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Close_Survey_Controller">
+   <children>
+      <Button fx:id="back_B" layoutX="35.0" layoutY="366.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Label layoutX="135.0" layoutY="24.0" text="Close Survey">
+         <font>
+            <Font name="Nebulo Demo" size="36.0" />
+         </font>
+      </Label>
+      <VBox alignment="TOP_CENTER" layoutX="24.0" layoutY="78.0" prefHeight="200.0" prefWidth="129.0" spacing="22.0">
+         <children>
+            <Label text="ID:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label text="Date:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label prefHeight="19.0" prefWidth="132.0" text="Num Of Participant:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="160.0" layoutY="77.0" prefHeight="200.0" prefWidth="202.0" spacing="15.0">
+         <children>
+            <TextField fx:id="ID_text" editable="false" />
+            <TextField fx:id="Date_text" editable="false" />
+            <TextField fx:id="NumOfParticipant_text" editable="false" />
+         </children>
+      </VBox>
+      <Button fx:id="close_Survey_B" layoutX="194.0" layoutY="324.0" mnemonicParsing="false" onAction="#close_Survey" text="Close Survey" />
+   </children>
+</Pane>
