@@ -87,7 +87,7 @@ public class Main_menu  implements Initializable,ControllerI{
     public void to_user_profile(ActionEvent event)throws IOException 
 	{
 		  Parent menu;
-		  menu = FXMLLoader.load(getClass().getResource("Profile_F.fxml"));
+		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+"Profile_F.fxml"));
 		//  to_Client.setController(new Main_menu());
 		 Scene win1= new Scene(menu);
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();

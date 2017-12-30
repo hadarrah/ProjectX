@@ -38,7 +38,7 @@ public class Update_Personal_Info_Controller implements ControllerI,Initializabl
 	 public void back_to_personal_info (ActionEvent event)throws IOException 
 		{
 			  Parent menu;
-			  menu = FXMLLoader.load(getClass().getResource("Profile_F.fxml"));
+			  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+"Profile_F.fxml"));
 			//  to_Client.setController(new Main_menu());
 			 Scene win1= new Scene(menu);
 			 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
