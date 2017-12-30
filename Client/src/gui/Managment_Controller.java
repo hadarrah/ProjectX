@@ -32,6 +32,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     public Button edit_CustomersProfile_B;
     public Button display_Reports_B;
     public Button close_Survey_B;
+    public Button add_Comments_B;
 	public static ActionEvent event_log;
 	public static Survey active_survey;
 	
@@ -92,6 +93,10 @@ public class Managment_Controller implements Initializable,ControllerI {
 		
     }
     
+    public void add_Comments(ActionEvent event) {
+
+    }
+
     public void answer_Complaint(ActionEvent event) {
 
     }
@@ -212,7 +217,8 @@ public class Managment_Controller implements Initializable,ControllerI {
     	conclusion_Survey_B.setVisible(false);
     	edit_CustomersProfile_B.setVisible(false);
     	display_Reports_B.setVisible(false);
-
+    	add_Comments_B.setVisible(false);
+    	
     	/*update the current controller to be management controller in general ClientConsole instance*/
     	Login_win.to_Client.setController(this);
     	
@@ -228,6 +234,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     			create_Survey_B.setVisible(true);
     			answer_Complaint_B.setVisible(true);
     			close_Survey_B.setVisible(true);
+    			add_Comments_B.setVisible(true);
         		break;
     		case "Chain Manager":
     			display_Reports_B.setVisible(true);
