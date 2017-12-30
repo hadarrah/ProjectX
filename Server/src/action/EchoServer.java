@@ -73,61 +73,47 @@ public class EchoServer extends AbstractServer
    */
   public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {	 
-	  
-	  		 Msg msg1=(Msg)msg;
-	  		 String query_type=msg1.getType();
-	       try 
-			{
-	          Class.forName("com.mysql.jdbc.Driver").newInstance();
-	        } catch (Exception ex) {/* handle the error*/}
+	  Msg msg1=(Msg)msg;
+	  String query_type=msg1.getType();
 	        
-	        try 
-	        {	 
-	            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/"+schema_name,user_name,user_pass);      
-	            System.out.println("SQL connection succeed");
+	  try 
+	  	{	 
+		  Class.forName("com.mysql.jdbc.Driver").newInstance();
+	      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/"+schema_name,user_name,user_pass);      
+	      System.out.println("SQL connection succeed");
 	           
-	            
-	            
-	            
 	             /* Define which kind the message the server got */
 	            /**
 	             * first find the kind of the query 
 	             * then, check the role of the msg (the role is a simple short string)
 	             */
-	           switch(query_type)
-	           {
-	           case  "SELECT":{
-	           
+	      switch(query_type)
+	      	{
+	      		case  "SELECT":
+	      		 {
 	        	   if(msg1.getRole().equals("verify user details"))
 	        		  check_user_details(msg1,conn,client);  
- 
-	           }
-	           case  "UPDATE":{
-	            
+	        	   else if(msg1.getRole().equals("check if ID exist and add payment account"))
+		        		  check_id_exist(msg1,conn,client);  
+	             }
+	            case  "UPDATE":
+	             {
 	        	   if(msg1.getRole().equals("user logout"))
 	        	   change_online_status(msg1 ,conn,"0");
 	        	   if(msg1.getRole().equals("update user details"))
 	        		   Update_user_details(msg1,conn,client);
 	        	  // else  getProdectdetails(msg1,conn,client);
 	        	  // else  UpdateItem(conn,msg,client);
-	           }
-	           
-	           case  "SELECTALL":
-	           { 
+	             }
+	            case  "SELECTALL":
+	             { 
 	        	     ViewItems(conn,client);
-	           }
-	           
-	           
-	           }// end switch
-	            
-	           
-	        }//end try   
-		        	  
+	             }
+	        }// end switch
+	    }//end try   
+		      /*  	  
  	        	  }
-	        	  else if(msg1.getRole().equals("check if ID exist and add payment account"))
-	        	  {
-	        		  check_id_exist(msg1,conn,client);  
-	        	  }
+	        	 
 	        	  else {
 	        	   getProdectdetails(msg1,conn,client);
 	        	  }
@@ -137,16 +123,18 @@ public class EchoServer extends AbstractServer
 	         
 	          else if (msg1.getType().equals("UPDATE"))	          
 	        	  UpdateItem(conn,msg,client);	         
-	        }  
-	         
- 			
- 
-	        catch (SQLException ex) {
+	        }  */
+	    catch (SQLException ex) 
+	  		{
 	     	     /* handle any errors*/
 	             System.out.println("SQLException: " + ex.getMessage());
 	             System.out.println("SQLState: " + ex.getSQLState());
 	             System.out.println("VendorError: " + ex.getErrorCode());
-	        }      
+	        }
+	    catch (Exception ex) 
+	  		{
+	  			/* handle the error*/
+	    	}
 	          
 }  
   public static void check_user_details(Msg msg1 ,Connection conn,ConnectionToClient client)
