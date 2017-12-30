@@ -81,12 +81,11 @@ public class EchoServer extends AbstractServer
 		  Class.forName("com.mysql.jdbc.Driver").newInstance();
 	      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/"+schema_name,user_name,user_pass);      
 	      System.out.println("SQL connection succeed");
-	           
-	             /* Define which kind the message the server got */
-	            /**
-	             * first find the kind of the query 
-	             * then, check the role of the msg (the role is a simple short string)
-	             */
+	      /* Define which kind the message the server got */
+	      /**
+          * first find the kind of the query 
+	      * then, check the role of the msg (the role is a simple short string)
+          */
 	      switch(query_type)
 	      	{
 	      		case  "SELECT":
