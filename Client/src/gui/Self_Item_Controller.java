@@ -31,6 +31,10 @@ public class Self_Item_Controller implements Initializable,ControllerI{
     	move(event,main.fxmlDir+ "Main_Menu_F.fxml");
     }
     
+    public void add_Items(ActionEvent event) throws IOException{
+    	move(event,main.fxmlDir+ "Self_Item_Add_Items_F.fxml");	
+    }
+    
     
     public void move(ActionEvent event, String next_fxml)throws IOException 
 	{

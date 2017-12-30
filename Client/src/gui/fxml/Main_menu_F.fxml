@@ -20,19 +20,18 @@
             <Font name="Arial Black" size="28.0" />
          </font>
       </Label>
-      <Button fx:id="back_B" layoutX="25.0" layoutY="356.0" mnemonicParsing="false" onAction="#back_logOut" text="LogOut" />
+      <Button fx:id="back_B" layoutX="14.0" layoutY="365.0" mnemonicParsing="false" onAction="#back_logOut" prefHeight="23.0" prefWidth="58.0" text="LogOut" />
       <Button fx:id="mannag_B" layoutX="381.0" layoutY="5.0" mnemonicParsing="false" onAction="#managment" text="Mannagment" visible="false" />
       <Button fx:id="view_catalog_B" layoutX="185.0" layoutY="117.0" mnemonicParsing="false" text="view catalog" />
       <Button fx:id="cancel_order_B" layoutX="194.0" layoutY="225.0" mnemonicParsing="false" text="Cancel order" />
-      <Button fx:id="self_item_B" layoutX="162.0" layoutY="165.0" mnemonicParsing="false" text="Create your own product" />
+      <Button fx:id="self_item_B" layoutX="162.0" layoutY="165.0" mnemonicParsing="false" onAction="#self_item" text="Create your own product" />
       <Button fx:id="complain_B" layoutX="179.0" layoutY="280.0" mnemonicParsing="false" text="Open a new complain" />
-      <Button fx:id="user_profile_B" layoutX="5.0" layoutY="5.0" mnemonicParsing="false" text="Profile" />
-      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="379.0" layoutY="292.0" opacity="0.66">
+      <Button fx:id="user_profile_B" layoutX="4.0" layoutY="5.0" mnemonicParsing="false" text="View Profile" onAction="#to_user_profile"/>
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="404.0" layoutY="315.0" opacity="0.66">
          <image>
             <Image url="@survey2.gif" />
          </image>
       </ImageView>
-      <Label layoutX="367.0" layoutY="273.0" text="Take a survey" />
-      <Button layoutX="4.0" layoutY="45.0" mnemonicParsing="false" text="logout" />
+      <Label layoutX="386.0" layoutY="296.0" text="Take a survey" />
    </children>
 </Pane>
