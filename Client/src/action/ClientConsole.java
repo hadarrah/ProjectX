@@ -117,8 +117,8 @@ public class ClientConsole implements ChatIF {
 		} // else its an update query
 
 		if (message instanceof String) {
-			// ((gui.Update_Personal_Info_Controller)mc).get_new_user_details(message);
-			System.out.println("it went good");
+			  ((gui.Update_Personal_Info_Controller)mc).get_new_user_details(message);
+			
 		}
 
 

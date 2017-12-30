@@ -48,7 +48,7 @@ public class Update_Personal_Info_Controller implements ControllerI,Initializabl
 	
 	 public void update_details()
 	 {
-		 Login_win.to_Client.setController(this);
+		
 		 Msg msg=new Msg();
 		
 		 
@@ -74,19 +74,14 @@ public class Update_Personal_Info_Controller implements ControllerI,Initializabl
 	 
 	 public void get_new_user_details(Object message)
 	 {
-	 
-		 
-		 	Alert alert = new Alert(AlertType.CONFIRMATION);
-	        alert.setTitle("Update details");
-	        alert.setHeaderText(" Update was done !");
-	        // option != null.
-	        Optional<ButtonType> option = alert.showAndWait();
- 
+		
+
 	 }
 	 
 	 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		 Login_win.to_Client.setController(this);
 		display_cur_info(gui.Login_win.current_user);
 		// TODO Auto-generated method stub
 		

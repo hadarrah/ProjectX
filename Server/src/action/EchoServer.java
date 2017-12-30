@@ -443,12 +443,9 @@ public class EchoServer extends AbstractServer {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			try {
-				client.sendToClient("UPDATE faild");
-			} catch (IOException e1) {
-				e1.printStackTrace();
+			
 			}
-		} catch (IOException x) {
+		  catch (IOException x) {
 			System.err.println("unable to send msg to client");
 		}
 
