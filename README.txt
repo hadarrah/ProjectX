@@ -34,3 +34,26 @@ Usability Principles: (Lecture 7)
 11. Provide all necessary help.
 12. Be consistent.
 
+
+Common Method:
+
+move to other window (implementation):
+
+/**
+     * General function for the movement between the different windows
+     * @param event
+     * @param next_fxml = string of the specific fxml
+     * @throws IOException
+     */
+    public void move(ActionEvent event, String next_fxml)throws IOException 
+	{
+		  Parent menu;
+		  menu = FXMLLoader.load(getClass().getResource(next_fxml));
+		 Scene win1= new Scene(menu);
+		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		 win_1.setScene(win1);
+		 win_1.show();
+	}
+  
+Example of calling:
+  move(event,main.fxmlDir+ "Managment_F.fxml");
