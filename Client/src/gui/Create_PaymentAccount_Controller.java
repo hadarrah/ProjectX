@@ -153,7 +153,7 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
 	    list = FXCollections.observableArrayList(al); 
 	    subscription_combo.setItems(list);
 	    
-	    /*update the current controller to be management controller in general ClientConsole instance*/
+	    /*update the current controller to be this controller in general ClientConsole instance*/
     	Login_win.to_Client.setController(this);
     }
 		

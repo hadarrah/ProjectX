@@ -12,7 +12,8 @@ public class Msg implements Serializable {
 	    public Object newO;
 	    public Object oldO;
 	    public ActionEvent event;
-	    public enum TYPE { NULL  ,SELECT, SELECTALL,  UPDATE;}
+
+	    public enum TYPE { NULL  ,SELECT, SELECTALL,  UPDATE, INSERT;}
 	    
 	   public Msg()
 	   {
@@ -33,8 +34,6 @@ public class Msg implements Serializable {
 	public void setSelect()
 	{
 		 this.type=TYPE.SELECT;
-		 
-		
 	}
 	public void setSelectAll()
 	{
@@ -44,19 +43,31 @@ public class Msg implements Serializable {
 	public void setUpdate()
 	{
 		this.type=TYPE.UPDATE;
-		
+	}
+	
+	public void setInsert()
+	{
+		 this.type=TYPE.INSERT;
 	}
 	
 	public String getType()
 	{
-		if(this.type==TYPE.UPDATE)
-			return "UPDATE";
-		else if(this.type==TYPE.SELECT)
-			return "SELECT";
-		else if(this.type==TYPE.SELECTALL)
-			return "SELECTALL";
-		return null;
+		switch(this.type)
+		{
+			case UPDATE:
+				return "UPDATE";
+			case SELECT:
+				return "SELECT";
+			case SELECTALL:
+				return "SELECTALL";
+			case INSERT:
+				return "INSERT";
+			default:
+				return null;
+			
+		}
 	}
+	
 	public String getRole() {
 		return role;
 	}

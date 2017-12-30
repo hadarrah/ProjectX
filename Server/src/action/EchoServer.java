@@ -93,7 +93,9 @@ public class EchoServer extends AbstractServer
 	        	   if(msg1.getRole().equals("verify user details"))
 	        		  check_user_details(msg1,conn,client);  
 	        	   else if(msg1.getRole().equals("check if ID exist and add payment account"))
-		        		  check_id_exist(msg1,conn,client);  
+		        		  check_id_exist(msg1,conn,client); 
+	        	   else if(msg1.getRole().equals("check if there is active survey"))
+		        		  check_survey_exist(msg1,conn,client); 
 	             }
 	            case  "UPDATE":
 	             {
@@ -107,6 +109,11 @@ public class EchoServer extends AbstractServer
 	            case  "SELECTALL":
 	             { 
 	        	     ViewItems(conn,client);
+	             }
+	            case  "INSERT":
+	             { 
+	            	 if(msg1.getRole().equals("insert survey"))
+		        		  insert_survey(msg1,conn,client);  
 	             }
 	        }// end switch
 	    }//end try   
@@ -276,7 +283,78 @@ public class EchoServer extends AbstractServer
 		}
   }
   
+  public static void check_survey_exist(Msg msg1 ,Connection conn,ConnectionToClient client)
+  {
+	  PreparedStatement ps;
+	  ResultSet rs;
+	  try 
+	  {
+			ps = conn.prepareStatement(" SELECT * FROM survey WHERE Status = 'Active';");
+			rs = ps.executeQuery();
+			if(!rs.next())
+			{
+				msg1.newO = msg1.oldO;	//this is mean that there is no active server
+				client.sendToClient(msg1);
+				return;
+			}
+			msg1.newO = null;	//this is mean that there is active server
+			client.sendToClient(msg1);
+	  }
+	  catch (SQLException e) 
+	  	{
+			e.printStackTrace();
+	  	} 
+	  catch (IOException e) 
+	    {
+			e.printStackTrace();
+		}
+  }
   
+  /**
+   * insert the survey to survey table with new id
+   * @param msg1
+   * @param conn
+   * @param client
+   */
+  public static void insert_survey(Msg msg1 ,Connection conn,ConnectionToClient client)
+  {
+	  Survey user=(Survey) msg1.oldO;
+	  PreparedStatement ps;
+	  ResultSet rs;
+	  int new_id;
+	  try 
+	  {
+		  	/*get the last ID*/
+		  	ps = conn.prepareStatement("SELECT max(ID) FROM survey;");
+			rs = ps.executeQuery();
+			rs.next();
+			/*execute the insert query*/
+			ps=conn.prepareStatement("INSERT INTO survey (ID, Date, Q1, Q2, Q3, Q4, Q5, Q6, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+			new_id = Integer.parseInt(rs.getString(1)) + 1;
+			ps.setString(1,""+new_id);	//insert the last id + 1
+			ps.setString(2,user.getDate());
+			ps.setString(3,user.getQ1());
+			ps.setString(4,user.getQ2());
+			ps.setString(5,user.getQ3());
+			ps.setString(6,user.getQ4());
+			ps.setString(7,user.getQ5());
+			ps.setString(8,user.getQ6());
+			ps.setString(9, "Active");
+			ps.executeUpdate();
+			
+			msg1.newO = user;
+			client.sendToClient(msg1);
+	  }
+	  catch (SQLException e) 
+	  	{
+			e.printStackTrace();
+	  	} 
+	  catch (IOException e) 
+	    {
+			e.printStackTrace();
+		}
+			
+  }
   
    
   public static boolean isConnected( Msg msg1 ,Connection conn)

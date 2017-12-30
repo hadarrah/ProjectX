@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
+import action.Msg;
+import action.Survey;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +31,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     public Button conclusion_Survey_B;
     public Button edit_CustomersProfile_B;
     public Button display_Reports_B;
+	public static ActionEvent event_log;
 
     public void update_Catalog(ActionEvent event) {
 
@@ -39,8 +45,22 @@ public class Managment_Controller implements Initializable,ControllerI {
 
     }
 
-    public void create_Survey(ActionEvent event) {
-
+    public void create_Survey(ActionEvent event) throws IOException {
+		
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+    	
+    	/*check if already exist an active survey*/
+    	Survey temp_survey = new Survey();
+    	Msg check_survey_exist = new Msg();
+    	check_survey_exist.setSelect();
+    	check_survey_exist.oldO = temp_survey;
+    	check_survey_exist.setTableName("survey");
+    	check_survey_exist.setRole("check if there is active survey");
+    	check_survey_exist.event=event;
+		Login_win.to_Client.accept((Object)check_survey_exist);
+		
     }
 
     public void answer_Complaint(ActionEvent event) {
@@ -52,7 +72,8 @@ public class Managment_Controller implements Initializable,ControllerI {
     }
 
     public void create_PaymentAccount(ActionEvent event) throws IOException {
-    	move(event ,main.fxmlDir+ "Create_PaymentAccount_F.fxml");
+			move(event ,main.fxmlDir+ "Create_PaymentAccount_F.fxml");
+		
     }
 
     public void edit_CustomersProfile(ActionEvent event) {
@@ -65,6 +86,32 @@ public class Managment_Controller implements Initializable,ControllerI {
 
     public void compare_Reports(ActionEvent event) {
 
+    }
+    
+    public void check_if_survey_active(Object message)
+    {
+    	Survey to_check = (Survey) (((Msg) message).newO);
+    	
+    	if(to_check == null)
+    	{
+    		JOptionPane.showMessageDialog(null, "There is already active survey, please close this survey before you try again...");
+    		return;
+    	}
+    	
+    	/*the creating was successful -> run in new thread the new window*/
+    	Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				 	try {
+						move(event_log , main.fxmlDir+ "Create_Survey_F.fxml");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}  
+				
+			}
+		}); 
     }
     
     /**
@@ -82,6 +129,7 @@ public class Managment_Controller implements Initializable,ControllerI {
 		 win_1.setScene(win1);
 		 win_1.show();
 	}
+    
     
     @Override
 	public void initialize(URL location, ResourceBundle resources)
