@@ -5,7 +5,6 @@ package action;
 // license found at www.lloseng.com 
  
 import java.io.*;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;

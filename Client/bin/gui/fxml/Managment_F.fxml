@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="471.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Managment_Controller">
+   <children>
+      <Button fx:id="update_Catalog_B" layoutX="186.0" layoutY="95.0" mnemonicParsing="false" onAction="#update_Catalog" text="Update Catalog" />
+      <Label layoutX="139.0" layoutY="14.0" text="Managment">
+         <font>
+            <Font name="Nebulo Demo" size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="back_B" layoutX="35.0" layoutY="366.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Button fx:id="create_Sale_B" layoutX="198.0" layoutY="95.0" mnemonicParsing="false" onAction="#create_Sale" text="Create Sale" />
+      <Button fx:id="create_Survey_B" layoutX="191.0" layoutY="95.0" mnemonicParsing="false" onAction="#create_Survey" text="Create Survey" />
+      <Button fx:id="answer_Complaint_B" layoutX="179.0" layoutY="152.0" mnemonicParsing="false" onAction="#answer_Complaint" text="Answer Complaint" />
+      <Button fx:id="conclusion_Survey_B" layoutX="158.0" layoutY="95.0" mnemonicParsing="false" onAction="#conclusion_Survey" text="Add Conclusion To Survey" />
+      <Button fx:id="create_PaymentAccount_B" layoutX="162.0" layoutY="95.0" mnemonicParsing="false" onAction="#create_PaymentAccount" text="Create Payment Account" />
+      <Button fx:id="edit_CustomersProfile_B" layoutX="169.0" layoutY="210.0" mnemonicParsing="false" onAction="#edit_CustomersProfile" text="Edit Customers Profile" />
+      <Button fx:id="display_Reports_B" layoutX="186.0" layoutY="153.0" mnemonicParsing="false" onAction="#display_Reports" text="Display Reports" />
+      <Button fx:id="compare_Reports_B" layoutX="181.0" layoutY="95.0" mnemonicParsing="false" onAction="#compare_Reports" text="Compare Reports" />
+   </children>
+</Pane>
