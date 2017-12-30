@@ -49,7 +49,7 @@ public class Profile_Controller implements ControllerI,Initializable {
 	  public void back_to_main(ActionEvent event)throws IOException 
 		{
 			  Parent menu;
-			  menu = FXMLLoader.load(getClass().getResource("Main_Menu_F.fxml"));
+			  menu = FXMLLoader.load(getClass().getResource("gui/fxml/Main_menu_F.fxml‬"));
 			//  to_Client.setController(new Main_menu());
 			 Scene win1= new Scene(menu);
 			 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
