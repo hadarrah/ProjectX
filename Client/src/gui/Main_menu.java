@@ -19,6 +19,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -29,6 +31,8 @@ public class Main_menu  implements Initializable,ControllerI{
 	public Label main_label;
 	public static Person current_user;
 	public   boolean logout_flag;
+	public Image  survey_img;
+	public ImageView img;
 	//public  static action.ClientConsole to_Client;
 
  
@@ -95,6 +99,18 @@ public class Main_menu  implements Initializable,ControllerI{
 		 win_1.show();
 	}
     
+
+    public void take_survey(ActionEvent event) throws IOException {
+    	
+    	 Parent menu;
+		 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Answer_Survey_F.fxml"));
+		// to_Client.setController(new Managment_Controller());
+		 Scene win1= new Scene(menu);
+		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		 win_1.setScene(win1);
+		 win_1.show();
+    }
+    
     private void show_logout_msg() 
     {
         Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -120,7 +136,8 @@ public class Main_menu  implements Initializable,ControllerI{
 		{
 			mannag_B.setVisible(true);
 		}
-		
+		//img.setImage(survey_img);
+		  //img.setPickOnBounds(true);
 	}
 
 }

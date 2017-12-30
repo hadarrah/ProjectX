@@ -26,12 +26,12 @@
       <Button fx:id="cancel_order_B" layoutX="194.0" layoutY="225.0" mnemonicParsing="false" text="Cancel order" />
       <Button fx:id="self_item_B" layoutX="162.0" layoutY="165.0" mnemonicParsing="false" onAction="#self_item" text="Create your own product" />
       <Button fx:id="complain_B" layoutX="179.0" layoutY="280.0" mnemonicParsing="false" text="Open a new complain" />
-      <Button fx:id="user_profile_B" layoutX="4.0" layoutY="5.0" mnemonicParsing="false" text="View Profile" onAction="#to_user_profile"/>
-      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="404.0" layoutY="315.0" opacity="0.66">
+      <Button fx:id="user_profile_B" layoutX="4.0" layoutY="5.0" mnemonicParsing="false" onAction="#to_user_profile" text="View Profile" />
+      <ImageView fx:id="survey_img" fitHeight="50.0" fitWidth="50.0" layoutX="404.0" layoutY="315.0" opacity="0.66">
          <image>
-            <Image url="@survey2.gif" />
+            <Image fx:id="survey_img" url="@survey2.gif" />
          </image>
       </ImageView>
-      <Label layoutX="386.0" layoutY="296.0" text="Take a survey" />
+      <Button fx:id="take_survey_B" layoutX="378.0" layoutY="280.0" mnemonicParsing="false" style=": ;" text="Take a survey" />
    </children>
 </Pane>
