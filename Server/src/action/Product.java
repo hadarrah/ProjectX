@@ -3,9 +3,12 @@ package action;
 import java.io.Serializable;
 
 public class Product implements Serializable{
+	
 	private String ID;
 	private String Name;
 	private String Type;
+	private float Price;
+	private String Color;
 	
 	
 	/*--CONSTRUCTOR1-*/
@@ -17,7 +20,7 @@ public class Product implements Serializable{
 		
 	}
 	
-	/*--CONSTRUCTOR1-*/
+	/*--CONSTRUCTOR2-*/
 	public Product(String id, String name, String Type)
 	{
 		this.ID=id;
@@ -56,7 +59,33 @@ public class Product implements Serializable{
 		this.Type=type;
 	}
 	
-	/*--GET TYPE--*/
+	/*--SET PRICE--*/
+	public void SetPrice(float price)
+	{
+		this.Price=price;
+	}
+	
+	/*--SET COLOR--*/
+	public void SetColor(String color)
+	{
+		this.Color=color;
+	}
+	
+	/*--GET COLOR--*/
+	public String GetColor()
+	{
+		return this.Color;
+	}
+	
+	
+	/*--GET PRICE--*/
+	public float GetPrice()
+	{
+		return this.Price;
+	}
+	
+	
+	/*--GET TYPE--*/ 
 	public String GetType()
 	{
 		return this.Type;
