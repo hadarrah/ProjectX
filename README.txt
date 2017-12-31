@@ -2,9 +2,9 @@
 Collage project - Semester 5 - "Zer-Li" application
 /********************************************************************************************************/
 qustion to mohi !!
-1. are there any survey qustion that i can use them in the client survyy ?
-2. Acoording the user story the number of answers should be 10( radio button from 1 to 10)
-3. If someone know the answers to thos qustion please reply !!!-->netanel8884@gmail.com
+1. are there any survey qustions that i can use   in the client survey ?
+2. According to the user story the number of answers should be 10( radio button from 1 to 10)
+3. If someone know the answers to ^^^thos^^^^ qustion please reply !!!-->netanel8884@gmail.com
 
 4. good  night!
 5.יצאתי קצת רומן 
