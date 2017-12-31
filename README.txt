@@ -3,7 +3,11 @@ Collage project - Semester 5 - "Zer-Li" application
 
 
 Design Conventions:
--Font: System 12px
+-Font:  *Default: System 12px
+	*Special font: Arial Bold Italic
+-Font Colors:   *Green
+		*Red	
+
 
 - Window Size: Default - 471x402 (width x height) [pixels].
                Bigger  - 
