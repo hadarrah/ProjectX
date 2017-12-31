@@ -3,20 +3,21 @@ Collage project - Semester 5 - "Zer-Li" application
 
 
 Design Conventions:
+
 -Font:  *Default: System 12px
 	*Special font: Arial Bold Italic
--Font Colors:   *Green
-		*Red	
+
+-Font Colors:   *Green [Color.webcolor] (not decided yet)
+		*Red   [Color.webcolor] (not decided yet)
 
 
-- Window Size: Default - 471x402 (width x height) [pixels].
-               Bigger  - 
+- Window Size:  *Default - 471x402 (width x height) [pixels].
+		*Bigger  - 
 
 
-- Acceptance buttons (√ ,yes, ok, order, add, etc..) will be on the LEFT.
+- Acceptance Buttons (√ ,yes, ok, order, add, etc..) will be on the LEFT.
 - Denial Buttons (Ꭓ, not, cancel, back, etc..) on RIGHT.
 
-- ComboBoxing.
 
 -back button position: x=35 , y=366
 
