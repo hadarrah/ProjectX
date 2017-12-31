@@ -11,10 +11,11 @@ import javafx.scene.layout.HBox;
 
 public class Answer_Survey_Controller implements ControllerI,Initializable {
 public RadioButton R3,R1;
-public   ToggleGroup group;
+public  ToggleGroup group;
 public HBox root;
 @Override
 public void initialize(URL location, ResourceBundle resources) {
+	/*
 	ToggleGroup group = new ToggleGroup();
 	 
     // Radio 1: Male
@@ -32,7 +33,7 @@ public void initialize(URL location, ResourceBundle resources) {
     root.getChildren().addAll(   R1, R3);
 	
 	// TODO Auto-generated method stub
-	
+	*/
 }
 
 }

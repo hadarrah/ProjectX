@@ -31,8 +31,6 @@ public class Main_menu  implements Initializable,ControllerI{
 	public Label main_label;
 	public static Person current_user;
 	public   boolean logout_flag;
-	public Image  survey_img;
-	public ImageView img;
 	//public  static action.ClientConsole to_Client;
 
  
@@ -136,8 +134,7 @@ public class Main_menu  implements Initializable,ControllerI{
 		{
 			mannag_B.setVisible(true);
 		}
-		//img.setImage(survey_img);
-		  //img.setPickOnBounds(true);
+		
 	}
 
 }
