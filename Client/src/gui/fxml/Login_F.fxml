@@ -15,21 +15,20 @@
             <Image url="@flower-background-pictures-1.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="77.0" layoutY="118.0" text="Enter User name:" />
-      <Label layoutX="56.0" layoutY="174.0" text="Enter User Password:" />
+      <Label layoutX="56.0" layoutY="174.0" />
       <Label fx:id="invalid_detailsL" layoutX="191.0" layoutY="267.0" text="Invalid Details" textFill="RED" visible="false">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </Label>
-      <Button fx:id="Bquit" layoutX="27.0" layoutY="351.0" mnemonicParsing="false" text="Quit" onAction="#Quit_app" />
-      <Button fx:id="Blogin" layoutX="234.0" layoutY="226.0" mnemonicParsing="false" onAction="#hit_login" text="Login" />
-      <Label layoutX="166.0" layoutY="55.0" text="ZerLi System" textFill="#1a91e1">
+      <Button fx:id="Bquit" layoutX="27.0" layoutY="351.0" mnemonicParsing="false" onAction="#Quit_app" text="Quit" />
+      <Button fx:id="Blogin" layoutX="200.0" layoutY="225.0" mnemonicParsing="false" onAction="#hit_login" text="Login" />
+      <Label layoutX="144.0" layoutY="55.0" text="ZerLi System" textFill="#1a91e1">
          <font>
             <Font name="Arial Black" size="22.0" />
          </font></Label>
-      <TextField fx:id="user_nameT" layoutX="190.0" layoutY="115.0" />
-      <PasswordField fx:id="user_passT" layoutX="192.0" layoutY="170.0" />
+      <TextField fx:id="user_nameT" layoutX="152.0" layoutY="116.0" promptText="Enter User Name" />
+      <PasswordField fx:id="user_passT" layoutX="152.0" layoutY="170.0" promptText="Enter User Password" />
       <Label fx:id="user_not_existL" layoutX="175.0" layoutY="258.0" text="user is not exist" textFill="#eb0a0a" visible="false">
          <font>
             <Font name="System Bold Italic" size="15.0" />

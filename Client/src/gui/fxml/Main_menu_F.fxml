@@ -32,6 +32,6 @@
             <Image fx:id="survey_img" url="@survey2.gif" />
          </image>
       </ImageView>
-      <Button fx:id="take_survey_B" layoutX="378.0" layoutY="280.0" mnemonicParsing="false" style=": ;" text="Take a survey" />
+      <Button fx:id="take_survey_B" layoutX="378.0" layoutY="280.0" mnemonicParsing="false" style=": ;" text="Take a survey" onAction="#take_survey" />
    </children>
 </Pane>
