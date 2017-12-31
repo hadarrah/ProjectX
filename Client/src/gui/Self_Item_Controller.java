@@ -2,9 +2,11 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import action.Msg;
+import action.Product;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -22,11 +25,24 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 	public Button remove_items_B;
 	public Button order_B;
 	public Button cancel_B;
-	public TextField items_selected_TF;
+	public TextArea items_selected_TA;
 	public TextField description_TF;
 	public TextField total_price_TF;
 
 	public static ActionEvent event_log;
+
+	public static ArrayList<Product> selectedProductsArr = new ArrayList<Product>();
+
+	public void setSelected() {
+		String str = "";
+		for (Product p : selectedProductsArr) {
+			str += p.GetName() + " " + p.GetType();
+			str += "\n";
+
+		}
+		items_selected_TA.setText(str);
+		str = null;
+	}
 
 	public void cancel(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Main_Menu_F.fxml");
@@ -50,9 +66,9 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 		 * Update current controller (Log_win.toClient == user's ClientConsole)
 		 */
 		Login_win.to_Client.setController(this);
-		Msg msg = new Msg();
-		Login_win.to_Client.accept(new Msg());
 
+		if (selectedProductsArr.size() > 0)
+			setSelected(); // Present selected item list from products arraylist;
 	}
 
 }
