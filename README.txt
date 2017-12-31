@@ -62,3 +62,6 @@ move to other window (implementation):
   
 Example of calling:
   move(event,main.fxmlDir+ "Managment_F.fxml");
+
+
+-Intialize Main Controller in IController's initialize() function.
