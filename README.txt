@@ -20,8 +20,8 @@ Design Conventions:
 -Font:  *Default: System 12px
 	*Special font: Arial Bold Italic
 
--Font Colors:   *Green [Color.webcolor] (not decided yet)
-		*Red   [Color.webcolor] (not decided yet)
+-Font Colors:   *Green [#25a829]
+		*Red   [#ab0909]
 
 
 - Window Size:  *Default - 471x402 (width x height) [pixels].
@@ -77,4 +77,9 @@ Example of calling:
   move(event,main.fxmlDir+ "Managment_F.fxml");
 
 
--Intialize Main Controller in IController's initialize() function.
+-Main, Prev and Next controllers:
+
+if neeeded	ControllerI prevPage, nextPage;
+   ""		prevPage = Login_win.to_Client.mc;		//save prev page controller (where we came from)
+   ""		nextPage = (IController)MyNextPage;		//next page controller if needed.
+Do Always:	Login_win.to_Client.setController(this);	//Initialize current controller.
