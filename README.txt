@@ -83,3 +83,8 @@ Example of calling:
    		prevPage = Login_win.to_Client.mc;		//(where we came from)
    		nextPage = (IController)MyNextPage;		//next page controller if needed.
 Do Always:	Login_win.to_Client.setController(this);	//Initialize current controller.
+
+
+toAdd:
+a log file ,that recod the server action.
+the system manger can see this file
