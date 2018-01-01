@@ -79,7 +79,7 @@ Example of calling:
 
 -Main, Prev and Next controllers:
 
-if neeeded	ControllerI prevPage, nextPage;
+if needed	ControllerI prevPage, nextPage;
    ""		prevPage = Login_win.to_Client.mc;		//save prev page controller (where we came from)
    ""		nextPage = (IController)MyNextPage;		//next page controller if needed.
 Do Always:	Login_win.to_Client.setController(this);	//Initialize current controller.
