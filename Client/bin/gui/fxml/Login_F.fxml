@@ -27,7 +27,7 @@
          <font>
             <Font name="Arial Black" size="22.0" />
          </font></Label>
-      <TextField fx:id="user_nameT" layoutX="152.0" layoutY="116.0" promptText="Enter User Name" />
+      <TextField fx:id="user_IdT" layoutX="152.0" layoutY="116.0" promptText="Enter User Id" />
       <PasswordField fx:id="user_passT" layoutX="152.0" layoutY="170.0" promptText="Enter User Password" />
       <Label fx:id="user_not_existL" layoutX="175.0" layoutY="258.0" text="user is not exist" textFill="#eb0a0a" visible="false">
          <font>

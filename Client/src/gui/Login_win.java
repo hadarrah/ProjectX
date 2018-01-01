@@ -34,7 +34,7 @@ public class Login_win  implements ControllerI,Initializable  {
 	public static String user_name;
 	public static String user_pass;
 	public Button Blogin,Bmanngment,Bquit;
-	public TextField user_nameT,user_passT;
+	public TextField user_IdT,user_passT;
 	public Label invalid_detailsL;
 	public Label welcomeL,already_conL,user_not_existL;
 	public static int login_counter=0;
@@ -48,13 +48,13 @@ public class Login_win  implements ControllerI,Initializable  {
 	
 	public void hit_login(ActionEvent event) throws IOException, InterruptedException
 	{
-		 
+		/*saves the login button event*/	 
 		 event_log =new ActionEvent();		 
 		 event_log=event.copyFor(event.getSource(), event.getTarget());
-		// System.out.println("1rs "+event_log.getSource() );
+	
 
 		/**check if the details that were entered is valid*/
-		if(user_nameT.getText().equals("") ||user_passT.getText().equals("") )
+		if(user_IdT.getText().equals("") ||user_passT.getText().equals("") )
 		{
 			invalid_detailsL.setVisible(true);
 			login_counter++;
@@ -67,7 +67,7 @@ public class Login_win  implements ControllerI,Initializable  {
 		/*set the user online- */
 		
 		Msg check_user_details= new Msg();
-		Person user= new Person(user_nameT.getText(),null,user_passT.getText());
+		Person user= new Person(user_IdT.getText(),user_passT.getText());
 		check_user_details.setSelect();
 		check_user_details.setTableName("person");
 		check_user_details.oldO=user;
@@ -138,9 +138,12 @@ public class Login_win  implements ControllerI,Initializable  {
 		 System.exit(0); 
 	 }
 	
- 
+ /**
+  * creating a new client, saves the ref of this gui screen
+  */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+	
 		ClientConsole toClient = new ClientConsole(gui.main.user_host,5555,this);
 		to_Client=toClient;
 		

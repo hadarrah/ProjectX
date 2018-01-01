@@ -14,9 +14,9 @@ public class Person implements Serializable {
 	private boolean isAlreadyConnected;
 	
 	
-	public Person(String name,String id,String pass)
+	public Person(String id,String pass)
 	{
-		this.user_name=name;
+		
 		this.user_ID=id;
 		this.user_password=pass;
 	}

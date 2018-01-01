@@ -203,10 +203,10 @@ public class EchoServer extends AbstractServer {
 		String a;
 		try {
 			PreparedStatement ps = conn.prepareStatement(
-					" SELECT * FROM " + msg1.getTableName() + " " + "WHERE FirstName=? and Password=?;");
+					" SELECT * FROM " + msg1.getTableName() + " " + "WHERE ID=? and Password=?;");
 
 			/* insert the names to the query */
-			ps.setString(1, user.getUser_name());
+			ps.setString(1, user.getUser_ID());
 			ps.setString(2, user.getUser_password());
 			ResultSet rs = ps.executeQuery();
 
@@ -214,9 +214,10 @@ public class EchoServer extends AbstractServer {
 				a = rs.getString(1);
 
 				// if the user exist
-				if (!(a.equals("0"))) {
+				if (!(a.equals("0")))
+				{
 					user.setIsExist("1");
-					user.setUser_ID(rs.getString(1));
+					user.setUser_name(rs.getString(2));
 					user.setPrivilege(rs.getString(5));
 					user.setUser_last_name(rs.getString(3));
 					user.setWWID(rs.getString(7));
@@ -241,7 +242,7 @@ public class EchoServer extends AbstractServer {
 
 			if (rs.next() == false) /* if the user dosent exist in the system */
 			{
-				Person user_not_exist = new Person(null, null, null);
+				Person user_not_exist = new Person( null, null);
 				user_not_exist.setIsExist("0");
 				msg1.newO = user_not_exist;
 				client.sendToClient(msg1);
@@ -257,7 +258,8 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
-	public static boolean change_online_status(Msg msg1, Connection conn, String new_status) {
+	public static boolean change_online_status(Msg msg1, Connection conn, String new_status)
+	{
 
 		Person user = (Person) msg1.oldO;
 		boolean answer;
