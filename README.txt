@@ -1,18 +1,36 @@
 # ProjectX
 Collage project - Semester 5 - "Zer-Li" application
+/********************************************************************************************************/
+qustion to mohi !!
+1. are there any survey qustions that i can use   in the client survey ?
+2. According to the user story the number of answers should be 10( radio button from 1 to 10)
+3. If someone know the answers to ^^^thos^^^^ qustion please reply !!!-->netanel8884@gmail.com
+
+4. good  night!
+5.יצאתי קצת רומן 
+/*****************************************************************************************************/
+
+
+
+
 
 
 Design Conventions:
--Font: System 12px
 
-- Window Size: Default - 471x402 (width x height) [pixels].
-               Bigger  - 
+-Font:  *Default: System 12px
+	*Special font: Arial Bold Italic
+
+-Font Colors:   *Green [#25a829]
+		*Red   [#ab0909]
 
 
-- Acceptance buttons (√ ,yes, ok, order, add, etc..) will be on the LEFT.
+- Window Size:  *Default - 471x402 (width x height) [pixels].
+		*Bigger  - 
+
+
+- Acceptance Buttons (√ ,yes, ok, order, add, etc..) will be on the LEFT.
 - Denial Buttons (Ꭓ, not, cancel, back, etc..) on RIGHT.
 
-- ComboBoxing.
 
 -back button position: x=35 , y=366
 
@@ -57,3 +75,11 @@ move to other window (implementation):
   
 Example of calling:
   move(event,main.fxmlDir+ "Managment_F.fxml");
+
+
+-Main, Prev and Next controllers:
+
+		ControllerI prevPage, nextPage;
+   		prevPage = Login_win.to_Client.mc;		//(where we came from)
+   		nextPage = (IController)MyNextPage;		//next page controller if needed.
+Do Always:	Login_win.to_Client.setController(this);	//Initialize current controller.

@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.ResourceBundle;
+
+import javax.swing.JOptionPane;
 
 import action.ClientConsole;
 import action.Msg;
@@ -18,12 +21,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class SI_Add_Item_Controller implements Initializable, ControllerI {
@@ -49,16 +56,43 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 	public Product p; // The attributes selected so far.
 
 	public void addSelectedItem(ActionEvent event) {
-		if (p!=null) {
-	//	float amt = Float.parseFloat(amount_wanted_TF.toString());
-		
-		((Self_Item_Controller)prevPage).selectedProductsArr.add(p);
-	
-		String add = "You have added " + p.GetName();
-		added_L.setText(add);
-		added_L.setVisible(true);
+
+		boolean addItem = true; // Add the item? t=yes
+		String add = ""; // Label string to indicate if item has been added
+
+		// If an item has been selected (null if user just entered the page)
+		if (p != null) {
+			// float amt = Float.parseFloat(amount_wanted_TF.toString());
+
+			ArrayList<Product> productsArr = ((Self_Item_Controller) prevPage).selectedProductsArr;
+			// If user pressed the Add Item button twice -> ask him if he is sure
+			if (productsArr.size() > 0 && p == productsArr.get(productsArr.size() - 1)) {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Confirmation Dialog");
+				alert.setHeaderText("Look, a Confirmation Dialog");
+				alert.setContentText("Are you ok with this?");
+
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.OK) {
+					
+				} else {
+					addItem = false;
+					add = p.GetName() + " has not been added";
+				}
+			}
+
+			// if user select Ok->add the item, green label.
+			if (addItem) {
+				add = "You have added " + p.GetName();
+				productsArr.add(p);
+				added_L.setTextFill(Color.web("#25a829"));
+			} else // else-> don't add item, red label.
+				added_L.setTextFill(Color.web("#ab0909"));
+
+			added_L.setText(add);
+			added_L.setVisible(true);
 		}
-		}
+	}
 
 	public void itemSelected(ActionEvent event) {
 
@@ -224,7 +258,8 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		setColor();
 
 		select_item_L.setVisible(false);
-		selection_missing_L.setVisible(false);
+		selection_missing_L.setText("No Items Selected.");
+		selection_missing_L.setVisible(true);
 		added_L.setVisible(false);
 	}
 

@@ -15,11 +15,11 @@
       <Button fx:id="cancel_B" layoutX="278.0" layoutY="340.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
       <Label layoutX="32.0" layoutY="34.0" />
       <Label layoutX="53.0" layoutY="34.0" text="Items Selected:" />
-      <Button fx:id="remove_items_B" layoutX="349.0" layoutY="102.0" mnemonicParsing="false" text="Remove Items" />
+      <Button fx:id="remove_items_B" layoutX="349.0" layoutY="102.0" mnemonicParsing="false" onAction="#removeFromSelected" text="Remove Items" />
       <Label layoutX="53.0" layoutY="214.0" text="Description:" />
       <TextField fx:id="description_TF" alignment="TOP_LEFT" layoutX="149.0" layoutY="214.0" prefHeight="74.0" prefWidth="181.0" promptText="Enter description..." />
       <Label layoutX="55.0" layoutY="169.0" text="Total Price:" />
       <TextField fx:id="total_price_TF" editable="false" layoutX="149.0" layoutY="165.0" prefHeight="25.0" prefWidth="181.0" text="0" />
-      <TextArea fx:id="items_selected_TA" editable="false" layoutX="149.0" layoutY="34.0" prefHeight="104.0" prefWidth="181.0" promptText="No items has been added..." />
+      <ListView fx:id="items_selected_LV" layoutX="149.0" layoutY="34.0" prefHeight="104.0" prefWidth="181.0" />
    </children>
 </Pane>
