@@ -95,6 +95,10 @@ public class EchoServer extends AbstractServer {
 					check_survey_exist(msg1, conn, client);
 				else if (msg1.getRole().equals("find items color-type-price"))
 					SelectItemsCTP(msg1, conn, client);
+				else if (msg1.getRole().equals("get combo colors"))
+					GetComboForSelfItem(msg1, conn, client);
+				else if (msg1.getRole().equals("get combo type"))
+					GetComboForSelfItem(msg1, conn, client);
 
 			}
 			case "UPDATE": {
@@ -476,6 +480,45 @@ public class EchoServer extends AbstractServer {
 
 	}
 
+	/**
+	 * get the different color/type for combobox in self item
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	 public static void GetComboForSelfItem(Msg msg1 ,Connection conn,ConnectionToClient client)
+	  {
+		  PreparedStatement ps;
+		  ResultSet rs;
+		  ArrayList<String> forCombo = new ArrayList<String>();
+		  String field = "";
+		  
+		  /*set the specific column in item table*/
+		  if(msg1.getRole().equals("get combo colors"))
+			  field = "Color";
+		  else if(msg1.getRole().equals("get combo type"))
+			  field = "Type";
+		  try
+		   {
+			  /*set up and execute the select query*/
+			  rs = conn.createStatement().executeQuery("SELECT * FROM item GROUP BY "+field+ ";");
+			  
+			  while(rs.next())
+				  	forCombo.add(rs.getString(field));
+
+			  msg1.newO = forCombo;
+			  client.sendToClient(msg1);
+		   }
+		  catch (SQLException e) 
+		  	{
+				e.printStackTrace();
+		  	} 
+		  catch (IOException e) 
+		    {
+				e.printStackTrace();
+			}
+	  }
+	
 	public static void Update_user_details(Object msg, Connection con, ConnectionToClient client) {
 		String ans = "Update done";
 		Msg msg1 = (Msg) msg;

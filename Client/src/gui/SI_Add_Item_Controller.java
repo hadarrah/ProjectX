@@ -218,20 +218,47 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 	}
 
+	/**
+	 * set the fields for type combobox
+	 */
 	public void setType() {
-		String colors[] = { "Flower", "Vase", "Tape" };
-		ArrayList<String> al = new ArrayList<String>(Arrays.asList(colors));
-		ObservableList<String> list = FXCollections.observableArrayList(al);
-		type_CB.setItems(list);
+		Msg getType = new Msg();
+		getType.setSelect();
+		getType.setTableName("item");
+		getType.setRole("get combo type");
+		
+		Login_win.to_Client.accept((Object)getType);
 	}
-
+	/**
+	 * set the fields for color combobox
+	 */
 	public void setColor() {
-		String colors[] = { "Red", "Green", "Blue", "Yellow", "Purple", "Pink", "Orange" };
-		ArrayList<String> al = new ArrayList<String>(Arrays.asList(colors));
-		ObservableList<String> list = FXCollections.observableArrayList(al);
-		color_CB.setItems(list);
+		Msg getColors = new Msg();
+		getColors.setSelect();
+		getColors.setTableName("item");
+		getColors.setRole("get combo colors");
+		
+		Login_win.to_Client.accept((Object)getColors);
 	}
 
+	/**
+	 * get the message(arraylist) from server and set in the relevant combobox
+	 * @param msg
+	 */
+	public void setCombo(Object msg)
+	{
+		if(((Msg)msg).getRole().equals("get combo colors"))
+		{
+			ObservableList<String> list = FXCollections.observableArrayList((ArrayList<String>)(((Msg)msg).newO));
+			color_CB.setItems(list);
+		}
+		if(((Msg)msg).getRole().equals("get combo type"))
+		{
+			ObservableList<String> list = FXCollections.observableArrayList((ArrayList<String>)(((Msg)msg).newO));
+			type_CB.setItems(list);
+		}
+	}
+	
 	public void back(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Self_Item_F.fxml");
 	}
