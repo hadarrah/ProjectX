@@ -97,6 +97,10 @@ public class EchoServer extends AbstractServer {
 					SelectItemsCTP(msg1, conn, client);
 				else if (msg1.getRole().equals("get survey qustion"))
 					get_survey_question(msg1,conn,client);
+				else if (msg1.getRole().equals("get combo colors"))
+					GetComboForSelfItem(msg1, conn, client);
+				else if (msg1.getRole().equals("get combo type"))
+					GetComboForSelfItem(msg1, conn, client);
 
 			}
 			case "UPDATE": {
@@ -159,8 +163,8 @@ public class EchoServer extends AbstractServer {
 		Msg msg1 = (Msg) msg;
 		Product p = (Product) msg1.oldO;
 
-		String type = p.GetType();
-		String color = p.GetColor();
+		String type = p.getType();
+		String color = p.getColor();
 		String minprice = Float.toString(msg1.num1);
 		String maxprice = Float.toString(msg1.num2);
 
@@ -181,9 +185,9 @@ public class EchoServer extends AbstractServer {
 			while (rs.next()) {
 
 				Product returnproduct = new Product(); // create new product
-				returnproduct.SetID(rs.getString(1)); // set details as needed
-				returnproduct.SetName(rs.getString(2));
-				returnproduct.SetPrice(Float.parseFloat(rs.getString(4)));
+				returnproduct.setID(rs.getString(1)); // set details as needed
+				returnproduct.setName(rs.getString(2));
+				returnproduct.setPrice(Float.parseFloat(rs.getString(4)));
 				// insert to array (cast from Object)
 				((ArrayList<Product>) products).add(returnproduct);
 			}
@@ -496,7 +500,6 @@ public static void	get_survey_question(Object msg, Connection con, ConnectionToC
 		/* insert the names to the query */
 		ps.setString(1, "Active");
 		ResultSet rs = ps.executeQuery();
-
 		while (rs.next())
 		{
 			s.setID(rs.getString(1));
@@ -551,18 +554,6 @@ public static void update_survey_answers(Object msg, Connection con, ConnectionT
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  * update the user details 
  * according the user id 
@@ -571,6 +562,45 @@ public static void update_survey_answers(Object msg, Connection con, ConnectionT
  * @param client
  * return -> the new user(as an object) with the correct details
  */
+ 
+	/**
+	 * get the different color/type for combobox in self item
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	 public static void GetComboForSelfItem(Msg msg1 ,Connection conn,ConnectionToClient client)
+	  {
+		  PreparedStatement ps;
+		  ResultSet rs;
+		  ArrayList<String> forCombo = new ArrayList<String>();
+		  String field = "";
+		  
+		  /*set the specific column in item table*/
+		  if(msg1.getRole().equals("get combo colors"))
+			  field = "Color";
+		  else if(msg1.getRole().equals("get combo type"))
+			  field = "Type";
+		  try
+		   {
+			  /*set up and execute the select query*/
+			  rs = conn.createStatement().executeQuery("SELECT * FROM item GROUP BY "+field+ ";");
+			  
+			  while(rs.next())
+				  	forCombo.add(rs.getString(field));
+
+			  msg1.newO = forCombo;
+			  client.sendToClient(msg1);
+		   }
+		  catch (SQLException e) 
+		  	{
+				e.printStackTrace();
+		  	} 
+		  catch (IOException e) 
+		    {
+				e.printStackTrace();
+			}
+	  }
 	public static void Update_user_details(Object msg, Connection con, ConnectionToClient client) {
 		String ans = "Update done";
 		Msg msg1 = (Msg) msg;
@@ -642,10 +672,10 @@ public static void update_survey_answers(Object msg, Connection con, ConnectionT
 					"UPDATE hw2.product SET ProductId=?,ProductName=?,ProductType=? WHERE ProductName=?");
 
 			/* insert the names to the query */
-			ps.setString(1, p_new.GetID());
-			ps.setString(2, p_new.GetName());
-			ps.setString(3, p_new.GetType());
-			ps.setString(4, p_old.GetName());
+			ps.setString(1, p_new.getID());
+			ps.setString(2, p_new.getName());
+			ps.setString(3, p_new.getType());
+			ps.setString(4, p_old.getName());
 
 			ps.executeUpdate();
 
@@ -678,12 +708,12 @@ public static void update_survey_answers(Object msg, Connection con, ConnectionT
 
 			/* send a query with the product name as a parameter */
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM hw2.product where ProductName=?");
-			ps.setString(1, p.GetName());
+			ps.setString(1, p.getName());
 			ResultSet r = ps.executeQuery();
 			while (r.next()) {
-				p.SetID(r.getString(1));
-				p.SetName(r.getString(2));
-				p.SetType(r.getString(3));
+				p.setID(r.getString(1));
+				p.setName(r.getString(2));
+				p.setType(r.getString(3));
 				msg1.oldO = p;
 			}
 			/* back to client */

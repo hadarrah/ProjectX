@@ -109,11 +109,15 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("find items color-type-price")) {
 					((gui.SI_Add_Item_Controller) mc).setReturnedItems(message);
 				}
-				else if (check.getRole().equals("get survey qustion")) {
+ 				else if (check.getRole().equals("get survey qustion")) {
 					((gui.Answer_Survey_Controller) mc).set_survey_question(message);
+				}	
+ 				else if (check.getRole().equals("get combo colors")) {
+					((gui.SI_Add_Item_Controller) mc).setCombo(message);
 				}
-				
-				
+				else if (check.getRole().equals("get combo type")) {
+					((gui.SI_Add_Item_Controller) mc).setCombo(message);
+				}
 
 			}
 			 if(check.getType().equals("UPDATE"))

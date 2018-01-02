@@ -28,6 +28,7 @@ public class Menu_controller implements ControllerI, Initializable {
 	public ObservableList<String> list;
 	public static String choosen_name;
 	public static action.ClientConsole toClient;
+	
 
 	/**
 	 	the call to this function is made by the client 

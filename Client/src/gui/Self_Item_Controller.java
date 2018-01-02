@@ -59,7 +59,7 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 
 		// Fill names array
 		for (int i = 0; i < selectedProductsArr.size(); i++)
-			pnames[i] = selectedProductsArr.get(i).GetName();
+			pnames[i] = selectedProductsArr.get(i).getName();
 
 		ObservableList<Product> items = FXCollections.observableArrayList(selectedProductsArr);
 		items_selected_LV.setItems(items);
@@ -70,7 +70,7 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 	public void getSelectedFromLV(ActionEvent event) {
 		Product pr=items_selected_LV.getSelectionModel().getSelectedItem();
 		
-		System.out.println(pr.GetName() +" is selected");
+		System.out.println(pr.getName() +" is selected");
 		
 	}
 
@@ -114,10 +114,10 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 			protected void updateItem(Product item, boolean empty) {
 				super.updateItem(item, empty);
 
-				if (empty || item == null || item.GetName() == null) {
+				if (empty || item == null || item.getName() == null) {
 					setText(null);
 				} else {
-					setText(item.GetName());
+					setText(item.getName());
 				}
 			}
 		});

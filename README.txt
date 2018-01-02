@@ -1,59 +1,25 @@
 # ProjectX
 Collage project - Semester 5 - "Zer-Li" application
-/********************************************************************************************************/
-qustion to mohi !!
-1. are there any survey qustions that i can use   in the client survey ?
-2. According to the user story the number of answers should be 10( radio button from 1 to 10)
-3. If someone know the answers to ^^^thos^^^^ qustion please reply !!!-->netanel8884@gmail.com
-
-4. good  night!
-5.יצאתי קצת רומן 
-/*****************************************************************************************************/
-
-
-
-
-
 
 Design Conventions:
 
 -Font:  *Default: System 12px
 	*Special font: Arial Bold Italic
 
--Font Colors:   *Green [#25a829]
-		*Red   [#ab0909]
+-Font Colors:   *Green [#29940c]
+		*Red   [#eb0a0a]
 
 
-- Window Size:  *Default - 471x402 (width x height) [pixels].
-		*Bigger  - 
+- Window Size:  *Default - 500x600 (width x height) [pixels].
 
-
-- Acceptance Buttons (√ ,yes, ok, order, add, etc..) will be on the LEFT.
-- Denial Buttons (Ꭓ, not, cancel, back, etc..) on RIGHT.
+- Acceptance Buttons (√ ,yes, ok, order, add, etc..) will be on the RIGHT.
+- Denial Buttons (Ꭓ, not, cancel, back, etc..) on LEFT.
 
 
 -back button position: x=35 , y=366
 
 
-
-
-Usability Principles: (Lecture 7)
-
-1. Base UI designs on users’ tasks.
-2. Do not rely only on usability guidelines – always test with users.
-3. Ensure that the sequences of actions to achieve a task are as simple as possible.
-4. Ensure that the user always knows what he or she can and should do next.
-5. Provide good feedback including effective error messages.
-6. Ensure that the user can always get out, go back or undo an action.
-7. Ensure that response time is adequate.
-8. Use understandable encoding techniques.
-9. Ensure that the UI’s appearance is uncluttered.
-10. Consider the needs of different groups of users.
-11. Provide all necessary help.
-12. Be consistent.
-
-
-Common Method:
+-Common Method:
 
 move to other window (implementation):
 

@@ -77,13 +77,13 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 					
 				} else {
 					addItem = false;
-					add = p.GetName() + " has not been added";
+					add = p.getName() + " has not been added";
 				}
 			}
 
 			// if user select Ok->add the item, green label.
 			if (addItem) {
-				add = "You have added " + p.GetName();
+				add = "You have added " + p.getName();
 				productsArr.add(p);
 				added_L.setTextFill(Color.web("#25a829"));
 			} else // else-> don't add item, red label.
@@ -102,9 +102,9 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		System.out.println("You have selected: " + name);
 
 		for (int i = 0; i < products.size(); i++) {
-			if (products.get(i).GetName().equals(name)) {
+			if (products.get(i).getName().equals(name)) {
 				// id = i;
-				price = products.get(i).GetPrice();
+				price = products.get(i).getPrice();
 				p = products.get(i);
 				break;
 			}
@@ -168,11 +168,16 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		else { // Make sure that we dont see the label
 			selection_missing_L.setVisible(false);
 		}
-
+		
+		if (minp >= maxp) {
+			System.out.println("bad price range");
+			return;
+		}
+		
 		/* set product type and color */
 		Product psearch = new Product();
-		psearch.SetColor(color);
-		psearch.SetType(type);
+		psearch.setColor(color);
+		psearch.setType(type);
 
 		/* create the message to server */
 		Msg msg = new Msg();
@@ -203,9 +208,9 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		// int instock[] = new int[products.size()];
 
 		for (int i = 0; i < products.size(); i++) {
-			ids[i] = products.get(i).GetID();
-			names[i] = products.get(i).GetName();
-			price[i] = products.get(i).GetPrice();
+			ids[i] = products.get(i).getID();
+			names[i] = products.get(i).getName();
+			price[i] = products.get(i).getPrice();
 		}
 
 		ArrayList<String> al = new ArrayList<String>(Arrays.asList(names));
@@ -218,20 +223,47 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 	}
 
+	/**
+	 * set the fields for type combobox
+	 */
 	public void setType() {
-		String colors[] = { "Flower", "Vase", "Tape" };
-		ArrayList<String> al = new ArrayList<String>(Arrays.asList(colors));
-		ObservableList<String> list = FXCollections.observableArrayList(al);
-		type_CB.setItems(list);
+		Msg getType = new Msg();
+		getType.setSelect();
+		getType.setTableName("item");
+		getType.setRole("get combo type");
+		
+		Login_win.to_Client.accept((Object)getType);
 	}
-
+	/**
+	 * set the fields for color combobox
+	 */
 	public void setColor() {
-		String colors[] = { "Red", "Green", "Blue", "Yellow", "Purple", "Pink", "Orange" };
-		ArrayList<String> al = new ArrayList<String>(Arrays.asList(colors));
-		ObservableList<String> list = FXCollections.observableArrayList(al);
-		color_CB.setItems(list);
+		Msg getColors = new Msg();
+		getColors.setSelect();
+		getColors.setTableName("item");
+		getColors.setRole("get combo colors");
+		
+		Login_win.to_Client.accept((Object)getColors);
 	}
 
+	/**
+	 * get the message(arraylist) from server and set in the relevant combobox
+	 * @param msg
+	 */
+	public void setCombo(Object msg)
+	{
+		if(((Msg)msg).getRole().equals("get combo colors"))
+		{
+			ObservableList<String> list = FXCollections.observableArrayList((ArrayList<String>)(((Msg)msg).newO));
+			color_CB.setItems(list);
+		}
+		if(((Msg)msg).getRole().equals("get combo type"))
+		{
+			ObservableList<String> list = FXCollections.observableArrayList((ArrayList<String>)(((Msg)msg).newO));
+			type_CB.setItems(list);
+		}
+	}
+	
 	public void back(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Self_Item_F.fxml");
 	}

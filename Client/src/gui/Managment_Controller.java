@@ -218,6 +218,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     	edit_CustomersProfile_B.setVisible(false);
     	display_Reports_B.setVisible(false);
     	add_Comments_B.setVisible(false);
+    	close_Survey_B.setVisible(false);
     	
     	/*update the current controller to be management controller in general ClientConsole instance*/
     	Login_win.to_Client.setController(this);
