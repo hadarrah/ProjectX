@@ -95,12 +95,6 @@ public class EchoServer extends AbstractServer {
 					check_survey_exist(msg1, conn, client);
 				else if (msg1.getRole().equals("find items color-type-price"))
 					SelectItemsCTP(msg1, conn, client);
-				else if (msg1.getRole().equals("get survey qustion"))
-					get_survey_question(msg1,conn,client);
-				else if (msg1.getRole().equals("get combo colors"))
-					GetComboForSelfItem(msg1, conn, client);
-				else if (msg1.getRole().equals("get combo type"))
-					GetComboForSelfItem(msg1, conn, client);
 
 			}
 			case "UPDATE": {
@@ -110,13 +104,13 @@ public class EchoServer extends AbstractServer {
 					Update_user_details(msg1, conn, client);
 				else if(msg1.getRole().equals("close survey"))
 	        		   Close_survey(msg1,conn,client);
-				else if (msg1.getRole().equals("update survey answers"))
-					update_survey_answers(msg1,conn,client);
 				// else getProdectdetails(msg1,conn,client);
 				// else UpdateItem(conn,msg,client);
 			}
 			case "SELECTALL": {
-				ViewItems(conn, client);
+				if(msg1.getRole().equals("View all catalog items"))
+					//System.out.println("In server");
+				ViewItems(msg1,conn, client);
 			}
 			case "INSERT": {
 				if (msg1.getRole().equals("insert survey"))
@@ -161,7 +155,7 @@ public class EchoServer extends AbstractServer {
 	public static void SelectItemsCTP(Msg msg, Connection con, ConnectionToClient client) {
 
 		Msg msg1 = (Msg) msg;
-		Product p = (Product) msg1.oldO;
+		Item p = (Item) msg1.oldO;
 
 		String type = p.getType();
 		String color = p.getColor();
@@ -184,12 +178,12 @@ public class EchoServer extends AbstractServer {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 
-				Product returnproduct = new Product(); // create new product
+				Item returnproduct = new Item(); // create new product
 				returnproduct.setID(rs.getString(1)); // set details as needed
 				returnproduct.setName(rs.getString(2));
 				returnproduct.setPrice(Float.parseFloat(rs.getString(4)));
 				// insert to array (cast from Object)
-				((ArrayList<Product>) products).add(returnproduct);
+				((ArrayList<Item>) products).add(returnproduct);
 			}
 
 			/** back to client */
@@ -404,12 +398,12 @@ public class EchoServer extends AbstractServer {
 				ps.setString(6,survey.getQ4());
 				ps.setString(7,survey.getQ5());
 				ps.setString(8,survey.getQ6());
-				ps.setString(9,Integer.toString(survey.getA1()));
-				ps.setString(10,Integer.toString(survey.getA2()));
-				ps.setString(11,Integer.toString(survey.getA3()));
-				ps.setString(12,Integer.toString(survey.getA4()));
-				ps.setString(13,Integer.toString(survey.getA5()));
-				ps.setString(14,Integer.toString(survey.getA6()));
+				ps.setString(9,survey.getA1());
+				ps.setString(10,survey.getA2());
+				ps.setString(11,survey.getA3());
+				ps.setString(12,survey.getA4());
+				ps.setString(13,survey.getA5());
+				ps.setString(14,survey.getA6());
 				ps.setString(15, "Active");
 				ps.setString(16,survey.getNumOfParticipant());
 				ps.executeUpdate();
@@ -483,124 +477,7 @@ public class EchoServer extends AbstractServer {
 		return isAlreadyCon;
 
 	}
-	/**
-	 * 
-	 * @param msg
-	 * @param con
-	 * @param client
-	 */
-public static void	get_survey_question(Object msg, Connection con, ConnectionToClient client) {
-	
-	Msg msg1 = (Msg) msg;
-	Survey  s = (Survey) msg1.oldO;
-	try {
-		
-		 PreparedStatement ps = con.prepareStatement(
-				" SELECT * FROM " + msg1.getTableName() + " " + "WHERE Status=?;");
-		/* insert the names to the query */
-		ps.setString(1, "Active");
-		ResultSet rs = ps.executeQuery();
-		while (rs.next())
-		{
-			s.setID(rs.getString(1));
-			s.setDate(rs.getString(2));
-			s.setQ1(rs.getString(3));
-			s.setQ2(rs.getString(4));
-			s.setQ3(rs.getString(5));
-			s.setQ4(rs.getString(6));
-			s.setQ5(rs.getString(7));
-			s.setQ6(rs.getString(8));
-			s.setNumOfParticipant("0");
-		}
-		msg1.newO=s;
- 
-		 try {
-			client.sendToClient(msg1);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
- 		}
-  catch (SQLException e) {
-		e.printStackTrace();
-		
-		}
-	 // catch (IOException x) {
-		//System.err.println("unable to send msg to client");
-	//}
- 
-}
- 
 
-public static void update_survey_answers(Object msg, Connection con, ConnectionToClient client) {
-	/*
-	 Survey survey=(Survey) msg1.oldO;
-	  PreparedStatement ps;
-	  ResultSet rs;
-	  
-	  try
-	   {
-		   
-		  ps = conn.prepareStatement("UPDATE survey SET Status=? WHERE ID=?;");
-		  ps.setString(1, "No Active");
-		  ps.setString(2, survey.getID());
-		  ps.executeUpdate();
-		  
-		  msg1.newO = survey;
-		  client.sendToClient(msg1);
-	   }
-	*/
-	
-}
-
-
-/**
- * update the user details 
- * according the user id 
- * @param msg
- * @param con
- * @param client
- * return -> the new user(as an object) with the correct details
- */
- 
-	/**
-	 * get the different color/type for combobox in self item
-	 * @param msg1
-	 * @param conn
-	 * @param client
-	 */
-	 public static void GetComboForSelfItem(Msg msg1 ,Connection conn,ConnectionToClient client)
-	  {
-		  PreparedStatement ps;
-		  ResultSet rs;
-		  ArrayList<String> forCombo = new ArrayList<String>();
-		  String field = "";
-		  
-		  /*set the specific column in item table*/
-		  if(msg1.getRole().equals("get combo colors"))
-			  field = "Color";
-		  else if(msg1.getRole().equals("get combo type"))
-			  field = "Type";
-		  try
-		   {
-			  /*set up and execute the select query*/
-			  rs = conn.createStatement().executeQuery("SELECT * FROM item GROUP BY "+field+ ";");
-			  
-			  while(rs.next())
-				  	forCombo.add(rs.getString(field));
-
-			  msg1.newO = forCombo;
-			  client.sendToClient(msg1);
-		   }
-		  catch (SQLException e) 
-		  	{
-				e.printStackTrace();
-		  	} 
-		  catch (IOException e) 
-		    {
-				e.printStackTrace();
-			}
-	  }
 	public static void Update_user_details(Object msg, Connection con, ConnectionToClient client) {
 		String ans = "Update done";
 		Msg msg1 = (Msg) msg;
@@ -637,17 +514,36 @@ public static void update_survey_answers(Object msg, Connection con, ConnectionT
 	 * @param con
 	 * @param client
 	 */
-	public static void ViewItems(Connection con, ConnectionToClient client) {
-		Statement stmt;
-		Object temp = new ArrayList<String>();
+	public static void ViewItems(Object msg,Connection con, ConnectionToClient client) {
+		
+		Msg msg1=(Msg)msg;
+		Item_In_Catalog Itc=new Item_In_Catalog();
+		Statement stmt1;
+		ArrayList<Item_In_Catalog> items_arr = new ArrayList<Item_In_Catalog>();
+		 
 		try {
 
-			stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Name FROM zerli.item");
-			while (rs.next()) {
-				((ArrayList<String>) temp).add(rs.getString(1));
+			stmt1 = con.createStatement();			
+			ResultSet rs1;
+			 rs1 = stmt1.executeQuery("SELECT * FROM "+ msg1.getTableName());
+			//Set Item_in_catalog
+			while (rs1.next()) 
+			{
+			
+				Itc.setID(rs1.getString(1));				
+				Itc.setItem_ID(rs1.getString(2));
+				Itc.setAmount(rs1.getInt(3));
+				Itc.setName(rs1.getString(4));
+				Itc.setPrice(rs1.getFloat(5));
+				Itc.setDescription(rs1.getString(6));
+			//	Itc.setImage(rs.getString(7));			//need a path	
+				items_arr.add(Itc);
+				System.out.println(items_arr.get(0));
+				System.out.println("\n");
 			}
-			client.sendToClient(temp);
+			rs1.close();
+			client.sendToClient((Object)items_arr);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException x) {
@@ -665,8 +561,8 @@ public static void update_survey_answers(Object msg, Connection con, ConnectionT
 	public static void UpdateItem(Connection con, Object msg, ConnectionToClient client) {
 		String ans = "Update done";
 		Msg msg1 = (Msg) msg;
-		Product p_old = (Product) msg1.oldO;
-		Product p_new = (Product) msg1.newO;
+		Item p_old = (Item) msg1.oldO;
+		Item p_new = (Item) msg1.newO;
 		try {
 			PreparedStatement ps = con.prepareStatement(
 					"UPDATE hw2.product SET ProductId=?,ProductName=?,ProductType=? WHERE ProductName=?");
@@ -703,7 +599,7 @@ public static void update_survey_answers(Object msg, Connection con, ConnectionT
 	 */
 	public static void getProdectdetails(Object msg, Connection con, ConnectionToClient client) {
 		Msg msg1 = (Msg) msg;
-		Product p = (Product) msg1.oldO;
+		Item p = (Item) msg1.oldO;
 		try {
 
 			/* send a query with the product name as a parameter */
