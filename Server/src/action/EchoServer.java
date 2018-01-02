@@ -155,8 +155,8 @@ public class EchoServer extends AbstractServer {
 		Msg msg1 = (Msg) msg;
 		Product p = (Product) msg1.oldO;
 
-		String type = p.GetType();
-		String color = p.GetColor();
+		String type = p.getType();
+		String color = p.getColor();
 		String minprice = Float.toString(msg1.num1);
 		String maxprice = Float.toString(msg1.num2);
 
@@ -177,9 +177,9 @@ public class EchoServer extends AbstractServer {
 			while (rs.next()) {
 
 				Product returnproduct = new Product(); // create new product
-				returnproduct.SetID(rs.getString(1)); // set details as needed
-				returnproduct.SetName(rs.getString(2));
-				returnproduct.SetPrice(Float.parseFloat(rs.getString(4)));
+				returnproduct.setID(rs.getString(1)); // set details as needed
+				returnproduct.setName(rs.getString(2));
+				returnproduct.setPrice(Float.parseFloat(rs.getString(4)));
 				// insert to array (cast from Object)
 				((ArrayList<Product>) products).add(returnproduct);
 			}
@@ -547,10 +547,10 @@ public class EchoServer extends AbstractServer {
 					"UPDATE hw2.product SET ProductId=?,ProductName=?,ProductType=? WHERE ProductName=?");
 
 			/* insert the names to the query */
-			ps.setString(1, p_new.GetID());
-			ps.setString(2, p_new.GetName());
-			ps.setString(3, p_new.GetType());
-			ps.setString(4, p_old.GetName());
+			ps.setString(1, p_new.getID());
+			ps.setString(2, p_new.getName());
+			ps.setString(3, p_new.getType());
+			ps.setString(4, p_old.getName());
 
 			ps.executeUpdate();
 
@@ -583,12 +583,12 @@ public class EchoServer extends AbstractServer {
 
 			/* send a query with the product name as a parameter */
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM hw2.product where ProductName=?");
-			ps.setString(1, p.GetName());
+			ps.setString(1, p.getName());
 			ResultSet r = ps.executeQuery();
 			while (r.next()) {
-				p.SetID(r.getString(1));
-				p.SetName(r.getString(2));
-				p.SetType(r.getString(3));
+				p.setID(r.getString(1));
+				p.setName(r.getString(2));
+				p.setType(r.getString(3));
 				msg1.oldO = p;
 			}
 			/* back to client */

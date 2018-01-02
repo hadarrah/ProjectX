@@ -31,6 +31,8 @@ public class Main_menu  implements Initializable,ControllerI{
 	public Label main_label;
 	public static Person current_user;
 	public   boolean logout_flag;
+	public Button view_catalog_B,cancel_order_B,self_item_B,complain_B,take_survey_B;
+	
 	//public  static action.ClientConsole to_Client;
 
  
@@ -62,6 +64,16 @@ public class Main_menu  implements Initializable,ControllerI{
 		 win_1.show();
 		}
 	}
+	 public void catalog(ActionEvent event) throws IOException {
+	    	
+    	 Parent menu;
+		 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "View_Catalog.fxml"));
+		// to_Client.setController(new Managment_Controller());
+		 Scene win1= new Scene(menu);
+		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		 win_1.setScene(win1);		 
+		 win_1.show();
+	 }
 	
 	
     public void managment(ActionEvent event) throws IOException {
