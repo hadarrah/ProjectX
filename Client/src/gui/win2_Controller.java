@@ -1,5 +1,5 @@
 package gui;
-import action.Product;
+import action.Item;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -56,7 +56,7 @@ public class win2_Controller implements ControllerI,Initializable {
 		update_done_label.setVisible(false);
 		/*creating a new msg */	 
 		 Msg fromGui=new Msg();
-		 Product ProductDisplyDetails= new Product();
+		 Item ProductDisplyDetails= new Item();
 		 
 		 fromGui.setSelect(); 
 		 /*get the name of the chosen item */
@@ -77,7 +77,7 @@ public class win2_Controller implements ControllerI,Initializable {
 	{
 		
 		Msg msgFromClient=(Msg)msg;
-		Product productDetails=(Product) msgFromClient.oldO;
+		Item productDetails=(Item) msgFromClient.oldO;
 		/*set the details in the fields*/
 		product_id_label.setText(productDetails.getID());
 		product_type_label.setText(productDetails.getType());
@@ -103,8 +103,8 @@ public class win2_Controller implements ControllerI,Initializable {
 		{
 		unvalid_update_name.setVisible(false);
 		Msg msg=new Msg();
-		Product Oldproduct= new Product();
-		Product productToUpdate=new Product();
+		Item Oldproduct= new Item();
+		Item productToUpdate=new Item();
 		msg.setUpdate();
 		
 		/*set the details of the  old product*/

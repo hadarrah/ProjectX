@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,9 +23,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
- 
-import action.ClientConsole;
-import action.Msg;
+import javafx.stage.WindowEvent;
+
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,7 +41,6 @@ public class Login_win  implements ControllerI,Initializable  {
 	public static action.ClientConsole to_Client;
 	public static Person current_user;
 	public static ActionEvent event_log;
-	 
 	 
 	
 	 
@@ -126,6 +125,18 @@ public class Login_win  implements ControllerI,Initializable  {
 		 Stage win_1= (Stage) ((Node) (event_log.getSource())).getScene().getWindow();
 		 win_1.setScene(win1);
 		 win_1.show();
+		 //close window by X button
+		 win_1.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	          public void handle(WindowEvent we) {
+	        	  Msg  msg=new Msg();
+	      		Person user_logout=current_user;
+	      		msg.setRole("user logout");
+	      		msg.setTableName("person");
+	      		msg.setUpdate();
+	      		msg.oldO=user_logout;
+	      		Login_win.to_Client.accept(msg);
+	          }
+	      });        
 	}
 	
 	

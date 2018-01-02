@@ -87,13 +87,20 @@ public class ClientConsole implements ChatIF {
 	 * @param.
 	 */
 	public void displaytoGUI(Object message) {
+		
 
 		if (message instanceof Msg)
 
 		{
 			Msg check = (Msg) message;
+			
+			if(check.getType().equals("SELECTALL"))
+			{
+				
+			}
 
-			if (check.getType().equals("SELECT")) {
+			if (check.getType().equals("SELECT")) 
+			{
 				if (check.getRole().equals("verify user details")) {
 					((gui.Login_win) mc).get_comfirmation(message);
 				}

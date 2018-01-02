@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import action.Msg;
-import action.Product;
+import action.Item;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -35,13 +35,13 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 	// public TextArea items_selected_TA;
 	public TextField description_TF;
 	public TextField total_price_TF;
-	public ListView<Product> items_selected_LV;
+	public ListView<Item> items_selected_LV;
 
 	public static ActionEvent event_log;
 
-	public static ArrayList<Product> selectedProductsArr = new ArrayList<Product>();
+	public static ArrayList<Item> selectedProductsArr = new ArrayList<Item>();
 	
-	Product selectedFromLV = null;
+	Item selectedFromLV = null;
 
 	public void removeFromSelected(ActionEvent event) {
 		
@@ -61,14 +61,14 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 		for (int i = 0; i < selectedProductsArr.size(); i++)
 			pnames[i] = selectedProductsArr.get(i).getName();
 
-		ObservableList<Product> items = FXCollections.observableArrayList(selectedProductsArr);
+		ObservableList<Item> items = FXCollections.observableArrayList(selectedProductsArr);
 		items_selected_LV.setItems(items);
 		
 
 	}
 	
 	public void getSelectedFromLV(ActionEvent event) {
-		Product pr=items_selected_LV.getSelectionModel().getSelectedItem();
+		Item pr=items_selected_LV.getSelectionModel().getSelectedItem();
 		
 		System.out.println(pr.getName() +" is selected");
 		
@@ -98,9 +98,9 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 		Login_win.to_Client.setController(this);
 		
 		/*Setting custom listener to ListView of selected items.*/
-		items_selected_LV.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Product>() {
+		items_selected_LV.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Item>() {
 		    @Override
-		    public void changed(ObservableValue<? extends Product> observable, Product oldValue, Product newValue) {
+		    public void changed(ObservableValue<? extends Item> observable, Item oldValue, Item newValue) {
 		        // Your action here
 		        System.out.println("Selected item: " + newValue);
 		        selectedFromLV=newValue;
@@ -109,9 +109,9 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 		});
 		
 		/*Setting custom cell factory to present products in listview*/
-		items_selected_LV.setCellFactory(param -> new ListCell<Product>() {
+		items_selected_LV.setCellFactory(param -> new ListCell<Item>() {
 			@Override
-			protected void updateItem(Product item, boolean empty) {
+			protected void updateItem(Item item, boolean empty) {
 				super.updateItem(item, empty);
 
 				if (empty || item == null || item.getName() == null) {

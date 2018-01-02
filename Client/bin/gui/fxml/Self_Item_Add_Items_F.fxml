@@ -11,7 +11,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="471.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SI_Add_Item_Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SI_Add_Item_Controller">
    <children>
       <Button fx:id="add_items_B" layoutX="119.0" layoutY="340.0" mnemonicParsing="false" onAction="#addSelectedItem" prefHeight="25.0" prefWidth="121.0" text="Add Selected Item" />
       <Button fx:id="back_B" layoutX="278.0" layoutY="340.0" mnemonicParsing="false" onAction="#back" text="Back" />

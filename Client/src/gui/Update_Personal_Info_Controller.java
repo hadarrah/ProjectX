@@ -49,9 +49,7 @@ public class Update_Personal_Info_Controller implements ControllerI,Initializabl
 	 public void update_details()
 	 {
 		
-		 Msg msg=new Msg();
-		
-		 
+		 Msg msg=new Msg();		 
 		 
 		 msg.setRole("update user details");
 		 msg.setUpdate();

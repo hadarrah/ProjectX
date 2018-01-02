@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import action.ClientConsole;
 import action.Msg;
 import action.Person;
-import action.Product;
+import action.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -52,8 +52,8 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 	public static ActionEvent event_log;
 
-	ArrayList<Product> products = null; // Items from the most recent query.
-	public Product p; // The attributes selected so far.
+	ArrayList<Item> products = null; // Items from the most recent query.
+	public Item p; // The attributes selected so far.
 
 	public void addSelectedItem(ActionEvent event) {
 
@@ -64,7 +64,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		if (p != null) {
 			// float amt = Float.parseFloat(amount_wanted_TF.toString());
 
-			ArrayList<Product> productsArr = ((Self_Item_Controller) prevPage).selectedProductsArr;
+			ArrayList<Item> productsArr = ((Self_Item_Controller) prevPage).selectedProductsArr;
 			// If user pressed the Add Item button twice -> ask him if he is sure
 			if (productsArr.size() > 0 && p == productsArr.get(productsArr.size() - 1)) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -175,7 +175,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		}
 		
 		/* set product type and color */
-		Product psearch = new Product();
+		Item psearch = new Item();
 		psearch.setColor(color);
 		psearch.setType(type);
 
@@ -201,7 +201,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 	public void setReturnedItems(Object message) {
 
-		products = (ArrayList<Product>) ((Msg) message).newO;
+		products = (ArrayList<Item>) ((Msg) message).newO;
 		String ids[] = new String[products.size()];
 		String names[] = new String[products.size()];
 		float price[] = new float[products.size()];

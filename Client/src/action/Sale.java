@@ -56,5 +56,10 @@ public class Sale implements Serializable {
 	public void setDiscount(String discount) {
 		Discount = discount;
 	}
+	
+	public String toString()
+	{
+		return ("ID: "+this.getID()+", Description: "+this.getDescription()+", Discount: "+this.getDiscount());
+	}
 
 }
