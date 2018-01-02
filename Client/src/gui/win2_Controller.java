@@ -60,7 +60,7 @@ public class win2_Controller implements ControllerI,Initializable {
 		 
 		 fromGui.setSelect(); 
 		 /*get the name of the chosen item */
-		 ProductDisplyDetails.SetName(Menu_controller.choosen_name);
+		 ProductDisplyDetails.setName(Menu_controller.choosen_name);
 		 
 		  fromGui.oldO=(Object)ProductDisplyDetails;
 		  /*update the client who send the msg */
@@ -79,11 +79,11 @@ public class win2_Controller implements ControllerI,Initializable {
 		Msg msgFromClient=(Msg)msg;
 		Product productDetails=(Product) msgFromClient.oldO;
 		/*set the details in the fields*/
-		product_id_label.setText(productDetails.GetID());
-		product_type_label.setText(productDetails.GetType());
+		product_id_label.setText(productDetails.getID());
+		product_type_label.setText(productDetails.getType());
 		/*set the details on this product -> needed in update func*/
-		product_id=productDetails.GetID();
-		product_type=productDetails.GetType();
+		product_id=productDetails.getID();
+		product_type=productDetails.getType();
 
 	}
  /**
@@ -108,14 +108,14 @@ public class win2_Controller implements ControllerI,Initializable {
 		msg.setUpdate();
 		
 		/*set the details of the  old product*/
-	    Oldproduct.SetName(old_product_name.getText());
-	    Oldproduct.SetType(product_type);
-	    Oldproduct.SetID(product_id);
+	    Oldproduct.setName(old_product_name.getText());
+	    Oldproduct.setType(product_type);
+	    Oldproduct.setID(product_id);
 	   
 	    /*set the new object details -> now-> only the name field is new*/
-		productToUpdate.SetName(new_product_name.getText());
-		productToUpdate.SetID(product_id); 
-		productToUpdate.SetType(product_type);
+		productToUpdate.setName(new_product_name.getText());
+		productToUpdate.setID(product_id); 
+		productToUpdate.setType(product_type);
 		
 			msg.oldO=Oldproduct;
 			msg.newO=productToUpdate;

@@ -6,96 +6,116 @@ public class Product implements Serializable{
 	
 	private String ID;
 	private String Name;
-	private String Type;
-	private float Price;
 	private String Color;
+	private float Price;
+	private String Type;	
+	private int Amount;
+	private Sale Sale;
 	
-	
-	/*--CONSTRUCTOR1-*/
+	/**constructor**/
 	public Product()
 	{
 		this.ID=null;
 		this.Name=null;
+		this.Color=null;
+		this.Price=0;
 		this.Type=null;
+		this.Amount=0;
+		this.Sale=null;
 		
 	}
 	
-	/*--CONSTRUCTOR2-*/
-	public Product(String id, String name, String Type)
-	{
-		this.ID=id;
-		this.Name=name;
-		this.Type=Type;
+	/**
+	 * @return the iD
+	 */
+	public String getID() {
+		return ID;
+	}
+	/**
+	 * @param iD the iD to set
+	 */
+	public void setID(String iD) {
+		ID = iD;
+	}
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return Name;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		Name = name;
+	}
+	/**
+	 * @return the color
+	 */
+	public String getColor() {
+		return Color;
+	}
+	/**
+	 * @param color the color to set
+	 */
+	public void setColor(String color) {
+		Color = color;
+	}
+	/**
+	 * @return the price
+	 */
+	public float getPrice() {
+		return Price;
+	}
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(float price) {
+		Price = price;
+	}
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return Type;
+	}
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		Type = type;
+	}
+	/**
+	 * @return the amount
+	 */
+	public float getAmount() {
+		return Amount;
+	}
+	/**
+	 * @param amount the amount to set
+	 */
+	public void setAmount(int amount) {
+		Amount = amount;
+	}
+	/**
+	 * @return the sale
+	 */
+	public Sale getSale() {
+		return Sale;
+	}
+	/**
+	 * @param sale the sale to set
+	 */
+	public void setSale(Sale sale) {
+		Sale = sale;
+	}
+	
+	
+	
+	
+	
 		
-	}
 	
-	/*--SET ID--*/
-	public void SetID(String id)
-	{
-		this.ID=id;
-	}
-	
-	/*--GET ID--*/
-	public String GetID()
-	{
-		return this.ID;
-	}
-	
-	/*--SET NAME--*/
-	public void SetName(String name)
-	{
-		this.Name=name;
-	}
-	
-	/*--GET NAME--*/
-	public String GetName()
-	{
-		return this.Name;
-	}
-	
-	/*--SET TYPE--*/
-	public void SetType(String type)
-	{
-		this.Type=type;
-	}
-	
-	/*--SET PRICE--*/
-	public void SetPrice(float price)
-	{
-		this.Price=price;
-	}
-	
-	/*--SET COLOR--*/
-	public void SetColor(String color)
-	{
-		this.Color=color;
-	}
-	
-	/*--GET COLOR--*/
-	public String GetColor()
-	{
-		return this.Color;
-	}
-	
-	
-	/*--GET PRICE--*/
-	public float GetPrice()
-	{
-		return this.Price;
-	}
-	
-	
-	/*--GET TYPE--*/ 
-	public String GetType()
-	{
-		return this.Type;
-	}
-	
-		
-	public String toString()
-	{
-		return "Product ID="+" "+"'"+this.ID+"'"+" "+"\nProduct Name="+" "+"'"+this.Name+"'"+" "+"\nProduct Type="+" "+"'"+this.Type+"'";
-	}
 	
 	
 }
