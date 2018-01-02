@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import action.Msg;
+import action.Survey;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,6 +39,8 @@ public RadioButton R6_1,R6_2 ,R6_3 ,R6_4 ,R6_5 ,R6_6 ;
 public Button Back_to_main,submit_survey;
 public ToggleGroup a1,a2,a3,a4,a5,a6 ;
 public Label q1,q2,q3,q4,q5,q6;
+public Label survey_id;
+public static Survey current_survey;
  /**
   * need to be 10 radio button 
   * 
@@ -56,13 +61,14 @@ public void back_to_main(ActionEvent event) throws IOException {
 
 public void form_submit(ActionEvent event) throws IOException {
 	int validity_flag = 0;
-	String [] customer_survey_answers= new String[6];
+	 
 	
 	  /*send answers of the client to DB*/
 		if (check_user_form())
 		{
 			validity_flag=1;
-			  customer_survey_answers=get_customer_answers();
+			 get_customer_answers();
+			 update_survey_answers_inDB();
 		}
 	
 	if(validity_flag==1) {
@@ -110,6 +116,7 @@ private boolean check_user_form() {
 	
 	 boolean answer=true;
 	/*check q1*/
+	 
 	
 	if(a1.getSelectedToggle() == null) {
 		System.out.println("nothing is selected in q1  ");
@@ -141,17 +148,102 @@ private boolean check_user_form() {
 	return answer;
 }
 
-public String [] get_customer_answers()
+public void get_customer_answers()
 {
+	 
+	
 	if(a1.getSelectedToggle() ==R1_1)
-		  System.out.println( a1.getSelectedToggle().toString());
- 
-
- 
-	return null;
+	{
+		current_survey.setA1(1);
+	}
+	if(a1.getSelectedToggle() ==R1_2)
+	{
+		current_survey.setA1(2);
+	}
+	if(a1.getSelectedToggle() ==R1_3)
+	{
+		current_survey.setA1(3);
+	}
+	if(a1.getSelectedToggle() ==R1_4)
+	{
+		current_survey.setA1(4);
+	}
+	if(a1.getSelectedToggle() ==R1_5)
+	{
+		current_survey.setA1(5);
+	}
+	if(a1.getSelectedToggle() ==R1_6)
+	{
+		current_survey.setA1(6);
+	}
+	
+	System.out.println(current_survey.getA1());
+		
+		 
+	
+	
+	
+	
+	
+	 
 }
 
 
+public void update_survey_answers_inDB() 
+{
+	Msg msg= new Msg();
+	Survey update_survey=current_survey;
+	msg.setUpdate();
+	msg.setRole("update survey answers");
+	msg.setTableName("survey");
+	msg.oldO=update_survey;
+	  Login_win.to_Client.accept(msg);
+
+	
+	
+	
+}
+public void get_survey_qustion()
+{
+	Msg get_survey_q= new Msg();
+	get_survey_q.setSelect();
+	get_survey_q.setRole("get survey qustion");
+	get_survey_q.setTableName("survey");
+	Survey survey=new Survey();
+	get_survey_q.oldO=survey;
+  Login_win.to_Client.accept(get_survey_q);
+	
+}
+
+public void set_survey_question(Object msg) 
+	{
+	
+	/*set the question from the Db to the user screen s*/
+	 Platform.runLater(new Runnable() {
+		
+		@Override
+		public void run() {
+			Msg msg1=(Msg) msg;
+	Survey survey= new Survey();
+	current_survey=(Survey) msg1.newO;
+	survey=(Survey) msg1.newO;
+	survey_id.setText(survey.getDate());
+	q1.setText(survey.getQ1());
+	q2.setText(survey.getQ2());
+	q3.setText(survey.getQ3());
+	q4.setText(survey.getQ4());
+	q5.setText(survey.getQ5());
+	q6.setText(survey.getQ6()); 
+	current_survey=survey;
+			
+		}
+	});
+	
+	
+	/*set the radio buttons by groups*/
+		 setRadioB();
+	}
+ 
 public void setRadioB()
 { 
 	  	a1 = new ToggleGroup();
@@ -247,12 +339,13 @@ public void setRadioB()
 
 
 
-
-
 @Override
 public void initialize(URL location, ResourceBundle resources) 
 {
-	setRadioB();
+	 Login_win.to_Client.setController(this);
+	 get_survey_qustion();
+	//check_if_user already user didt this survey
+	
  
 }
 

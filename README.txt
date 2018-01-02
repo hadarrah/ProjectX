@@ -37,6 +37,19 @@ move to other window (implementation):
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		 win_1.setScene(win1);
 		 win_1.show();
+		 
+		  //close window by X button
+		 win_1.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	          public void handle(WindowEvent we) {
+	        	  Msg  msg=new Msg();
+	      		Person user_logout=current_user;
+	      		msg.setRole("user logout");
+	      		msg.setTableName("person");
+	      		msg.setUpdate();
+	      		msg.oldO=user_logout;
+	      		Login_win.to_Client.accept(msg);
+	          }
+	      });        
 	}
   
 Example of calling:
