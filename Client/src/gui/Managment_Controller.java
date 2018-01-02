@@ -131,7 +131,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     {
     	/*save the answer from server*/
     	Survey to_check = (Survey) (((Msg) message).newO);
-    	
+
     	if(((Msg) message).getRole().equals("check if there is active survey for close")) //for close
     	{
     		if(to_check == null)

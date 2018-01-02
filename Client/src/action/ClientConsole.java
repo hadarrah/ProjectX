@@ -93,7 +93,6 @@ public class ClientConsole implements ChatIF {
 		{
 			Msg check = (Msg) message;
 
-
 			if (check.getType().equals("SELECT")) {
 				if (check.getRole().equals("verify user details")) {
 					((gui.Login_win) mc).get_comfirmation(message);
@@ -101,7 +100,10 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("check if ID exist and add payment account")) {
 					((gui.Create_PaymentAccount_Controller) mc).check_if_create_success(message);
 				}
-				else if (check.getRole().equals("check if there is active survey")) {
+				else if (check.getRole().equals("check if there is active survey for insert")) {
+					((gui.Managment_Controller) mc).check_if_survey_active(message);
+				}
+				else if (check.getRole().equals("check if there is active survey for close")) {
 					((gui.Managment_Controller) mc).check_if_survey_active(message);
 				}
 				else if (check.getRole().equals("find items color-type-price")) {
@@ -109,6 +111,11 @@ public class ClientConsole implements ChatIF {
 				}
 
 			}
+			 if(check.getType().equals("UPDATE"))
+			 {
+				 if(check.getRole().equals("close survey"))
+					 ((gui.Close_Survey_Controller)mc).close_survey_success(message);
+			 }
 			else if (check.getType().equals("INSERT")) {
 				if (check.getRole().equals("insert survey"))
 					((gui.Survey_Controller) mc).create_survey_success(message);

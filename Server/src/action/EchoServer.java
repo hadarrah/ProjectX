@@ -89,7 +89,9 @@ public class EchoServer extends AbstractServer {
 					check_user_details(msg1, conn, client);
 				else if (msg1.getRole().equals("check if ID exist and add payment account"))
 					check_id_exist(msg1, conn, client);
-				else if (msg1.getRole().equals("check if there is active survey"))
+				else if (msg1.getRole().equals("check if there is active survey for insert"))
+					check_survey_exist(msg1, conn, client);
+				else if (msg1.getRole().equals("check if there is active survey for close"))
 					check_survey_exist(msg1, conn, client);
 				else if (msg1.getRole().equals("find items color-type-price"))
 					SelectItemsCTP(msg1, conn, client);
@@ -98,8 +100,10 @@ public class EchoServer extends AbstractServer {
 			case "UPDATE": {
 				if (msg1.getRole().equals("user logout"))
 					change_online_status(msg1, conn, "0");
-				if (msg1.getRole().equals("update user details"))
+				else if (msg1.getRole().equals("update user details"))
 					Update_user_details(msg1, conn, client);
+				else if(msg1.getRole().equals("close survey"))
+	        		   Close_survey(msg1,conn,client);
 				// else getProdectdetails(msg1,conn,client);
 				// else UpdateItem(conn,msg,client);
 			}
@@ -343,11 +347,16 @@ public class EchoServer extends AbstractServer {
 			ps = conn.prepareStatement(" SELECT * FROM survey WHERE Status = 'Active';");
 			rs = ps.executeQuery();
 			if (!rs.next()) {
-				msg1.newO = msg1.oldO; // this is mean that there is no active server
+				msg1.newO = null; // this is mean that there is no active server
 				client.sendToClient(msg1);
 				return;
 			}
-			msg1.newO = null; // this is mean that there is active server
+			Survey toSend = new Survey();
+			toSend.setID(rs.getString("ID"));
+			toSend.setNumOfParticipant(rs.getString("Num_Of_Participant"));
+			toSend.setDate(rs.getString("Date"));
+
+			msg1.newO = toSend; // this is mean that there is active server
 			client.sendToClient(msg1);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -357,46 +366,89 @@ public class EchoServer extends AbstractServer {
 	}
 
 	/**
-	 * insert the survey to survey table with new id
-	 * 
-	 * @param msg1
-	 * @param conn
-	 * @param client
-	 */
-	public static void insert_survey(Msg msg1, Connection conn, ConnectionToClient client) {
-		Survey user = (Survey) msg1.oldO;
-		PreparedStatement ps;
-		ResultSet rs;
-		int new_id;
-		try {
-			/* get the last ID */
-			ps = conn.prepareStatement("SELECT max(ID) FROM survey;");
-			rs = ps.executeQuery();
-			rs.next();
-			/* execute the insert query */
-			ps = conn.prepareStatement(
-					"INSERT INTO survey (ID, Date, Q1, Q2, Q3, Q4, Q5, Q6, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
-			new_id = Integer.parseInt(rs.getString(1)) + 1;
-			ps.setString(1, "" + new_id); // insert the last id + 1
-			ps.setString(2, user.getDate());
-			ps.setString(3, user.getQ1());
-			ps.setString(4, user.getQ2());
-			ps.setString(5, user.getQ3());
-			ps.setString(6, user.getQ4());
-			ps.setString(7, user.getQ5());
-			ps.setString(8, user.getQ6());
-			ps.setString(9, "Active");
-			ps.executeUpdate();
-
-			msg1.newO = user;
-			client.sendToClient(msg1);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
+	   * insert the survey to survey table with new id
+	   * @param msg1
+	   * @param conn
+	   * @param client
+	   */
+	  public static void insert_survey(Msg msg1 ,Connection conn,ConnectionToClient client)
+	  {
+		  Survey survey=(Survey) msg1.oldO;
+		  PreparedStatement ps;
+		  ResultSet rs;
+		  int new_id;
+		  try 
+		  {
+			  	/*get the last ID*/
+			  	ps = conn.prepareStatement("SELECT max(ID) FROM survey;");
+				rs = ps.executeQuery();
+				rs.next();
+				/*execute the insert query*/
+				ps=conn.prepareStatement("INSERT INTO survey (ID, Date, Q1, Q2, Q3, Q4, Q5, Q6, A1, A2, A3, A4, A5, A6, Status, Num_Of_Participant) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+				new_id = Integer.parseInt(rs.getString(1)) + 1;
+				ps.setString(1,""+new_id);	//insert the last id + 1
+				ps.setString(2,survey.getDate());
+				ps.setString(3,survey.getQ1());
+				ps.setString(4,survey.getQ2());
+				ps.setString(5,survey.getQ3());
+				ps.setString(6,survey.getQ4());
+				ps.setString(7,survey.getQ5());
+				ps.setString(8,survey.getQ6());
+				ps.setString(9,survey.getA1());
+				ps.setString(10,survey.getA2());
+				ps.setString(11,survey.getA3());
+				ps.setString(12,survey.getA4());
+				ps.setString(13,survey.getA5());
+				ps.setString(14,survey.getA6());
+				ps.setString(15, "Active");
+				ps.setString(16,survey.getNumOfParticipant());
+				ps.executeUpdate();
+				
+				msg1.newO = survey;
+				client.sendToClient(msg1);
+		  }
+		  catch (SQLException e) 
+		  	{
+				e.printStackTrace();
+		  	} 
+		  catch (IOException e) 
+		    {
+				e.printStackTrace();
+			}
+				
+	  }
+	  /**
+	   * replace the status of specific survey (by id from msg1) to be "No Active"
+	   * @param msg1
+	   * @param conn
+	   * @param client
+	   */
+	  public static void Close_survey(Msg msg1 ,Connection conn,ConnectionToClient client)
+	  {
+		  Survey survey=(Survey) msg1.oldO;
+		  PreparedStatement ps;
+		  ResultSet rs;
+		  
+		  try
+		   {
+			  /*set up and execute the update query*/
+			  ps = conn.prepareStatement("UPDATE survey SET Status=? WHERE ID=?;");
+			  ps.setString(1, "No Active");
+			  ps.setString(2, survey.getID());
+			  ps.executeUpdate();
+			  
+			  msg1.newO = survey;
+			  client.sendToClient(msg1);
+		   }
+		  catch (SQLException e) 
+		  	{
+				e.printStackTrace();
+		  	} 
+		  catch (IOException e) 
+		    {
+				e.printStackTrace();
+			}
+	  }
 
 	public static boolean isConnected(Msg msg1, Connection conn) {
 		boolean isAlreadyCon = false;
