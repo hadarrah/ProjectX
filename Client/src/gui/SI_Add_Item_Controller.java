@@ -168,7 +168,12 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		else { // Make sure that we dont see the label
 			selection_missing_L.setVisible(false);
 		}
-
+		
+		if (minp >= maxp) {
+			System.out.println("bad price range");
+			return;
+		}
+		
 		/* set product type and color */
 		Product psearch = new Product();
 		psearch.setColor(color);
