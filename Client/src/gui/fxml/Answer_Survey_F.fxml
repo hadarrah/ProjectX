@@ -65,7 +65,7 @@
       <RadioButton fx:id="R6_5" layoutX="238.0" layoutY="330.0" mnemonicParsing="false" text="5" />
       <RadioButton fx:id="R6_6" layoutX="295.0" layoutY="330.0" mnemonicParsing="false" text="6" />
       <RadioButton fx:id="R6_4" layoutX="186.0" layoutY="330.0" mnemonicParsing="false" text="4" />
-      <Label fx:id="date" layoutX="402.0" layoutY="26.0" text="DATE" />
+      <Label fx:id="survey_id" layoutX="402.0" layoutY="26.0" text="DATE" />
       <RadioButton layoutX="385.0" layoutY="71.0" mnemonicParsing="false" text="10" />
        
    </children>

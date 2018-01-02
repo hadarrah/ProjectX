@@ -109,6 +109,11 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("find items color-type-price")) {
 					((gui.SI_Add_Item_Controller) mc).setReturnedItems(message);
 				}
+				else if (check.getRole().equals("get survey qustion")) {
+					((gui.Answer_Survey_Controller) mc).set_survey_question(message);
+				}
+				
+				
 
 			}
 			 if(check.getType().equals("UPDATE"))
