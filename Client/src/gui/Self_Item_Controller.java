@@ -3,6 +3,8 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import action.Msg;
@@ -28,32 +30,34 @@ import javafx.stage.Stage;
 
 public class Self_Item_Controller implements Initializable, ControllerI {
 
-	public Button add_items_B;
-	public Button remove_items_B;
-	public Button order_B;
-	public Button cancel_B;
-	// public TextArea items_selected_TA;
-	public TextField description_TF;
-	public TextField total_price_TF;
+	public Button add_items_B, remove_items_B, order_B, cancel_B;
+	public TextField description_TF, total_price_TF;
 	public ListView<Item> items_selected_LV;
-
 	public static ActionEvent event_log;
 
+	// "Cart" for items selected so far
 	public static ArrayList<Item> selectedProductsArr = new ArrayList<Item>();
-	
-	Item selectedFromLV = null;
 
+	// A map that wires an item for the selected amount. ( map.get(item)==amount )
+	public static Map<Item, Integer> itemToAmount = new HashMap<Item, Integer>();
+
+	Item selectedFromLV = null;
+	
+	public float totalPrice;
+
+	
+	
 	public void removeFromSelected(ActionEvent event) {
-		
-		if(selectedFromLV!=null) {
+
+		if (selectedFromLV != null) {
 			selectedProductsArr.remove(selectedFromLV);
-			selectedFromLV=null;
+			selectedFromLV = null;
 			setSelected();
+			setTotalPrice();
 		}
 	}
-	
-	public void setSelected() {
 
+	public void setSelected() {
 
 		String pnames[] = new String[selectedProductsArr.size()];
 
@@ -63,15 +67,24 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 
 		ObservableList<Item> items = FXCollections.observableArrayList(selectedProductsArr);
 		items_selected_LV.setItems(items);
-		
 
 	}
 	
+	public void setTotalPrice() {
+		totalPrice=0;
+		for(Item p : selectedProductsArr) {
+			float items = p.getPrice()*itemToAmount.get(p);
+			totalPrice+=items;
+		}
+		
+		total_price_TF.setText(Float.toString(totalPrice));
+	}
+
 	public void getSelectedFromLV(ActionEvent event) {
-		Item pr=items_selected_LV.getSelectionModel().getSelectedItem();
-		
-		System.out.println(pr.getName() +" is selected");
-		
+		Item pr = items_selected_LV.getSelectionModel().getSelectedItem();
+
+		System.out.println(pr.getName() + " is selected");
+
 	}
 
 	public void cancel(ActionEvent event) throws IOException {
@@ -96,19 +109,18 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 		 * Update current controller (Log_win.toClient == user's ClientConsole)
 		 */
 		Login_win.to_Client.setController(this);
-		
-		/*Setting custom listener to ListView of selected items.*/
+
+		/* Setting custom listener to ListView of selected items. */
 		items_selected_LV.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Item>() {
-		    @Override
-		    public void changed(ObservableValue<? extends Item> observable, Item oldValue, Item newValue) {
-		        // Your action here
-		        System.out.println("Selected item: " + newValue);
-		        selectedFromLV=newValue;
-		    }
+			@Override // What happens if an item is selected from the ListView:
+			public void changed(ObservableValue<? extends Item> observable, Item oldValue, Item newValue) {
+				// set selected item as newVal
+				selectedFromLV = newValue;
+			}
 
 		});
-		
-		/*Setting custom cell factory to present products in listview*/
+
+		/* Setting custom cell factory to present products in listview */
 		items_selected_LV.setCellFactory(param -> new ListCell<Item>() {
 			@Override
 			protected void updateItem(Item item, boolean empty) {
@@ -117,14 +129,15 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 				if (empty || item == null || item.getName() == null) {
 					setText(null);
 				} else {
-					setText(item.getName());
+					setText(item.getName() + " x " + itemToAmount.get(item));
 				}
 			}
 		});
 
-
 		if (selectedProductsArr.size() > 0)
 			setSelected(); // Present selected item list from products arraylist;
+		
+		setTotalPrice();
 	}
 
 }

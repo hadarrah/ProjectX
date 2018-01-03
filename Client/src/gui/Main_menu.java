@@ -121,6 +121,16 @@ public class Main_menu  implements Initializable,ControllerI{
 		 win_1.show();
     }
     
+    public void cart(ActionEvent event) throws IOException {
+    	
+   	 Parent menu;
+		 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Cart_F.fxml"));
+		 Scene win1= new Scene(menu);
+		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		 win_1.setScene(win1);
+		 win_1.show();
+   }
+    
     private void show_logout_msg() 
     {
         Alert alert = new Alert(AlertType.CONFIRMATION);

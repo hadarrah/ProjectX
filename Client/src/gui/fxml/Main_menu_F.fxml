@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Main_menu">
+<Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="471.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Main_menu">
    <children>
       <ImageView fitHeight="402.0" fitWidth="471.0" opacity="0.8">
          <image>
@@ -33,5 +33,6 @@
          </image>
       </ImageView>
       <Button fx:id="take_survey_B" layoutX="378.0" layoutY="280.0" mnemonicParsing="false" onAction="#take_survey" style=": ;" text="Take a survey" />
+      <Button fx:id="cart_B" layoutX="391.0" layoutY="153.0" mnemonicParsing="false" onAction="#cart" text="Cart" />
    </children>
 </Pane>

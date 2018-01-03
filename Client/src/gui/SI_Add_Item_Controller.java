@@ -4,15 +4,18 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
 import action.ClientConsole;
+import action.Item;
 import action.Msg;
 import action.Person;
-import action.Item;
+import action.Product;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,12 +42,8 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 	public Button present_items_B;
 	public Button back_B;
 	public TextField min_TF, max_TF, amount_wanted_TF, in_stock_TF, unit_price_TF;
-	// public TextArea item_list_TA;
-	// public ListView<String> selected_items_LV;
 	public ComboBox<String> color_CB, type_CB, select_item_CB;
 	public Label select_item_L, selection_missing_L, added_L;
-
-	// public Msg msg;
 
 	ControllerI prevPage;
 	public String type, color;
@@ -53,7 +52,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 	public static ActionEvent event_log;
 
 	ArrayList<Item> products = null; // Items from the most recent query.
-	public Item p; // The attributes selected so far.
+	public Item p; // The attributes selected so far && selected item.
 
 	public void addSelectedItem(ActionEvent event) {
 
@@ -62,19 +61,20 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 		// If an item has been selected (null if user just entered the page)
 		if (p != null) {
-			// float amt = Float.parseFloat(amount_wanted_TF.toString());
 
 			ArrayList<Item> productsArr = ((Self_Item_Controller) prevPage).selectedProductsArr;
+			HashMap<Item, Integer> amountMap = (HashMap<Item, Integer>) ((Self_Item_Controller) prevPage).itemToAmount;
 			// If user pressed the Add Item button twice -> ask him if he is sure
 			if (productsArr.size() > 0 && p == productsArr.get(productsArr.size() - 1)) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Confirmation Dialog");
-				alert.setHeaderText("Look, a Confirmation Dialog");
-				alert.setContentText("Are you ok with this?");
+				alert.setTitle("Confirm Additional Same Item");
+				alert.setHeaderText("Confirmation of item addition");
+				alert.setContentText("You have already added " + p.getName() + "\nAre you sure you want to add another"
+						+ p.getName() + "?");
 
 				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == ButtonType.OK) {
-					
+
 				} else {
 					addItem = false;
 					add = p.getName() + " has not been added";
@@ -84,6 +84,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 			// if user select Ok->add the item, green label.
 			if (addItem) {
 				add = "You have added " + p.getName();
+				amountMap.put(p, Integer.parseInt(this.amount_wanted_TF.getText()));
 				productsArr.add(p);
 				added_L.setTextFill(Color.web("#25a829"));
 			} else // else-> don't add item, red label.
@@ -106,14 +107,14 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 				// id = i;
 				price = products.get(i).getPrice();
 				p = products.get(i);
+				this.amount_wanted_TF.setText("1");
+				unit_price_TF.setText(Float.toString(price));
+				this.in_stock_TF.setPromptText(Float.toString(p.getAmount()));
 				break;
 			}
 			// if(in_stock>0)
-			this.amount_wanted_TF.setText("1");
-		}
 
-		unit_price_TF.setText(Float.toString(price));
-		// in_stock_TF.setText();
+		}
 
 	}
 
@@ -168,12 +169,14 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		else { // Make sure that we dont see the label
 			selection_missing_L.setVisible(false);
 		}
-		
+
 		if (minp >= maxp) {
-			System.out.println("bad price range");
+			selection_missing_L.setText("Bad price range");
+			selection_missing_L.setVisible(true);
+			if(products!=null)products.clear();
 			return;
 		}
-		
+
 		/* set product type and color */
 		Item psearch = new Item();
 		psearch.setColor(color);
@@ -184,16 +187,10 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 		msg.num1 = minp;
 		msg.num2 = maxp;
-
 		msg.setRole("find items color-type-price");
 		msg.setSelect();
 		msg.setTableName("item");
 		msg.event = event;
-
-		/* fillers */
-		// msg.oldO = "hi";
-		// msg.newO = "bye";
-
 		msg.oldO = psearch;
 
 		Login_win.to_Client.accept(msg);
@@ -201,16 +198,19 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 	public void setReturnedItems(Object message) {
 
+
+
 		products = (ArrayList<Item>) ((Msg) message).newO;
-		String ids[] = new String[products.size()];
+		//String ids[] = new String[products.size()];
 		String names[] = new String[products.size()];
-		float price[] = new float[products.size()];
-		// int instock[] = new int[products.size()];
+		//float price[] = new float[products.size()];
+		//float instock[] = new float[products.size()];
 
 		for (int i = 0; i < products.size(); i++) {
-			ids[i] = products.get(i).getID();
+		//	ids[i] = products.get(i).getID();
 			names[i] = products.get(i).getName();
-			price[i] = products.get(i).getPrice();
+		//	price[i] = products.get(i).getPrice();
+		//	instock[i] = products.get(i).getAmount();
 		}
 
 		ArrayList<String> al = new ArrayList<String>(Arrays.asList(names));
@@ -220,6 +220,23 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 		if (products.size() > 0)
 			select_item_L.setVisible(true);
+		
+		if (products.size()<=0) {
+			// if query is empty (no items with chosen attr)
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					selection_missing_L.setText("There are no items with chosen attributes\n" + "select another");
+					selection_missing_L.setVisible(true);
+					select_item_L.setVisible(false); 
+					added_L.setVisible(false);
+				}
+			});
+
+			products.clear();
+			return;
+
+		}
 
 	}
 
@@ -231,9 +248,10 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		getType.setSelect();
 		getType.setTableName("item");
 		getType.setRole("get combo type");
-		
-		Login_win.to_Client.accept((Object)getType);
+
+		Login_win.to_Client.accept((Object) getType);
 	}
+
 	/**
 	 * set the fields for color combobox
 	 */
@@ -242,28 +260,26 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		getColors.setSelect();
 		getColors.setTableName("item");
 		getColors.setRole("get combo colors");
-		
-		Login_win.to_Client.accept((Object)getColors);
+
+		Login_win.to_Client.accept((Object) getColors);
 	}
 
 	/**
 	 * get the message(arraylist) from server and set in the relevant combobox
+	 * 
 	 * @param msg
 	 */
-	public void setCombo(Object msg)
-	{
-		if(((Msg)msg).getRole().equals("get combo colors"))
-		{
-			ObservableList<String> list = FXCollections.observableArrayList((ArrayList<String>)(((Msg)msg).newO));
+	public void setCombo(Object msg) {
+		if (((Msg) msg).getRole().equals("get combo colors")) {
+			ObservableList<String> list = FXCollections.observableArrayList((ArrayList<String>) (((Msg) msg).newO));
 			color_CB.setItems(list);
 		}
-		if(((Msg)msg).getRole().equals("get combo type"))
-		{
-			ObservableList<String> list = FXCollections.observableArrayList((ArrayList<String>)(((Msg)msg).newO));
+		if (((Msg) msg).getRole().equals("get combo type")) {
+			ObservableList<String> list = FXCollections.observableArrayList((ArrayList<String>) (((Msg) msg).newO));
 			type_CB.setItems(list);
 		}
 	}
-	
+
 	public void back(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Self_Item_F.fxml");
 	}
