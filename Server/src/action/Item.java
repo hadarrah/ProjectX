@@ -17,6 +17,7 @@ public class Item implements Serializable{
 	/**constructor**/
 	public Item()
 	{
+		
 		this.ID=null;
 		this.Name=null;
 		this.Color=null;
