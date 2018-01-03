@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -8,15 +10,25 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="471.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Cart_Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Cart_Controller">
    <children>
-      <Button fx:id="order_B" layoutX="149.0" layoutY="340.0" mnemonicParsing="false" text="Order" />
-      <Button fx:id="back_B" layoutX="278.0" layoutY="340.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <ImageView fitHeight="600.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@page.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="order_B" layoutX="160.0" layoutY="497.0" mnemonicParsing="false" text="Order" />
+      <Button fx:id="back_B" layoutX="300.0" layoutY="497.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <Label layoutX="32.0" layoutY="34.0" />
-      <Label layoutX="53.0" layoutY="34.0" text="Items Selected:" />
-      <Button fx:id="remove_items_B" layoutX="349.0" layoutY="102.0" mnemonicParsing="false" onAction="#removeFromSelected" text="Remove Items" />
-      <Label layoutX="55.0" layoutY="169.0" text="Total Price:" />
-      <TextField fx:id="total_price_TF" editable="false" layoutX="149.0" layoutY="165.0" prefHeight="25.0" prefWidth="181.0" text="0" />
-      <ListView fx:id="items_selected_LV" layoutX="149.0" layoutY="34.0" prefHeight="104.0" prefWidth="181.0" />
+      <Label layoutX="44.0" layoutY="138.0" text="Items Selected:" />
+      <Button fx:id="remove_items_B" layoutX="367.0" layoutY="167.0" mnemonicParsing="false" onAction="#removeFromSelected" prefHeight="46.0" prefWidth="99.0" text="Remove Items" />
+      <Label layoutX="54.0" layoutY="340.0" text="Total Price:" />
+      <TextField fx:id="total_price_TF" editable="false" layoutX="159.0" layoutY="336.0" prefHeight="25.0" prefWidth="181.0" text="0" />
+      <ListView fx:id="items_selected_LV" layoutX="160.0" layoutY="138.0" prefHeight="104.0" prefWidth="181.0" />
+      <Label layoutX="218.0" layoutY="30.0" text="Cart" textFill="#0d0d0c">
+         <font>
+            <Font name="Arial Black" size="28.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

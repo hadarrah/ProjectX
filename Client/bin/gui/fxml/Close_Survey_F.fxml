@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -8,13 +9,18 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Close_Survey_Controller">
    <children>
-      <Button fx:id="back_B" layoutX="35.0" layoutY="366.0" mnemonicParsing="false" onAction="#back" text="Back" />
-      <Label layoutX="135.0" layoutY="24.0" text="Close Survey">
+      <ImageView fitHeight="600.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@page2.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="back_B" layoutX="115.0" layoutY="479.0" mnemonicParsing="false" onAction="#back" text="Back" textFill="#0d0d0c" />
+      <Label layoutX="155.0" layoutY="28.0" text="Close Survey" textFill="#0d0d0c">
          <font>
-            <Font name="Nebulo Demo" size="36.0" />
+            <Font name="Arial Black" size="31.0" />
          </font>
       </Label>
-      <VBox alignment="TOP_CENTER" layoutX="24.0" layoutY="78.0" prefHeight="200.0" prefWidth="129.0" spacing="22.0">
+      <VBox alignment="TOP_CENTER" layoutX="35.0" layoutY="137.0" prefHeight="200.0" prefWidth="129.0" spacing="22.0">
          <children>
             <Label text="ID:">
                <font>
@@ -33,13 +39,13 @@
             </Label>
          </children>
       </VBox>
-      <VBox layoutX="160.0" layoutY="77.0" prefHeight="200.0" prefWidth="202.0" spacing="15.0">
+      <VBox layoutX="164.0" layoutY="137.0" prefHeight="200.0" prefWidth="202.0" spacing="15.0">
          <children>
             <TextField fx:id="ID_text" editable="false" />
             <TextField fx:id="Date_text" editable="false" />
             <TextField fx:id="NumOfParticipant_text" editable="false" />
          </children>
       </VBox>
-      <Button fx:id="close_Survey_B" layoutX="194.0" layoutY="324.0" mnemonicParsing="false" onAction="#close_Survey" text="Close Survey" />
+      <Button fx:id="close_Survey_B" layoutX="216.0" layoutY="337.0" mnemonicParsing="false" onAction="#close_Survey" text="Close Survey" />
    </children>
 </Pane>

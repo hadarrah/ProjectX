@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -8,10 +9,15 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Managment_Controller">
    <children>
+      <ImageView fitHeight="600.0" fitWidth="571.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@page.jpg" />
+         </image>
+      </ImageView>
       <Button fx:id="update_Catalog_B" layoutX="186.0" layoutY="95.0" mnemonicParsing="false" onAction="#update_Catalog" text="Update Catalog" />
-      <Label layoutX="139.0" layoutY="14.0" text="Managment">
+      <Label layoutX="168.0" layoutY="23.0" text="Managment" textFill="#0d0d0c">
          <font>
-            <Font name="Nebulo Demo" size="36.0" />
+            <Font name="Arial Black" size="33.0" />
          </font>
       </Label>
       <Button fx:id="back_B" layoutX="35.0" layoutY="366.0" mnemonicParsing="false" onAction="#back" text="Back" />
