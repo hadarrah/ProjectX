@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.View_Catalog_Controller">
+   <children>
+      <Text fx:id="txtCatalog" layoutX="166.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Catalog">
+         <font>
+            <Font size="41.0" />
+         </font>
+      </Text>
+      <VBox fx:id="vbLabels" layoutX="27.0" layoutY="131.0" prefHeight="200.0" prefWidth="201.0" style="-fx-border-color: black;">
+         <children>
+            <Label fx:id="lblID" prefHeight="24.0" prefWidth="202.0" text="ID" />
+            <Label fx:id="lblName" prefHeight="24.0" prefWidth="220.0" text="Name" />
+            <Label fx:id="lblPrice" prefHeight="24.0" prefWidth="220.0" text="Price" />
+            <Label fx:id="lblAmount" prefHeight="24.0" prefWidth="220.0" text="Amount" />
+            <Label fx:id="lblDescription" prefHeight="24.0" prefWidth="220.0" text="Description:" />
+            <TextArea fx:id="txtDescription" editable="false" prefHeight="90.0" prefWidth="193.0" />
+         </children>
+      </VBox>
+      <Pagination layoutX="262.0" layoutY="131.0" prefHeight="200.0" prefWidth="201.0" style="-fx-border-color: black;" />
+      <Button fx:id="back_B" layoutX="39.0" layoutY="359.0" mnemonicParsing="false" onAction="#back" text="Back" />
+   </children>
+</Pane>

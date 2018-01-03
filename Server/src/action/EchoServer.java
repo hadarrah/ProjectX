@@ -96,6 +96,8 @@ public class EchoServer extends AbstractServer {
 					check_survey_exist(msg1, conn, client);
 				else if (msg1.getRole().equals("check if there is active survey for close"))
 					check_survey_exist(msg1, conn, client);
+				else if (msg1.getRole().equals("check if there is active survey for add comment"))
+					check_survey_exist(msg1, conn, client);
 				else if (msg1.getRole().equals("find items color-type-price"))
 					SelectItemsCTP(msg1, conn, client);
 				else if (msg1.getRole().equals("get survey qustion"))
@@ -104,6 +106,8 @@ public class EchoServer extends AbstractServer {
 					GetComboForSelfItem(msg1, conn, client);
 				else if (msg1.getRole().equals("get combo type"))
 					GetComboForSelfItem(msg1, conn, client);
+				else if (msg1.getRole().equals("get combo customer ID"))
+					GetComboForAddComment(msg1, conn, client);
 			}
 			case "UPDATE": {
 				if (msg1.getRole().equals("user logout"))
@@ -114,6 +118,8 @@ public class EchoServer extends AbstractServer {
 					Close_survey(msg1, conn, client);
 				else if (msg1.getRole().equals("update survey answers"))
 					update_survey_answers(msg1, conn, client);
+				else if (msg1.getRole().equals("set comment survey"))
+					update_comment_survey(msg1, conn, client);
 			}
 			case "SELECTALL": {
 				if (msg1.getRole().equals("View all catalog items"))
@@ -509,6 +515,96 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * get the customer id for combobox in add comments to survey
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static void GetComboForAddComment(Msg msg1, Connection conn, ConnectionToClient client) {
+		PreparedStatement ps;
+		ResultSet rs;
+		ArrayList<String> forCombo = new ArrayList<String>();
+		String surveyID = (String)msg1.oldO;
+
+		try {
+			 /*set up and execute the update query*/
+			  ps = conn.prepareStatement("SELECT * FROM comments_survey WHERE ID = ?;");
+			  ps.setString(1, surveyID);
+			  rs = ps.executeQuery();
+			  
+			while (rs.next())
+				forCombo.add(rs.getString("Customer_ID"));
+
+			msg1.newO = forCombo;
+			client.sendToClient(msg1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	 /**
+	   * set the new comment in comments_survey table
+	   * @param msg1
+	   * @param conn
+	   * @param client
+	   */
+	  public static void update_comment_survey(Msg msg1 ,Connection conn,ConnectionToClient client)
+	  {
+		  String customerID=(String) msg1.oldO;
+		  String comment=(String) msg1.newO;
+		  String surveyID=(String) msg1.freeField;
+
+		  PreparedStatement psCheck, psEx;
+		  ResultSet rs;
+		  
+		  try
+		   {
+			  /*check if there is already comment in DB*/ 
+			  psCheck = conn.prepareStatement("SELECT * FROM comments_survey  WHERE ID=? AND Customer_ID = ?;");
+			  psCheck.setString(1, surveyID);
+			  psCheck.setString(2, customerID);
+			  rs = psCheck.executeQuery();
+			  rs.next();
+			  
+			  /*set up and execute the update query*/
+			  psEx = conn.prepareStatement("UPDATE comments_survey SET comment=? WHERE ID=? AND Customer_ID = ?;");
+			 
+			  if(rs.getString("comment") == null) //new comment
+				  psEx.setString(1, comment);
+			  else	//concatenate comments
+			  {
+				  if((rs.getString("comment") + "\n\n" + comment).length() < 200)
+					  psEx.setString(1, rs.getString("comment") + "\n\n" + comment);
+				  else	//exception length of field in DB
+				  {
+					  msg1.newO = "update comment survey faild";
+					  client.sendToClient(msg1);
+					  return;
+				  }
+					  
+			  }
+				  
+			  psEx.setString(2, surveyID);
+			  psEx.setString(3, customerID);
+			  psEx.executeUpdate();
+			  
+			  msg1.newO = "update comment survey success";
+			  client.sendToClient(msg1);
+		   }
+		  catch (SQLException e) 
+		  	{
+				e.printStackTrace();
+		  	} 
+		  catch (IOException e) 
+		    {
+				e.printStackTrace();
+			}
+	  }
+	
 	public static void update_survey_answers(Object msg, Connection con, ConnectionToClient client) {
 		/*
 		 * Survey survey=(Survey) msg1.oldO; PreparedStatement ps; ResultSet rs;

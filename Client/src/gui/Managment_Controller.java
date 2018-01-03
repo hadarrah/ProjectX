@@ -98,6 +98,19 @@ public class Managment_Controller implements Initializable,ControllerI {
     
     public void add_Comments(ActionEvent event) {
 
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+		
+		/*check if already exist an active survey*/
+    	Survey temp_survey = new Survey();
+    	Msg check_survey_exist = new Msg();
+    	check_survey_exist.setSelect();
+    	check_survey_exist.oldO = temp_survey;
+    	check_survey_exist.setTableName("survey");
+    	check_survey_exist.setRole("check if there is active survey for add comment");
+    	check_survey_exist.event=event;
+		Login_win.to_Client.accept((Object)check_survey_exist);
     }
 
     public void answer_Complaint(ActionEvent event) {
@@ -135,14 +148,14 @@ public class Managment_Controller implements Initializable,ControllerI {
     	/*save the answer from server*/
     	Survey to_check = (Survey) (((Msg) message).newO);
 
-    	if(((Msg) message).getRole().equals("check if there is active survey for close")) //for close
+    	if(((Msg) message).getRole().equals("check if there is active survey for close") || ((Msg) message).getRole().equals("check if there is active survey for add comment")) //for close and add comment
     	{
     		if(to_check == null)
         	{
     			JOptionPane.showMessageDialog(null, "There is no active survey");
         		return;
         	}
-    		else
+    		else if(((Msg) message).getRole().equals("check if there is active survey for close"))
     		{
     			/*save the instance of survey in static var for future uses in other controller*/
     			active_survey = to_check;
@@ -154,6 +167,25 @@ public class Managment_Controller implements Initializable,ControllerI {
         			public void run() {
         				 	try {
         						move(event_log , main.fxmlDir+ "Close_Survey_F.fxml");
+        					} catch (IOException e) {
+        						// TODO Auto-generated catch block
+        						e.printStackTrace();
+        					}  
+        			}
+        		});
+    		}
+    		else if(((Msg) message).getRole().equals("check if there is active survey for add comment"))
+    		{
+    			/*save the instance of survey in static var for future uses in other controller*/
+    			active_survey = to_check;
+    			
+    			/*the creating was successful -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+        				 	try {
+        						move(event_log , main.fxmlDir+ "Add_Comments_F.fxml");
         					} catch (IOException e) {
         						// TODO Auto-generated catch block
         						e.printStackTrace();
@@ -251,7 +283,6 @@ public class Managment_Controller implements Initializable,ControllerI {
     			create_Survey_B.setVisible(true);
     			answer_Complaint_B.setVisible(true);
     			close_Survey_B.setVisible(true);
-    			add_Comments_B.setVisible(true);
         		break;
     		case "Chain Manager":
     			display_Reports_B.setVisible(true);
@@ -267,6 +298,7 @@ public class Managment_Controller implements Initializable,ControllerI {
         		break;
     		case "Store Employee":
     			create_Sale_B.setVisible(true);
+    			add_Comments_B.setVisible(true);
         		break;
     	}
 	}

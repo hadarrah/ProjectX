@@ -14,6 +14,7 @@ public class Msg implements Serializable {
 	    public ActionEvent event;
 	    public float num1;
 	    public float num2;
+	    public String freeField;
 
 	    public enum TYPE { NULL  ,SELECT, SELECTALL,  UPDATE, INSERT;}
 	    

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Answer_Survey_Controller">
+   <children>
+      <ImageView fitHeight="402.0" fitWidth="471.0" layoutX="3.0" opacity="0.08">
+         <image>
+            <Image url="@survey_scr.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="q1" layoutX="37.0" layoutY="46.0" text="1. how are you" />
+      <Label layoutX="197.0" layoutY="6.0" text="Survey">
+         <font>
+            <Font name="Arial Black" size="18.0" />
+         </font></Label>
+      <Label fx:id="q2" layoutX="41.0" layoutY="98.0" text="2.how much " />
+      <Button fx:id="submit_survey" layoutX="375.0" layoutY="366.0" mnemonicParsing="false" onAction="#form_submit" text="Submit Form" />
+      <Button fx:id="Back_to_main" layoutX="11.0" layoutY="366.0" mnemonicParsing="false" onAction="#back_to_main" text="Back" />
+      <Label fx:id="q3" layoutX="42.0" layoutY="148.0" text="3.q" />
+      <Label fx:id="q4" layoutX="42.0" layoutY="205.0" text="4.q" />
+      <RadioButton fx:id="R4_1" layoutX="42.0" layoutY="229.0" mnemonicParsing="false" text="1" />
+      <RadioButton fx:id="R4_2" layoutX="89.0" layoutY="229.0" mnemonicParsing="false" text="2" />
+      <RadioButton fx:id="R4_3" layoutX="138.0" layoutY="229.0" mnemonicParsing="false" text="3" />
+      <RadioButton fx:id="R4_5" layoutX="238.0" layoutY="229.0" mnemonicParsing="false" text="5" />
+      <RadioButton fx:id="R4_6" layoutX="295.0" layoutY="229.0" mnemonicParsing="false" text="6" />
+      <RadioButton fx:id="R4_4" layoutX="186.0" layoutY="229.0" mnemonicParsing="false" text="4" />
+      <Label fx:id="q5" layoutX="44.0" layoutY="259.0" text="5q" />
+      <RadioButton fx:id="R3_4" layoutX="186.0" layoutY="173.0" mnemonicParsing="false" text="4" />
+      <RadioButton fx:id="R3_6" layoutX="295.0" layoutY="173.0" mnemonicParsing="false" text="6" />
+      <RadioButton fx:id="R3_5" layoutX="238.0" layoutY="173.0" mnemonicParsing="false" text="5" />
+      <RadioButton fx:id="R3_3" layoutX="138.0" layoutY="173.0" mnemonicParsing="false" text="3" />
+      <RadioButton fx:id="R3_2" layoutX="89.0" layoutY="173.0" mnemonicParsing="false" text="2" />
+      <RadioButton fx:id="R3_1" layoutX="42.0" layoutY="173.0" mnemonicParsing="false" text="1" />
+      <RadioButton fx:id="R2_1" layoutX="42.0" layoutY="122.0" mnemonicParsing="false" text="1" />
+      <RadioButton fx:id="R2_2" layoutX="89.0" layoutY="122.0" mnemonicParsing="false" text="2" />
+      <RadioButton fx:id="R2_3" layoutX="138.0" layoutY="122.0" mnemonicParsing="false" text="3" />
+      <RadioButton fx:id="R2_5" layoutX="238.0" layoutY="122.0" mnemonicParsing="false" text="5" />
+      <RadioButton fx:id="R2_6" layoutX="295.0" layoutY="122.0" mnemonicParsing="false" text="6" />
+      <RadioButton fx:id="R2_4" layoutX="186.0" layoutY="122.0" mnemonicParsing="false" text="4" />
+      <RadioButton fx:id="R1_1" layoutX="42.0" layoutY="71.0" mnemonicParsing="false" text="1" />
+      <RadioButton fx:id="R1_2" layoutX="89.0" layoutY="71.0" mnemonicParsing="false" text="2" />
+      <RadioButton fx:id="R1_3" layoutX="138.0" layoutY="71.0" mnemonicParsing="false" text="3" />
+      <RadioButton fx:id="R1_5" layoutX="238.0" layoutY="71.0" mnemonicParsing="false" text="5" />
+      <RadioButton fx:id="R1_6" layoutX="295.0" layoutY="71.0" mnemonicParsing="false" text="6" />
+      <RadioButton fx:id="R1_4" layoutX="186.0" layoutY="71.0" mnemonicParsing="false" text="4" />
+      <Label fx:id="q6" layoutX="44.0" layoutY="311.0" text="6q" />
+      <RadioButton fx:id="R5_4" layoutX="186.0" layoutY="281.0" mnemonicParsing="false" text="4" />
+      <RadioButton fx:id="R5_6" layoutX="295.0" layoutY="281.0" mnemonicParsing="false" text="6" />
+      <RadioButton fx:id="R5_5" layoutX="238.0" layoutY="281.0" mnemonicParsing="false" text="5" />
+      <RadioButton fx:id="R5_3" layoutX="138.0" layoutY="281.0" mnemonicParsing="false" text="3" />
+      <RadioButton fx:id="R5_2" layoutX="89.0" layoutY="281.0" mnemonicParsing="false" text="2" />
+      <RadioButton fx:id="R5_1" layoutX="42.0" layoutY="281.0" mnemonicParsing="false" text="1" />
+      <RadioButton fx:id="R6_1" layoutX="42.0" layoutY="330.0" mnemonicParsing="false" text="1" />
+      <RadioButton fx:id="R6_2" layoutX="89.0" layoutY="330.0" mnemonicParsing="false" text="2" />
+      <RadioButton fx:id="R6_3" layoutX="138.0" layoutY="330.0" mnemonicParsing="false" text="3" />
+      <RadioButton fx:id="R6_5" layoutX="238.0" layoutY="330.0" mnemonicParsing="false" text="5" />
+      <RadioButton fx:id="R6_6" layoutX="295.0" layoutY="330.0" mnemonicParsing="false" text="6" />
+      <RadioButton fx:id="R6_4" layoutX="186.0" layoutY="330.0" mnemonicParsing="false" text="4" />
+      <Label fx:id="survey_id" layoutX="402.0" layoutY="26.0" text="DATE" />
+      <RadioButton layoutX="385.0" layoutY="71.0" mnemonicParsing="false" text="10" />
+       
+   </children>
+</Pane>

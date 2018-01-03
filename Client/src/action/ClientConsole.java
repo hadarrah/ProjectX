@@ -110,6 +110,9 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("check if there is active survey for close")) {
 					((gui.Managment_Controller) mc).check_if_survey_active(message);
 				}
+				else if (check.getRole().equals("check if there is active survey for add comment")) {
+					((gui.Managment_Controller) mc).check_if_survey_active(message);
+				}
 				else if (check.getRole().equals("find items color-type-price")) {
 					((gui.SI_Add_Item_Controller) mc).setReturnedItems(message);
 				}
@@ -122,12 +125,19 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("get combo type")) {
 					((gui.SI_Add_Item_Controller) mc).setCombo(message);
 				}
+				else if (check.getRole().equals("get combo customer ID")) {
+					((gui.Add_Comments_Controller) mc).setCombo(message);
+				}
 
 			}
 			 if(check.getType().equals("UPDATE"))
 			 {
 				 if(check.getRole().equals("close survey"))
 					 ((gui.Close_Survey_Controller)mc).close_survey_success(message);
+				 else if(check.newO.equals("update comment survey success"))
+					 ((gui.Add_Comments_Controller)mc).update_comment_survey_success(message);
+				 else if(check.newO.equals("update comment survey faild"))
+					 ((gui.Add_Comments_Controller)mc).update_comment_survey_faild(message);
 			 }
 			else if (check.getType().equals("INSERT")) {
 				if (check.getRole().equals("insert survey"))
