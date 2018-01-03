@@ -86,17 +86,14 @@ public class ClientConsole implements ChatIF {
 	 * 
 	 * @param.
 	 */
-	public void displaytoGUI(Object message) {
-		
-
-		if (message instanceof Msg)
-
+	public void displaytoGUI(Object message) {			
+	if (message instanceof Msg)
 		{
-			Msg check = (Msg) message;
+		Msg check = (Msg) message;
 			
 			if(check.getType().equals("SELECTALL"))
 			{
-				
+				 				
 			}
 
 			if (check.getType().equals("SELECT")) 

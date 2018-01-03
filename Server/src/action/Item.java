@@ -2,6 +2,7 @@ package action;
 
 import java.io.Serializable;
 
+
 public class Item implements Serializable{
 	
 	private String ID;
@@ -10,7 +11,7 @@ public class Item implements Serializable{
 	private float Price;
 	private String Type;	
 	private int Amount;
-	private String Sale_ID;
+	private Sale Sale_ID;
 	private String Image;
 	
 	/**constructor**/
@@ -101,14 +102,14 @@ public class Item implements Serializable{
 	/**
 	 * @return the sale
 	 */
-	public String getSale_ID() {
+	public Sale getSale_ID() {
 		return Sale_ID;
 	}
 	/**
 	 * @param sale the sale to set
 	 */
-	public void setSale_ID(String string) {
-		string = string;
+	public void setSale_ID(Sale sale) {
+		this.Sale_ID=sale;
 	}
 
 	/**
@@ -128,7 +129,7 @@ public class Item implements Serializable{
 	public String toString()
 	{
 		return("\nID: "+this.getID()+"\n"+"Name: "+this.getName()+"\n"+"Color: "+this.getColor()+"\n"+"Price: "+this.getPrice()
-				+"\n"+"Type: "+this.getType()+"\n"+"Amount: "+this.getAmount()+"\n"+"Sale: "+this.getSale_ID());
+				+"\n"+"Type: "+this.getType()+"\n"+"Amount: "+this.getAmount()+"\n"+"Sale: "+this.getSale_ID().getID());
 	}
 	
 }

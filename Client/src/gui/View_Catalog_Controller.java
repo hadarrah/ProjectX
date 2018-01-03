@@ -1,11 +1,14 @@
 package gui;
 
+
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import action.Msg;
 import action.Person;
+import action.Item_In_Catalog;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -70,6 +73,14 @@ public class View_Catalog_Controller implements ControllerI,Initializable{
 		tmp.setSelectAll();	
 		tmp.setTableName("item_in_catalog");
 		System.out.println(tmp.getRole()+" "+tmp.getType());
+	 }
+	 
+	 /*display items detail int catalog_giu*/
+	 public void ViewCatalog(Object message)
+	 {
+		 Msg msg1= (Msg)message;
+		 ArrayList<Item_In_Catalog> L= (ArrayList<Item_In_Catalog>)msg1.newO;
+		lblID.setText(L.get(0).getID());
 	 }
 	@Override
 	 public void initialize(URL location, ResourceBundle resources) {  
