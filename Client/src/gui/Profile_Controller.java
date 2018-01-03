@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import action.Msg;
 import action.Person;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -16,6 +18,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class Profile_Controller implements ControllerI,Initializable {
 	public TextArea details_txt;
@@ -69,7 +72,34 @@ public class Profile_Controller implements ControllerI,Initializable {
 				 win_1.show();
 			}
 		
-	
+	  /**
+	     * General function for the movement between the different windows
+	     * @param event
+	     * @param next_fxml = string of the specific fxml
+	     * @throws IOException
+	     */
+	    public void move(ActionEvent event, String next_fxml)throws IOException 
+		{
+			  Parent menu;
+			  menu = FXMLLoader.load(getClass().getResource(next_fxml));
+			 Scene win1= new Scene(menu);
+			 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
+			 win_1.setScene(win1);
+			 win_1.show();
+			 
+			  //close window by X button
+			 win_1.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		          public void handle(WindowEvent we) {
+		        	  Msg  msg=new Msg();
+		      		Person user_logout=Login_win.current_user;
+		      		msg.setRole("user logout");
+		      		msg.setTableName("person");
+		      		msg.setUpdate();
+		      		msg.oldO=user_logout;
+		      		Login_win.to_Client.accept(msg);
+		          }
+		      });        
+		}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

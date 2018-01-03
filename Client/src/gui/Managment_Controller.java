@@ -7,9 +7,11 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 import action.Msg;
+import action.Person;
 import action.Survey;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class Managment_Controller implements Initializable,ControllerI {
 
@@ -201,6 +204,19 @@ public class Managment_Controller implements Initializable,ControllerI {
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		 win_1.setScene(win1);
 		 win_1.show();
+		 
+		  //close window by X button
+		 win_1.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	          public void handle(WindowEvent we) {
+	        	  Msg  msg=new Msg();
+	      		Person user_logout=Login_win.current_user;
+	      		msg.setRole("user logout");
+	      		msg.setTableName("person");
+	      		msg.setUpdate();
+	      		msg.oldO=user_logout;
+	      		Login_win.to_Client.accept(msg);
+	          }
+	      });        
 	}
     
     
