@@ -107,8 +107,8 @@ public class Item implements Serializable{
 	/**
 	 * @param sale the sale to set
 	 */
-	public void setSale_ID(Sale Sale_ID) {
-		Sale_ID = Sale_ID;
+	public void setSale_ID(String string) {
+		string = string;
 	}
 
 	/**

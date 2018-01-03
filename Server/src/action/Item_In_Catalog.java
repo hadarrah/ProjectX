@@ -1,10 +1,15 @@
 package action;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class Item_In_Catalog implements Serializable{
+	
 	private String ID;
-	private String Item_ID;
+	private Set<Item> Item_ID;
 	private int Amount;
 	private String Name;
 	private float Price ;
@@ -24,10 +29,10 @@ public class Item_In_Catalog implements Serializable{
 	}
 	
 	/**Constructor with values**/
-	public  Item_In_Catalog(String ID,String Item_ID,int Amount,String Name,float Price,String Description,String Image)
+	public  Item_In_Catalog(String ID, ArrayList<Item> Item_ID,int Amount,String Name,float Price,String Description,String Image)
 	{
 		this.ID=ID;
-		this.Item_ID=Item_ID;
+		this.Item_ID=new HashSet<Item>();
 		this.Amount=Amount;
 		this.Name=Name;
 		this.Price=Price;
@@ -50,13 +55,13 @@ public class Item_In_Catalog implements Serializable{
 	/**
 	 * @return the product_ID
 	 */
-	public String getItem_ID() {
+	public Set<Item>getItem_ID() {
 		return Item_ID;
 	}
 	/**
 	 * @param product_ID the product_ID to set
 	 */
-	public void setItem_ID(String Item_ID) {
+	public void setItem_ID(Set<Item> Item_ID) {
 		this.Item_ID = Item_ID;
 	}
 	/**
@@ -119,10 +124,24 @@ public class Item_In_Catalog implements Serializable{
 	public void setImage(String image) {
 		Image = image;
 	}
-	public String toString()
+	/**print all Item_id**/
+	public Set<String> PrintOnlyItemID(Set<Item>Item_ID)
 	{
-		return("\nID: "+this.getID()+"\n"+"Item_Id: "+this.getItem_ID()+"\n"+"Amount: "+this.getAmount()+"\n"
-				+"Name: "+this.getName()+"\n"+"Price: "+this.getPrice()+"\n"+"Description: "+this.getDescription());
+		Set<String> id_to_print= new HashSet<String>();
+		for(Item i:Item_ID)
+		{
+			id_to_print.add(i.getID());
+		}
+		return id_to_print;
+	}
+	
+	
+	/**toString**/
+	public String toString()
+	{		
+		return("\nID: "+this.getID()+"\n"+"Item_Id: "+this.PrintOnlyItemID(this.Item_ID)						
+				+"\n"+"Amount: "+this.getAmount()+"\n"+"Name: "+this.getName()+"\n"+"Price: "+
+				this.getPrice()+"\n"+"Description: "+this.getDescription()+"\n"+"Image: "+this.getImage());
 	}
 
 }

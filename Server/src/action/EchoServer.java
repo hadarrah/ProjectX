@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 
@@ -605,34 +608,70 @@ public class EchoServer extends AbstractServer {
 	 */
 	public static void ViewItems(Object msg,Connection con, ConnectionToClient client) {
 		
-		Msg msg1=(Msg)msg;
-		Item_In_Catalog Itc=new Item_In_Catalog();
-		Statement stmt1;
-		ArrayList<Item_In_Catalog> items_arr = new ArrayList<Item_In_Catalog>();
-		 
+		int flag=0;
+		Msg msg1=(Msg)msg;		
+		Statement stmt1;		
+		//Set<Item> It_set=new HashSet<Item>();
+		ArrayList<Item_In_Catalog> Itc_arr = new ArrayList<Item_In_Catalog>();	
+		
 		try {
 
 			stmt1 = con.createStatement();			
-			ResultSet rs1;
-			 rs1 = stmt1.executeQuery("SELECT * FROM "+ msg1.getTableName());
+			ResultSet rs1,rs2;
+			rs1 = stmt1.executeQuery("SELECT * FROM "+ msg1.getTableName());
+			 
 			//Set Item_in_catalog
 			while (rs1.next()) 
-			{
-			
-				Itc.setID(rs1.getString(1));				
-				Itc.setItem_ID(rs1.getString(2));
-				Itc.setAmount(rs1.getInt(3));
-				Itc.setName(rs1.getString(4));
-				Itc.setPrice(rs1.getFloat(5));
-				Itc.setDescription(rs1.getString(6));
-			//	Itc.setImage(rs.getString(7));			//need a path	
-				items_arr.add(Itc);
-				System.out.println(items_arr.get(0));
-				System.out.println("\n");
+			{		
+				Item_In_Catalog Itc=new Item_In_Catalog();
+				Itc.setID(rs1.getString(1)); //execute Item in catalog id
+				PreparedStatement ps = con.prepareStatement("SELECT * FROM item WHERE ID=?");
+				ps.setString(1, rs1.getString(2));	
+				rs2=ps.executeQuery(); //execute item details for item id(Item in catalog[item_id])
+				
+				//Set Items in Item_in_catalog
+				while(rs2.next())
+				{
+					Set<Item> It_set=new HashSet<Item>();
+					Item It=new Item();
+					It.setID(rs2.getString(1));
+					It.setName(rs2.getString(2));
+					It.setColor(rs2.getString(3));
+					It.setPrice(rs2.getFloat(4));
+					It.setType(rs2.getString(5));
+					It.setAmount(rs2.getInt(6));
+					It.setSale_ID(rs2.getString(7));
+					It.setImage(rs2.getString(8));					
+					for(int i=0;i<Itc_arr.size();i++)
+					{
+						if(Itc_arr.get(i).getID().equals(Itc.getID()))
+						{
+							Itc_arr.get(i).getItem_ID().add(It);
+							flag=1;
+						}
+					}
+					if(flag==0)
+					{
+						It_set.add(It);							
+						Itc.setItem_ID(It_set); //set the Items array in Item_Id attribute		
+						Itc.setAmount(rs1.getInt(3));
+						Itc.setName(rs1.getString(4));
+						Itc.setPrice(rs1.getFloat(5));
+						Itc.setDescription(rs1.getString(6));
+						Itc.setImage(rs1.getString(7));			//need a path	
+						Itc_arr.add(Itc);
+					}
+					flag=0;						
+				}					
+				rs2.close();
 			}
-			rs1.close();
-			client.sendToClient((Object)items_arr);
+			for(Item_In_Catalog itc : Itc_arr)
+			{
+				System.out.println(itc+"\n\n");	
+			}
 			
+			client.sendToClient((Object)Itc_arr);
+			rs1.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException x) {
