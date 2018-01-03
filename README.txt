@@ -8,6 +8,10 @@ Design Conventions:
 
 -Font Colors:   *Green [#29940c]
 		*Red   [#eb0a0a]
+		
+-Titles:	Font: Arial Black
+		Size: 28px
+		Color: #0d0d0c
 
 
 - Window Size:  *Default - 500x600 (width x height) [pixels].
