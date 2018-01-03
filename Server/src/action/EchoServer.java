@@ -95,7 +95,12 @@ public class EchoServer extends AbstractServer {
 					check_survey_exist(msg1, conn, client);
 				else if (msg1.getRole().equals("find items color-type-price"))
 					SelectItemsCTP(msg1, conn, client);
-
+				else if (msg1.getRole().equals("get survey qustion"))
+					get_survey_question(msg1, conn, client);
+				else if (msg1.getRole().equals("get combo colors"))
+					GetComboForSelfItem(msg1, conn, client);
+				else if (msg1.getRole().equals("get combo type"))
+					GetComboForSelfItem(msg1, conn, client);
 			}
 			case "UPDATE": {
 				if (msg1.getRole().equals("user logout"))
@@ -104,8 +109,8 @@ public class EchoServer extends AbstractServer {
 					Update_user_details(msg1, conn, client);
 				else if(msg1.getRole().equals("close survey"))
 	        		   Close_survey(msg1,conn,client);
-				// else getProdectdetails(msg1,conn,client);
-				// else UpdateItem(conn,msg,client);
+				else if (msg1.getRole().equals("update survey answers"))
+					update_survey_answers(msg1, conn, client);
 			}
 			case "SELECTALL": {
 				if(msg1.getRole().equals("View all catalog items"))
@@ -118,15 +123,8 @@ public class EchoServer extends AbstractServer {
 			}
 			}// end switch
 		} // end try
-		/*
-		 * }
-		 * 
-		 * else { getProdectdetails(msg1,conn,client); } }
-		 * 
-		 * 
-		 * 
-		 * else if (msg1.getType().equals("UPDATE")) UpdateItem(conn,msg,client); }
-		 */
+
+		
 		catch (SQLException ex) {
 			/* handle any errors */
 			System.out.println("SQLException: " + ex.getMessage());
@@ -398,12 +396,12 @@ public class EchoServer extends AbstractServer {
 				ps.setString(6,survey.getQ4());
 				ps.setString(7,survey.getQ5());
 				ps.setString(8,survey.getQ6());
-				ps.setString(9,survey.getA1());
-				ps.setString(10,survey.getA2());
-				ps.setString(11,survey.getA3());
-				ps.setString(12,survey.getA4());
-				ps.setString(13,survey.getA5());
-				ps.setString(14,survey.getA6());
+				ps.setString(9,Integer.toString(survey.getA1()));
+				ps.setString(10,Integer.toString(survey.getA2()));
+				ps.setString(11,Integer.toString(survey.getA3()));
+				ps.setString(12,Integer.toString(survey.getA4()));
+				ps.setString(13,Integer.toString(survey.getA5()));
+				ps.setString(14,Integer.toString(survey.getA6()));
 				ps.setString(15, "Active");
 				ps.setString(16,survey.getNumOfParticipant());
 				ps.executeUpdate();
@@ -475,9 +473,100 @@ public class EchoServer extends AbstractServer {
 			e.printStackTrace();
 		}
 		return isAlreadyCon;
+	}
+	
+	/**
+	 * 
+	 * @param msg
+	 * @param con
+	 * @param client
+	 */
+	public static void get_survey_question(Object msg, Connection con, ConnectionToClient client) {
 
+		Msg msg1 = (Msg) msg;
+		Survey s = (Survey) msg1.oldO;
+		try {
+
+			PreparedStatement ps = con
+					.prepareStatement(" SELECT * FROM " + msg1.getTableName() + " " + "WHERE Status=?;");
+			/* insert the names to the query */
+			ps.setString(1, "Active");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				s.setID(rs.getString(1));
+				s.setDate(rs.getString(2));
+				s.setQ1(rs.getString(3));
+				s.setQ2(rs.getString(4));
+				s.setQ3(rs.getString(5));
+				s.setQ4(rs.getString(6));
+				s.setQ5(rs.getString(7));
+				s.setQ6(rs.getString(8));
+				s.setNumOfParticipant("0");
+			}
+			msg1.newO = s;
+
+			try {
+				client.sendToClient(msg1);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
 	}
 
+	public static void update_survey_answers(Object msg, Connection con, ConnectionToClient client) {
+		/*
+		 * Survey survey=(Survey) msg1.oldO; PreparedStatement ps; ResultSet rs;
+		 * 
+		 * try {
+		 * 
+		 * ps = conn.prepareStatement("UPDATE survey SET Status=? WHERE ID=?;");
+		 * ps.setString(1, "No Active"); ps.setString(2, survey.getID());
+		 * ps.executeUpdate();
+		 * 
+		 * msg1.newO = survey; client.sendToClient(msg1); }
+		 */
+
+	}
+	
+	/**
+	 * get the different color/type for combobox in self item
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static void GetComboForSelfItem(Msg msg1, Connection conn, ConnectionToClient client) {
+		PreparedStatement ps;
+		ResultSet rs;
+		ArrayList<String> forCombo = new ArrayList<String>();
+		String field = "";
+
+		/* set the specific column in item table */
+		if (msg1.getRole().equals("get combo colors"))
+			field = "Color";
+		else if (msg1.getRole().equals("get combo type"))
+			field = "Type";
+		try {
+			/* set up and execute the select query */
+			rs = conn.createStatement().executeQuery("SELECT * FROM item GROUP BY " + field + ";");
+
+			while (rs.next())
+				forCombo.add(rs.getString(field));
+
+			msg1.newO = forCombo;
+			client.sendToClient(msg1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	
 	public static void Update_user_details(Object msg, Connection con, ConnectionToClient client) {
 		String ans = "Update done";
 		Msg msg1 = (Msg) msg;
