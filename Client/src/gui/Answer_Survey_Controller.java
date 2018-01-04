@@ -72,12 +72,9 @@ public void form_submit(ActionEvent event) throws IOException {
 		}
 	
 	if(validity_flag==1) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-      alert.setTitle("Message");
-      alert.setContentText("Your answers were submitted - have a GOOD day!");
-      alert.setHeaderText("Thank you!");
+      
+      Optional<ButtonType> result = Login_win.showPopUp("INFORMATION", "Message", "Your answers were submitted - have a GOOD day!", "Thank you!");
 
-      Optional<ButtonType> result = alert.showAndWait();
       if (result.get() == ButtonType.OK)
       {
       	System.out.println("after thr confirmation");
@@ -87,13 +84,15 @@ public void form_submit(ActionEvent event) throws IOException {
       }
 	}
 	else {
-		Alert alert = new Alert(AlertType.INFORMATION);
+		/*Alert alert = new Alert(AlertType.INFORMATION);
 	      alert.setTitle("Message");
 	      alert.setContentText("In order to complete the survey to will have to answers all 6 Q");
 	      alert.setHeaderText("Invalid fields!");
 
 
-	      Optional<ButtonType> result = alert.showAndWait();
+	      Optional<ButtonType> result = alert.showAndWait();*/
+	      Optional<ButtonType> result = Login_win.showPopUp("INFORMATION", "Message", "In order to complete the survey to will have to answers all 6 Q", "Invalid fields!");
+
 	      if (result.get() == ButtonType.OK)
 	      {
 	      	System.out.println("");

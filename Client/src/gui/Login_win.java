@@ -17,15 +17,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.util.ArrayList;
+import java.util.Optional;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
@@ -140,7 +145,34 @@ public class Login_win  implements ControllerI,Initializable  {
 	}
 	
 	
-	
+	public static Optional<ButtonType> showPopUp(String typeOfPopUpString, String title, String header, String content)
+	{
+		Alert alert = null;
+		
+		switch(typeOfPopUpString)
+		{
+		case "CONFIRMATION":
+			alert = new Alert(AlertType.CONFIRMATION);
+			break;
+		case "INFORMATION":
+			alert = new Alert(AlertType.INFORMATION);
+			break;
+		case "ERROR":
+			alert = new Alert(AlertType.ERROR);
+			break;
+		}
+		
+		if(!title.isEmpty())
+			alert.setTitle(title);
+		if(!header.isEmpty())
+			alert.setHeaderText(header);
+		if(!content.isEmpty())
+			alert.setContentText(content);
+		
+		Optional<ButtonType> result = alert.showAndWait();
+		
+		return result;
+	}
  
 	
 	public void Quit_app()

@@ -98,7 +98,7 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 		move(event, main.fxmlDir + "Self_Item_Add_Items_F.fxml");
 	}
 
-	 /**
+	/**
      * General function for the movement between the different windows
      * @param event
      * @param next_fxml = string of the specific fxml

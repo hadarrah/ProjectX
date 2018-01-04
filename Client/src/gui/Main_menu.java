@@ -133,11 +133,9 @@ public class Main_menu  implements Initializable,ControllerI{
     
     private void show_logout_msg() 
     {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("LogOut");
-        alert.setHeaderText("Are you sure you want to Logout ZerLi system?");
-        // option != null.
-        Optional<ButtonType> option = alert.showAndWait();
+        
+	      Optional<ButtonType> option = Login_win.showPopUp("CONFIRMATION", "LogOut", "Are you sure you want to Logout ZerLi system?", "");
+
          if (option.get() == ButtonType.OK)
          logout_flag=true;
          
