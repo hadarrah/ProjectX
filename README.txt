@@ -59,6 +59,11 @@ move to other window (implementation):
 Example of calling:
   move(event,main.fxmlDir+ "Managment_F.fxml");
 
+showPopUpMessage:
+Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="LogOut", header="Are you sure...", content="blabla");
+
+if you don't need one of the field => insert empty string ""
+
 
 -Main, Prev and Next controllers:
 
