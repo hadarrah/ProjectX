@@ -2,7 +2,6 @@ package action;
 
 import java.io.Serializable;
 
-
 public class Item implements Serializable{
 	
 	private String ID;
@@ -11,7 +10,7 @@ public class Item implements Serializable{
 	private float Price;
 	private String Type;	
 	private int Amount;
-	private Sale Sale_ID;
+	private String Sale_ID;
 	private String Image;
 	
 	/**constructor**/
@@ -24,6 +23,18 @@ public class Item implements Serializable{
 		this.Type=null;
 		this.Amount=0;
 		this.Sale_ID=null;
+		
+	}
+	
+	public Item(Item t)
+	{
+		this.ID=t.ID;
+		this.Name=t.Name;
+		this.Color=t.Color;
+		this.Price=t.Price;
+		this.Type=t.Type;
+		this.Amount=t.Amount;
+		this.Sale_ID=t.Sale_ID;
 		
 	}
 	
@@ -102,14 +113,14 @@ public class Item implements Serializable{
 	/**
 	 * @return the sale
 	 */
-	public Sale getSale_ID() {
+	public String getSale_ID() {
 		return Sale_ID;
 	}
 	/**
 	 * @param sale the sale to set
 	 */
-	public void setSale_ID(Sale sale) {
-		this.Sale_ID=sale;
+	public void setSale_ID(Sale Sale_ID) {
+		Sale_ID = Sale_ID;
 	}
 
 	/**
@@ -126,10 +137,14 @@ public class Item implements Serializable{
 		Image = image;
 	}
 	
+	public Item getCopy(Item t) {
+		return new Item(t);
+	}
+	
 	public String toString()
 	{
 		return("\nID: "+this.getID()+"\n"+"Name: "+this.getName()+"\n"+"Color: "+this.getColor()+"\n"+"Price: "+this.getPrice()
-				+"\n"+"Type: "+this.getType()+"\n"+"Amount: "+this.getAmount()+"\n"+"Sale: "+this.getSale_ID().getID());
+				+"\n"+"Type: "+this.getType()+"\n"+"Amount: "+this.getAmount()+"\n"+"Sale: "+this.getSale_ID());
 	}
 	
 }
