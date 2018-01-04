@@ -68,9 +68,13 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 			HashMap<Item, Integer> amountMap = (HashMap<Item, Integer>) ((Self_Item_Controller) prevPage).itemToAmount;
 			// If user pressed the Add Item button twice -> ask him if he is sure
 			if (productsArr.size() > 0 && p == productsArr.get(productsArr.size() - 1)) {
-				
-			    Optional<ButtonType> result = Login_win.showPopUp("CONFIRMATION", "Confirm Additional Same Item", "Confirmation of item addition", "You have already added " + p.getName() + "\nAre you sure you want to add another" + p.getName() + "?");
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Confirm Additional Same Item");
+				alert.setHeaderText("Confirmation of item addition");
+				alert.setContentText("You have already added " + p.getName() + "\nAre you sure you want to add another "
+						+ p.getName() + "?");
 
+				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == ButtonType.OK) {
 
 				} else {
@@ -107,7 +111,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 				p = products.get(i);
 				this.amount_wanted_TF.setText("1");
 				unit_price_TF.setText(Float.toString(price));
-				this.in_stock_TF.setPromptText(Float.toString(p.getAmount()));
+				//this.in_stock_TF.setPromptText(Float.toString(p.getAmount()));
 				break;
 			}
 			// if(in_stock>0)
@@ -191,11 +195,11 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		msg.event = event;
 		msg.oldO = psearch;
 
+		
 		Login_win.to_Client.accept(msg);
 	}
 
 	public void setReturnedItems(Object message) {
-
 
 
 		products = (ArrayList<Item>) ((Msg) message).newO;
@@ -219,7 +223,9 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		if (products.size() > 0)
 			select_item_L.setVisible(true);
 		
-		if (products.size()<=0) {
+		System.out.println(ObsList.size());
+		
+		if (ObsList.size()<=0) {
 			// if query is empty (no items with chosen attr)
 			Platform.runLater(new Runnable() {
 				@Override
@@ -282,7 +288,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		move(event, main.fxmlDir + "Self_Item_F.fxml");
 	}
 
-	/**
+	 /**
      * General function for the movement between the different windows
      * @param event
      * @param next_fxml = string of the specific fxml

@@ -1,2 +1,9 @@
-/gui/
 /action/
+/client/
+/common/
+/gui/
+<<<<<<< HEAD
+/action/
+=======
+/ocsf/
+>>>>>>> branch 'master' of https://github.com/hadarrah/ProjectX.git
