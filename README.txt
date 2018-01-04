@@ -76,3 +76,4 @@ Do Always:	Login_win.to_Client.setController(this);	//Initialize current control
 toAdd:
 a log file ,that recod the server action.
 the system manger can see this file
+to view profile -> purcahse  history
