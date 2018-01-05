@@ -151,7 +151,11 @@ public class Add_Comments_Controller implements Initializable,ControllerI{
 			public void run() {
 				 	try {
 				 		
-				 		Login_win.showPopUp("ERROR", "ERROR", "There was problem when the system try to insert the comment\ndue to the length of entire comments", "");
+
+				    	Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("ERROR");
+						alert.setHeaderText("There was problem when the system try to insert the comment\ndue to the length of entire comments");
+						alert.showAndWait();
 				 		
 						move(event_log , main.fxmlDir+ "Managment_F.fxml");
 					} catch (IOException e) {

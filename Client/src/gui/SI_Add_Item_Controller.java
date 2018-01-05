@@ -71,7 +71,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Confirm Additional Same Item");
 				alert.setHeaderText("Confirmation of item addition");
-				alert.setContentText("You have already added " + p.getName() + "\nAre you sure you want to add another "
+				alert.setContentText("You have already added " + p.getName() + "\nAre you sure you want to add another"
 						+ p.getName() + "?");
 
 				Optional<ButtonType> result = alert.showAndWait();
@@ -111,7 +111,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 				p = products.get(i);
 				this.amount_wanted_TF.setText("1");
 				unit_price_TF.setText(Float.toString(price));
-				//this.in_stock_TF.setPromptText(Float.toString(p.getAmount()));
+				this.in_stock_TF.setPromptText(Float.toString(p.getAmount()));
 				break;
 			}
 			// if(in_stock>0)
@@ -195,11 +195,11 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		msg.event = event;
 		msg.oldO = psearch;
 
-		
 		Login_win.to_Client.accept(msg);
 	}
 
 	public void setReturnedItems(Object message) {
+
 
 
 		products = (ArrayList<Item>) ((Msg) message).newO;
@@ -223,9 +223,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		if (products.size() > 0)
 			select_item_L.setVisible(true);
 		
-		System.out.println(ObsList.size());
-		
-		if (ObsList.size()<=0) {
+		if (products.size()<=0) {
 			// if query is empty (no items with chosen attr)
 			Platform.runLater(new Runnable() {
 				@Override

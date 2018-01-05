@@ -88,11 +88,7 @@ public class EchoServer extends AbstractServer {
 			 */
 			switch (query_type) {
 			case "SELECT": {
-				 if(msg1.getRole().equals("check if user already did this survey")) {
-					 check_if_user_took_this_survey(msg1,conn,client);
-				 }
-				 
-				 else if (msg1.getRole().equals("verify user details"))
+				if (msg1.getRole().equals("verify user details"))
 					check_user_details(msg1, conn, client);
 				else if (msg1.getRole().equals("check if ID exist and add payment account"))
 					check_id_exist(msg1, conn, client);
@@ -112,10 +108,6 @@ public class EchoServer extends AbstractServer {
 					GetComboForSelfItem(msg1, conn, client);
 				else if (msg1.getRole().equals("get combo customer ID"))
 					GetComboForAddComment(msg1, conn, client);
-				else if (msg1.getRole().equals("get the current survey id"))
-					get_the_current_survey_id(msg1,conn,client);
-				
-					
 			}
 			case "UPDATE": {
 				if (msg1.getRole().equals("user logout"))
@@ -124,25 +116,18 @@ public class EchoServer extends AbstractServer {
 					Update_user_details(msg1, conn, client);
 				else if (msg1.getRole().equals("close survey"))
 					Close_survey(msg1, conn, client);
-				else if (msg1.getRole().equals("update survey answers")) 
-				{
+				else if (msg1.getRole().equals("update survey answers"))
 					update_survey_answers(msg1, conn, client);
-				}
 				else if (msg1.getRole().equals("set comment survey"))
 					update_comment_survey(msg1, conn, client);
 			}
 			case "SELECTALL": {
-				if (msg1.getRole().equals("View all catalog items"))
-					// System.out.println("In server");
+				if (msg1.getRole().equals("View all catalog items"))					
 					ViewItems(msg1, conn, client);
 			}
 			case "INSERT": {
 				if (msg1.getRole().equals("insert survey"))
 					insert_survey(msg1, conn, client);
-				
-				else if (msg1.getRole().equals("insert customer id to survey")) 
-				set_customer_in_survey_answered(msg1, conn, client);
-
 			}
 			}// end switch
 		} // end try
@@ -153,65 +138,9 @@ public class EchoServer extends AbstractServer {
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
 		} catch (Exception ex) {
-			/* handle the errort */
+			/* handle the error */
 		}
 
-	}
-
-	public static  void get_the_current_survey_id(Msg msg1, Connection conn, ConnectionToClient client)
-	{
-	 
-		 Msg msg  = (Msg) msg1;
-		 Survey survey=new Survey();
-		
-		try {
-			/** Building the query */
-			 
-
-			PreparedStatement ps = conn.prepareStatement("SELECT ID FROM survey where Status='Active';");
-			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next())
-			{
-				 survey.setID(rs.getString(1));
-				 
-					
-			}
-			 msg.newO=survey;
-			 client.sendToClient(msg);
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-	  catch (IOException ex)
-		 	{ 
-		 	System.err.println("unable to send msg to client");
-		 	}
-		 
-		
-	}
-
-	 
-
-	public static void set_customer_in_survey_answered(Msg msg1, Connection conn, ConnectionToClient client)
-	{
-		 
-		 Msg msg  = (Msg) msg1;
-		 Survey survey=(Survey) msg.oldO;
-		 Person customer= (Person) msg.newO;
-		try {
-			/** Building the query */
-		 
-
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO `zerli`.`comments_survey` (`ID`, `Customer_ID`) VALUES (?, ?);");
-			ps.setString(1, survey.getID());
-			ps.setString(2, customer.getUser_ID());
- 			ps.executeUpdate();
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	public static void decoy(Msg msg, Connection con, ConnectionToClient client) throws IOException {
@@ -229,7 +158,6 @@ public class EchoServer extends AbstractServer {
 	 *            The connection from which the message originated.
 	 */
 	public static void SelectItemsCTP(Msg msg, Connection con, ConnectionToClient client) {
-
 
 		Msg msg1 = (Msg) msg;
 		Item p = (Item) msg1.oldO;
@@ -281,42 +209,6 @@ public class EchoServer extends AbstractServer {
 		return;
 	}
 
-	public static void check_if_user_took_this_survey(Msg msg1, Connection conn, ConnectionToClient client)
-	{	  
-		Msg msg = (Msg) msg1;
-		Person user=(Person) msg.newO;
-		Survey survey=(Survey) msg.oldO;
-		int flag=0;
- 
-		try {
-			 
-			PreparedStatement ps = conn.prepareStatement(" SELECT Customer_ID FROM  comments_survey WHERE ID=?;");
-			ps.setString(1,survey.getID());
-			ResultSet rs = ps.executeQuery();
-			while ( rs.next( ))
-			{
-				
-			if(user.getUser_ID().equals(rs.getString(1)))
-			{
-				msg.freeField="false";
-				flag=1;
-			}
-			}
-			if(flag==0)
-			{
-				msg.freeField="true";
-			}
-			 
-			client.sendToClient(msg);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		 
-	} catch (IOException e) {
-			 
-			e.printStackTrace();
-		}
-	}
 	public static void check_user_details(Msg msg1, Connection conn, ConnectionToClient client) {
 		Person user = (Person) msg1.oldO;
 		String a;
@@ -721,41 +613,19 @@ public class EchoServer extends AbstractServer {
 				e.printStackTrace();
 			}
 	  }
-	/**
-	 * this function update the survey answers after each customer that took the survey
-	 * updated the Num_Of_Participant in the survey by on +1 
-	 * @param msg
-	 * @param con
-	 * @param client
-	 */
-	public static void update_survey_answers(Object msg, Connection con, ConnectionToClient client)
-	{
-		   Msg msg1=(Msg) msg;
-		   Survey survey_answers=(Survey) msg1.oldO;
-		   PreparedStatement ps; 
-		   ResultSet rs;
-		   try {
-		    ps = con.prepareStatement("UPDATE " +msg1.getTableName()+" SET A1=A1+?, A2=A2+? , A3=A3+? ,A4=A4+? , A5=A5+? , A6=A6+?, Num_Of_Participant =Num_Of_Participant+1  WHERE ID=?;");
-		    ps.setInt(1, +survey_answers.getA1());
-		    ps.setInt(2, +survey_answers.getA2());
-		    ps.setInt(3, +survey_answers.getA3());
-		    ps.setInt(4, +survey_answers.getA4());
-		    ps.setInt(5, +survey_answers.getA5());
-		    ps.setInt(6, +survey_answers.getA6());
-		    ps.setString(7, survey_answers.getID());
-		    ps.executeUpdate();
-		   
-		   msg1.newO = survey_answers; 
-		   System.out.println("after the update in data base");
-		  //client.sendToClient(msg1); 
-		   }
-		   
-		  catch (SQLException e) 
-		  	{
-				e.printStackTrace();
-		  	}
-	 
 	
+	public static void update_survey_answers(Object msg, Connection con, ConnectionToClient client) {
+		/*
+		 * Survey survey=(Survey) msg1.oldO; PreparedStatement ps; ResultSet rs;
+		 * 
+		 * try {
+		 * 
+		 * ps = conn.prepareStatement("UPDATE survey SET Status=? WHERE ID=?;");
+		 * ps.setString(1, "No Active"); ps.setString(2, survey.getID());
+		 * ps.executeUpdate();
+		 * 
+		 * msg1.newO = survey; client.sendToClient(msg1); }
+		 */
 
 	}
 
