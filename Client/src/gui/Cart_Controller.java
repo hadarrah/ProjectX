@@ -92,7 +92,7 @@ public class Cart_Controller implements Initializable, ControllerI {
 		move(event, main.fxmlDir + "Main_Menu_F.fxml");
 	}
 
-	 /**
+	/**
      * General function for the movement between the different windows
      * @param event
      * @param next_fxml = string of the specific fxml

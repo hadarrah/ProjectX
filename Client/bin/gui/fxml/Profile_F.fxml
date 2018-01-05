@@ -20,7 +20,7 @@
          </font>
       </Label>
       <Button fx:id="back_to_main_B" layoutX="52.0" layoutY="513.0" mnemonicParsing="false" onAction="#back_to_main" text="Back" />
-      <Button fx:id="edit_details_B" layoutX="169.0" layoutY="348.0" mnemonicParsing="false" onAction="#to_update_info" text="Update Personal Details" />
+      <Button fx:id="edit_details_B" layoutX="169.0" layoutY="348.0" mnemonicParsing="false" onAction="#to_update_info" text="Edit Personal Details" />
       <VBox fx:id="v_details" layoutX="122.0" layoutY="102.0" prefHeight="200.0" prefWidth="236.0">
          <children>
             <TextArea fx:id="details_txt" prefHeight="192.0" prefWidth="162.0" />

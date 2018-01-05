@@ -22,14 +22,6 @@ public class Survey implements Serializable {
 		this.a6 =  0 ;
 	}
 	
-	public Survey(String id , String date, String participant, String conclusion)
-	{
-		this.ID = id;
-		this.date = date;
-		this.Num_Of_Participant = participant;
-		this.conclusion = conclusion;
-	}
-	
 	public Survey(String q1,String q2, String q3, String q4, String q5, String q6)
 	{
 		this.q1 = q1;
@@ -180,31 +172,31 @@ public class Survey implements Serializable {
 	
 	public void setA1(int res)
 	{
-		this.a1+=res;
+		this.a1=res;
 	}
 	
 	public void setA2(int res)
 	{
-		this.a2+=res;
+		this.a2=res;
 	}
 	
 	public void setA3(int res)
 	{
-		this.a3+=res;
+		this.a3=res;
 	}
 	
 	public void setA4(int res)
 	{
-		this.a4+=res;
+		this.a4=res;
 	}
 	
 	public void setA5(int res)
 	{
-		this.a5+=res;
+		this.a5=res;
 	}
 	
 	public void setA6(int res)
 	{
-		this.a6+=res;
+		this.a6=res;
 	} 
 }

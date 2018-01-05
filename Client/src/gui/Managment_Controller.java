@@ -117,9 +117,8 @@ public class Managment_Controller implements Initializable,ControllerI {
 
     }
 
-    public void conclusion_Survey(ActionEvent event) throws IOException {
-		move(event ,main.fxmlDir+ "Add_Conclusion_F.fxml");
-
+    public void conclusion_Survey(ActionEvent event) {
+    	
     }
 
     public void create_PaymentAccount(ActionEvent event) throws IOException {
@@ -149,12 +148,11 @@ public class Managment_Controller implements Initializable,ControllerI {
     	/*save the answer from server*/
     	Survey to_check = (Survey) (((Msg) message).newO);
 
-    	if(((Msg) message).getRole().equals("check if there is active survey for close") || 
-    			((Msg) message).getRole().equals("check if there is active survey for add comment")) //for close and add comment
+    	if(((Msg) message).getRole().equals("check if there is active survey for close") || ((Msg) message).getRole().equals("check if there is active survey for add comment")) //for close and add comment
     	{
     		if(to_check == null)
         	{
-		 	    Login_win.showPopUp("ERROR", "Message", "There is no active survey", "");
+    			JOptionPane.showMessageDialog(null, "There is no active survey");
         		return;
         	}
     		else if(((Msg) message).getRole().equals("check if there is active survey for close"))
@@ -217,7 +215,7 @@ public class Managment_Controller implements Initializable,ControllerI {
         	}
     		else
     		{
-		 	    Login_win.showPopUp("ERROR", "Message", "There is already active survey, please close this survey before you try again...", "");
+    			JOptionPane.showMessageDialog(null, "There is already active survey, please close this survey before you try again...");
         		return;
     		}
     	}
