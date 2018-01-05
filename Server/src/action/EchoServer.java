@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 
@@ -112,6 +114,10 @@ public class EchoServer extends AbstractServer {
 					GetComboForAddComment(msg1, conn, client);
 				else if (msg1.getRole().equals("get combo survey ID"))
 					GetComboForAddConclusion(msg1, conn, client);
+				else if (msg1.getRole().equals("get combo survey ID"))
+					GetComboForAddConclusion(msg1, conn, client);
+				else if (msg1.getRole().equals("get combo all customers"))
+					GetComboForEditManProfile(msg1, conn, client);
 			}
 			case "UPDATE": {
 				if (msg1.getRole().equals("user logout"))
@@ -126,6 +132,8 @@ public class EchoServer extends AbstractServer {
 					update_comment_survey(msg1, conn, client);
 				else if (msg1.getRole().equals("set conclusion survey"))
 					update_conclusion_survey(msg1, conn, client);
+				else if (msg1.getRole().equals("set edit profile manager"))
+					update_profile_by_manager(msg1, conn, client);
 			}
 			case "SELECTALL": {
 				if (msg1.getRole().equals("View all catalog items"))					
@@ -561,6 +569,64 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	
+	/**
+	 * get  all  customers id
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static void GetComboForEditManProfile(Msg msg1, Connection conn, ConnectionToClient client) {
+		PreparedStatement ps;
+		ResultSet rs;
+		SortedMap<String , String> privilegeCombo = new TreeMap<String , String>();
+		SortedMap<String , ArrayList<String>> paymentCombo = new TreeMap<String , ArrayList<String>>();
+		ArrayList<String> stores = new ArrayList<String>();
+		String current_id = (String) msg1.oldO;
+		
+		try {
+			 /*set up and execute the select query from person table to get all the customers*/
+			  ps = conn.prepareStatement("SELECT * FROM person WHERE ID != ?;");
+			  ps.setString(1, current_id);
+			  rs = ps.executeQuery();
+			  
+			while (rs.next())
+				privilegeCombo.put(rs.getString("ID"), rs.getString("Privilege"));
+
+			msg1.newO = privilegeCombo;
+			
+			/*set up and execute the select query from payment_account table*/
+			  ps = conn.prepareStatement("SELECT * FROM payment_account WHERE ID != ?;");
+			  ps.setString(1, current_id);
+			  rs = ps.executeQuery();
+
+			  while (rs.next()) 
+			  {
+				  ArrayList<String> status_subscription = new ArrayList<String>();
+				  status_subscription.add(rs.getString("Status"));
+				  status_subscription.add(rs.getString("Subscription"));
+				  status_subscription.add(rs.getString("Store_ID"));
+				  paymentCombo.put(rs.getString("ID"), status_subscription);
+			  }
+
+			msg1.oldO = paymentCombo;
+			
+			/* set up and execute the select query from store table to get all the stores*/
+			rs = conn.createStatement().executeQuery("SELECT * FROM store GROUP BY ID;");
+
+			while (rs.next())
+				stores.add(rs.getString("ID"));
+			msg1.freeUse = stores;
+			
+			client.sendToClient(msg1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * get the customer id for combobox in add comments to survey
 	 * 
@@ -595,6 +661,52 @@ public class EchoServer extends AbstractServer {
 	}
 	
 	
+	 /**
+	   * set the new details of customer by system manager
+	   * @param msg1
+	   * @param conn
+	   * @param client
+	   */
+	  public static void update_profile_by_manager(Msg msg1 ,Connection conn,ConnectionToClient client)
+	  {
+		  String customerID= ((ArrayList<String>)msg1.oldO).get(0);
+		  String privilege= ((ArrayList<String>)msg1.oldO).get(1);
+		  String status= ((ArrayList<String>)msg1.oldO).get(2);
+		  String subscription= ((ArrayList<String>)msg1.oldO).get(3);
+		  String store= ((ArrayList<String>)msg1.oldO).get(4);
+
+		  PreparedStatement ps;
+		  ResultSet rs;
+		  
+		  try
+		   {
+			  /*set up and execute the update privilege in person table */
+			  ps = conn.prepareStatement("UPDATE person SET Privilege=? WHERE ID=?;");
+			 
+			  ps.setString(1, privilege);
+			  ps.setString(2, customerID);
+			  ps.executeUpdate();
+			  
+			  /*set up and execute the update status in payment account table */
+			  ps = conn.prepareStatement("UPDATE payment_account SET Status=?, Subscription=?, Store_ID=? WHERE ID=?;");
+			 
+			  ps.setString(1, status);
+			  ps.setString(2, subscription);
+			  ps.setString(3, store);
+			  ps.setString(4, customerID);
+			  ps.executeUpdate();
+			  
+			  client.sendToClient(msg1);
+		   }
+		  catch (SQLException e) 
+		  	{
+				e.printStackTrace();
+		  	} 
+		  catch (IOException e) 
+		    {
+				e.printStackTrace();
+			}
+	  }
 	 /**
 	   * set the new comment in comments_survey table
 	   * @param msg1

@@ -11,6 +11,7 @@ public class Msg implements Serializable {
 		public String Table_name;
 	    public Object newO;
 	    public Object oldO;
+	    public Object freeUse;
 	    public ActionEvent event;
 	    public float num1;
 	    public float num2;

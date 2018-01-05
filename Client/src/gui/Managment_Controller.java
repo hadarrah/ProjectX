@@ -127,8 +127,8 @@ public class Managment_Controller implements Initializable,ControllerI {
 		
     }
 
-    public void edit_CustomersProfile(ActionEvent event) {
-
+    public void edit_CustomersProfile(ActionEvent event) throws IOException {
+    	move(event ,main.fxmlDir+ "Edit_Customer_Profile_Man_F.fxml");
     }
 
     public void display_Reports(ActionEvent event) {
@@ -292,7 +292,6 @@ public class Managment_Controller implements Initializable,ControllerI {
         		break;
     		case "Store Manager":
     			create_PaymentAccount_B.setVisible(true);
-    			edit_CustomersProfile_B.setVisible(true);
     			display_Reports_B.setVisible(true);
         		break;
     		case "Service Expert":
@@ -301,6 +300,9 @@ public class Managment_Controller implements Initializable,ControllerI {
     		case "Store Employee":
     			create_Sale_B.setVisible(true);
     			add_Comments_B.setVisible(true);
+        		break;
+    		case "System Manager":
+    			edit_CustomersProfile_B.setVisible(true);
         		break;
     	}
 	}

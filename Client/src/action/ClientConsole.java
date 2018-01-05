@@ -134,18 +134,22 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("get combo survey ID")) {
 					((gui.Add_Conclusion_Controller) mc).setCombo(message);
 				}
-
+				else if (check.getRole().equals("get combo all customers")) {
+					((gui.Edit_Customer_Profile_Man_Controller) mc).set_combobox(message);
+				}
 			}
 			 if(check.getType().equals("UPDATE"))
 			 {
 				 if(check.getRole().equals("close survey"))
 					 ((gui.Close_Survey_Controller)mc).close_survey_success(message);
-				 if(check.getRole().equals("set comment survey"))
+				 else if(check.getRole().equals("set comment survey"))
 					 ((gui.Add_Comments_Controller)mc).update_comment_survey_success(message);
-				 if(check.getRole().equals("set conclusion survey"))
+				 else if(check.getRole().equals("set conclusion survey"))
 					 ((gui.Add_Conclusion_Controller)mc).update_conclusion_survey_success(message);
 				 else if(check.getRole().equals("set comment survey"))
 					 ((gui.Add_Comments_Controller)mc).update_comment_survey_success(message);
+				 else if(check.getRole().equals("set edit profile manager"))
+					 ((gui.Edit_Customer_Profile_Man_Controller)mc).update_details_success(message);
 			 }
 			else if (check.getType().equals("INSERT")) {
 				if (check.getRole().equals("insert survey"))
