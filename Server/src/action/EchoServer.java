@@ -12,7 +12,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
@@ -108,6 +110,8 @@ public class EchoServer extends AbstractServer {
 					GetComboForSelfItem(msg1, conn, client);
 				else if (msg1.getRole().equals("get combo customer ID"))
 					GetComboForAddComment(msg1, conn, client);
+				else if (msg1.getRole().equals("get combo survey ID"))
+					GetComboForAddConclusion(msg1, conn, client);
 			}
 			case "UPDATE": {
 				if (msg1.getRole().equals("user logout"))
@@ -120,6 +124,8 @@ public class EchoServer extends AbstractServer {
 					update_survey_answers(msg1, conn, client);
 				else if (msg1.getRole().equals("set comment survey"))
 					update_comment_survey(msg1, conn, client);
+				else if (msg1.getRole().equals("set conclusion survey"))
+					update_conclusion_survey(msg1, conn, client);
 			}
 			case "SELECTALL": {
 				if (msg1.getRole().equals("View all catalog items"))					
@@ -534,7 +540,7 @@ public class EchoServer extends AbstractServer {
 	public static void GetComboForAddComment(Msg msg1, Connection conn, ConnectionToClient client) {
 		PreparedStatement ps;
 		ResultSet rs;
-		ArrayList<String> forCombo = new ArrayList<String>();
+		Map<String , String> forCombo = new HashMap<String , String>();
 		String surveyID = (String)msg1.oldO;
 
 		try {
@@ -544,7 +550,7 @@ public class EchoServer extends AbstractServer {
 			  rs = ps.executeQuery();
 			  
 			while (rs.next())
-				forCombo.add(rs.getString("Customer_ID"));
+				forCombo.put(rs.getString("Customer_ID"), rs.getString("comment"));
 
 			msg1.newO = forCombo;
 			client.sendToClient(msg1);
@@ -554,6 +560,40 @@ public class EchoServer extends AbstractServer {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * get the customer id for combobox in add comments to survey
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static void 	GetComboForAddConclusion(Msg msg1, Connection conn, ConnectionToClient client) {
+		PreparedStatement ps;
+		ResultSet rs;
+		ArrayList<Survey> forCombo = new ArrayList<Survey>();
+
+		try {
+			 /*set up and execute the update query*/
+			  ps = conn.prepareStatement("SELECT * FROM survey WHERE Status = ?;");
+			  ps.setString(1, "No Active");
+			  rs = ps.executeQuery();
+			while (rs.next())
+				forCombo.add(new Survey(rs.getString("ID"), rs.getString("Date"), rs.getString("Num_Of_Participant"), rs.getString("Conclusion")));
+
+			if(forCombo.isEmpty())
+				msg1.newO = null;
+			else
+				msg1.newO = forCombo;
+
+			client.sendToClient(msg1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	 /**
 	   * set the new comment in comments_survey table
@@ -567,41 +607,19 @@ public class EchoServer extends AbstractServer {
 		  String comment=(String) msg1.newO;
 		  String surveyID=(String) msg1.freeField;
 
-		  PreparedStatement psCheck, psEx;
+		  PreparedStatement ps;
 		  ResultSet rs;
 		  
 		  try
 		   {
-			  /*check if there is already comment in DB*/ 
-			  psCheck = conn.prepareStatement("SELECT * FROM comments_survey  WHERE ID=? AND Customer_ID = ?;");
-			  psCheck.setString(1, surveyID);
-			  psCheck.setString(2, customerID);
-			  rs = psCheck.executeQuery();
-			  rs.next();
-			  
 			  /*set up and execute the update query*/
-			  psEx = conn.prepareStatement("UPDATE comments_survey SET comment=? WHERE ID=? AND Customer_ID = ?;");
+			  ps = conn.prepareStatement("UPDATE comments_survey SET comment=? WHERE ID=? AND Customer_ID = ?;");
 			 
-			  if(rs.getString("comment") == null) //new comment
-				  psEx.setString(1, comment);
-			  else	//concatenate comments
-			  {
-				  if((rs.getString("comment") + "\n\n" + comment).length() < 200)
-					  psEx.setString(1, rs.getString("comment") + "\n\n" + comment);
-				  else	//exception length of field in DB
-				  {
-					  msg1.newO = "update comment survey faild";
-					  client.sendToClient(msg1);
-					  return;
-				  }
-					  
-			  }
-				  
-			  psEx.setString(2, surveyID);
-			  psEx.setString(3, customerID);
-			  psEx.executeUpdate();
+			  ps.setString(1, comment);
+			  ps.setString(2, surveyID);
+			  ps.setString(3, customerID);
+			  ps.executeUpdate();
 			  
-			  msg1.newO = "update comment survey success";
 			  client.sendToClient(msg1);
 		   }
 		  catch (SQLException e) 
@@ -614,6 +632,40 @@ public class EchoServer extends AbstractServer {
 			}
 	  }
 	
+	  /**
+	   * set the new conclusion in survey table
+	   * @param msg1
+	   * @param conn
+	   * @param client
+	   */
+	  public static void update_conclusion_survey(Msg msg1 ,Connection conn,ConnectionToClient client)
+	  {
+		  String conclusion=(String) msg1.oldO;
+		  String surveyID=(String) msg1.freeField;
+
+		  PreparedStatement ps;
+		  ResultSet rs;
+		  
+		  try
+		   {
+			  /*set up and execute the update query*/
+			  ps = conn.prepareStatement("UPDATE survey SET Conclusion=? WHERE ID=?;");
+			  ps.setString(1, conclusion);
+			  ps.setString(2, surveyID);
+			  ps.executeUpdate();
+			  
+			  client.sendToClient(msg1);
+		   }
+		  catch (SQLException e) 
+		  	{
+				e.printStackTrace();
+		  	} 
+		  catch (IOException e) 
+		    {
+				e.printStackTrace();
+			}
+	  }
+	  
 	public static void update_survey_answers(Object msg, Connection con, ConnectionToClient client) {
 		/*
 		 * Survey survey=(Survey) msg1.oldO; PreparedStatement ps; ResultSet rs;

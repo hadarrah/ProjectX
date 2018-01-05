@@ -22,6 +22,14 @@ public class Survey implements Serializable {
 		this.a6 =  0 ;
 	}
 	
+	public Survey(String id , String date, String participant, String conclusion)
+	{
+		this.ID = id;
+		this.date = date;
+		this.Num_Of_Participant = participant;
+		this.conclusion = conclusion;
+	}
+	
 	public Survey(String q1,String q2, String q3, String q4, String q5, String q6)
 	{
 		this.q1 = q1;
