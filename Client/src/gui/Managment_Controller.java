@@ -117,8 +117,9 @@ public class Managment_Controller implements Initializable,ControllerI {
 
     }
 
-    public void conclusion_Survey(ActionEvent event) {
-    	
+    public void conclusion_Survey(ActionEvent event) throws IOException {
+		move(event ,main.fxmlDir+ "Add_Conclusion_F.fxml");
+
     }
 
     public void create_PaymentAccount(ActionEvent event) throws IOException {
@@ -126,8 +127,8 @@ public class Managment_Controller implements Initializable,ControllerI {
 		
     }
 
-    public void edit_CustomersProfile(ActionEvent event) {
-
+    public void edit_CustomersProfile(ActionEvent event) throws IOException {
+    	move(event ,main.fxmlDir+ "Edit_Customer_Profile_Man_F.fxml");
     }
 
     public void display_Reports(ActionEvent event) {
@@ -152,7 +153,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     	{
     		if(to_check == null)
         	{
-    			JOptionPane.showMessageDialog(null, "There is no active survey");
+        		Login_win.showPopUp("ERROR", "System error", "There is no active survey", "");
         		return;
         	}
     		else if(((Msg) message).getRole().equals("check if there is active survey for close"))
@@ -215,7 +216,7 @@ public class Managment_Controller implements Initializable,ControllerI {
         	}
     		else
     		{
-    			JOptionPane.showMessageDialog(null, "There is already active survey, please close this survey before you try again...");
+        		Login_win.showPopUp("ERROR", "System error", "There is already active survey", "Please close this survey before you try again...");
         		return;
     		}
     	}
@@ -290,7 +291,6 @@ public class Managment_Controller implements Initializable,ControllerI {
         		break;
     		case "Store Manager":
     			create_PaymentAccount_B.setVisible(true);
-    			edit_CustomersProfile_B.setVisible(true);
     			display_Reports_B.setVisible(true);
         		break;
     		case "Service Expert":
@@ -299,6 +299,9 @@ public class Managment_Controller implements Initializable,ControllerI {
     		case "Store Employee":
     			create_Sale_B.setVisible(true);
     			add_Comments_B.setVisible(true);
+        		break;
+    		case "System Manager":
+    			edit_CustomersProfile_B.setVisible(true);
         		break;
     	}
 	}

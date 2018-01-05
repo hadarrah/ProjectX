@@ -110,7 +110,7 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
     	/*check if the create Payment Account was collapsed*/
     	if(new_payment_account == null)
     	{
-    		JOptionPane.showMessageDialog(null, "There was a problem when the system try to add this account, please try again...");
+    		Login_win.showPopUp("ERROR", "System error", "There was a problem when the system try to add this account", "please try again...");
     		return;
     	}
     	

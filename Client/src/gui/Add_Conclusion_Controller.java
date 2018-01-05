@@ -3,8 +3,6 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -35,111 +33,82 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class Add_Comments_Controller implements Initializable,ControllerI{
+public class Add_Conclusion_Controller implements Initializable,ControllerI{
 
-	    public Button add_comment_B;
-	    public TextArea comment_Text;
-	    public Label survey_ID_L;
-	    public ComboBox<String> customer_ID_combo;
+	    public Button add_conclusion_B;
+	    public TextArea conclusion_Text;
+	    public Label participant_L;
+	    public ComboBox<String> survey_ID_combo;
 	    public Button back_B;
-	    public Label date_L, invalid_detailsL_comment, invalid_detailsL_ID, invalid_detailsL_comment_length;
+	    public Label date_L, invalid_detailsL_conclusion, invalid_detailsL_conclusion_length;
 		public static ActionEvent event_log;
-		public Map<String , String> customer_comment;
+		public ArrayList<Survey> noActive_survey = new ArrayList<Survey>();
 		
 		/**
 		 * handle with pressing "add comment"
 		 * @param event
 		 */
-		public void add_Comment(ActionEvent event) {
+		public void add_Conclusion(ActionEvent event) {
 
 			/*save the event*/
 	    	event_log =new ActionEvent();		 
 			event_log=event.copyFor(event.getSource(), event.getTarget());
 			
 			/*set the error label*/
-	    	invalid_detailsL_comment.setVisible(false);
-	    	invalid_detailsL_ID.setVisible(false);
-	    	invalid_detailsL_comment_length.setVisible(false);
+	    	invalid_detailsL_conclusion.setVisible(false);
+	    	invalid_detailsL_conclusion_length.setVisible(false);
 
-			String comment = "";
-			comment = comment_Text.getText();
+			String conclusion = "";
+			conclusion = conclusion_Text.getText();
 			
 			/*check input from user*/
-			if(customer_ID_combo.getValue() == null)
+			if(conclusion.length() == 0)
 			{
-				invalid_detailsL_ID.setVisible(true);
+		    	invalid_detailsL_conclusion.setVisible(true);
 				return;
 			}
-			if(comment.length() == 0)
+			if(conclusion.length() >= 200)
 			{
-		    	invalid_detailsL_comment.setVisible(true);
-				return;
-			}
-			if(comment.length() >= 200)
-			{
-				invalid_detailsL_comment_length.setVisible(true);
+				invalid_detailsL_conclusion_length.setVisible(true);
 				return;
 			}
 			
 			/*prepare msg to server*/
-			Msg commentToSet = new Msg();
-			commentToSet.setUpdate();
-			commentToSet.setTableName("comments_survey");
-			commentToSet.setRole("set comment survey");
-			commentToSet.oldO = customer_ID_combo.getValue();
-			commentToSet.newO = comment;
-			commentToSet.freeField = survey_ID_L.getText();
-			Login_win.to_Client.accept((Object) commentToSet);
+			Msg conclusionToSet = new Msg();
+			conclusionToSet.setUpdate();
+			conclusionToSet.setTableName("survey");
+			conclusionToSet.setRole("set conclusion survey");
+			conclusionToSet.oldO = conclusion;
+			conclusionToSet.freeField = survey_ID_combo.getValue();
+			Login_win.to_Client.accept((Object) conclusionToSet);
 	    }
 
-		 public void check_SelecetdID(ActionEvent event) {
-		    	
-		    	String customer_seleceted = customer_ID_combo.getValue();
-		    	
-		    	for(String ID : customer_comment.keySet())
-		    		if(ID.equals(customer_seleceted))
-		    			if(customer_comment.get(ID) != null)
-		    				comment_Text.setText(customer_comment.get(ID));	
-		    }
-		
     public void back(ActionEvent event) throws IOException {
     	move(event, main.fxmlDir+ "Managment_F.fxml");
     }
-
-    /**
-     * get customer id for combobox
-     */
-    public void get_Customer_ID()
-    {
-    	Msg getCustomer = new Msg();
-    	getCustomer.setSelect();
-    	getCustomer.setTableName("comments_survey");
-    	getCustomer.setRole("get combo customer ID");
-    	getCustomer.oldO = Managment_Controller.active_survey.getID();
-		Login_win.to_Client.accept((Object) getCustomer);
-    }
-   
-    /**
-     * set the customer id in combobox
-     * @param msg
-     */
-    public void setCombo(Object msg)
-    {
-    	customer_comment = (HashMap<String, String>) (((Msg) msg).newO);
-    	ArrayList<String> customerID = new ArrayList<String>();
-
-    	for(String ID : customer_comment.keySet())
-    		customerID.add(ID);
+    
+    
+    public void check_SelecetdID(ActionEvent event) {
     	
-    	ObservableList<String> list = FXCollections.observableArrayList(customerID);
-    	customer_ID_combo.setItems(list);
+    	String survey_seleceted = survey_ID_combo.getValue();
+    	
+    	for(Survey survey : noActive_survey)
+    		if(survey.getID().equals(survey_seleceted))
+    		{
+    			date_L.setText(survey.getDate());
+    	    	participant_L.setText(survey.getNumOfParticipant());
+    	    	if(survey.getConclusion()!=null)
+    	    		conclusion_Text.setText(survey.getConclusion());
+    		}
+    	
     }
+    
     
     /**
      * handle when the update comment success in DB
      * @param msg
      */
-    public void update_comment_survey_success(Object msg)
+    public void update_conclusion_survey_success(Object msg)
     {
     	/*the creating was successful -> run in new thread the new window*/
     	Platform.runLater(new Runnable() {
@@ -147,7 +116,7 @@ public class Add_Comments_Controller implements Initializable,ControllerI{
 			@Override
 			public void run() {
 				 	try {
-				 	    Login_win.showPopUp("INFORMATION", "Message", "Your comment was submitted - have a GOOD day!", "Thank you!");
+				 	    Login_win.showPopUp("INFORMATION", "Message", "Your conclusion was submitted - have a GOOD day!", "Thank you!");
 						move(event_log , main.fxmlDir+ "Managment_F.fxml");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -157,8 +126,39 @@ public class Add_Comments_Controller implements Initializable,ControllerI{
 			}
 		}); 
     }
-    
    
+    /**
+     * get customer id for combobox
+     */
+    public void get_Survey_ID()
+    {
+    	Msg getSurvey = new Msg();
+    	getSurvey.setSelect();
+    	getSurvey.setTableName("survey");
+    	getSurvey.setRole("get combo survey ID");
+		Login_win.to_Client.accept((Object) getSurvey);
+    }
+   
+    /**
+     * set the customer id in combobox
+     * @param msg
+     */
+    public void setCombo(Object msg)
+    {
+    	ArrayList<String> surveyID = new ArrayList<String>();
+    	noActive_survey = (ArrayList<Survey>) (((Msg) msg).newO);
+    	if(noActive_survey == null)
+    	{
+	 	    Login_win.showPopUp("ERROR", "Message", "There is no survey to display", "");
+	 	    return;
+    	}
+    	for(Survey survey : noActive_survey)
+    	{
+    		surveyID.add(survey.getID());
+    	}
+    	ObservableList<String> list = FXCollections.observableArrayList(surveyID);
+    	survey_ID_combo.setItems(list);
+    }
     
     /**
      * General function for the movement between the different windows
@@ -196,13 +196,9 @@ public class Add_Comments_Controller implements Initializable,ControllerI{
     	Login_win.to_Client.setController(this);
     	
     	/*set the error label*/
-    	invalid_detailsL_comment.setVisible(false);
-    	invalid_detailsL_ID.setVisible(false);
-    	invalid_detailsL_comment_length.setVisible(false);
+    	invalid_detailsL_conclusion.setVisible(false);
+    	invalid_detailsL_conclusion_length.setVisible(false);
     	
-    	/*set the details of survey in fields*/
-    	survey_ID_L.setText(Managment_Controller.active_survey.getID());
-    	date_L.setText(Managment_Controller.active_survey.getDate());
-    	get_Customer_ID();
+    	get_Survey_ID();
 	}
 }

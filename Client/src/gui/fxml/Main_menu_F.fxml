@@ -34,5 +34,6 @@
       </ImageView>
       <Button fx:id="take_survey_B" layoutX="366.0" layoutY="435.0" mnemonicParsing="false" onAction="#take_survey" style=": ;" text="Take a survey" />
       <Button fx:id="cart_B" layoutX="391.0" layoutY="154.0" mnemonicParsing="false" onAction="#cart" text="Cart" />
+      <Button fx:id="order_B" layoutX="384.0" layoutY="198.0" mnemonicParsing="false" onAction="#order" text="Order" />
    </children>
 </Pane>
