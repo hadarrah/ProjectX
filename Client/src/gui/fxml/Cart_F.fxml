@@ -21,7 +21,7 @@
       <Button fx:id="back_B" layoutX="300.0" layoutY="497.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <Label layoutX="32.0" layoutY="34.0" />
       <Label layoutX="44.0" layoutY="138.0" text="Items Selected:" />
-      <Button fx:id="remove_items_B" layoutX="365.0" layoutY="138.0" mnemonicParsing="false" onAction="#removeFromSelected" prefHeight="46.0" prefWidth="123.0" text="Remove Item" />
+      <Button fx:id="remove_items_B" layoutX="367.0" layoutY="167.0" mnemonicParsing="false" onAction="#removeFromSelected" prefHeight="46.0" prefWidth="99.0" text="Remove Items" />
       <Label layoutX="54.0" layoutY="340.0" text="Total Price:" />
       <TextField fx:id="total_price_TF" editable="false" layoutX="159.0" layoutY="336.0" prefHeight="25.0" prefWidth="181.0" text="0" />
       <ListView fx:id="items_selected_LV" layoutX="160.0" layoutY="138.0" prefHeight="104.0" prefWidth="181.0" />
@@ -30,6 +30,5 @@
             <Font name="Arial Black" size="28.0" />
          </font>
       </Label>
-      <Button fx:id="undo_remove_B" layoutX="365.0" layoutY="196.0" mnemonicParsing="false" onAction="#undoRemove" prefHeight="46.0" prefWidth="123.0" text="Undo Last Remove" />
    </children>
 </Pane>

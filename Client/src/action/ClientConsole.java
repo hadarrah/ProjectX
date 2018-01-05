@@ -90,20 +90,19 @@ public class ClientConsole implements ChatIF {
 	if (message instanceof Msg)
 		{
 		Msg check = (Msg) message;
-			
+			 
 			if(check.getType().equals("SELECTALL"))
 			{
-				 				
+				if(check.getRole().equals("View all catalog items")) 
+				{
+					((gui.View_Catalog_Controller) mc).initCatalog(message);
+				}
 			}
 
 			if (check.getType().equals("SELECT")) 
 			{
 				if (check.getRole().equals("verify user details")) {
 					((gui.Login_win) mc).get_comfirmation(message);
-					
-				}
-				else if (check.getRole().equals("check if user already did this survey")) {
-					((gui.Main_menu)mc).survey_premession(message);
 				}
 				else if (check.getRole().equals("check if ID exist and add payment account")) {
 					((gui.Create_PaymentAccount_Controller) mc).check_if_create_success(message);
@@ -132,14 +131,6 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("get combo customer ID")) {
 					((gui.Add_Comments_Controller) mc).setCombo(message);
 				}
-				else if(check.getRole().equals("get the current survey id")) {
-				 
-				 ((gui.Main_menu)mc).set_current_survey_and_chek_customer_survey(message);
-				}
-				
-				//else if (check.getRole().equals("check if the user already did this survey")) {
- 				//	((gui.Main_menu)mc).survey_premession(message);
-				//}
 
 			}
 			 if(check.getType().equals("UPDATE"))
