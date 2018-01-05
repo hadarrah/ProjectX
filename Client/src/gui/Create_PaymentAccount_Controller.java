@@ -89,12 +89,15 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
     		return;
     	}
     	
+    	
+    	
     	/*insert the input from user to instance of Payment Account"*/
     	Payment_Account new_paymentAccount = new Payment_Account(ID, CreditCard, Subscription, "Active");
 		Msg check_user_details= new Msg();
 		check_user_details.setSelect();
 		check_user_details.setTableName("person");
 		check_user_details.oldO=new_paymentAccount;
+		check_user_details.newO = Main_menu.current_user;
 		check_user_details.setRole("check if ID exist and add payment account");
 		check_user_details.event=event;
 		Login_win.to_Client.accept((Object)check_user_details);
@@ -110,7 +113,7 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
     	/*check if the create Payment Account was collapsed*/
     	if(new_payment_account == null)
     	{
-    		JOptionPane.showMessageDialog(null, "There was a problem when the system try to add this account, please try again...");
+	 		Login_win.showPopUp("ERROR", "ERROR", "There was a problem when the system try to add this account, please try again...", "");
     		return;
     	}
     	
@@ -120,6 +123,7 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
 			@Override
 			public void run() {
 				 	try {
+				 	    Login_win.showPopUp("INFORMATION", "Message", "Your payment account was submitted - have a GOOD day!", "Thank you!");
 						move(event_log , main.fxmlDir+ "Managment_F.fxml");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block

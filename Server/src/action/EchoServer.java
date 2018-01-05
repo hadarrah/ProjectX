@@ -410,6 +410,7 @@ public class EchoServer extends AbstractServer {
 	public static void check_id_exist(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Payment_Account user = (Payment_Account) msg1.oldO;
+		Person manager = (Person) msg1.newO;
 		PreparedStatement ps;
 		try {
 			/* check if the id exist in person table */
@@ -433,16 +434,25 @@ public class EchoServer extends AbstractServer {
 					return;
 				}
 
+				/*get the store id from manager*/
+				ps = conn.prepareStatement(" SELECT * FROM store WHERE Manager_ID=?;");
+				ps.setString(1, manager.getUser_ID());
+				rs = ps.executeQuery();
+				rs.next();
+				String store = rs.getString("ID");
+				rs.close();
 				/*
 				 * if we reach here --> all the test are fine and we insert the new payment
 				 * account
 				 */
 				ps = conn.prepareStatement(
-						"INSERT INTO payment_account (ID, CreditCard, Status, Subscription) VALUES (?, ?, ?, ?);");
+						"INSERT INTO payment_account (ID, CreditCard, Status, Subscription, Store_ID) VALUES (?, ?, ?, ?, ?);");
 				ps.setString(1, user.getID());
 				ps.setString(2, user.getCreditCard());
 				ps.setString(3, user.getStatus());
 				ps.setString(4, user.getSubscription());
+				ps.setString(5, store);
+
 				ps.executeUpdate();
 				msg1.newO = user;
 				client.sendToClient(msg1);
