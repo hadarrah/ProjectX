@@ -34,15 +34,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
-	public Button add_items_B;
-	public Button present_items_B;
-	public Button back_B;
+	public Button add_items_B, present_items_B, back_B;
 	public TextField min_TF, max_TF, amount_wanted_TF, in_stock_TF, unit_price_TF;
 	public ComboBox<String> color_CB, type_CB, select_item_CB;
 	public Label select_item_L, selection_missing_L, added_L;
@@ -68,9 +67,13 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 			HashMap<Item, Integer> amountMap = (HashMap<Item, Integer>) ((Self_Item_Controller) prevPage).itemToAmount;
 			// If user pressed the Add Item button twice -> ask him if he is sure
 			if (productsArr.size() > 0 && p == productsArr.get(productsArr.size() - 1)) {
-				
-			    Optional<ButtonType> result = Login_win.showPopUp("CONFIRMATION", "Confirm Additional Same Item", "Confirmation of item addition", "You have already added " + p.getName() + "\nAre you sure you want to add another" + p.getName() + "?");
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Confirm Additional Same Item");
+				alert.setHeaderText("Confirmation of item addition");
+				alert.setContentText("You have already added " + p.getName() + "\nAre you sure you want to add another "
+						+ p.getName() + "?");
 
+				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == ButtonType.OK) {
 
 				} else {
@@ -107,7 +110,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 				p = products.get(i);
 				this.amount_wanted_TF.setText("1");
 				unit_price_TF.setText(Float.toString(price));
-				this.in_stock_TF.setPromptText(Float.toString(p.getAmount()));
+				// this.in_stock_TF.setPromptText(Float.toString(p.getAmount()));
 				break;
 			}
 			// if(in_stock>0)
@@ -119,8 +122,10 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 	public void findItemsByAttributes(ActionEvent event) {
 
 		/* save the event */
-		event_log = new ActionEvent();
-		event_log = event.copyFor(event.getSource(), event.getTarget());
+		// event_log = new ActionEvent();
+		// event_log = event.copyFor(event.getSource(), event.getTarget());
+
+
 
 		/* Preparing label string to show incase of incorrect inpur */
 		String selmis = "Selection Missing: ";
@@ -171,7 +176,8 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		if (minp >= maxp) {
 			selection_missing_L.setText("Bad price range");
 			selection_missing_L.setVisible(true);
-			if(products!=null)products.clear();
+			if (products != null)
+				products.clear();
 			return;
 		}
 
@@ -196,19 +202,17 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 	public void setReturnedItems(Object message) {
 
-
-
 		products = (ArrayList<Item>) ((Msg) message).newO;
-		//String ids[] = new String[products.size()];
+		// String ids[] = new String[products.size()];
 		String names[] = new String[products.size()];
-		//float price[] = new float[products.size()];
-		//float instock[] = new float[products.size()];
+		// float price[] = new float[products.size()];
+		// float instock[] = new float[products.size()];
 
 		for (int i = 0; i < products.size(); i++) {
-		//	ids[i] = products.get(i).getID();
+			// ids[i] = products.get(i).getID();
 			names[i] = products.get(i).getName();
-		//	price[i] = products.get(i).getPrice();
-		//	instock[i] = products.get(i).getAmount();
+			// price[i] = products.get(i).getPrice();
+			// instock[i] = products.get(i).getAmount();
 		}
 
 		ArrayList<String> al = new ArrayList<String>(Arrays.asList(names));
@@ -218,15 +222,16 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 		if (products.size() > 0)
 			select_item_L.setVisible(true);
-		
-		if (products.size()<=0) {
+
+
+		if (ObsList.size() <= 0) {
 			// if query is empty (no items with chosen attr)
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
 					selection_missing_L.setText("There are no items with chosen attributes\n" + "select another");
 					selection_missing_L.setVisible(true);
-					select_item_L.setVisible(false); 
+					select_item_L.setVisible(false);
 					added_L.setVisible(false);
 				}
 			});
@@ -283,32 +288,33 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 	}
 
 	/**
-     * General function for the movement between the different windows
-     * @param event
-     * @param next_fxml = string of the specific fxml
-     * @throws IOException
-     */
-    public void move(ActionEvent event, String next_fxml)throws IOException 
-	{
-		  Parent menu;
-		  menu = FXMLLoader.load(getClass().getResource(next_fxml));
-		 Scene win1= new Scene(menu);
-		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
-		 win_1.setScene(win1);
-		 win_1.show();
-		 
-		  //close window by X button
-		 win_1.setOnCloseRequest(new EventHandler<WindowEvent>() {
-	          public void handle(WindowEvent we) {
-	        	  Msg  msg=new Msg();
-	      		Person user_logout=Login_win.current_user;
-	      		msg.setRole("user logout");
-	      		msg.setTableName("person");
-	      		msg.setUpdate();
-	      		msg.oldO=user_logout;
-	      		Login_win.to_Client.accept(msg);
-	          }
-	      });        
+	 * General function for the movement between the different windows
+	 * 
+	 * @param event
+	 * @param next_fxml
+	 *            = string of the specific fxml
+	 * @throws IOException
+	 */
+	public void move(ActionEvent event, String next_fxml) throws IOException {
+		Parent menu;
+		menu = FXMLLoader.load(getClass().getResource(next_fxml));
+		Scene win1 = new Scene(menu);
+		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		win_1.setScene(win1);
+		win_1.show();
+
+		// close window by X button
+		win_1.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			public void handle(WindowEvent we) {
+				Msg msg = new Msg();
+				Person user_logout = Login_win.current_user;
+				msg.setRole("user logout");
+				msg.setTableName("person");
+				msg.setUpdate();
+				msg.oldO = user_logout;
+				Login_win.to_Client.accept(msg);
+			}
+		});
 	}
 
 	@Override
@@ -327,6 +333,11 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		selection_missing_L.setText("No Items Selected.");
 		selection_missing_L.setVisible(true);
 		added_L.setVisible(false);
-	}
+		/*return back via ESC*/
+		this.back_B.setCancelButton(true);
+		
+		this.present_items_B.setTooltip(new Tooltip("Click me after selecting all the attributes"));
+		
 
+	}
 }

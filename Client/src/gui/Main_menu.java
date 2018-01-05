@@ -80,6 +80,16 @@ public class Main_menu  implements Initializable,ControllerI{
 		 win_1.setScene(win1);		 
 		 win_1.show();
 	 }
+	 
+	 public void order(ActionEvent event) throws IOException {
+	    	
+    	 Parent menu;
+		 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Order_F.fxml"));
+		 Scene win1= new Scene(menu);
+		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		 win_1.setScene(win1);		 
+		 win_1.show();
+	 }
 	
 	
     public void managment(ActionEvent event) throws IOException {
