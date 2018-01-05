@@ -61,7 +61,7 @@
             <ComboBox fx:id="customer_ID_combo" onAction="#check_SelecetdID" prefWidth="150.0" promptText="choose ID" />
          </children>
       </VBox>
-      <Label fx:id="invalid_detailsL_ID" layoutX="352.0" layoutY="185.0" text="You must choose ID" textFill="RED">
+      <Label fx:id="invalid_detailsL_ID" layoutX="352.0" layoutY="185.0" text="You must choose one ID" textFill="RED">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font>

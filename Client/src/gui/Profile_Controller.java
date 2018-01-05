@@ -31,15 +31,16 @@ public class Profile_Controller implements ControllerI,Initializable {
 		Person current_user=user;
 		details_txt.setEditable(false);
 		details_txt.setFont(new Font("SansSerif", 15));
-		
+	 
+				 
 		String details="ID:"+current_user.getUser_ID();
-		 details_txt.appendText(details+"\n");
+		 details_txt.appendText(details+"\n\n");
 		 details="Name:"+current_user.getUser_name();
-		 details_txt.appendText(details+"\n");
+		 details_txt.appendText(details+"\n\n");
 		 details="Last Name:"+current_user.getUser_last_name();
-		 details_txt.appendText(details+"\n");
+		 details_txt.appendText(details+"\n\n");
 		  details="Type:"+current_user.getPrivilege();
-		 details_txt.appendText(details+"\n");
+		 details_txt.appendText(details+"\n\n");
 		 if(!(current_user.getPrivilege().equals("Customer"))) {
 		 details="WWID:"+current_user.getWWID();
 		 details_txt.appendText(details+"\n");
