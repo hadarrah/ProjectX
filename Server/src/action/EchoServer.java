@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
@@ -88,10 +89,8 @@ public class EchoServer extends AbstractServer {
 			 */
 			switch (query_type) {
 			case "SELECT": {
-				 if(msg1.getRole().equals("check if user already did this survey")) {
+				 if(msg1.getRole().equals("check if user already did this survey")) 
 					 check_if_user_took_this_survey(msg1,conn,client);
-				 }
-				 
 				 else if (msg1.getRole().equals("verify user details"))
 					check_user_details(msg1, conn, client);
 				else if (msg1.getRole().equals("check if ID exist and add payment account"))
@@ -142,6 +141,9 @@ public class EchoServer extends AbstractServer {
 				
 				else if (msg1.getRole().equals("insert customer id to survey")) 
 				set_customer_in_survey_answered(msg1, conn, client);
+				
+				else if(msg1.getRole().equals("insert a new complain"))
+					insert_new_complain(msg1,conn,client);
 
 			}
 			}// end switch
@@ -157,7 +159,48 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+/**
+ * insert a new complain to the system
+ * @param msg1
+ * @param conn
+ * @param client
+ */
+	public static void insert_new_complain(Msg msg1, Connection conn, ConnectionToClient client) {
+		Msg msg  = (Msg) msg1;
+		Complain com= (Complain) msg1.oldO;
+		/**to create a random number for the complain id */
+		Random rand = new Random();
+		int  n = rand.nextInt(5000) + 1;
+		try {
+			/** Building the query */
+			PreparedStatement ps =
+			conn.prepareStatement("INSERT INTO "+msg.getTableName()+ "(`ID`, `Customer_ID`, `Text`, `Status`) VALUES (?,?,?,?);" );
+			ps.setString(1, Integer.toString(n));
+			ps.setString(2, com.getCustomer_ID());
+			ps.setString(3, com.getUser_txt());
+			ps.setString(4, "Pending");
+			ps.executeUpdate();
+			
+			msg.freeField="insert succeed";
+			 client.sendToClient(msg);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	  catch (IOException ex)
+		 	{ 
+		 	System.err.println("unable to send msg to client");
+		 	}
+		 
+		
+		
+	}
+/**
+ * get the number of the current active survey
+ * @param msg1
+ * @param conn
+ * @param client
+ */
 	public static  void get_the_current_survey_id(Msg msg1, Connection conn, ConnectionToClient client)
 	{
 	 
@@ -320,6 +363,8 @@ public class EchoServer extends AbstractServer {
 	public static void check_user_details(Msg msg1, Connection conn, ConnectionToClient client) {
 		Person user = (Person) msg1.oldO;
 		String a;
+		Payment_Account pay_account= new Payment_Account(null,null,null,null);
+ 
 		try {
 			PreparedStatement ps = conn
 					.prepareStatement(" SELECT * FROM " + msg1.getTableName() + " " + "WHERE ID=? and Password=?;");
@@ -333,7 +378,8 @@ public class EchoServer extends AbstractServer {
 				a = rs.getString(1);
 
 				// if the user exist
-				if (!(a.equals("0"))) {
+				if (!(a.equals("0")))
+				{
 					user.setIsExist("1");
 					user.setUser_name(rs.getString(2));
 					user.setPrivilege(rs.getString(5));
@@ -342,20 +388,38 @@ public class EchoServer extends AbstractServer {
 					user.setIsOnline("1");
 					msg1.oldO = user;
 
+					PreparedStatement ps2 = conn.prepareStatement("SELECT * FROM payment_account where ID=?;");
+					/* get the account details for this user */
+					ps2.setString(1, user.getUser_ID());
+					ResultSet rs2 = ps2.executeQuery();
+					 while(rs2.next())
+					 { 		pay_account.setID(rs2.getString(1));
+						 pay_account.setCreditCard(rs2.getString(2));
+						 pay_account.setStatus(rs2.getString(3));
+						 pay_account.setSubscription (rs2.getString(4));
+						
+					 }
+					
+					
 					/* check if it is possible to change the status of the user */
-					if (change_online_status(msg1, conn, "1") == true) {
+					if (change_online_status(msg1, conn, "1") == true) 
+					{
 						msg1.newO = (Person) user;
+						msg1.oldO=(Payment_Account)pay_account;
 						client.sendToClient(msg1);
 						return;
-					} else {// if the user is already connected
+					} 
+					else 
+					{// if the user is already connected
 
 						msg1.newO = (Person) user;
+						msg1.oldO=(Payment_Account)pay_account;
 						user.setAlreadyConnected(true);
 						client.sendToClient(msg1);
 						return;
 					}
 				} // end if
-
+				
 			} // while rs
 
 			if (rs.next() == false) /* if the user dosent exist in the system */

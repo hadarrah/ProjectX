@@ -154,6 +154,10 @@ public class ClientConsole implements ChatIF {
 			else if (check.getType().equals("INSERT")) {
 				if (check.getRole().equals("insert survey"))
 					((gui.Survey_Controller) mc).create_survey_success(message);
+				else if (check.getRole().equals("insert a new complain"))  
+						((gui.Post_Complain_Controller)mc).get_submit_approved(message);
+				 
+				
 			}
 			else if (check.getRole().equals("update user details")) {
 			  ((gui.Update_Personal_Info_Controller)mc).get_new_user_details(message);

@@ -81,7 +81,17 @@ public class Main_menu  implements Initializable,ControllerI{
 		 win_1.show();
 	 }
 	
-	
+	 
+	 public void complain(ActionEvent event) throws IOException {
+	    	
+ 	 Parent menu;
+		 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Post_Complain_F.fxml"));
+		// to_Client.setController(new Managment_Controller());
+		 Scene win1= new Scene(menu);
+		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		 win_1.setScene(win1);		 
+		 win_1.show();
+	 }
     public void managment(ActionEvent event) throws IOException {
     	
     	 Parent menu;
