@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import action.Complain;
 import action.Msg;
 import action.Person;
+import action.Sale;
 import action.Survey;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -40,11 +41,14 @@ public class Managment_Controller implements Initializable,ControllerI {
     public Button display_Reports_B;
     public Button close_Survey_B;
     public Button add_Comments_B;
+    public Button close_Sale_B;
 	public static ActionEvent event_log;
 	public static Survey active_survey;
 	public static ArrayList<Complain> complaint;
 	public static String storeID;
 	public static TreeMap<String , String> items;
+	public static Sale sale;
+	public static ArrayList<String> item_in_sale;
 
     public void update_Catalog(ActionEvent event) {
 
@@ -63,11 +67,26 @@ public class Managment_Controller implements Initializable,ControllerI {
     	/*check if already exist an active sale*/
     	Msg check_sale_exist = new Msg();
     	check_sale_exist.setSelect();
-    	check_sale_exist.setRole("check if there is active sale");
+    	check_sale_exist.setRole("check if there is active sale for insert");
     	check_sale_exist.oldO = Login_win.current_user;
 		Login_win.to_Client.accept((Object)check_sale_exist);
     }
 
+    
+    public void close_Sale(ActionEvent event) {
+
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+    	
+    	/*check if already exist an active sale*/
+    	Msg check_sale_exist = new Msg();
+    	check_sale_exist.setSelect();
+    	check_sale_exist.setRole("check if there is active sale for close");
+    	check_sale_exist.oldO = Login_win.current_user;
+		Login_win.to_Client.accept((Object)check_sale_exist);
+    }
+    
     /**
      * handle function for pressing 'create survey' -> first we check if already exist active survey
      * @param event
@@ -314,38 +333,81 @@ public class Managment_Controller implements Initializable,ControllerI {
      */
     public void check_for_sale(Object message) throws IOException
     {
-    	String answer = (String)(((Msg) message).newO);
-    	storeID = (String)(((Msg) message).oldO);
-    	items = (TreeMap<String , String>)(((Msg) message).freeUse);
+    	String answer = (String)(((Msg) message).freeField);
+    	
+    	
     	if(answer.equals("There is sale"))
     	{
-    		/*there is already active sale -> run in new thread the new window*/
-        	Platform.runLater(new Runnable() {
-    			
-    			@Override
-    			public void run() {
-    				 	Login_win.showPopUp("ERROR", "System error", "There is already sale in your store", "Please close this sale before you add a new sale");  
-    			 		return;
+    		if(((Msg) message).getRole().equals("check if there is active sale for insert"))
+    		{
+    			/*there is already active sale -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+        				 	Login_win.showPopUp("ERROR", "System error", "There is already sale in your store", "Please close this sale before you add a new sale");  
+        			 		return;
 
-    			}
-    		}); 
+        			}
+        		}); 
+    		}
+    		else //for close
+    		{
+    			sale = (Sale)(((Msg) message).oldO);
+    			item_in_sale = (ArrayList<String>)(((Msg) message).freeUse);
+    			storeID = (String)(((Msg) message).newO);
+    			/*there is  active sale -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+        				 	try {
+        			        	move(event_log ,main.fxmlDir+ "Close_Sale_F.fxml");
+        					} catch (IOException e) {
+        						// TODO Auto-generated catch block
+        						e.printStackTrace();
+        					}  
+        				
+        			}
+        		}); 
+    		}
+    		
     	}
     	else
     	{
-    		/*there is no active sale -> run in new thread the new window*/
-        	Platform.runLater(new Runnable() {
-    			
-    			@Override
-    			public void run() {
-    				 	try {
-    			        	move(event_log ,main.fxmlDir+ "Create_Sale_F.fxml");
-    					} catch (IOException e) {
-    						// TODO Auto-generated catch block
-    						e.printStackTrace();
-    					}  
-    				
-    			}
-    		}); 
+    		if(((Msg) message).getRole().equals("check if there is active sale for insert"))
+    		{
+    			storeID = (String)(((Msg) message).oldO);
+    			items = (TreeMap<String , String>)(((Msg) message).freeUse);
+    			/*there is no active sale -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+        				 	try {
+        			        	move(event_log ,main.fxmlDir+ "Create_Sale_F.fxml");
+        					} catch (IOException e) {
+        						// TODO Auto-generated catch block
+        						e.printStackTrace();
+        					}  
+        				
+        			}
+        		}); 
+    		}
+    		else //for close
+    		{
+    			/*there is no already active sale -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+        				 	Login_win.showPopUp("ERROR", "System error", "There is no active sale in your store", "");  
+        			 		return;
+
+        			}
+        		}); 
+    		}
+    		
     	}
 
     }
@@ -395,6 +457,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     	display_Reports_B.setVisible(false);
     	add_Comments_B.setVisible(false);
     	close_Survey_B.setVisible(false);
+    	close_Sale_B.setVisible(false);
     	
     	/*update the current controller to be management controller in general ClientConsole instance*/
     	Login_win.to_Client.setController(this);
@@ -419,12 +482,15 @@ public class Managment_Controller implements Initializable,ControllerI {
     		case "Store Manager":
     			create_PaymentAccount_B.setVisible(true);
     			display_Reports_B.setVisible(true);
+    			create_Sale_B.setVisible(true);
+    			close_Sale_B.setVisible(true);
         		break;
     		case "Service Expert":
     			conclusion_Survey_B.setVisible(true);
         		break;
     		case "Store Employee":
     			create_Sale_B.setVisible(true);
+    			close_Sale_B.setVisible(true);
     			add_Comments_B.setVisible(true);
         		break;
     		case "System Manager":

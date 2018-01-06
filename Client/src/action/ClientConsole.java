@@ -149,7 +149,15 @@ public class ClientConsole implements ChatIF {
 						e.printStackTrace();
 					}
 				}
-				else if (check.getRole().equals("check if there is active sale")) {
+				else if (check.getRole().equals("check if there is active sale for insert")) {
+					try {
+						((gui.Managment_Controller) mc).check_for_sale(message);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else if (check.getRole().equals("check if there is active sale for close")) {
 					try {
 						((gui.Managment_Controller) mc).check_for_sale(message);
 					} catch (IOException e) {
@@ -175,6 +183,8 @@ public class ClientConsole implements ChatIF {
 					 ((gui.Edit_Customer_Profile_Man_Controller)mc).update_details_success(message);
 				 else if(check.getRole().equals("set answer complaint"))
 					 ((gui.Answer_Complaint_Controller)mc).update_answer_success(message);
+				 else if(check.getRole().equals("close sale"))
+					 ((gui.Close_Sale_Controller)mc).close_sale_success(message);
 			 }
 			else if (check.getType().equals("INSERT")) {
 				if (check.getRole().equals("insert survey"))

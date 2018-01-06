@@ -70,6 +70,7 @@ public class Close_Survey_Controller implements Initializable,ControllerI{
 			@Override
 			public void run() {
 				 	try {
+				 	    Login_win.showPopUp("INFORMATION", "Message", "Your survey was closed - have a GOOD day!", "Thank you!");
 						move(event_log , main.fxmlDir+ "Managment_F.fxml");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block

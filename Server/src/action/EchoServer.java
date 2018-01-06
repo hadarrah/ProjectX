@@ -126,7 +126,9 @@ public class EchoServer extends AbstractServer {
 					get_the_current_survey_id(msg1,conn,client);
 				else if (msg1.getRole().equals("get combo customer ID for answer complaint"))
 					GetComboForAnsComplaint(msg1, conn, client);
-				else if (msg1.getRole().equals("check if there is active sale"))
+				else if (msg1.getRole().equals("check if there is active sale for insert"))
+					CheckForActiveSale(msg1, conn, client);
+				else if (msg1.getRole().equals("check if there is active sale for close"))
 					CheckForActiveSale(msg1, conn, client);
 			}
 			case "UPDATE": {
@@ -146,6 +148,8 @@ public class EchoServer extends AbstractServer {
 					update_profile_by_manager(msg1, conn, client);
 				else if (msg1.getRole().equals("set answer complaint"))
 					update_answer_complain(msg1, conn, client);
+				else if (msg1.getRole().equals("close sale"))
+					close_sale(msg1, conn, client);
 			}
 			
 			case "INSERT": {
@@ -630,10 +634,13 @@ public class EchoServer extends AbstractServer {
 	{
 		Person employee = (Person)msg1.oldO;
 		PreparedStatement ps, psItem;
-		ResultSet rs, rsItem;
+		ResultSet rs, rsItem, rsClose;
 		String store, table="";
+		Sale sale = null;
 		SortedMap<String , String> items = new TreeMap<String , String>();
-
+		ArrayList<String> items_in_sale = new ArrayList<String>();
+		boolean exist = false;
+		
 		try {
 			/*get the store id of the employee (every employee has a payment account)*/
 			ps = conn.prepareStatement(" SELECT * FROM payment_account WHERE ID = ?;");
@@ -651,11 +658,29 @@ public class EchoServer extends AbstractServer {
 			{
 				if(rs.getString("Sale_ID") != null)
 				{
-					msg1.newO = "There is sale"; // this is mean that there is active sale
-					msg1.oldO = null;
-					msg1.freeUse = null;
-					client.sendToClient(msg1);
-					return;
+					exist=true;
+					
+					if(sale == null)
+					{
+						/*get the details of sale*/
+						ps = conn.prepareStatement(" SELECT * FROM sales WHERE ID = ?;");
+						ps.setString(1,rs.getString("Sale_ID"));
+						rsClose = ps.executeQuery();
+						rsClose.next();
+						sale = new Sale(store,rsClose.getString("Description"),rsClose.getString("Discount"));
+						sale.setID(rsClose.getString("ID"));
+					}
+					if(rs.getString("Table").equals("Item"))
+						table = "item";
+					else
+						table = "item_in_catalog";
+					
+					/*get the name of each item from the origin table that participant in the sale*/
+					psItem = conn.prepareStatement(" SELECT * FROM "+table+" WHERE ID = ?;");
+					psItem.setString(1, rs.getString("Item_ID"));
+					rsItem = psItem.executeQuery();
+					rsItem.next();
+					items_in_sale.add(rsItem.getString("Name"));
 				}
 				else //get the name of the item
 				{
@@ -673,10 +698,22 @@ public class EchoServer extends AbstractServer {
 				}
 			}
 			
-			msg1.newO = "There is no sale"; // this is mean that there is no active sale
-			msg1.oldO = store; // save the store id for the future
-			msg1.freeUse = items;
-			client.sendToClient(msg1);
+			if(exist)
+			{
+				msg1.freeField = "There is sale"; // this is mean that there is active sale
+				msg1.oldO = sale;
+				msg1.newO = store;
+				msg1.freeUse = items_in_sale;
+				client.sendToClient(msg1);
+			}
+			else
+			{
+				msg1.freeField = "There is no sale"; // this is mean that there is no active sale
+				msg1.oldO = store; // save the store id for the future
+				msg1.freeUse = items;
+				client.sendToClient(msg1);
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -753,6 +790,43 @@ public class EchoServer extends AbstractServer {
 			ps.executeUpdate();
 
 			msg1.newO = survey;
+			client.sendToClient(msg1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * close the specific sale
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static void close_sale(Msg msg1, Connection conn, ConnectionToClient client) 
+	{
+		String sale = (String) msg1.oldO;
+		String store = (String) msg1.newO;
+		PreparedStatement ps;
+		ResultSet rs;
+
+		try {
+			ps = conn.prepareStatement("SELECT * FROM store WHERE ID=?;");
+			ps.setString(1, store);
+			rs = ps.executeQuery();
+			
+			/* set up and execute the update query */
+			while(rs.next())
+			{
+				ps = conn.prepareStatement("UPDATE store SET Sale_ID=NULL WHERE ID=? AND Item_ID=?;");
+				ps.setString(1, store);
+				ps.setString(2, rs.getString("Item_ID"));
+				ps.executeUpdate();
+			}
+			
+
 			client.sendToClient(msg1);
 		} catch (SQLException e) {
 			e.printStackTrace();
