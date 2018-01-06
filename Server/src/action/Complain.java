@@ -1,7 +1,11 @@
 package action;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Complain  implements Serializable{
 	
@@ -13,10 +17,15 @@ public class Complain  implements Serializable{
 	private String compensation;
 	private String user_txt;
 	private String chosen_topic; 
+	private String date, hour;
 	
 	public Complain() {
 		 this.complain_topic=new ArrayList<String>() ;
 		 setTopics();// set the defaults complain topics 
+		 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Date date = new Date();
+			this.date = dateFormat.format(date);
+			this.hour = ""+LocalDateTime.now().getHour()+":"+LocalDateTime.now().getMinute();
 	}
 	
 	public Complain (String id,String Customer_id,String status,String answer,String comp,String user_text)
@@ -28,9 +37,20 @@ public class Complain  implements Serializable{
 		this.compensation=comp;
 		this.user_txt=user_text;
 		setTopics();// set the defaults complain topics 
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = new Date();
+		this.date = dateFormat.format(date);
+		this.hour = ""+LocalDateTime.now().getHour()+":"+LocalDateTime.now().getMinute();
 	}
 	 
-	
+	public Complain(String id,String customer_id,String user_text,String date,String hour)
+	{
+		this.complain_id=id;
+		this.customer_id=customer_id;
+		this.user_txt=user_text;
+		this.date = date;
+		this.hour = hour;
+	}
 	public String getComplain_ID() {
 		return complain_id;
 	}
@@ -98,5 +118,21 @@ public class Complain  implements Serializable{
 
 	public void setChosen_topic(String chosen_topic) {
 		this.chosen_topic = chosen_topic;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getHour() {
+		return hour;
+	}
+
+	public void setHour(String hour) {
+		this.hour = hour;
 	}
 }
