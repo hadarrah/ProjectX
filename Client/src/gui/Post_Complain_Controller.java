@@ -83,7 +83,7 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
 			msg.oldO=(Complain)com_to_send;
 			Login_win.to_Client.accept(msg);
 			
-			/*after the complain was inserted to DB*/
+			/*after the complain was inserted to db*/
 			
 		}
 		
