@@ -116,7 +116,8 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 				txtAmount.setText(""+Itc.getAmount());
 				File f=new File(Itc.getImage());				
 		        Image image =new Image(f.toURI().toString());								
-				Itemimg.setImage(image);				
+				Itemimg.setImage(image);
+				
 			//}
 		//});		
 	}	

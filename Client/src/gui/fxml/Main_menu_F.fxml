@@ -22,10 +22,10 @@
       </Label>
       <Button fx:id="back_B" layoutX="42.0" layoutY="519.0" mnemonicParsing="false" onAction="#back_logOut" prefHeight="23.0" prefWidth="58.0" text="LogOut" />
       <Button fx:id="mannag_B" layoutX="381.0" layoutY="5.0" mnemonicParsing="false" onAction="#managment" text="Mannagment" visible="false" />
-      <Button fx:id="view_catalog_B" layoutX="52.0" layoutY="141.0" mnemonicParsing="false" onAction="#catalog" text="view catalog" />
+      <Button fx:id="view_catalog_B" layoutX="52.0" layoutY="141.0" mnemonicParsing="false" onAction="#catalog" text="View catalog" />
       <Button fx:id="cancel_order_B" layoutX="51.0" layoutY="227.0" mnemonicParsing="false" text="Cancel order" />
       <Button fx:id="self_item_B" layoutX="18.0" layoutY="185.0" mnemonicParsing="false" onAction="#self_item" text="Create your own product" />
-      <Button fx:id="complain_B" layoutX="344.0" layoutY="388.0" mnemonicParsing="false" text="Open a new complain" onAction="#complain" />
+      <Button fx:id="complain_B" layoutX="344.0" layoutY="388.0" mnemonicParsing="false" onAction="#complain" text="Open a new complain" />
       <Button fx:id="user_profile_B" layoutX="32.0" layoutY="447.0" mnemonicParsing="false" onAction="#to_user_profile" text="View Profile" />
       <ImageView fx:id="survey_img" fitHeight="50.0" fitWidth="50.0" layoutX="385.0" layoutY="472.0" opacity="0.66">
          <image>
