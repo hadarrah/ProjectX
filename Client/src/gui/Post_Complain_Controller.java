@@ -10,6 +10,7 @@ import javax.swing.Icon;
 
 import action.Complain;
 import action.Msg;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -52,11 +53,11 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
 	{
 		boolean ans=true;
 		 
-		//if((topic_names.getValue().equals(null)))
-		//{ 
-			// complain_topic.setTextFill(Color.web("#ed0b31"));
-			//  ans=false;
-		//}
+		 if(topic_names.getValue()==null)
+		 { 
+			  complain_topic.setTextFill(Color.web("#ed0b31"));
+			   ans=false;
+		 }
 		if(user_txt_complain.getText().equals(""))
 		{
 		 	user_complain.setTextFill(Color.web("#ed0b31"));
@@ -83,17 +84,7 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
 			Login_win.to_Client.accept(msg);
 			
 			/*after the complain was inserted to DB*/
-			Optional<ButtonType> result = Login_win.showPopUp("INFORMATION", "Complain was sent ", "Thanks for letting us know about the problem we will work to correct it quickly ", "Thank you!");
-		      if (result.get() == ButtonType.OK)
-		      {
-		    	  Parent menu;
-		    		 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Main_menu_F.fxml"));
-		    		// to_Client.setController(new Managment_Controller());
-		    		 Scene win1= new Scene(menu);
-		    		 Stage win_1= (Stage) ((Node) (event_g.getSource())).getScene().getWindow();
-		    		 win_1.setScene(win1);
-		    		 win_1.show(); 
-		      }
+			
 		}
 		
 		else {
@@ -107,19 +98,84 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
  */
 	private void getUserComplainDetails() 
 	{
+		String topic;
 		cur_complain.setCustomer_ID(user_id.getText());
-		cur_complain.setUser_txt(user_txt_complain.getText());
+		/*appending the copmlain topic into the user text*/
+		topic="Complain topic: ";
+		topic+=topic_names.getValue();
+		cur_complain.setUser_txt(topic+"\n"+user_txt_complain.getText());
 		cur_complain.setChosen_topic(topic_names.getValue());
 		
 	}
 
+	
+	
+	
+	
+	
+	public void go_back_after_send() throws IOException
+	{
+		 
+	    	  Parent menu;
+	    		 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Main_menu_F.fxml"));
+	    		// to_Client.setController(new Managment_Controller());
+	    		 Scene win1= new Scene(menu);
+	    		 Stage win_1= (Stage) ((Node) (event_g.getSource())).getScene().getWindow();
+	    		 win_1.setScene(win1);
+	    		 win_1.show(); 
+	       
+	}
 /**
  * to override
  * @param o
  */
 	public void get_submit_approved(Object o) {
 		/*show pop up -> and then return to main*/
+		Msg msg = (Msg) o;
+		if(msg.freeField.equals("insert succeed"))
+		{
+			 
+			
+			Platform.runLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						Optional<ButtonType> result = Login_win.showPopUp("INFORMATION", "Complain was sent ", "Thanks for letting us know about the problem we will work to correct it quickly ", "Thank you!");
+					      if (result.get() == ButtonType.OK)
+					      {
+						go_back_after_send();
+					      }
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			});
+			
+		}
 		
+		else {
+			
+			Platform.runLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					Optional<ButtonType> result = Login_win.showPopUp("ERROR", "Complain couldnt sent ", "There is a problem is our system , try again in a few minutes ", "Opsss..!");
+				      if (result.get() == ButtonType.OK)
+				      {
+				    		try {
+								go_back_after_send();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+				      }
+					
+				}
+			});
+		}
 
 	}
 	/**
