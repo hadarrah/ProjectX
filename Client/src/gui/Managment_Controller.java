@@ -2,10 +2,12 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
+import action.Complain;
 import action.Msg;
 import action.Person;
 import action.Survey;
@@ -38,7 +40,8 @@ public class Managment_Controller implements Initializable,ControllerI {
     public Button add_Comments_B;
 	public static ActionEvent event_log;
 	public static Survey active_survey;
-	
+	public static ArrayList<Complain> complaint;
+
     public void update_Catalog(ActionEvent event) {
 
     }
@@ -113,9 +116,18 @@ public class Managment_Controller implements Initializable,ControllerI {
 		Login_win.to_Client.accept((Object)check_survey_exist);
     }
 
-    public void answer_Complaint(ActionEvent event) {
-
-    }
+    public void answer_Complaint(ActionEvent event) throws IOException {
+    	
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+		
+    	Msg getCustomer = new Msg();
+    	getCustomer.setSelect();
+    	getCustomer.setTableName("complaint");
+    	getCustomer.setRole("get combo customer ID for answer complaint");
+		Login_win.to_Client.accept((Object) getCustomer);   
+		}
 
     public void conclusion_Survey(ActionEvent event) throws IOException {
 		move(event ,main.fxmlDir+ "Add_Conclusion_F.fxml");
@@ -153,8 +165,16 @@ public class Managment_Controller implements Initializable,ControllerI {
     	{
     		if(to_check == null)
         	{
-        		Login_win.showPopUp("ERROR", "System error", "There is no active survey", "");
-        		return;
+    			/*the creating was successful -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+                		Login_win.showPopUp("ERROR", "System error", "There is no active survey", "");
+        			 		return;
+
+        			}
+        		}); 
         	}
     		else if(((Msg) message).getRole().equals("check if there is active survey for close"))
     		{
@@ -216,13 +236,59 @@ public class Managment_Controller implements Initializable,ControllerI {
         	}
     		else
     		{
-        		Login_win.showPopUp("ERROR", "System error", "There is already active survey", "Please close this survey before you try again...");
-        		return;
+    			/*the creating was successful -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+                		Login_win.showPopUp("ERROR", "System error", "There is already active survey", "Please close this survey before you try again...");
+        			 		return;
+
+        			}
+        		}); 
     		}
     	}
     	
     }
     
+    
+    public void check_for_complaint(Object message) throws IOException
+    {
+    	complaint = new ArrayList<Complain>();
+    	complaint = (ArrayList<Complain>)(((Msg) message).newO);
+    	if(complaint.isEmpty())
+    	{
+    		/*the creating was successful -> run in new thread the new window*/
+        	Platform.runLater(new Runnable() {
+    			
+    			@Override
+    			public void run() {
+    				 	Login_win.showPopUp("ERROR", "System error", "There are no pending complaints", "");  
+    			 		return;
+
+    			}
+    		}); 
+    	}
+    	else
+    	{
+    		/*the creating was successful -> run in new thread the new window*/
+        	Platform.runLater(new Runnable() {
+    			
+    			@Override
+    			public void run() {
+    				 	try {
+    			        	move(event_log ,main.fxmlDir+ "Answer_Complaint_F.fxml");
+    					} catch (IOException e) {
+    						// TODO Auto-generated catch block
+    						e.printStackTrace();
+    					}  
+    				
+    			}
+    		}); 
+    	}
+
+    }
+
     /**
      * General function for the movement between the different windows
      * @param event

@@ -143,6 +143,14 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("get combo all customers")) {
 					((gui.Edit_Customer_Profile_Man_Controller) mc).set_combobox(message);
 				}
+				else if (check.getRole().equals("get combo customer ID for answer complaint")) {
+					try {
+						((gui.Managment_Controller) mc).check_for_complaint(message);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				//else if (check.getRole().equals("check if the user already did this survey")) {
  				//	((gui.Main_menu)mc).survey_premession(message);
 				//}
@@ -159,6 +167,8 @@ public class ClientConsole implements ChatIF {
 					 ((gui.Add_Comments_Controller)mc).update_comment_survey_success(message);
 				 else if(check.getRole().equals("set edit profile manager"))
 					 ((gui.Edit_Customer_Profile_Man_Controller)mc).update_details_success(message);
+				 else if(check.getRole().equals("set answer complaint"))
+					 ((gui.Answer_Complaint_Controller)mc).update_answer_success(message);
 			 }
 			else if (check.getType().equals("INSERT")) {
 				if (check.getRole().equals("insert survey"))

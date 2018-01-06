@@ -126,6 +126,8 @@ public class EchoServer extends AbstractServer {
 					GetComboForEditManProfile(msg1, conn, client);
 				else if (msg1.getRole().equals("get the current survey id"))
 					get_the_current_survey_id(msg1,conn,client);
+				else if (msg1.getRole().equals("get combo customer ID for answer complaint"))
+					GetComboForAnsComplaint(msg1, conn, client);
 			}
 			case "UPDATE": {
 				if (msg1.getRole().equals("user logout"))
@@ -144,6 +146,8 @@ public class EchoServer extends AbstractServer {
 					update_conclusion_survey(msg1, conn, client);
 				else if (msg1.getRole().equals("set edit profile manager"))
 					update_profile_by_manager(msg1, conn, client);
+				else if (msg1.getRole().equals("set answer complaint"))
+					update_answer_complain(msg1, conn, client);
 			}
 			case "SELECTALL": {
 				if (msg1.getRole().equals("View all catalog items"))
@@ -189,11 +193,14 @@ public class EchoServer extends AbstractServer {
 		try {
 			/** Building the query */
 			PreparedStatement ps =
-			conn.prepareStatement("INSERT INTO "+msg.getTableName()+ "(`ID`, `Customer_ID`, `Text`, `Status`) VALUES (?,?,?,?);" );
+			conn.prepareStatement("INSERT INTO "+msg.getTableName()+ "(`ID`, `Customer_ID`, `Text`, `Status`, `Date`, `Hour`) VALUES (?,?,?,?,?,?);" );
 			ps.setString(1, Integer.toString(n));
 			ps.setString(2, com.getCustomer_ID());
 			ps.setString(3, com.getUser_txt());
 			ps.setString(4, "Pending");
+			ps.setString(5, com.getDate());
+			ps.setString(6, com.getHour());
+
 			ps.executeUpdate();
 			
 			msg.freeField="insert succeed";
@@ -559,6 +566,8 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	
+	
 	/**
 	 * insert the survey to survey table with new id
 	 * 
@@ -732,6 +741,45 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	
+	/**
+	 * get the customer id for combobox in answer complaint
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static void GetComboForAnsComplaint(Msg msg1, Connection conn, ConnectionToClient client) {
+		PreparedStatement ps;
+		ResultSet rs;
+		ArrayList<Complain> complaint = new ArrayList<Complain>();
+		String id, customer_id, user_text, date, hour;
+		try {
+			 /*set up and execute the select query in order to get the pending complaint*/
+			  ps = conn.prepareStatement("SELECT * FROM complaint WHERE Status=?;");
+			  ps.setString(1, "Pending");
+			  rs = ps.executeQuery();
+			  
+			  /*insert the results to the ArrayList*/
+			while (rs.next())
+			{
+				id=rs.getString("ID");
+				customer_id=rs.getString("Customer_ID");
+				user_text=rs.getString("Text");
+				date=rs.getString("Date");
+				hour=rs.getString("Hour");
+				complaint.add(new Complain(id, customer_id, user_text, date, hour));
+			}
+				
+			msg1.newO = complaint;
+			client.sendToClient(msg1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	   * set the new conclusion in survey table
 	   * @param msg1
@@ -903,6 +951,45 @@ public class EchoServer extends AbstractServer {
 				e.printStackTrace();
 			}
 	  }
+	  
+	  
+	  /**
+	   * set the new details of customer by system manager
+	   * @param msg1
+	   * @param conn
+	   * @param client
+	   */
+	  public static void update_answer_complain(Msg msg1 ,Connection conn,ConnectionToClient client)
+	  {
+		  String complainID= ((Complain)msg1.oldO).getComplain_ID();
+		  String answer= ((Complain)msg1.oldO).getAnswer();
+		  String compensation= ((Complain)msg1.oldO).getCompensation();
+
+		  PreparedStatement ps;
+		  ResultSet rs;
+		  
+		  try
+		   {
+			  /*set up and execute the update complaint answer in complaint table */
+			  ps = conn.prepareStatement("UPDATE complaint SET Answer=?, Compensation=?, Status=? WHERE ID=?;");
+			  ps.setString(1, answer);
+			  ps.setString(2, compensation);
+			  ps.setString(3, "Closed");
+			  ps.setString(4, complainID);
+			  ps.executeUpdate();
+			  
+			  client.sendToClient(msg1);
+		   }
+		  catch (SQLException e) 
+		  	{
+				e.printStackTrace();
+		  	} 
+		  catch (IOException e) 
+		    {
+				e.printStackTrace();
+			}
+	  }
+	  
 	 /**
 	   * set the new comment in comments_survey table
 	   * @param msg1
