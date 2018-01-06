@@ -2,9 +2,11 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import action.Complain;
 import action.Msg;
 import action.Person;
 import action.Survey;
@@ -227,6 +229,32 @@ public class Main_menu  implements Initializable,ControllerI{
   
     }
  
+    public void check_for_complaints()
+    {
+    	Msg getCustomer = new Msg();
+    	getCustomer.setSelect();
+    	getCustomer.setTableName("complaint");
+    	getCustomer.setRole("check for pending complaints");
+		Login_win.to_Client.accept((Object) getCustomer);   
+    }
+    
+    public void get_answer_if_exist_complaint(Object msg)
+    {
+    	ArrayList<Complain> toCheck = (ArrayList<Complain>)(((Msg) msg).newO);
+    	if(!toCheck.isEmpty())
+    	{
+    		/*there are pending complaints -> run in new thread the new window*/
+        	Platform.runLater(new Runnable() {
+    			
+    			@Override
+    			public void run() {
+    				 	Login_win.showPopUp("INFORMATION", "Important Message", "There are pending complaints", "Please response to the complaints immediately");  
+    			 		return;
+    			}
+    		}); 
+    	}
+    }
+    
     public void move(ActionEvent event)throws IOException 
 	{
 		 Parent menu;
@@ -254,6 +282,8 @@ public class Main_menu  implements Initializable,ControllerI{
 		msg.setTableName("survey");
 	 	Login_win.to_Client.accept(msg);
 		 
+	 	if(current_user.getPrivilege().equals("Customer Service Employee"))
+	 		check_for_complaints();
 		
 		 
 	}

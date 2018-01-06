@@ -126,6 +126,8 @@ public class EchoServer extends AbstractServer {
 					get_the_current_survey_id(msg1,conn,client);
 				else if (msg1.getRole().equals("get combo customer ID for answer complaint"))
 					GetComboForAnsComplaint(msg1, conn, client);
+				else if (msg1.getRole().equals("check for pending complaints"))
+					GetComboForAnsComplaint(msg1, conn, client);
 				else if (msg1.getRole().equals("check if there is active sale for insert"))
 					CheckForActiveSale(msg1, conn, client);
 				else if (msg1.getRole().equals("check if there is active sale for close"))

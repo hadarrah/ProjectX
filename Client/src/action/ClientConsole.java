@@ -165,6 +165,9 @@ public class ClientConsole implements ChatIF {
 						e.printStackTrace();
 					}
 				}
+				else if (check.getRole().equals("check for pending complaints")) {
+					((gui.Main_menu) mc).get_answer_if_exist_complaint(message);
+				}
 				//else if (check.getRole().equals("check if the user already did this survey")) {
  				//	((gui.Main_menu)mc).survey_premession(message);
 				//}
