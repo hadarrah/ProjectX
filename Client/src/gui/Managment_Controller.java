@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 
@@ -41,6 +43,8 @@ public class Managment_Controller implements Initializable,ControllerI {
 	public static ActionEvent event_log;
 	public static Survey active_survey;
 	public static ArrayList<Complain> complaint;
+	public static String storeID;
+	public static TreeMap<String , String> items;
 
     public void update_Catalog(ActionEvent event) {
 
@@ -52,6 +56,16 @@ public class Managment_Controller implements Initializable,ControllerI {
 
     public void create_Sale(ActionEvent event) {
 
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+    	
+    	/*check if already exist an active sale*/
+    	Msg check_sale_exist = new Msg();
+    	check_sale_exist.setSelect();
+    	check_sale_exist.setRole("check if there is active sale");
+    	check_sale_exist.oldO = Login_win.current_user;
+		Login_win.to_Client.accept((Object)check_sale_exist);
     }
 
     /**
@@ -251,14 +265,18 @@ public class Managment_Controller implements Initializable,ControllerI {
     	
     }
     
-    
+    /**
+     * handle function which check if there are complaints to display
+     * @param message
+     * @throws IOException
+     */
     public void check_for_complaint(Object message) throws IOException
     {
     	complaint = new ArrayList<Complain>();
     	complaint = (ArrayList<Complain>)(((Msg) message).newO);
     	if(complaint.isEmpty())
     	{
-    		/*the creating was successful -> run in new thread the new window*/
+    		/*there are no complaints -> run in new thread the new window*/
         	Platform.runLater(new Runnable() {
     			
     			@Override
@@ -271,7 +289,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     	}
     	else
     	{
-    		/*the creating was successful -> run in new thread the new window*/
+    		/*there are complaints to display -> run in new thread the new window*/
         	Platform.runLater(new Runnable() {
     			
     			@Override
@@ -289,6 +307,49 @@ public class Managment_Controller implements Initializable,ControllerI {
 
     }
 
+    /**
+     * handle function which check if there is active sale
+     * @param message
+     * @throws IOException
+     */
+    public void check_for_sale(Object message) throws IOException
+    {
+    	String answer = (String)(((Msg) message).newO);
+    	storeID = (String)(((Msg) message).oldO);
+    	items = (TreeMap<String , String>)(((Msg) message).freeUse);
+    	if(answer.equals("There is sale"))
+    	{
+    		/*there is already active sale -> run in new thread the new window*/
+        	Platform.runLater(new Runnable() {
+    			
+    			@Override
+    			public void run() {
+    				 	Login_win.showPopUp("ERROR", "System error", "There is already sale in your store", "Please close this sale before you add a new sale");  
+    			 		return;
+
+    			}
+    		}); 
+    	}
+    	else
+    	{
+    		/*there is no active sale -> run in new thread the new window*/
+        	Platform.runLater(new Runnable() {
+    			
+    			@Override
+    			public void run() {
+    				 	try {
+    			        	move(event_log ,main.fxmlDir+ "Create_Sale_F.fxml");
+    					} catch (IOException e) {
+    						// TODO Auto-generated catch block
+    						e.printStackTrace();
+    					}  
+    				
+    			}
+    		}); 
+    	}
+
+    }
+    
     /**
      * General function for the movement between the different windows
      * @param event

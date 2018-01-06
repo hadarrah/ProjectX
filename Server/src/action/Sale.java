@@ -7,12 +7,21 @@ public class Sale implements Serializable {
 	private String ID;
 	private String Description;
 	private String Discount;
+	private String StoreID;
 	
 	public Sale()
 	{
 		this.ID=null;
 		this.Description=null;
 		this.Discount=null;
+		this.StoreID=null;
+	}
+	
+	public Sale(String store, String des, String dis)
+	{
+		this.StoreID=store;
+		this.Description=des;
+		this.Discount=dis;
 	}
 	
 	/**
@@ -60,6 +69,14 @@ public class Sale implements Serializable {
 	public String toString()
 	{
 		return ("ID: "+this.getID()+", Description: "+this.getDescription()+", Discount: "+this.getDiscount());
+	}
+
+	public String getStoreID() {
+		return StoreID;
+	}
+
+	public void setStoreID(String storeID) {
+		StoreID = storeID;
 	}
 
 }

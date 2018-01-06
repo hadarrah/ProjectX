@@ -126,6 +126,8 @@ public class EchoServer extends AbstractServer {
 					get_the_current_survey_id(msg1,conn,client);
 				else if (msg1.getRole().equals("get combo customer ID for answer complaint"))
 					GetComboForAnsComplaint(msg1, conn, client);
+				else if (msg1.getRole().equals("check if there is active sale"))
+					CheckForActiveSale(msg1, conn, client);
 			}
 			case "UPDATE": {
 				if (msg1.getRole().equals("user logout"))
@@ -149,13 +151,12 @@ public class EchoServer extends AbstractServer {
 			case "INSERT": {
 				if (msg1.getRole().equals("insert survey"))
 					insert_survey(msg1, conn, client);
-				
 				else if (msg1.getRole().equals("insert customer id to survey")) 
 				set_customer_in_survey_answered(msg1, conn, client);
-				
 				else if(msg1.getRole().equals("insert a new complain"))
 					insert_new_complain(msg1,conn,client);
-
+				else if(msg1.getRole().equals("insert new sale"))
+					insert_new_sale(msg1,conn,client);
 			}
 			}// end switch
 		} // end try
@@ -205,10 +206,62 @@ public class EchoServer extends AbstractServer {
 		 	{ 
 		 	System.err.println("unable to send msg to client");
 		 	}
-		 
-		
-		
 	}
+	
+	
+	/**
+	 * insert a new sale 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+		public static void insert_new_sale(Msg msg1, Connection conn, ConnectionToClient client) {
+			
+			/*set variables*/
+			ArrayList<String> items_ID = (ArrayList<String>) msg1.oldO;
+			Sale sale = (Sale)msg1.newO;
+			String description = sale.getDescription();
+			String discount = sale.getDiscount();
+			String store = sale.getStoreID();
+			String saleID="";
+			
+			PreparedStatement ps;
+			ResultSet rs;
+			int new_id;
+			try {
+				/* get the last ID of sale*/
+				ps = conn.prepareStatement("SELECT max(ID) FROM sales;");
+				rs = ps.executeQuery();
+				rs.next();
+				
+				/* execute the insert query */
+				ps = conn.prepareStatement("INSERT INTO sales (ID, Description, Discount) VALUES (?, ?, ?);");
+				new_id = Integer.parseInt(rs.getString(1)) + 1;
+				ps.setString(1, "" + new_id); // insert the last id + 1
+				ps.setString(2, description);
+				ps.setString(3, discount);
+				ps.executeUpdate();
+
+				saleID = "" + new_id;
+				/*update in store table*/
+				for(String item: items_ID)
+				{
+					ps = conn.prepareStatement("UPDATE store SET Sale_ID=? WHERE ID=? and Item_ID =?;");
+					ps.setString(1, saleID);
+					ps.setString(2, store);
+					ps.setString(3, item);
+					ps.executeUpdate();
+				}
+				
+				
+				client.sendToClient(msg1);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	
 /**
  * get the number of the current active survey
  * @param msg1
@@ -567,7 +620,69 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
-	
+	/**
+	 * check if there is already active sale in the user's store
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static void CheckForActiveSale(Msg msg1, Connection conn, ConnectionToClient client) 
+	{
+		Person employee = (Person)msg1.oldO;
+		PreparedStatement ps, psItem;
+		ResultSet rs, rsItem;
+		String store, table="";
+		SortedMap<String , String> items = new TreeMap<String , String>();
+
+		try {
+			/*get the store id of the employee (every employee has a payment account)*/
+			ps = conn.prepareStatement(" SELECT * FROM payment_account WHERE ID = ?;");
+			ps.setString(1, employee.getUser_ID());
+			rs = ps.executeQuery();
+			rs.next();
+			store = rs.getString("Store_ID");
+			
+			/*check if there is sale by checking all the items*/
+			ps = conn.prepareStatement(" SELECT * FROM store WHERE ID = ?;");
+			ps.setString(1, store);
+			rs = ps.executeQuery();
+			
+			while(rs.next())
+			{
+				if(rs.getString("Sale_ID") != null)
+				{
+					msg1.newO = "There is sale"; // this is mean that there is active sale
+					msg1.oldO = null;
+					msg1.freeUse = null;
+					client.sendToClient(msg1);
+					return;
+				}
+				else //get the name of the item
+				{
+					if(rs.getString("Table").equals("Item"))
+						table = "item";
+					else
+						table = "item_in_catalog";
+					
+					/*get the name of each item from the origin table*/
+					psItem = conn.prepareStatement(" SELECT * FROM "+table+" WHERE ID = ?;");
+					psItem.setString(1, rs.getString("Item_ID"));
+					rsItem = psItem.executeQuery();
+					rsItem.next();
+					items.put(rsItem.getString("ID"), rsItem.getString("Name"));
+				}
+			}
+			
+			msg1.newO = "There is no sale"; // this is mean that there is no active sale
+			msg1.oldO = store; // save the store id for the future
+			msg1.freeUse = items;
+			client.sendToClient(msg1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * insert the survey to survey table with new id
