@@ -70,6 +70,7 @@ public class ClientConsole implements ChatIF {
 	 * it to the client's message handler with the Msg(object).
 	 */
 	public void accept(Object msg) {
+	
 		try {
 			client.handleMessageFromClientUI(msg);
 		} catch (Exception ex) {
@@ -86,21 +87,23 @@ public class ClientConsole implements ChatIF {
 	 * 
 	 * @param.
 	 */
-	public void displaytoGUI(Object message) {			
+	public void displaytoGUI(Object message) {	
+		
 	if (message instanceof Msg)
 		{
 		Msg check = (Msg) message;
 			 
 			if(check.getType().equals("SELECTALL"))
 			{
-				if(check.getRole().equals("View all catalog items")) 
-				{
-					((gui.View_Catalog_Controller) mc).initCatalog(message);
-				}
+				
 			}
 
 			if (check.getType().equals("SELECT")) 
 			{
+				if(check.getRole().equals("View all catalog items")) 
+				{
+					((gui.View_Catalog_Controller) mc).initCatalog(message);
+				}
 				if (check.getRole().equals("verify user details")) {
 					((gui.Login_win) mc).get_comfirmation(message);
 				}

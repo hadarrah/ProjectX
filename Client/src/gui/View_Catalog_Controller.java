@@ -82,18 +82,20 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 	}
 
 	/*--init the object with SELECTALL query--*/
-	public void init(Object message) {
-		Msg tmp = (Msg) message;
-		tmp.setRole("View all catalog items");
-		tmp.setSelectAll();
-		tmp.setTableName("item_in_catalog");
+	public void init() {
+		Msg msg = new Msg();
+		msg.setRole("View all catalog items");
+		msg.setSelect();
+		msg.setTableName("item_in_catalog");
+		msg.freeField=current_user.getUser_ID();//save current user id 
+		Login_win.to_Client.accept(msg); 
 	}
 
 	/*--set default values by opening the catalog--*/
 	public void initCatalog(Object message)  {
 		Msg tmp = (Msg) message;
 		Itc = (ArrayList<Item_In_Catalog>) tmp.newO;
-		Itc_counter=Itc.size();
+		Itc_counter=Itc.size();	
 		Prev_B.setDisable(true);
 		SetCounter(view_counter+1,Itc_counter);
 		SetDetailsGui(Itc.get(0)); //default view is the first item in the array
@@ -109,8 +111,8 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 				txtID.setText(Itc.getID());
 				txtName.setText(Itc.getName());
 				txtPrice.setText(""+Itc.getPrice());
+				txtDescription.setText(Itc.getDescription());
 				txtAmount.setText(""+Itc.getAmount());
-				txtDescription.setText(Itc.getDescription());							
 				File f=new File(Itc.getImage());
 		        Image image =new Image(f.toURI().toString());								
 				Itemimg.setImage(image);				
@@ -153,10 +155,10 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 		 * update the current controller to be view catalog controller in general
 		 * ClientConsole instance
 		 */
+		current_user=gui.Login_win.current_user;
 		Login_win.to_Client.setController(this);
-		Msg msg = new Msg();
-		init(msg);
-		Login_win.to_Client.accept(msg);
+		init();
+		
 	}
 
 }
