@@ -130,6 +130,7 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
  * @param o
  */
 	public void get_submit_approved(Object o) {
+		/*get a proved from the server that the complain was insert*/
 		/*show pop up -> and then return to main*/
 		Msg msg = (Msg) o;
 		if(msg.freeField.equals("insert succeed"))
@@ -168,7 +169,6 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
 				    		try {
 								go_back_after_send();
 							} catch (IOException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 				      }
