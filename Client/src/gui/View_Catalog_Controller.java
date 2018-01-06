@@ -92,7 +92,7 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 		Login_win.to_Client.accept(msg); 
 	}
 
-	/*--set default values by opening the catalog--*/
+	/*--setting default values by opening the catalog--*/
 	public void initCatalog(Object message)  {
 		Msg tmp = (Msg) message;
 		Itc = (ArrayList<Item_In_Catalog>) tmp.newO;

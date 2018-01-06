@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 /action/
-=======
->>>>>>> branch 'master' of https://github.com/hadarrah/ProjectX.git
+/client/
+/common/
 /gui/
-<<<<<<< HEAD
-=======
-/action/
->>>>>>> branch 'master' of https://github.com/hadarrah/ProjectX.git
+/ocsf/

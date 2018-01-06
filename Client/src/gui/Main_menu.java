@@ -73,7 +73,7 @@ public class Main_menu  implements Initializable,ControllerI{
 	 public void catalog(ActionEvent event) throws IOException {
 	    	
     	 Parent menu;
-		 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "View_Catalog.fxml"));
+		 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "View_Catalog1.fxml"));
 		// to_Client.setController(new Managment_Controller());
 		 Scene win1= new Scene(menu);
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();

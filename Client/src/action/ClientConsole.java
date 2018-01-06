@@ -95,13 +95,11 @@ public class ClientConsole implements ChatIF {
 			
 			if (check.getType().equals("SELECT")) 
 			{
-				if(check.getRole().equals("View all catalog items")) 
-				{
-					((gui.View_Catalog_Controller) mc).initCatalog(message);
+				if(check.getRole().equals("View all catalog items")) {				
+					((gui.View_Catalog_Controller) mc).initCatalog(message);	
 				}
-				if (check.getRole().equals("verify user details")) {
-					((gui.Login_win) mc).get_comfirmation(message);
-					
+				else if (check.getRole().equals("verify user details")) {
+					((gui.Login_win) mc).get_comfirmation(message);					
 				}
 				else if (check.getRole().equals("check if user already did this survey")) {
 					((gui.Main_menu)mc).survey_premession(message);
@@ -137,10 +135,9 @@ public class ClientConsole implements ChatIF {
 				 
 				 ((gui.Main_menu)mc).set_current_survey_and_chek_customer_survey(message);
 				}
-				else if(check.getRole().equals("get combo survey ID")) {
-					 
+				else if(check.getRole().equals("get combo survey ID")) {					 
 					 ((gui.Add_Conclusion_Controller)mc).setCombo(message);
-					}
+				}
 				else if (check.getRole().equals("get combo all customers")) {
 					((gui.Edit_Customer_Profile_Man_Controller) mc).set_combobox(message);
 				}
