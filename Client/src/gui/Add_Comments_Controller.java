@@ -3,6 +3,8 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -42,7 +44,8 @@ public class Add_Comments_Controller implements Initializable,ControllerI{
 	    public Button back_B;
 	    public Label date_L, invalid_detailsL_comment, invalid_detailsL_ID, invalid_detailsL_comment_length;
 		public static ActionEvent event_log;
-
+		public Map<String , String> customer_comment;
+		
 		/**
 		 * handle with pressing "add comment"
 		 * @param event
@@ -89,6 +92,16 @@ public class Add_Comments_Controller implements Initializable,ControllerI{
 			Login_win.to_Client.accept((Object) commentToSet);
 	    }
 
+		 public void check_SelecetdID(ActionEvent event) {
+		    	
+		    	String customer_seleceted = customer_ID_combo.getValue();
+		    	
+		    	for(String ID : customer_comment.keySet())
+		    		if(ID.equals(customer_seleceted))
+		    			if(customer_comment.get(ID) != null)
+		    				comment_Text.setText(customer_comment.get(ID));	
+		    }
+		
     public void back(ActionEvent event) throws IOException {
     	move(event, main.fxmlDir+ "Managment_F.fxml");
     }
@@ -112,7 +125,13 @@ public class Add_Comments_Controller implements Initializable,ControllerI{
      */
     public void setCombo(Object msg)
     {
-    	ObservableList<String> list = FXCollections.observableArrayList((ArrayList<String>) (((Msg) msg).newO));
+    	customer_comment = (HashMap<String, String>) (((Msg) msg).newO);
+    	ArrayList<String> customerID = new ArrayList<String>();
+
+    	for(String ID : customer_comment.keySet())
+    		customerID.add(ID);
+    	
+    	ObservableList<String> list = FXCollections.observableArrayList(customerID);
     	customer_ID_combo.setItems(list);
     }
     
@@ -139,32 +158,6 @@ public class Add_Comments_Controller implements Initializable,ControllerI{
 		}); 
     }
     
-    /**
-     * handle when the update comment faild in DB
-     * @param msg
-     */
-    public void update_comment_survey_faild(Object msg)
-    {
-    	Platform.runLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				 	try {
-				 		
-
-				    	Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("ERROR");
-						alert.setHeaderText("There was problem when the system try to insert the comment\ndue to the length of entire comments");
-						alert.showAndWait();
-				 		
-						move(event_log , main.fxmlDir+ "Managment_F.fxml");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}  
-			}
-		}); 
-    }
    
     
     /**

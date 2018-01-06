@@ -29,8 +29,11 @@ public class Cart {
 	
 	public float calcTotalPrice() {
 		totalPrice = 0;
-		for (Item p : selectedItemsArr)
+		for (Item p : selectedItemsArr) {
 			totalPrice += p.getPrice();
+		//	totalPrice*=subscription;	CHECK if no double sale application
+		//	totalPrice*=sale;			CHECK sale existance SHOULD be calculated before input to cart
+		}
 		
 		return totalPrice;
 

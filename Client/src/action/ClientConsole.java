@@ -92,12 +92,7 @@ public class ClientConsole implements ChatIF {
 	if (message instanceof Msg)
 		{
 		Msg check = (Msg) message;
-			 
-			if(check.getType().equals("SELECTALL"))
-			{
-				
-			}
-
+			
 			if (check.getType().equals("SELECT")) 
 			{
 				if(check.getRole().equals("View all catalog items")) 
@@ -106,6 +101,10 @@ public class ClientConsole implements ChatIF {
 				}
 				if (check.getRole().equals("verify user details")) {
 					((gui.Login_win) mc).get_comfirmation(message);
+					
+				}
+				else if (check.getRole().equals("check if user already did this survey")) {
+					((gui.Main_menu)mc).survey_premession(message);
 				}
 				else if (check.getRole().equals("check if ID exist and add payment account")) {
 					((gui.Create_PaymentAccount_Controller) mc).check_if_create_success(message);
@@ -134,20 +133,41 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("get combo customer ID")) {
 					((gui.Add_Comments_Controller) mc).setCombo(message);
 				}
-
+				else if(check.getRole().equals("get the current survey id")) {
+				 
+				 ((gui.Main_menu)mc).set_current_survey_and_chek_customer_survey(message);
+				}
+				else if(check.getRole().equals("get combo survey ID")) {
+					 
+					 ((gui.Add_Conclusion_Controller)mc).setCombo(message);
+					}
+				else if (check.getRole().equals("get combo all customers")) {
+					((gui.Edit_Customer_Profile_Man_Controller) mc).set_combobox(message);
+				}
+				//else if (check.getRole().equals("check if the user already did this survey")) {
+ 				//	((gui.Main_menu)mc).survey_premession(message);
+				//}
 			}
 			 if(check.getType().equals("UPDATE"))
 			 {
 				 if(check.getRole().equals("close survey"))
 					 ((gui.Close_Survey_Controller)mc).close_survey_success(message);
-				 else if(check.newO.equals("update comment survey success"))
+				 else if(check.getRole().equals("set comment survey"))
 					 ((gui.Add_Comments_Controller)mc).update_comment_survey_success(message);
-				 else if(check.newO.equals("update comment survey faild"))
-					 ((gui.Add_Comments_Controller)mc).update_comment_survey_faild(message);
+				 else if(check.getRole().equals("set conclusion survey"))
+					 ((gui.Add_Conclusion_Controller)mc).update_conclusion_survey_success(message);
+				 else if(check.getRole().equals("set comment survey"))
+					 ((gui.Add_Comments_Controller)mc).update_comment_survey_success(message);
+				 else if(check.getRole().equals("set edit profile manager"))
+					 ((gui.Edit_Customer_Profile_Man_Controller)mc).update_details_success(message);
 			 }
 			else if (check.getType().equals("INSERT")) {
 				if (check.getRole().equals("insert survey"))
 					((gui.Survey_Controller) mc).create_survey_success(message);
+				else if (check.getRole().equals("insert a new complain"))  
+						((gui.Post_Complain_Controller)mc).get_submit_approved(message);
+				 
+				
 			}
 			else if (check.getRole().equals("update user details")) {
 			  ((gui.Update_Personal_Info_Controller)mc).get_new_user_details(message);

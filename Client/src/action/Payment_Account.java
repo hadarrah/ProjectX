@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Payment_Account implements Serializable {
 
-	private String ID, CreditCard, Subscription, Status, StoreID;
+	private String ID, CreditCard, Subscription, Status;
 	
 	public Payment_Account(String id,String creditcard, String subscription, String status)
 	{
@@ -12,7 +12,6 @@ public class Payment_Account implements Serializable {
 		this.CreditCard = creditcard;
 		this.Subscription = subscription;
 		this.Status = status;
-		this.StoreID = null;
 	}
 	
 	public String getID()
@@ -28,16 +27,6 @@ public class Payment_Account implements Serializable {
 	public String getCreditCard()
 	{
 		return this.CreditCard;
-	}
-	
-	public String getStoreID()
-	{
-		return this.StoreID;
-	}
-	
-	public void setStoreID(String store)
-	{
-		 this.StoreID = store;
 	}
 	
 	public void setCreditCard(String creditcard)

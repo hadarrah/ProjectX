@@ -25,24 +25,43 @@ public class Profile_Controller implements ControllerI,Initializable {
 	public Button back_to_main_B,edit_details_B;
 	public VBox v_details;
 	
-	
+	/**
+	 * set the current user details in the window 
+	 * also present the account details
+	 * @param user
+	 */
 	public void set_user_details(Person user)
 	{
 		Person current_user=user;
 		details_txt.setEditable(false);
-		details_txt.setFont(new Font("SansSerif", 15));
-		
-		String details="ID:"+current_user.getUser_ID();
-		 details_txt.appendText(details+"\n");
+		details_txt.setFont(new Font("SansSerif", 13));
+		//details_txt.setStyle("-fx-background-color:orangered;");
+				 
+	  	String details="Personal Details";
+		 details_txt.appendText("\t\t\t"+details+"\n\n");
+	  
+		 details="ID:"+current_user.getUser_ID();
+		 details_txt.appendText(details+"\n\n");
 		 details="Name:"+current_user.getUser_name();
-		 details_txt.appendText(details+"\n");
+		 details_txt.appendText(details+"\n\n");
 		 details="Last Name:"+current_user.getUser_last_name();
-		 details_txt.appendText(details+"\n");
+		 details_txt.appendText(details+"\n\n");
 		  details="Type:"+current_user.getPrivilege();
-		 details_txt.appendText(details+"\n");
+		 details_txt.appendText(details+"\n\n");
 		 if(!(current_user.getPrivilege().equals("Customer"))) {
 		 details="WWID:"+current_user.getWWID();
-		 details_txt.appendText(details+"\n");
+		 details_txt.appendText(details+"\n\n\n");
+		 
+		
+		 details="Account Details";
+		 details_txt.appendText("\t\t\t"+details+"\n\n");
+		 details_txt.setFont(new Font("SansSerif", 12));
+		 details="Credit Card:"+gui.Login_win.current_user_pay_account.getCreditCard();
+		 details_txt.appendText(details+"\n\n");
+		 details="Subscription:"+gui.Login_win.current_user_pay_account.getSubscription();
+		 details_txt.appendText(details+"\n\n");
+		 details="Status:"+gui.Login_win.current_user_pay_account.getStatus();
+		 details_txt.appendText(details+"\n\n");
 		 }
 
  	}

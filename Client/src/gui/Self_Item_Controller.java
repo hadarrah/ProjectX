@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 
 import action.Msg;
 import action.Person;
+import action.Self_Item;
+import action.Cart;
 import action.Item;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -33,10 +35,18 @@ import javafx.stage.WindowEvent;
 
 public class Self_Item_Controller implements Initializable, ControllerI {
 
-	public Button add_items_B, remove_items_B, order_B, cancel_B;
+	public Button add_items_B, remove_items_B, add_to_cart_B, cancel_B;
 	public TextField description_TF, total_price_TF;
 	public ListView<Item> items_selected_LV;
 	public static ActionEvent event_log;
+
+	public String description = null;
+
+	// Pointer to user's cart page
+	Cart userCart = Cart_Controller.userCart;
+
+	// Previously added item
+	Self_Item addedItem;
 
 	// "Cart" for items selected so far
 	public static ArrayList<Item> selectedProductsArr = new ArrayList<Item>();
@@ -45,11 +55,22 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 	public static Map<Item, Integer> itemToAmount = new HashMap<Item, Integer>();
 
 	Item selectedFromLV = null;
-	
+
 	public float totalPrice;
 
-	
-	
+	public void moveItemToCart() {
+		description = getDescription();
+		Self_Item selfi = new Self_Item(this.selectedProductsArr, this.itemToAmount, this.description);
+		Cart_Controller.userCart.addItemToCart(selfi);
+		this.addedItem = selfi;
+
+	}
+
+	public void addToCart() {
+		userCart.selectedItemsArr.addAll(selectedProductsArr);
+		userCart.itemToAmount.putAll(itemToAmount);
+	}
+
 	public void removeFromSelected(ActionEvent event) {
 
 		if (selectedFromLV != null) {
@@ -72,14 +93,14 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 		items_selected_LV.setItems(items);
 
 	}
-	
+
 	public void setTotalPrice() {
-		totalPrice=0;
-		for(Item p : selectedProductsArr) {
-			float items = p.getPrice()*itemToAmount.get(p);
-			totalPrice+=items;
+		totalPrice = 0;
+		for (Item p : selectedProductsArr) {
+			float items = p.getPrice() * itemToAmount.get(p);
+			totalPrice += items;
 		}
-		
+
 		total_price_TF.setText(Float.toString(totalPrice));
 	}
 
@@ -90,6 +111,10 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 
 	}
 
+	public String getDescription() {
+		return this.description_TF.getText();
+	}
+
 	public void cancel(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Main_Menu_F.fxml");
 	}
@@ -98,39 +123,41 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 		move(event, main.fxmlDir + "Self_Item_Add_Items_F.fxml");
 	}
 
-	 /**
-     * General function for the movement between the different windows
-     * @param event
-     * @param next_fxml = string of the specific fxml
-     * @throws IOException
-     */
-    public void move(ActionEvent event, String next_fxml)throws IOException 
-	{
-		  Parent menu;
-		  menu = FXMLLoader.load(getClass().getResource(next_fxml));
-		 Scene win1= new Scene(menu);
-		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
-		 win_1.setScene(win1);
-		 win_1.show();
-		 
-		  //close window by X button
-		 win_1.setOnCloseRequest(new EventHandler<WindowEvent>() {
-	          public void handle(WindowEvent we) {
-	        	  Msg  msg=new Msg();
-	      		Person user_logout=Login_win.current_user;
-	      		msg.setRole("user logout");
-	      		msg.setTableName("person");
-	      		msg.setUpdate();
-	      		msg.oldO=user_logout;
-	      		Login_win.to_Client.accept(msg);
-	          }
-	      });        
+	/**
+	 * General function for the movement between the different windows
+	 * 
+	 * @param event
+	 * @param next_fxml
+	 *            = string of the specific fxml
+	 * @throws IOException
+	 */
+	public void move(ActionEvent event, String next_fxml) throws IOException {
+		Parent menu;
+		menu = FXMLLoader.load(getClass().getResource(next_fxml));
+		Scene win1 = new Scene(menu);
+		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		win_1.setScene(win1);
+		win_1.show();
+
+		// close window by X button
+		win_1.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			public void handle(WindowEvent we) {
+				Msg msg = new Msg();
+				Person user_logout = Login_win.current_user;
+				msg.setRole("user logout");
+				msg.setTableName("person");
+				msg.setUpdate();
+				msg.oldO = user_logout;
+				Login_win.to_Client.accept(msg);
+			}
+		});
 	}
 
 	public void initialize(URL location, ResourceBundle resources) {
 		/*
 		 * Update current controller (Log_win.toClient == user's ClientConsole)
 		 */
+
 		Login_win.to_Client.setController(this);
 
 		/* Setting custom listener to ListView of selected items. */
@@ -159,7 +186,7 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 
 		if (selectedProductsArr.size() > 0)
 			setSelected(); // Present selected item list from products arraylist;
-		
+
 		setTotalPrice();
 	}
 

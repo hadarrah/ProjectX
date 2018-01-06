@@ -18,11 +18,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -45,6 +45,7 @@ public class Login_win  implements ControllerI,Initializable  {
 	public static int login_counter=0;
 	public static action.ClientConsole to_Client;
 	public static Person current_user;
+	public static Payment_Account current_user_pay_account;
 	public static ActionEvent event_log;
 	 
 	
@@ -85,18 +86,23 @@ public class Login_win  implements ControllerI,Initializable  {
 	{
 	 		Msg msg=(Msg) obj;
 		Person user=(Person) msg.newO;
-		if(user.isAlreadyConnected()==true)
+		current_user_pay_account=(Payment_Account)msg.oldO;
+		if(user.isAlreadyConnected()==true) {
 			already_conL.setVisible(true);
-		 
-	 
-		if(user.getIsExist().equals("0"))
-			user_not_existL.setVisible(true);
+			user_not_existL.setVisible(false);
+		}
 			
+	 
+		if(user.getIsExist().equals("0")) {
+			user_not_existL.setVisible(true);
+		already_conL.setVisible(false);
+		}
 			
 		  if(user.getIsExist().equals("1") && user.getIsOnline().equals("1")&& !(user.isAlreadyConnected()==true))
 		  {
 			  user_not_existL.setVisible(false);
 			  welcomeL.setVisible(true);
+				already_conL.setVisible(false);
 			 
 			  /*save the details on the entered user */
 			  current_user=user;				   

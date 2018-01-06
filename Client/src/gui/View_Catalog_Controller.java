@@ -45,8 +45,9 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 	public Text txtDescription;	
 	public Text txtCatalog;
 	public Text txtCounter;
-	public Pane borderPane;
+	public Pane borderPane;	
 	public ImageView Itemimg;
+	public ImageView PrimPane;
 	public static ArrayList<Item_In_Catalog> Itc;
 	public static int Itc_counter=0;
 	public static int view_counter=0;
@@ -104,20 +105,20 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 	/*--Setting the current item details in gui--*/			
 	public void SetDetailsGui(Item_In_Catalog Itc)
 	{
-		Platform.runLater(new Runnable() {
+		//Platform.runLater(new Runnable() {
 
-			@Override
-			public void run() {					
+		//	@Override
+			//public void run() {					
 				txtID.setText(Itc.getID());
 				txtName.setText(Itc.getName());
 				txtPrice.setText(""+Itc.getPrice());
 				txtDescription.setText(Itc.getDescription());
 				txtAmount.setText(""+Itc.getAmount());
-				File f=new File(Itc.getImage());
+				File f=new File(Itc.getImage());				
 		        Image image =new Image(f.toURI().toString());								
 				Itemimg.setImage(image);				
-			}
-		});		
+			//}
+		//});		
 	}	
 	
 	/*--set the next item--*/
