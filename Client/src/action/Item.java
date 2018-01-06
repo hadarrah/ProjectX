@@ -10,9 +10,8 @@ public class Item implements Serializable{
 	private String Color;
 	private float Price;
 	private String Type;	
-	private int Amount;
-	private Sale Sale_ID;
 	private String Image;
+	private int Amount;
 	
 	/**constructor**/
 	public Item()
@@ -22,9 +21,6 @@ public class Item implements Serializable{
 		this.Color=null;
 		this.Price=0;
 		this.Type=null;
-		this.Amount=0;
-		this.Sale_ID=null;
-		
 	}
 	
 	/**
@@ -87,30 +83,7 @@ public class Item implements Serializable{
 	public void setType(String type) {
 		Type = type;
 	}
-	/**
-	 * @return the amount
-	 */
-	public float getAmount() {
-		return Amount;
-	}
-	/**
-	 * @param amount the amount to set
-	 */
-	public void setAmount(int amount) {
-		Amount = amount;
-	}
-	/**
-	 * @return the sale
-	 */
-	public Sale getSale_ID() {
-		return Sale_ID;
-	}
-	/**
-	 * @param sale the sale to set
-	 */
-	public void setSale_ID(Sale sale) {
-		this.Sale_ID=sale;
-	}
+	
 
 	/**
 	 * @return the image
@@ -129,7 +102,21 @@ public class Item implements Serializable{
 	public String toString()
 	{
 		return("\nID: "+this.getID()+"\n"+"Name: "+this.getName()+"\n"+"Color: "+this.getColor()+"\n"+"Price: "+this.getPrice()
-				+"\n"+"Type: "+this.getType()+"\n"+"Amount: "+this.getAmount()+"\n"+"Sale: "+this.getSale_ID().getID());
+				+"\n"+"Type: "+this.getType());
+	}
+
+	/**
+	 * @return the amount
+	 */
+	public int getAmount() {
+		return Amount;
+	}
+
+	/**
+	 * @param amount the amount to set
+	 */
+	public void setAmount(int amount) {
+		Amount = amount;
 	}
 	
 }
