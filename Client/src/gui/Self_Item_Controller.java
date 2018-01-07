@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import action.Msg;
@@ -24,11 +25,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -59,18 +63,41 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 	public float totalPrice;
 
 	public void moveItemToCart() {
+		//If user hasn't selected any items.
+		if(this.selectedProductsArr.size()<=0) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("There are no items in your cart");
+			alert.setHeaderText("No items added to the cart\n");
+			alert.setContentText("\nPlease select items through 'Add Item' button options\n"+
+								 "For more information, please contact Netanel Azulai\n");
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			return;			
+		}
+		
 		description = getDescription();
 		Self_Item selfi = new Self_Item(this.selectedProductsArr, this.itemToAmount, this.description);
+		selfi.setPrice(totalPrice);
 		userCart.addItemToCart(selfi);
 		this.addedItem = selfi;
-
+		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Item was successfully added to your Cart!");
+		alert.setHeaderText("The requested item is now in your cart, you can create a new item now.\n");
+		alert.setContentText("\nYou can access your cart from the Main Menu\n"+
+							 "For more information, please contact Netanel Azulai\n");
+		Optional<ButtonType> result = alert.showAndWait();
+		
+		clearList();
 	}
 
-	public void addToCart() {
-		userCart.selectedItemsArr.addAll(selectedProductsArr);
-		userCart.itemToAmount.putAll(itemToAmount);
+	public void clearList() {
+		selectedProductsArr.clear();
+		itemToAmount.clear();
+		setSelected();
+		setTotalPrice();
 	}
-
+	
 	public void removeFromSelected(ActionEvent event) {
 
 		if (selectedFromLV != null) {
@@ -97,8 +124,8 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 	public void setTotalPrice() {
 		totalPrice = 0;
 		for (Item p : selectedProductsArr) {
-			float items = p.getPrice() * itemToAmount.get(p);
-			totalPrice += items;
+			float itemsprice = p.getPrice() * itemToAmount.get(p);
+			totalPrice += itemsprice;
 		}
 
 		total_price_TF.setText(Float.toString(totalPrice));

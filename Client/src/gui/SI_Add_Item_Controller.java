@@ -63,8 +63,8 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		// If an item has been selected (null if user just entered the page)
 		if (p != null) {
 
-			ArrayList<Item> productsArr = ((Self_Item_Controller) prevPage).selectedProductsArr;
-			HashMap<Item, Integer> amountMap = (HashMap<Item, Integer>) ((Self_Item_Controller) prevPage).itemToAmount;
+			ArrayList<Item> productsArr = Self_Item_Controller.selectedProductsArr;
+			HashMap<Item, Integer> amountMap = (HashMap<Item, Integer>) Self_Item_Controller.itemToAmount;
 			// If user pressed the Add Item button twice -> ask him if he is sure
 			if (productsArr.size() > 0 && p == productsArr.get(productsArr.size() - 1)) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -101,20 +101,17 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 		String name = select_item_CB.getValue();
 		float price = -1;
-		// int id;
+
 		System.out.println("You have selected: " + name);
 
 		for (int i = 0; i < products.size(); i++) {
 			if (products.get(i).getName().equals(name)) {
-				// id = i;
 				price = products.get(i).getPrice();
 				p = products.get(i);
 				this.amount_wanted_TF.setText("1");
 				unit_price_TF.setText(Float.toString(price));
-				// this.in_stock_TF.setPromptText(Float.toString(p.getAmount()));
 				break;
 			}
-			// if(in_stock>0)
 
 		}
 

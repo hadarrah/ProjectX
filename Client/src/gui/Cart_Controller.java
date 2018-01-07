@@ -101,12 +101,10 @@ public class Cart_Controller implements Initializable, ControllerI {
 	public void setSelected() {
 
 		String pnames[] = new String[selectedItemsArr.size()];
-		System.out.println("items size:   " + selectedItemsArr.size());
 
 		// Fill names array
 		for (int i = 0; i < selectedItemsArr.size(); i++) {
 			pnames[i] = selectedItemsArr.get(i).getName();
-			System.out.println(i + "\t");
 		}
 
 		if (pnames.length <= 0)
@@ -124,8 +122,6 @@ public class Cart_Controller implements Initializable, ControllerI {
 
 	public void getSelectedFromLV(ActionEvent event) {
 		Item pr = items_selected_LV.getSelectionModel().getSelectedItem();
-
-		System.out.println(pr.getName() + " is selected");
 
 	}
 

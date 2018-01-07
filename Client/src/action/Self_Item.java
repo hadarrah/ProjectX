@@ -13,8 +13,17 @@ public class Self_Item extends Item {
 	public float totPrice;
 
 	public Self_Item(ArrayList<Item> itemsarr, Map<Item, Integer> amountmap, String desc) {
-		this.items = itemsarr;
-		this.amounts = amountmap;
+
+		for(Item t:itemsarr) {
+			Item in = new Item();
+			in.setID(t.getID());
+			in.setName(t.getName());
+			in.setPrice(t.getPrice());
+			in.setType(t.getType());
+			items.add(in);
+			amounts.put(in, amountmap.get(t));
+		}
+
 		this.description = desc;
 		// display name up to 6 first letters of description
 		if (desc.length() > 0)

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 import action.Msg;
@@ -17,11 +16,8 @@ import action.Self_Item;
 import action.Cart;
 import action.Delivery;
 import action.Item;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -32,14 +28,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -156,7 +148,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		}
 		
 		else {
-			System.out.println("There have been some problem in creating the order");
+			System.out.println("There has been some problem in creating the order");
 		}
 	}
 
@@ -333,11 +325,13 @@ public class Order_Controller implements Initializable, ControllerI {
 			boolean newItem=true; //item is not in newarr->true;
 			
 			Item itemincart = items.get(i);
-			
+
 			if(itemincart instanceof Self_Item) {	//if item is self_item
 				Self_Item st = (Self_Item)itemincart;
+				//System.out.println("st size: "+st.items.size());
 
 				for(int j=0; j<st.items.size();j++) {	//go through all items in st
+					
 					Item t = st.items.get(j);
 
 					for(int k=0; k<newarr.size(); k++) {	//for every existing item in order, check if it is in
@@ -377,7 +371,7 @@ public class Order_Controller implements Initializable, ControllerI {
 
 		msg.oldO = newarr;
 		msg.newO = newamounts;
-		System.out.println("(from insertItemsToDB)items are in: ");
+
 		for(Item t:newarr) System.out.println(t.getName()+" "+newamounts.get(t.getID()));
 
 		Login_win.to_Client.accept(msg);
@@ -532,7 +526,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		// get the payment acc
 		getPaymentAcc(customer.getUser_ID());
 		// Waiting for getpayment to get acc
-		System.out.println("here");
+
 		try {
 			while (acc == null)
 				Thread.sleep(10);
@@ -540,7 +534,7 @@ public class Order_Controller implements Initializable, ControllerI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("here");
+
 
 		setRadioB();
 		setTextF();
