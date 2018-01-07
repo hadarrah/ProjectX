@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.control.*?>
@@ -10,7 +12,7 @@
 
 <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600" prefWidth="500" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Main_menu">
    <children>
-      <ImageView fitHeight="600" fitWidth="500" opacity="0.8">
+      <ImageView fitHeight="600" fitWidth="500" layoutX="1.0" opacity="0.8">
          <image>
             <Image url="@page.jpg" />
          </image>
@@ -20,20 +22,27 @@
             <Font name="Arial Black" size="28.0" />
          </font>
       </Label>
-      <Button fx:id="back_B" layoutX="42.0" layoutY="519.0" mnemonicParsing="false" onAction="#back_logOut" prefHeight="23.0" prefWidth="58.0" text="LogOut" />
+      <Button fx:id="back_B" layoutX="14.0" layoutY="522.0" mnemonicParsing="false" onAction="#back_logOut" prefHeight="23.0" prefWidth="58.0" text="LogOut" />
       <Button fx:id="mannag_B" layoutX="381.0" layoutY="5.0" mnemonicParsing="false" onAction="#managment" text="Mannagment" visible="false" />
-      <Button fx:id="view_catalog_B" layoutX="52.0" layoutY="141.0" mnemonicParsing="false" onAction="#catalog" text="View catalog" />
-      <Button fx:id="cancel_order_B" layoutX="51.0" layoutY="227.0" mnemonicParsing="false" text="Cancel order" />
-      <Button fx:id="self_item_B" layoutX="18.0" layoutY="185.0" mnemonicParsing="false" onAction="#self_item" text="Create your own product" />
-      <Button fx:id="complain_B" layoutX="344.0" layoutY="388.0" mnemonicParsing="false" onAction="#complain" text="Open a new complain" />
-      <Button fx:id="user_profile_B" layoutX="32.0" layoutY="447.0" mnemonicParsing="false" onAction="#to_user_profile" text="View Profile" />
-      <ImageView fx:id="survey_img" fitHeight="50.0" fitWidth="50.0" layoutX="385.0" layoutY="472.0" opacity="0.66">
-         <image>
-            <Image fx:id="survey_img" url="@survey2.gif" />
-         </image>
-      </ImageView>
-      <Button fx:id="take_survey_B" layoutX="366.0" layoutY="435.0" mnemonicParsing="false" onAction="#take_survey" style=": ;" text="Take a survey" />
-      <Button fx:id="cart_B" layoutX="391.0" layoutY="154.0" mnemonicParsing="false" onAction="#cart" text="Cart" />
-      <Button fx:id="order_B" layoutX="384.0" layoutY="198.0" mnemonicParsing="false" onAction="#order" text="Order" />
+      <VBox alignment="CENTER" layoutX="130.0" layoutY="123.0" prefHeight="236.0" prefWidth="240.0" spacing="15.0">
+         <children>
+            <Button fx:id="view_catalog_B" mnemonicParsing="false" onAction="#catalog" text="View catalog" />
+            <Button fx:id="order_B" mnemonicParsing="false" onAction="#order" text="Order" />
+            <Button fx:id="cancel_order_B" mnemonicParsing="false" text="Cancel order" />
+            <Button fx:id="self_item_B" mnemonicParsing="false" onAction="#self_item" text="Create your own product" />
+            <Button fx:id="complain_B" mnemonicParsing="false" onAction="#complain" text="Open a new complain" />
+            <Button fx:id="cart_B" mnemonicParsing="false" onAction="#cart" text="Cart" />
+         </children>
+      </VBox>
+      <Button fx:id="user_profile_B" layoutX="14.0" layoutY="94.0" mnemonicParsing="false" onAction="#to_user_profile" text="Profile" />
+      <JFXButton fx:id="take_survey_B" buttonType="RAISED" layoutX="333.0" layoutY="359.0" onAction="#take_survey" ripplerFill="#17e871" text="Take a Survey">
+         <graphic>
+            <ImageView fx:id="survey_img" fitHeight="50.0" fitWidth="50.0" opacity="0.66">
+               <image>
+                  <Image fx:id="survey_img" url="@survey2.gif" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
    </children>
 </Pane>
