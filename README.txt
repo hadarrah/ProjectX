@@ -64,16 +64,21 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 
 if you don't need one of the field => insert empty string ""
 
-
--Main, Prev and Next controllers:
-
-		ControllerI prevPage, nextPage;
-   		prevPage = Login_win.to_Client.mc;		//(where we came from)
-   		nextPage = (IController)MyNextPage;		//next page controller if needed.
-Do Always:	Login_win.to_Client.setController(this);	//Initialize current controller.
+Main user cart is: Main_menu.userCart
 
 
 toAdd:
-a log file ,that recod the server action.
-the system manger can see this file
-to view profile -> purcahse  history
+-a log file ,that recod the server action.
+-the system manger can see this file
+-to view profile -> purcahse  history
+-fit Self Item creation for user story (no description -> selection between options)
+-adding Card to order
+-show final price for order in the order pane.
+-user's order history
+-repair tabbing in order
+-user input amount of item->check correct input
+-order.self collect -> auto storeid/present options
+-cart order button error when cart empty
+-complaint window gui
+-main gui (bg coloration)
+-login window gui (bg)
