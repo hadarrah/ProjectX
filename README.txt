@@ -6,7 +6,7 @@ Design Conventions:
 -Font:  *Default: System 12px
 	*Special font: Arial Bold Italic
 
--Font Colors:   *Green [#29940c]
+-Font Colors:   (ignore)*Green [#29940c]
 		*Red   [#eb0a0a]
 		
 -Titles:	Font: Arial Black
