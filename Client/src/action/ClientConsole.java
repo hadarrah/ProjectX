@@ -107,6 +107,9 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("check if ID exist and add payment account")) {
 					((gui.Create_PaymentAccount_Controller) mc).check_if_create_success(message);
 				}
+				else if (check.getRole().equals("get payment account for personID")) {
+					((gui.Order_Controller) mc).get_payment_account(message);
+				}
 				else if (check.getRole().equals("check if there is active survey for insert")) {
 					((gui.Managment_Controller) mc).check_if_survey_active(message);
 				}
@@ -196,6 +199,12 @@ public class ClientConsole implements ChatIF {
 						((gui.Post_Complain_Controller)mc).get_submit_approved(message);
 				else if (check.getRole().equals("insert new sale"))  
 					((gui.Create_Sale_Controller)mc).create_sale_success(message);
+				else if(check.getRole().equals("insert order")) 
+					((gui.Order_Controller) mc).create_order_success(message);
+				else if(check.getRole().equals("insert delivery")) 
+					((gui.Order_Controller) mc).create_delivery_success(message);
+				else if(check.getRole().equals("insert items in order")) 
+					((gui.Order_Controller) mc).insert_items_success(message);
 			}
 			else if (check.getRole().equals("update user details")) {
 			  ((gui.Update_Personal_Info_Controller)mc).get_new_user_details(message);

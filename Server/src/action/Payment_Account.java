@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 public class Payment_Account implements Serializable {
 
-	private String ID, CreditCard, Subscription, Status;
+	private String ID, CreditCard, Subscription, Status, StoreID;
+	
+	public Payment_Account() {}
 	
 	public Payment_Account(String id,String creditcard, String subscription, String status)
 	{
@@ -52,5 +54,13 @@ public class Payment_Account implements Serializable {
 	public void setStatus(String status)
 	{
 		this.Status = status;
+	}
+
+	public String getStoreID() {
+		return StoreID;
+	}
+
+	public void setStoreID(String storeID) {
+		StoreID = storeID;
 	}
 }

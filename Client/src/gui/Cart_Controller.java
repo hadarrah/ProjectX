@@ -39,23 +39,19 @@ public class Cart_Controller implements Initializable, ControllerI {
 	public TextField total_price_TF;
 	public ListView<Item> items_selected_LV;
 	public static ActionEvent event_log;
-	
-	public static Cart userCart = new Cart();
 
-	
-	
+	public static Cart userCart = Main_menu.userCart;
+
 	// "Cart" for items selected so far
-	public static ArrayList<Item> selectedItemsArr = userCart.selectedItemsArr;
+	public ArrayList<Item> selectedItemsArr = userCart.selectedItemsArr;
 
 	// A map that wires an item for the selected amount. ( map.get(item)==amount )
-	public static Map<Item, Integer> itemToAmount = userCart.itemToAmount;
+	public Map<Item, Integer> itemToAmount = userCart.itemToAmount;
 
 	Item selectedFromLV = null;
 	ArrayList<Item> removedItems = new ArrayList<Item>();
 
 	public float totalPrice = 0;
-	
-	
 
 	public void addItemToCart(Item t) {
 
@@ -71,35 +67,33 @@ public class Cart_Controller implements Initializable, ControllerI {
 
 		if (selectedFromLV != null) {
 
-			removedItems.add(new Self_Item((Self_Item)selectedFromLV));
+			removedItems.add(new Self_Item((Self_Item) selectedFromLV));
 			selectedItemsArr.remove(selectedFromLV);
 			selectedFromLV = null;
-			
+
 			setSelected();
 			setTotalPrice();
-
-			System.out.println(removedItems.size());
 
 		}
 	}
 
 	public void undoRemove(ActionEvent event) {
 		if (!(removedItems.isEmpty())) {
-			//Add last item which has been removed
+			// Add last item which has been removed
 			selectedItemsArr.add(removedItems.get(removedItems.size() - 1));
-			//remove the un-removed item from the list
+			// remove the un-removed item from the list
 			removedItems.remove(removedItems.size() - 1);
-			
-			//set view
+
+			// set view
 			setSelected();
 			setTotalPrice();
 		}
 	}
-	
+
 	public void clearAll(ActionEvent event) {
 
-		while(selectedItemsArr.size()>0) {
-			this.selectedFromLV=this.selectedItemsArr.get(0);
+		while (selectedItemsArr.size() > 0) {
+			this.selectedFromLV = this.selectedItemsArr.get(0);
 			removeFromSelected(event);
 		}
 	}
@@ -107,16 +101,18 @@ public class Cart_Controller implements Initializable, ControllerI {
 	public void setSelected() {
 
 		String pnames[] = new String[selectedItemsArr.size()];
-		System.out.println("items size:   "+selectedItemsArr.size());
+		System.out.println("items size:   " + selectedItemsArr.size());
 
 		// Fill names array
 		for (int i = 0; i < selectedItemsArr.size(); i++) {
 			pnames[i] = selectedItemsArr.get(i).getName();
 			System.out.println(i + "\t");
 		}
-			
-		if(pnames.length<=0) clear_B.setDisable(true);
-		else clear_B.setDisable(false);
+
+		if (pnames.length <= 0)
+			clear_B.setDisable(true);
+		else
+			clear_B.setDisable(false);
 		ObservableList<Item> items = FXCollections.observableArrayList(selectedItemsArr);
 		items_selected_LV.setItems(items);
 
@@ -131,6 +127,10 @@ public class Cart_Controller implements Initializable, ControllerI {
 
 		System.out.println(pr.getName() + " is selected");
 
+	}
+
+	public void order(ActionEvent event) throws IOException {
+		move(event, main.fxmlDir + "Order_F.fxml");
 	}
 
 	public void back(ActionEvent event) throws IOException {
@@ -172,6 +172,7 @@ public class Cart_Controller implements Initializable, ControllerI {
 		 * Update current controller (Log_win.toClient == user's ClientConsole)
 		 */
 		Login_win.to_Client.setController(this);
+		userCart = new Cart();
 
 		/* Setting custom listener to ListView of selected items. */
 		items_selected_LV.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Item>() {

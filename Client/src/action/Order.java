@@ -1,10 +1,13 @@
 package action;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Order {
-	String id, personid, status, payment, totprice, storeid;
+public class Order implements Serializable{
+	String id, personid, status, payment, storeid;
 	String createtime, createdate, requesttime, requestdate;
+	
+	float totPrice;
 	
 	//public static int id = lastID();
 	
@@ -59,12 +62,12 @@ public class Order {
 		this.payment = payment;
 	}
 
-	public String getTotprice() {
-		return totprice;
+	public float getTotprice() {
+		return totPrice;
 	}
 
-	public void setTotprice(String totprice) {
-		this.totprice = totprice;
+	public void setTotprice(float totprice) {
+		this.totPrice = totprice;
 	}
 
 	public String getStoreid() {

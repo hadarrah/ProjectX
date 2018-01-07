@@ -100,6 +100,8 @@ public class EchoServer extends AbstractServer {
 					check_user_details(msg1, conn, client);
 				else if (msg1.getRole().equals("check if ID exist and add payment account"))
 					check_id_exist(msg1, conn, client);
+				else if (msg1.getRole().equals("get payment account for personID"))
+					get_payment_account(msg1, conn, client);
 				else if (msg1.getRole().equals("check if there is active survey for insert"))
 					check_survey_exist(msg1, conn, client);
 				else if (msg1.getRole().equals("check if there is active survey for close"))
@@ -163,6 +165,12 @@ public class EchoServer extends AbstractServer {
 					insert_new_complain(msg1,conn,client);
 				else if(msg1.getRole().equals("insert new sale"))
 					insert_new_sale(msg1,conn,client);
+				else if (msg1.getRole().equals("insert order"))
+					insert_order(msg1, conn, client);
+				else if (msg1.getRole().equals("insert items in order"))
+					insert_items_in_order(msg1, conn, client);
+				else if (msg1.getRole().equals("insert delivery"))
+					insert_delivery(msg1, conn, client);
 			}
 			}// end switch
 		} // end try
@@ -177,6 +185,159 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
+	
+	
+	public static void insert_delivery(Msg msg1, Connection conn, ConnectionToClient client) {
+
+		Delivery d = (Delivery) msg1.oldO;
+		PreparedStatement ps;
+		ResultSet rs;
+
+		try {
+			ps = conn.prepareStatement("INSERT INTO `zerli`.`delivery` (Order_ID, Address, RecieverName, Phone)"
+					+ " VALUES (?, ?, ?, ? );");
+
+			ps.setString(1, Integer.toString(d.getOrderid()));
+			ps.setString(2, d.getAddress());
+			ps.setString(3, d.getName());
+			ps.setString(4, d.getPhone());
+
+			ps.executeUpdate();
+			// insert deliv after order created -> no deliveries without orders.
+
+			msg1.newO = d;
+			client.sendToClient((Msg) msg1);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void insert_order(Msg msg1, Connection conn, ConnectionToClient client) {
+		Order order = (Order) msg1.oldO;
+
+		PreparedStatement ps;
+		ResultSet rs;
+		try {
+
+			/* get the last ID */
+			ps = conn.prepareStatement("SELECT max(ID) FROM `zerli`.`order`;");
+			rs = ps.executeQuery();
+			rs.next();
+			int newid = Integer.parseInt(rs.getString(1));
+			/* execute the insert query */
+			ps = conn.prepareStatement(
+					"INSERT INTO `zerli`.`order` (ID, Person_ID, Delivery, Status, Payment_Type, Price, Store_ID, Time, Date, Requested_Time, Requested_Date)"
+							+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+
+			order.setId(Integer.toString(newid + 1)); // max oid+1
+			ps.setString(1, order.getId()); // insert the last id + 1
+
+			ps.setString(2, order.getPersonid());
+
+			String deliv = "No";
+			if (order.haveDelivery() == true)
+				deliv = "Yes";
+
+			ps.setString(3, deliv);
+			ps.setString(4, order.getStatus());
+			ps.setString(5, order.getPayment());
+			ps.setString(6, Float.toString(order.getTotprice()));
+			ps.setString(7, order.getStoreid());
+			ps.setString(8, order.getCreatetime());
+			ps.setString(9, order.getCreatedate());
+			ps.setString(10, order.getRequesttime());
+			ps.setString(11, order.getRequestdate());
+
+			ps.executeUpdate();
+
+			msg1.newO = order;
+
+			client.sendToClient((Msg) msg1);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void insert_items_in_order(Msg msg1, Connection conn, ConnectionToClient client) {
+
+		Msg msg = (Msg) msg1;
+		ArrayList<Item> items = (ArrayList<Item>) msg1.oldO;	//arrives as individual items
+		HashMap<String, Integer> amounts = (HashMap<String, Integer>) msg1.newO;	//amounts.(Item_ID)==amount
+		int orderID = (int) msg.num1;
+
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(
+					"INSERT INTO `zerli`.`item_in_order` (Order_ID, Item_ID, Type, Amount)" + " VALUES (?, ?, ?, ? );");
+
+			// insert all the items
+			for (Item t : (ArrayList<Item>) items) {
+				System.out.println("item: " + t.getName());
+				ps.setString(1, Integer.toString(orderID));
+				ps.setString(2, t.getID());
+				ps.setString(3, t.getType());
+				ps.setString(4, Integer.toString(amounts.get(t.getID())));
+
+				ps.executeUpdate();
+			}
+
+			client.sendToClient(msg);
+
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void get_payment_account(Msg msg1, Connection conn, ConnectionToClient client) {
+
+		Msg msg = (Msg) msg1;
+		Payment_Account acc = new Payment_Account();
+		String id = (String) (msg1.oldO);
+
+		try {
+			/** Building the query */
+
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM payment_account WHERE ID=?;");
+			ps.setString(1, id);
+			ResultSet rs = ps.executeQuery();
+
+			if (!(rs.next())) {
+				msg.newO = null;
+				client.sendToClient(msg);
+				return;
+			}
+
+			rs.previous();
+
+			while (rs.next()) {
+				acc.setID(rs.getString(1));
+				acc.setCreditCard(rs.getString(2));
+				acc.setStatus(rs.getString(3));
+				acc.setSubscription(rs.getString(4));
+				acc.setStoreID(rs.getString(5));
+			}
+
+			System.out.println(acc.getStoreID());
+
+			msg.newO = acc;
+			client.sendToClient(msg);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException ex) {
+			System.err.println("unable to send msg to client");
+		}
+
+	}
+	
 /**
  * insert a new complain to the system
  * @param msg1

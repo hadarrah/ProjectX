@@ -10,6 +10,7 @@ public class Delivery implements Serializable {
 	private String phone;
 
 	private Order order;
+	private int orderid;
 	
 	public Delivery() {
 		this.setName(null);
@@ -24,6 +25,13 @@ public class Delivery implements Serializable {
 		this.setPhone(phone);
 	}
 	
+	
+	public void setOrderid(int id) {
+		this.orderid=id;
+	}
+	public int getOrderid() {
+		return this.orderid;
+	}
 	
 	public String getAddress() {
 		return address;

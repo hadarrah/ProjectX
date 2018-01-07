@@ -43,10 +43,10 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 	public String description = null;
 
 	// Pointer to user's cart page
-	Cart userCart = Cart_Controller.userCart;
+	public static Cart userCart = Main_menu.userCart;
 
 	// Previously added item
-	Self_Item addedItem;
+	public Self_Item addedItem;
 
 	// "Cart" for items selected so far
 	public static ArrayList<Item> selectedProductsArr = new ArrayList<Item>();
@@ -61,7 +61,7 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 	public void moveItemToCart() {
 		description = getDescription();
 		Self_Item selfi = new Self_Item(this.selectedProductsArr, this.itemToAmount, this.description);
-		Cart_Controller.userCart.addItemToCart(selfi);
+		userCart.addItemToCart(selfi);
 		this.addedItem = selfi;
 
 	}

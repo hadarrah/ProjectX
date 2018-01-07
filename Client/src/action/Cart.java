@@ -16,6 +16,11 @@ public class Cart {
 
 	public float totalPrice = 0;
 	
+	public void cleanCart() {
+		Cart.selectedItemsArr.clear();
+		Cart.itemToAmount.clear();
+		this.removedItems.clear();
+	}
 	
 	public void addItemToCart(Item t) {
 

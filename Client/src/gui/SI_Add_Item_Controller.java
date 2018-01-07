@@ -67,8 +67,13 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 			HashMap<Item, Integer> amountMap = (HashMap<Item, Integer>) ((Self_Item_Controller) prevPage).itemToAmount;
 			// If user pressed the Add Item button twice -> ask him if he is sure
 			if (productsArr.size() > 0 && p == productsArr.get(productsArr.size() - 1)) {
-			    
-				Optional<ButtonType> result = Login_win.showPopUp("CONFIRMATION", "Confirm Additional Same Item", "Confirmation of item addition", "You have already added " + p.getName() + "\nAre you sure you want to add another " + p.getName() + "?");
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Confirm Additional Same Item");
+				alert.setHeaderText("Confirmation of item addition");
+				alert.setContentText("You have already added " + p.getName() + "\nAre you sure you want to add another "
+						+ p.getName() + "?");
+
+				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == ButtonType.OK) {
 
 				} else {
@@ -81,6 +86,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 			if (addItem) {
 				add = "You have added " + p.getName();
 				amountMap.put(p, Integer.parseInt(this.amount_wanted_TF.getText()));
+				p.setType(type);
 				productsArr.add(p);
 				added_L.setTextFill(Color.web("#25a829"));
 			} else // else-> don't add item, red label.

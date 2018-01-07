@@ -17,7 +17,7 @@
             <Image url="@page2.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="payment_B" layoutX="160.0" layoutY="544.0" mnemonicParsing="false" text="Payment" />
+      <Button fx:id="payment_B" layoutX="160.0" layoutY="544.0" mnemonicParsing="false" onAction="#doPay" text="Payment" />
       <Button fx:id="back_B" layoutX="295.0" layoutY="544.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <Label layoutX="32.0" layoutY="34.0" />
       <Label layoutX="187.0" layoutY="21.0" text="Order" textFill="#0d0d0c">

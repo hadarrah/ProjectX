@@ -9,7 +9,7 @@ public class Person implements Serializable {
 	private String user_password;
 	private String Privilege;
 	private String IsOnline;//0//1
-	private String IsExist ;//0//1
+	private String IsExist;//0//1
 	private String WWID;
 	private boolean isAlreadyConnected;
 	
