@@ -94,37 +94,34 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 <br/>
 
 **General** <br/>
-
 - [ ] a log file ,that record the server action, the system manager can see this file
 - [ ] to view profile -> purcahse history
 
 - [ ] Sharon
 
 **Gui** <br/>
-
 - [ ] complaint window gui
 - [ ] main gui (bg coloration)
 - [ ] login window gui (bg)
 
 **Order** <br/>
-
 - [ ] cart order button error when cart empty
 - [ ] user's order history
 - [ ] repair tabbing in order
 - [ ] show final price for order in the order pane.
 - [ ] order.self collect -> auto storeid/present options
  
-  **Catalog** <br/>
-  - [ ] Implement adding Item From Catalog to Cart->Order
+**Catalog** <br/>
+- [ ] Implement adding Item From Catalog to Cart->Order
  
- **Self Item** <br/>
+**Self Item** <br/>
 - [ ] fit Self Item creation for user story (no description -> selection between options)
 - [ ] user input amount of item->check correct input
 
- **Card** <br/>
- - [ ] adding Card to order
+**Card** <br/>
+- [ ] adding Card to order
  
- **Reports** <br/>
-  - [ ] Implement Reports
+**Reports** <br/>
+- [ ] Implement Reports
 
 
