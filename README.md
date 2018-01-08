@@ -1,6 +1,7 @@
 # :squirrel:ProjectX:squirrel:
 ## Collage project - Semester 5 - "Zer-Li" application
 ### how to style .md file: https://help.github.com/articles/basic-writing-and-formatting-syntax/
+### what is a .md file: https://fileinfo.com/extension/md
 
 <br /><br /><br />
 **Design Conventions:**
