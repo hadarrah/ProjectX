@@ -81,7 +81,9 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - if you don't need one of the field => insert empty string ""
 
 3. ### Main user cart is:
- -**Main_menu.userCart**
+```
+ Main_menu.userCart
+```
 <br /><br /><br />
  :pencil: :pencil::pencil: :pencil: :pencil:
  ## :pencil:  toAdd:   :pencil:
