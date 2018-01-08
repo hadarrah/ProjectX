@@ -97,7 +97,7 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] a log file ,that record the server action, the system manager can see this file
 - [ ] to view profile -> purcahse history
 - [ ] update TDL (needed?)
-- [ ] Sharon
+- [ ] Sharon (until 18.1)
 
 **Gui** <br/>
 - [ ] complaint window gui
