@@ -1,13 +1,16 @@
-# ProjectX
+# ProjectX 
 ## Collage project - Semester 5 - "Zer-Li" application
-
-Design Conventions:
+### how to style .md file: https://help.github.com/articles/basic-writing-and-formatting-syntax/
+:squirrel:
+**Design Conventions:**
 
 -Font:  *Default: System 12px
+
 	*Special font: Arial Bold Italic
 
--Font Colors:   (ignore)*Green [#29940c]
-		*Red   [#eb0a0a]
+~~-Font Colors: *Green [#29940c]
+
+		*Red   [#eb0a0a]~~
 		
 -Titles:	Font: Arial Black
 		Size: 28px
@@ -68,17 +71,17 @@ Main user cart is: Main_menu.userCart
 
 
 toAdd:
--a log file ,that recod the server action.
--the system manger can see this file
--to view profile -> purcahse  history
--fit Self Item creation for user story (no description -> selection between options)
--adding Card to order
--show final price for order in the order pane.
--user's order history
--repair tabbing in order
--user input amount of item->check correct input
--order.self collect -> auto storeid/present options
--cart order button error when cart empty
--complaint window gui
--main gui (bg coloration)
--login window gui (bg)
+- [ ] a log file ,that recod the server action.
+- [ ] the system manger can see this file
+- [ ] to view profile -> purcahse  history
+- [ ] fit Self Item creation for user story (no description -> selection between options)
+- [ ] adding Card to order
+- [ ] show final price for order in the order pane.
+- [ ] user's order history
+- [ ] repair tabbing in order
+- [ ] user input amount of item->check correct input
+- [ ] order.self collect -> auto storeid/present options
+- [ ] cart order button error when cart empty
+- [ ] complaint window gui
+- [ ] main gui (bg coloration)
+- [ ] login window gui (bg)
