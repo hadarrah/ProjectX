@@ -35,14 +35,13 @@
          </children>
       </VBox>
       <Button fx:id="user_profile_B" layoutX="14.0" layoutY="94.0" mnemonicParsing="false" onAction="#to_user_profile" text="Profile" />
-      <JFXButton fx:id="take_survey_B" buttonType="RAISED" layoutX="333.0" layoutY="359.0" onAction="#take_survey" ripplerFill="#17e871" text="Take a Survey">
-         <graphic>
+    
+        
             <ImageView fx:id="survey_img" fitHeight="50.0" fitWidth="50.0" opacity="0.66">
                <image>
                   <Image fx:id="survey_img" url="@survey2.gif" />
                </image>
             </ImageView>
-         </graphic>
-      </JFXButton>
+         
    </children>
 </Pane>
