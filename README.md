@@ -83,9 +83,9 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 3. ### Main user cart is:
  -**Main_menu.userCart**
 <br /><br /><br />
-> :pencil: :pencil::pencil: :pencil: :pencil:
-> ## :pencil:  toAdd:   :pencil:
-> :pencil: :pencil::pencil: :pencil: :pencil: 
+ :pencil: :pencil::pencil: :pencil: :pencil:
+ ## :pencil:  toAdd:   :pencil:
+ :pencil: :pencil::pencil: :pencil: :pencil: 
 
 - [x] Put 'x' inside the file to fill.
 
