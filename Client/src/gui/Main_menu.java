@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXButton;
+//import com.jfoenix.controls.JFXButton;
 
 import action.Complain;
 import action.Cart;
@@ -38,7 +38,7 @@ public class Main_menu implements Initializable, ControllerI {
 	public ColorPicker color_PICK;
 	public Button mannag_B, back_B, user_profile_B;
 	public Label main_label;
-	public JFXButton take_survey_B;
+	//public JFXButton take_survey_B;
 	public static Person current_user;
 	public boolean logout_flag;
 	public Button view_catalog_B, cancel_order_B, self_item_B, complain_B;
