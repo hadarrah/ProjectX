@@ -95,9 +95,8 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 
 **General** <br/>
 
-- [ ] a log file ,that recod the server action.
-- [ ] the system manger can see this file
-- [ ] to view profile -> purcahse  history
+- [ ] a log file ,that record the server action, the system manager can see this file
+- [ ] to view profile -> purcahse history
 
 - [ ] Sharon
 
