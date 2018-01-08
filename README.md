@@ -99,6 +99,8 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] the system manger can see this file
 - [ ] to view profile -> purcahse  history
 
+- [ ] Sharon
+
 **Gui** <br/>
 
 - [ ] complaint window gui
@@ -108,7 +110,6 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 **Order** <br/>
 
 - [ ] cart order button error when cart empty
-- [ ] adding Card to order
 - [ ] user's order history
 - [ ] repair tabbing in order
 - [ ] show final price for order in the order pane.
@@ -118,6 +119,10 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] fit Self Item creation for user story (no description -> selection between options)
 - [ ] user input amount of item->check correct input
 
-
+ **Card** <br/>
+ - [ ] adding Card to order
+ 
+ **Reports** <br/>
+  - [ ] Implement Reports
 
 
