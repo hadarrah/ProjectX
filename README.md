@@ -2,7 +2,7 @@
 ## Collage project - Semester 5 - "Zer-Li" application
 ### how to style .md file: https://help.github.com/articles/basic-writing-and-formatting-syntax/
 
-
+<br /><br /><br />
 **Design Conventions:**
 
 ## GUI Design Conventions
