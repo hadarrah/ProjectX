@@ -114,6 +114,9 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] show final price for order in the order pane.
 - [ ] order.self collect -> auto storeid/present options
  
+  **Catalog** <br/>
+  - [ ] Implement adding Item From Catalog to Cart->Order
+ 
  **Self Item** <br/>
 - [ ] fit Self Item creation for user story (no description -> selection between options)
 - [ ] user input amount of item->check correct input
