@@ -1,36 +1,42 @@
-# ProjectX 
+# :squirrel:ProjectX:squirrel:
 ## Collage project - Semester 5 - "Zer-Li" application
 ### how to style .md file: https://help.github.com/articles/basic-writing-and-formatting-syntax/
-:squirrel:
+
+
 **Design Conventions:**
 
--Font:  *Default: System 12px
+## GUI Design Conventions
 
-	*Special font: Arial Bold Italic
-
-~~-Font Colors: *Green [#29940c]
-
-		*Red   [#eb0a0a]~~
+**1. Font:**
+   - Default: System 12px
+   - Special font: Arial Bold Italic
+   - ~~Green [#29940c]~~ (need new color)
+   - Red [#eb0a0a]
 		
--Titles:	Font: Arial Black
-		Size: 28px
-		Color: #0d0d0c
+**2. Titles:**
+   - Font: Arial Black
+   - Size: fit by eye (big)
+   - Color: #0d0d0c (**_Notice_**)
+
+**3. Window Size:**
+   - Default:
+     - 500x600 (width x height) [pixels].
 
 
-- Window Size:  *Default - 500x600 (width x height) [pixels].
-
-- Acceptance Buttons (√ ,yes, ok, order, add, etc..) will be on the RIGHT.
-- Denial Buttons (Ꭓ, not, cancel, back, etc..) on LEFT.
-
-
--back button position: x=35 , y=366
+**4. Common Button Allocations:**
+- **Acceptance Buttons** (√ ,yes, ok, order, add, etc..) will be on the RIGHT.
+- **Denial Buttons** (Ꭓ, not, cancel, back, etc..) on LEFT.
+- Back Button Position(pixels): Not Decided.
+- OK Button Position(pixels): Not Decided.
 
 
--Common Method:
 
-move to other window (implementation):
+## **Common Methods:**
 
-/**
+1. ### Move to other window (implementation):
+
+```
+     /**
      * General function for the movement between the different windows
      * @param event
      * @param next_fxml = string of the specific fxml
@@ -57,20 +63,30 @@ move to other window (implementation):
 	      		Login_win.to_Client.accept(msg);
 	          }
 	      });        
-	}
+	} 
+```
   
-Example of calling:
+- Example of calling:
+```
   move(event,main.fxmlDir+ "Managment_F.fxml");
+```
 
-showPopUpMessage:
+2. ### showPopUpMessage:
+
+```
 Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="LogOut", header="Are you sure...", content="blabla");
+```
 
-if you don't need one of the field => insert empty string ""
+- if you don't need one of the field => insert empty string ""
 
-Main user cart is: Main_menu.userCart
+3. ### Main user cart is:
+ -**Main_menu.userCart**
+<br /><br /><br />
+> :pencil: :pencil::pencil: :pencil: :pencil:
+> ## :pencil:  toAdd:   :pencil:
+> :pencil: :pencil::pencil: :pencil: :pencil: 
 
-
-toAdd:
+- [x] Put 'x' inside the file to fill.
 - [ ] a log file ,that recod the server action.
 - [ ] the system manger can see this file
 - [ ] to view profile -> purcahse  history
