@@ -88,17 +88,34 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 > :pencil: :pencil::pencil: :pencil: :pencil: 
 
 - [x] Put 'x' inside the file to fill.
+
+<br/>
+
+**General** <br/>
+
 - [ ] a log file ,that recod the server action.
 - [ ] the system manger can see this file
 - [ ] to view profile -> purcahse  history
-- [ ] fit Self Item creation for user story (no description -> selection between options)
-- [ ] adding Card to order
-- [ ] show final price for order in the order pane.
-- [ ] user's order history
-- [ ] repair tabbing in order
-- [ ] user input amount of item->check correct input
-- [ ] order.self collect -> auto storeid/present options
-- [ ] cart order button error when cart empty
+
+**Gui** <br/>
+
 - [ ] complaint window gui
 - [ ] main gui (bg coloration)
 - [ ] login window gui (bg)
+
+**Order** <br/>
+
+- [ ] cart order button error when cart empty
+- [ ] adding Card to order
+- [ ] user's order history
+- [ ] repair tabbing in order
+- [ ] show final price for order in the order pane.
+- [ ] order.self collect -> auto storeid/present options
+ 
+ **Self Item** <br/>
+- [ ] fit Self Item creation for user story (no description -> selection between options)
+- [ ] user input amount of item->check correct input
+
+
+
+
