@@ -18,6 +18,8 @@
    - Font: Arial Black
    - Size: fit by eye (big)
    - Color: #0d0d0c (**_Notice_**)
+   
+   
 
 **3. Window Size:**
    - Default:
@@ -91,6 +93,12 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 
 - [x] Put 'x' inside the file to fill.
 
+**toImplement:** <br/>
+- [ ] Card
+- [ ] Cancel Order
+- [ ] Reports
+
+
 <br/>
 
 **Hagasha** <br/>
@@ -105,20 +113,30 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] Sharon Meeting (16.1 at 15:50 M316)
 - [ ] Add to ID creators (maxID +1) 'if no ID exists' -> create id=1.
 
+**Login Window**<br/>
+- [ ] login window gui (bg)
+- [ ] No labels -> fix
+- [ ] remove 3 tries
+
 **Gui** <br/>
 - [ ] complaint window gui
 - [ ] main gui (bg coloration)
-- [ ] login window gui (bg)
+
 
 **Edit Profile Info**<br/>
 - [ ] After pressing update -> do pop-up || label.
+
 **Order** <br/>
 - [ ] cart order button error when cart empty
 - [ ] user's order history
 - [ ] repair tabbing in order
 - [ ] show final price for order in the order pane.
 - [ ] order.self collect -> auto storeid/present options
- 
+- [ ] order date -> use muhi's method from survey
+
+**Cancel Order** <br/>
+- [ ] verify times regarding money compensation 
+
 **Catalog** <br/>
 - [ ] Implement adding Item From Catalog to Cart->Order
  
@@ -126,6 +144,10 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] fit Self Item creation for user story (no description -> selection between options)
 - [ ] user input amount of item->check correct input
 - [ ] after adding to cart, message should be 'you can create another item.'
+
+**Delivery**<br/>
+- [ ] Verify 3 hours time request (curr hour - requested hour >= 3)
+- [ ] Add Delivery price for every order with delivery
 
 **Cart**<br/>
 - [ ] View item details option
