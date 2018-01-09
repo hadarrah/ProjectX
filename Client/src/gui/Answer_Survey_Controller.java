@@ -94,6 +94,7 @@ public void form_submit(ActionEvent event) throws IOException {
 
 
 	      Optional<ButtonType> result = alert.showAndWait();*/
+		
 	      Optional<ButtonType> result = Login_win.showPopUp("INFORMATION", "Message", "In order to complete the survey to will have to answers all 6 Q", "Invalid fields!");
 
 	      if (result.get() == ButtonType.OK)

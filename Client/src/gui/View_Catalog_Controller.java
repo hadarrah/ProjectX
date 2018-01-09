@@ -2,6 +2,7 @@ package gui;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -46,6 +47,8 @@ import javafx.stage.WindowEvent;
 
 public class View_Catalog_Controller  implements ControllerI, Initializable  {
 
+	public Label lblSale;
+	public Label lblAmount;
 	public Button Prev_B;
 	public Button back_B;
 	public Button Next_B;	
@@ -66,7 +69,7 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 	
 	
 	
-
+/**open the catalog window**/
 	public void back(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Main_menu_F.fxml");
 	}
@@ -79,7 +82,7 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 		win_1.setScene(win1);
 		win_1.show();
 
-		// close window by X button
+		/** close window by X button**/
 		win_1.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			public void handle(WindowEvent we) {
 				Msg msg = new Msg();
@@ -93,7 +96,7 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 		});
 	}
 
-	/*--init the object with SELECTALL query--*/
+	/**--init the object with SELECTALL query--**/
 	public void init() {
 		Msg msg = new Msg();
 		msg.setRole("View all catalog items");
@@ -114,58 +117,63 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 		SetDetailsGui(Itc.get(0)); //default view is the first item in the array
 	}
 	
-	/*--Setting the current item details in gui--*/			
+	/**--Setting the current item details in gui--**/			
 	public void SetDetailsGui(Item_In_Catalog Itc)
-	{
-		
-		//Platform.runLater(new Runnable() {
-
-		//	@Override
-			//public void run() {					
+	{	
+			if(Itc.getAmount()==-1) {
+				txtAmount.setVisible(false);
+				lblAmount.setVisible(false);
+			}
 				txtID.setText(Itc.getID());
 				txtName.setText(Itc.getName());
 				txtPrice.setText(""+Itc.getPrice());
 				txtDescription.setText(Itc.getDescription());
 				txtAmount.setText(""+Itc.getAmount());
-				handleMessageFromClient(Itc.getImage());
-				
-				
-				
-			//}
-		//});		
+				Image img=CreateImage(Itc.getImage());
+				Itemimg.setImage(img);
+				if(!(Itc.getSale().getID()==null))
+				{
+					lblSale.setVisible(true);
+					lblSale.setText("Sale: "+(Itc.getSale().getDiscount()+"%"));
+				}
+				else lblSale.setVisible(false);
 	}
-	
-	public void handleMessageFromClient (Object msg)
+	/**create an image from bytearray**/
+	public Image CreateImage (Object msg)
 	  {
 		  MyFile mf = (MyFile)msg;
 		  System.out.println(mf);
-		  FileOutputStream fos = null;
-		try {
-			System.out.println(System.getProperty("user.dir")+"/Pic/" + mf.getFileName());
-			fos = new FileOutputStream(System.getProperty("user.dir")+"/Pic/" + mf.getFileName());
+		  Image img = null;
+		//  FileOutputStream fos = null;
+		/*try {
+			fos = new FileOutputStream("");//(System.getProperty("user.dir")+"/Pic/" + mf.getFileName());
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		  BufferedOutputStream in = new BufferedOutputStream(fos);
-		  try {
-			in.write(mf.getMybytearray());
-			in.close();
-			fos.close();
-		} catch (IOException e) {
+		  BufferedOutputStream in = new BufferedOutputStream(fos);*/
+		 // try {
+			 img = new Image(new ByteArrayInputStream(mf.getMybytearray()));
+			
+			//in.write(mf.getMybytearray());
+			//in.close();
+			//fos.close();
+		/*} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		  
 		  
 		  int fileSize =((MyFile)msg).getSize(); 
 		  System.out.println("Message received: " + msg);
 		  System.out.println("length "+ fileSize);
+		return img;
 		  }
 	  
 		  
 		  
-	/*--set the next item--*/
+	/**--set the next item--**/
 	public void nextItem(ActionEvent event)throws IOException 
 	{
 		  Prev_B.setDisable(false);
@@ -176,7 +184,7 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 		  SetDetailsGui(Itc.get(view_counter));		  
 	}
 	
-	/*--set the previews item--*/
+	/**--set the previews item--**/
 	public void prevItem(ActionEvent event)throws IOException 
 	{
 		if(view_counter<Itc_counter)
@@ -188,7 +196,7 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 		  SetDetailsGui(Itc.get(view_counter));		  
 	}
 	
-	/*--set counters values--*/
+	/**--set counters values--**/
 	public void SetCounter(int view,int Itc)
 	{
 		txtCounter.setText(view_counter+1+"/"+Itc_counter);

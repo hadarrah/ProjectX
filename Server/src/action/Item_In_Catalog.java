@@ -26,7 +26,7 @@ public class Item_In_Catalog implements Serializable{
 		this.Price=0;
 		this.Description=null;
 		this.Image=new MyFile();
-		this.Amount=0;
+		this.Amount=-1;
 		this.Sale_ID=new Sale();
 	}
 	

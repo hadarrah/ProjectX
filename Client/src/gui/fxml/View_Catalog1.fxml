@@ -35,22 +35,22 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="21.0" layoutY="264.0" prefHeight="30.0" text="Price:" textAlignment="CENTER" textFill="#2700c2">
+            <Label layoutX="22.0" layoutY="302.0" prefHeight="30.0" text="Price:" textAlignment="CENTER" textFill="#2700c2">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="21.0" layoutY="293.0" prefHeight="30.0" text="Amount:" textAlignment="CENTER" textFill="#2700c2">
+            <Label fx:id="lblAmount" layoutX="20.0" layoutY="333.0" prefHeight="30.0" text="Amount:" textAlignment="CENTER" textFill="#2700c2">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="21.0" layoutY="322.0" prefHeight="30.0" text="Description:" textAlignment="CENTER" textFill="#2700c2">
+            <Label layoutX="21.0" layoutY="264.0" prefHeight="30.0" text="Description:" textAlignment="CENTER" textFill="#2700c2">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Text fx:id="txtDescription" fill="#322b2b" layoutX="128.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="desc" textAlignment="CENTER" wrappingWidth="255.0">
+            <Text fx:id="txtDescription" fill="#322b2b" layoutX="130.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="desc" textAlignment="CENTER" wrappingWidth="255.0">
                <font>
                   <Font size="15.0" />
                </font>
@@ -70,16 +70,21 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="txtAmount" fill="#322b2b" layoutX="128.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="amount" textAlignment="CENTER" wrappingWidth="255.0">
+            <Text fx:id="txtAmount" fill="#322b2b" layoutX="128.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="amount" textAlignment="CENTER" wrappingWidth="255.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="txtPrice" fill="#322b2b" layoutX="128.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="price" textAlignment="CENTER" wrappingWidth="255.0">
+            <Text fx:id="txtPrice" fill="#322b2b" layoutX="128.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="price" textAlignment="CENTER" wrappingWidth="255.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
+            <Label fx:id="lblSale" layoutX="94.0" layoutY="374.0" prefHeight="25.0" prefWidth="198.0" style="-fx-background-color: yellow; -fx-border-color: red;" text="Sale" textAlignment="CENTER" textFill="#e40707" visible="false">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Button fx:id="back_B" layoutY="574.0" mnemonicParsing="false" onAction="#back" text="Back" />

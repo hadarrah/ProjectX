@@ -1499,7 +1499,7 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+	/**--executing all items details to set in catalog--**/
 	public static void ViewItems(Object msg, Connection con, ConnectionToClient client) {
 		Msg msg1 = (Msg) msg;
 		Statement stmt;
@@ -1522,10 +1522,11 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
-	/*--Show catalog for a customer without payment account*/
+	/**--Show catalog for a customer without payment account--**/
 	public static void ViewItemsWithoutPaymentAccount(Object msg, Connection con, ConnectionToClient client) {
 		Msg msg1 = (Msg) msg;
 		Statement stmt1;
+		
 		ArrayList<Item_In_Catalog> Itc_arr = new ArrayList<Item_In_Catalog>();
 		try {
 			stmt1 = con.createStatement();
@@ -1533,16 +1534,18 @@ public class EchoServer extends AbstractServer {
 			rs1 = stmt1.executeQuery("SELECT * FROM " + msg1.getTableName());
 			while (rs1.next()) {
 				Item_In_Catalog Itc = new Item_In_Catalog();
+				MyFile f= new MyFile();
 				Itc.setID(rs1.getString(1));
 				Itc.setName(rs1.getString(2));
 				Itc.setPrice(rs1.getFloat(3));
 				Itc.setDescription(rs1.getString(4));
-			//	Itc.setImage(rs1.getString(5));
+				f=getFileInfo(Itc.getID());
+				Itc.setImage(f);		
 				Itc_arr.add(Itc);
 			}
+			 rs1.close();
 			msg1.newO = Itc_arr;
 			client.sendToClient(msg1);
-			// rs1.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1553,7 +1556,7 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
-	/*--Show catalog for a customer with payment account*/
+	/**--Show catalog for a customer with payment account**/
 	public static void ViewItemsWithPaymentAccount(Object msg, Connection con, ConnectionToClient client) {
 
 		Msg msg1 = (Msg) msg;
@@ -1584,7 +1587,8 @@ public class EchoServer extends AbstractServer {
 				{
 					Itc.setAmount(0);
 					Itc.setSale(null);
-					
+					Itc_arr.add(Itc);
+					return;
 				}
 				else 
 				{
@@ -1610,7 +1614,11 @@ public class EchoServer extends AbstractServer {
 				}
 				rs2.close();
 				ps.close();
-				Itc_arr.add(Itc);
+				if(!(Itc.getSale().getID()==null))
+				{
+					Itc_arr.add(0, Itc);
+				}
+				else Itc_arr.add(Itc);
 				
 			}
 			rs1.close();
@@ -1625,12 +1633,12 @@ public class EchoServer extends AbstractServer {
 	}
 	
 	
-	
+	/**convert image to MyFile**/
 	public static MyFile getFileInfo(String id)
 	  {
 		 
 		  String fileLocation;		
-		  fileLocation="C:\\Users\\aviram2\\git\\ProjectX\\Server\\Pictures\\"+id+".jpg";
+		  fileLocation=System.getProperty("user.dir")+"/Pictures/" +id+".jpg";
 		  MyFile to_send=new MyFile(id+".jpg");
 		  to_send.setDescription(fileLocation);
 		  try{
@@ -1645,7 +1653,7 @@ public class EchoServer extends AbstractServer {
 		      to_send.setSize(mybytearray.length);
 		      
 		      bis.read(to_send.getMybytearray(),0,mybytearray.length);
-		     // sendToServer(msg);
+		     
 		      bis.close();
 		      fis.close();
 		     
@@ -1655,11 +1663,6 @@ public class EchoServer extends AbstractServer {
 		}
 		  
 		  
-		  /**
-		   * example
-		   *  //C:\\file_to_send\\fileName.
-		   */
-		 
 		 return to_send;
 	  }
 		
