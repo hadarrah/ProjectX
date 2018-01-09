@@ -147,6 +147,7 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 
 **Delivery**<br/>
 - [ ] Verify 3 hours time request (curr hour - requested hour >= 3)
+- [ ] Add Delivery price for every order with delivery
 
 **Cart**<br/>
 - [ ] View item details option
