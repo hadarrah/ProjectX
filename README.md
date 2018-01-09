@@ -123,6 +123,7 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 **Self Item** <br/>
 - [ ] fit Self Item creation for user story (no description -> selection between options)
 - [ ] user input amount of item->check correct input
+- [ ] after adding to cart, message should be 'you can create another item.'
 
 **Card** <br/>
 - [ ] adding Card to order
