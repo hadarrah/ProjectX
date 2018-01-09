@@ -18,6 +18,8 @@
    - Font: Arial Black
    - Size: fit by eye (big)
    - Color: #0d0d0c (**_Notice_**)
+   
+   
 
 **3. Window Size:**
    - Default:
@@ -118,6 +120,7 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] repair tabbing in order
 - [ ] show final price for order in the order pane.
 - [ ] order.self collect -> auto storeid/present options
+- [ ] order date -> use muhi's method from survey
  
 **Catalog** <br/>
 - [ ] Implement adding Item From Catalog to Cart->Order
