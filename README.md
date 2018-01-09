@@ -95,6 +95,7 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 
 **Hagasha** <br/>
 - [ ] prepare a database to present the functionality (לפי מלכי)
+- [ ] JavaDOC -> /** details of function */
 
 **General** <br/>
 - [ ] a log file ,that record the server action, the system manager can see this file
