@@ -125,6 +125,9 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] user input amount of item->check correct input
 - [ ] after adding to cart, message should be 'you can create another item.'
 
+**Cart**<br/>
+- [ ] View item details option
+
 **Card** <br/>
 - [ ] adding Card to order
  
