@@ -110,6 +110,8 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] main gui (bg coloration)
 - [ ] login window gui (bg)
 
+**Edit Profile Info**<br/>
+- [ ] After pressing update -> do pop-up || label.
 **Order** <br/>
 - [ ] cart order button error when cart empty
 - [ ] user's order history
