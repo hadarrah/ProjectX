@@ -120,23 +120,31 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 	/**--Setting the current item details in gui--**/			
 	public void SetDetailsGui(Item_In_Catalog Itc)
 	{	
-			if(Itc.getAmount()==-1) {
-				txtAmount.setVisible(false);
-				lblAmount.setVisible(false);
-			}
-				txtID.setText(Itc.getID());
-				txtName.setText(Itc.getName());
-				txtPrice.setText(""+Itc.getPrice());
-				txtDescription.setText(Itc.getDescription());
-				txtAmount.setText(""+Itc.getAmount());
-				Image img=CreateImage(Itc.getImage());
-				Itemimg.setImage(img);
-				if(!(Itc.getSale().getID()==null))
-				{
-					lblSale.setVisible(true);
-					lblSale.setText("Sale: "+(Itc.getSale().getDiscount()+"%"));
+Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				if(Itc.getAmount()==-1) {
+					txtAmount.setVisible(false);
+					lblAmount.setVisible(false);
 				}
-				else lblSale.setVisible(false);
+					txtID.setText(Itc.getID());
+					txtName.setText(Itc.getName());
+					txtPrice.setText(""+Itc.getPrice());
+					txtDescription.setText(Itc.getDescription());
+					txtAmount.setText(""+Itc.getAmount());
+					Image img=CreateImage(Itc.getImage());
+					Itemimg.setImage(img);
+					if(!(Itc.getSale().getID()==null))
+					{
+						lblSale.setVisible(true);
+						lblSale.setText("Sale: "+(Itc.getSale().getDiscount()+"%"));
+					}
+					else lblSale.setVisible(false);
+				
+			}
+		}); 
+			
 	}
 	/**create an image from bytearray**/
 	public Image CreateImage (Object msg)

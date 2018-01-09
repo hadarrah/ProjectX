@@ -1638,7 +1638,7 @@ public class EchoServer extends AbstractServer {
 	  {
 		 
 		  String fileLocation;		
-		  fileLocation=System.getProperty("user.dir")+"/Pictures/" +id+".jpg";
+		  fileLocation=System.getProperty("user.dir")+File.separator+"Pictures"+File.separator +id+".jpg";
 		  MyFile to_send=new MyFile(id+".jpg");
 		  to_send.setDescription(fileLocation);
 		  try{
