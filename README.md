@@ -93,6 +93,12 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 
 - [x] Put 'x' inside the file to fill.
 
+**toImplement:** <br/>
+- [ ] Card
+- [ ] Cancel Order
+- [ ] Reports
+
+
 <br/>
 
 **Hagasha** <br/>
@@ -127,7 +133,10 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] show final price for order in the order pane.
 - [ ] order.self collect -> auto storeid/present options
 - [ ] order date -> use muhi's method from survey
- 
+
+**Cancel Order** <br/>
+- [ ] verify times regarding money compensation 
+
 **Catalog** <br/>
 - [ ] Implement adding Item From Catalog to Cart->Order
  
