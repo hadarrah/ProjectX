@@ -14,7 +14,7 @@ public class Item_In_Catalog implements Serializable{
 	private String Name;
 	private float Price ;
 	private String Description;
-	private String Image;
+	private MyFile Image;
 	private int Amount;
 	private Sale Sale_ID;
 	
@@ -25,13 +25,13 @@ public class Item_In_Catalog implements Serializable{
 		this.Name=null;
 		this.Price=0;
 		this.Description=null;
-		this.Image=null;
+		this.Image=new MyFile();
 		this.Amount=0;
 		this.Sale_ID=new Sale();
 	}
 	
 	/**Constructor with values**/
-	public  Item_In_Catalog(String ID, String Name,float Price,String Description,String Image)
+	public  Item_In_Catalog(String ID, String Name,float Price,String Description,MyFile Image)
 	{
 		this.ID=ID;
 		this.Name=Name;
@@ -93,13 +93,13 @@ public class Item_In_Catalog implements Serializable{
 	/**
 	 * @return the image
 	 */
-	public String getImage() {
+	public MyFile getImage() {
 		return Image;
 	}
 	/**
 	 * @param image the image to set
 	 */
-	public void setImage(String image) {
+	public void setImage(MyFile image) {
 		Image = image;
 	}
 	/**print all Item_id**/

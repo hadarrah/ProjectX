@@ -1,14 +1,21 @@
 package gui;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import action.Msg;
+import action.MyFile;
 import action.Person;
 import action.Survey;
+
 import action.Item_In_Catalog;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -32,6 +39,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+
+
+
+
 
 public class View_Catalog_Controller  implements ControllerI, Initializable  {
 
@@ -94,6 +105,7 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 
 	/*--setting default values by opening the catalog--*/
 	public void initCatalog(Object message)  {
+		
 		Msg tmp = (Msg) message;
 		Itc = (ArrayList<Item_In_Catalog>) tmp.newO;
 		Itc_counter=Itc.size();	
@@ -105,6 +117,7 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 	/*--Setting the current item details in gui--*/			
 	public void SetDetailsGui(Item_In_Catalog Itc)
 	{
+		
 		//Platform.runLater(new Runnable() {
 
 		//	@Override
@@ -114,14 +127,44 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 				txtPrice.setText(""+Itc.getPrice());
 				txtDescription.setText(Itc.getDescription());
 				txtAmount.setText(""+Itc.getAmount());
-				File f=new File(Itc.getImage());				
-		        Image image =new Image(f.toURI().toString());								
-				Itemimg.setImage(image);
+				handleMessageFromClient(Itc.getImage());
+				
+				
 				
 			//}
 		//});		
-	}	
+	}
 	
+	public void handleMessageFromClient (Object msg)
+	  {
+		  MyFile mf = (MyFile)msg;
+		  System.out.println(mf);
+		  FileOutputStream fos = null;
+		try {
+			System.out.println(System.getProperty("user.dir")+"/Pic/" + mf.getFileName());
+			fos = new FileOutputStream(System.getProperty("user.dir")+"/Pic/" + mf.getFileName());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  BufferedOutputStream in = new BufferedOutputStream(fos);
+		  try {
+			in.write(mf.getMybytearray());
+			in.close();
+			fos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  
+		  
+		  int fileSize =((MyFile)msg).getSize(); 
+		  System.out.println("Message received: " + msg);
+		  System.out.println("length "+ fileSize);
+		  }
+	  
+		  
+		  
 	/*--set the next item--*/
 	public void nextItem(ActionEvent event)throws IOException 
 	{

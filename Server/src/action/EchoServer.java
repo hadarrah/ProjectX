@@ -15,11 +15,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map; 
-import java.util.Random; 
+import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
+
+
 import java.sql.PreparedStatement;
 import ocsf.server.*;
 
@@ -1534,7 +1537,7 @@ public class EchoServer extends AbstractServer {
 				Itc.setName(rs1.getString(2));
 				Itc.setPrice(rs1.getFloat(3));
 				Itc.setDescription(rs1.getString(4));
-				Itc.setImage(rs1.getString(5));
+			//	Itc.setImage(rs1.getString(5));
 				Itc_arr.add(Itc);
 			}
 			msg1.newO = Itc_arr;
@@ -1564,11 +1567,13 @@ public class EchoServer extends AbstractServer {
 			while (rs1.next()) 
 			{
 				Item_In_Catalog Itc = new Item_In_Catalog();
+				MyFile f= new MyFile();
 				Itc.setID(rs1.getString(1));
 				Itc.setName(rs1.getString(2));
 				Itc.setPrice(rs1.getFloat(3));
 				Itc.setDescription(rs1.getString(4));
-				Itc.setImage(rs1.getString(5));
+				f=getFileInfo(Itc.getID());
+				Itc.setImage(f);		
 
 				PreparedStatement ps = con
 						.prepareStatement("SELECT Amount,Sale_ID FROM store WHERE ID=? AND Item_ID=?");
@@ -1618,6 +1623,46 @@ public class EchoServer extends AbstractServer {
 		
 		  catch (IOException x) { System.err.println("unable to send msg to client"); }
 	}
+	
+	
+	
+	public static MyFile getFileInfo(String id)
+	  {
+		 
+		  String fileLocation;		
+		  fileLocation="C:\\Users\\aviram2\\git\\ProjectX\\Server\\Pictures\\"+id+".jpg";
+		  MyFile to_send=new MyFile(id+".jpg");
+		  to_send.setDescription(fileLocation);
+		  try{
+
+		      File newFile = new File (to_send.getDescription());
+		      		      
+		      byte [] mybytearray  = new byte [(int)newFile.length()];
+		      FileInputStream fis = new FileInputStream(newFile);
+		      BufferedInputStream bis = new BufferedInputStream(fis);			  
+		      
+		      to_send.initArray(mybytearray.length);
+		      to_send.setSize(mybytearray.length);
+		      
+		      bis.read(to_send.getMybytearray(),0,mybytearray.length);
+		     // sendToServer(msg);
+		      bis.close();
+		      fis.close();
+		     
+		    }
+		catch (Exception e) {
+			System.out.println("Error send (Files)msg) to Server");
+		}
+		  
+		  
+		  /**
+		   * example
+		   *  //C:\\file_to_send\\fileName.
+		   */
+		 
+		 return to_send;
+	  }
+		
 
 	/**
 	 * this method gets the product name and change it. gets two Objects(product)
