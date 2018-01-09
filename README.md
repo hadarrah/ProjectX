@@ -107,13 +107,19 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] Sharon Meeting (16.1 at 15:50 M316)
 - [ ] Add to ID creators (maxID +1) 'if no ID exists' -> create id=1.
 
+**Login Window**<br/>
+- [ ] login window gui (bg)
+- [ ] No labels -> fix
+- [ ] remove 3 tries
+
 **Gui** <br/>
 - [ ] complaint window gui
 - [ ] main gui (bg coloration)
-- [ ] login window gui (bg)
+
 
 **Edit Profile Info**<br/>
 - [ ] After pressing update -> do pop-up || label.
+
 **Order** <br/>
 - [ ] cart order button error when cart empty
 - [ ] user's order history
@@ -129,6 +135,9 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] fit Self Item creation for user story (no description -> selection between options)
 - [ ] user input amount of item->check correct input
 - [ ] after adding to cart, message should be 'you can create another item.'
+
+**Delivery**<br/>
+- [ ] Verify 3 hours time request (curr hour - requested hour >= 3)
 
 **Cart**<br/>
 - [ ] View item details option
