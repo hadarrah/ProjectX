@@ -93,18 +93,25 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 
 <br/>
 
+**Hagasha** <br/>
+- [ ] prepare a database to present the functionality (לפי מלכי)
+- [ ] JavaDOC -> /** details of function */
+
 **General** <br/>
 - [ ] a log file ,that record the server action, the system manager can see this file
 - [ ] to view profile -> purcahse history
 - [ ] update TDL (needed?)
 - [ ] Sharon Assignment 2 (until 18.1)
 - [ ] Sharon Meeting (16.1 at 15:50 M316)
+- [ ] Add to ID creators (maxID +1) 'if no ID exists' -> create id=1.
 
 **Gui** <br/>
 - [ ] complaint window gui
 - [ ] main gui (bg coloration)
 - [ ] login window gui (bg)
 
+**Edit Profile Info**<br/>
+- [ ] After pressing update -> do pop-up || label.
 **Order** <br/>
 - [ ] cart order button error when cart empty
 - [ ] user's order history
@@ -118,6 +125,10 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 **Self Item** <br/>
 - [ ] fit Self Item creation for user story (no description -> selection between options)
 - [ ] user input amount of item->check correct input
+- [ ] after adding to cart, message should be 'you can create another item.'
+
+**Cart**<br/>
+- [ ] View item details option
 
 **Card** <br/>
 - [ ] adding Card to order
