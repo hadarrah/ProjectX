@@ -43,9 +43,8 @@ public class Main_menu implements Initializable, ControllerI {
 	public static Person current_user;
 	public boolean logout_flag;
 	public Button view_catalog_B, cancel_order_B, self_item_B, complain_B;
-	public static Survey current_survey;
+	 
 	public static ActionEvent event_l;
-
 	public static Cart userCart;
 
 	public void back_logOut(ActionEvent event) throws IOException {
@@ -151,11 +150,12 @@ public class Main_menu implements Initializable, ControllerI {
 		win_1.show();
 	}
 
-	public void take_survey(ActionEvent event) throws IOException {
+	/*/* check if the user already took this survey *//*
+	/public void take_survey(ActionEvent event) throws IOException {
 
 		event_l = new ActionEvent();
 		event_l = event.copyFor(event.getSource(), event.getTarget());
-		/* check if the user already took this survey */
+		
 		Msg msg = new Msg();
 		msg.setSelect();
 		msg.setRole("check if user already did this survey");
@@ -165,7 +165,7 @@ public class Main_menu implements Initializable, ControllerI {
 		Login_win.to_Client.accept(msg);
 
 	}
-
+*/
 	public void survey_premession(Object o) {
 		Msg msg = (Msg) o;
 
@@ -227,13 +227,7 @@ public class Main_menu implements Initializable, ControllerI {
 
 	}
 
-	public void set_current_survey_and_chek_customer_survey(Object o) {
-		Msg msg = (Msg) o;
-		Survey survey = (Survey) msg.newO;
-		current_survey = survey;
-		System.out.println(current_survey.getID());
 
-	}
 
 	public void check_for_complaints() {
 		Msg getCustomer = new Msg();
@@ -279,11 +273,7 @@ public class Main_menu implements Initializable, ControllerI {
 		if (!(current_user.getPrivilege().equals("Customer"))) {
 			mannag_B.setVisible(true);
 		}
-		Msg msg = new Msg();
-		msg.setSelect();
-		msg.setRole("get the current survey id");
-		msg.setTableName("survey");
-		Login_win.to_Client.accept(msg);
+
 
 		if (current_user.getPrivilege().equals("Customer Service Employee"))
 			check_for_complaints();

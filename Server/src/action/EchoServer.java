@@ -142,6 +142,8 @@ public class EchoServer extends AbstractServer {
 					CheckForActiveSale(msg1, conn, client);
 				else if(msg1.getRole().equals("get orders id"))
 					get_user_order(msg1,conn,client);
+				else if(msg1.getRole().equals("get customres id"))
+					get_customres_id(msg1,conn,client);
 			
 			}
 			case "UPDATE": {
@@ -196,7 +198,41 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
- 
+ /**
+  * get the Customers ids
+  * @param msg1
+  * @param conn
+  * @param client
+  */
+	public static  void get_customres_id(Msg msg1, Connection conn, ConnectionToClient client) {
+		Msg msg = (Msg) msg1;
+		ArrayList<String> id = new ArrayList<String>();
+		String temp;
+	 
+
+		try {
+			/** Building the query */
+			 
+			PreparedStatement ps = conn.prepareStatement(" SELECT ID FROM zerli.`person` where Privilege='Customer';");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{	
+				 temp=rs.getString(1);
+				 id.add(temp);
+			 
+			}
+			msg1.newO=id;
+
+			client.sendToClient( msg);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	public static  void change_order_status(Msg msg1, Connection conn, ConnectionToClient client) 
 	{
 		

@@ -31,6 +31,15 @@
       <Button fx:id="compare_Reports_B" layoutX="181.0" layoutY="95.0" mnemonicParsing="false" onAction="#compare_Reports" text="Compare Reports" />
       <Button fx:id="close_Survey_B" layoutX="193.0" layoutY="153.0" mnemonicParsing="false" onAction="#close_Survey" text="Close Survey" />
       <Button fx:id="add_Comments_B" layoutX="158.0" layoutY="207.0" mnemonicParsing="false" onAction="#add_Comments" text="Add Comments To Survey" />
-      <Button fx:id="close_Sale_B" layoutX="201.0" layoutY="153.0" mnemonicParsing="false" onAction="#close_Sale" text="Close Sale" />
+      <Button fx:id="close_Sale_B" layoutX="201.0" layoutY="153.0" mnemonicParsing="false" onAction="#close_Sale" text="Close Sale"  />
+      <Button fx:id="survey_b" layoutX="347.0" layoutY="320.0" mnemonicParsing="false" text="Survey" onAction="#answer_survey">
+         <graphic>
+            <ImageView fx:id="survey_img" fitHeight="35.0" fitWidth="41.0" opacity="0.66">
+               <image>
+                  <Image fx:id="survey_img" url="@survey2.gif" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </Pane>

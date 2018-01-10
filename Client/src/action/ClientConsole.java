@@ -96,9 +96,12 @@ public class ClientConsole implements ChatIF {
 			if (check.getType().equals("SELECT")) 
 				
 			{
+				
 				if(check.getRole().equals("View all catalog items")) {				
 					((gui.View_Catalog_Controller) mc).initCatalog(message);	
 				}
+				else if (check.getRole().equals("get customres id"))
+					((gui.Answer_Survey_Controller)mc).setIdInCombO(message);
 				else if (check.getRole().equals("get orders id"))
 					((gui.Cancel_Order_Controller)mc).SetOrdersIds(message);
 				else if (check.getRole().equals("verify user details")) {
@@ -139,7 +142,7 @@ public class ClientConsole implements ChatIF {
 				}
 				else if(check.getRole().equals("get the current survey id")) {
 				 
-				 ((gui.Main_menu)mc).set_current_survey_and_chek_customer_survey(message);
+				 ((gui.Managment_Controller)mc).set_current_survey_and_chek_customer_survey(message);
 				}
 				else if(check.getRole().equals("get combo survey ID")) {					 
 					 ((gui.Add_Conclusion_Controller)mc).setCombo(message);
