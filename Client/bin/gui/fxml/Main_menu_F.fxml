@@ -28,7 +28,7 @@
          <children>
             <Button fx:id="view_catalog_B" mnemonicParsing="false" onAction="#catalog" text="View catalog" />
             <Button fx:id="order_B" mnemonicParsing="false" onAction="#order" text="Order" />
-            <Button fx:id="cancel_order_B" mnemonicParsing="false" text="Cancel order" />
+            <Button fx:id="cancel_order_B" mnemonicParsing="false" text="Cancel order" onAction="#cancel_order" />
             <Button fx:id="self_item_B" mnemonicParsing="false" onAction="#self_item" text="Create your own product" />
             <Button fx:id="complain_B" mnemonicParsing="false" onAction="#complain" text="Open a new complain" />
             <Button fx:id="cart_B" mnemonicParsing="false" onAction="#cart" text="Cart" />

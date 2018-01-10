@@ -94,10 +94,13 @@ public class ClientConsole implements ChatIF {
 		Msg check = (Msg) message;
 			
 			if (check.getType().equals("SELECT")) 
+				
 			{
 				if(check.getRole().equals("View all catalog items")) {				
 					((gui.View_Catalog_Controller) mc).initCatalog(message);	
 				}
+				else if (check.getRole().equals("get orders id"))
+					((gui.Cancel_Order_Controller)mc).SetOrdersIds(message);
 				else if (check.getRole().equals("verify user details")) {
 					((gui.Login_win) mc).get_comfirmation(message);					
 				}
@@ -191,6 +194,8 @@ public class ClientConsole implements ChatIF {
 					 ((gui.Answer_Complaint_Controller)mc).update_answer_success(message);
 				 else if(check.getRole().equals("close sale"))
 					 ((gui.Close_Sale_Controller)mc).close_sale_success(message);
+				 else if(check.getRole().equals("change order status"))
+					 ((gui.Cancel_Order_Controller)mc).show_cancel_msg(message);
 			 }
 			else if (check.getType().equals("INSERT")) {
 				if (check.getRole().equals("insert survey"))

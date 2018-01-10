@@ -22,6 +22,10 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
 
+ 
+import javafx.collections.ObservableList;
+
+ 
 import java.sql.PreparedStatement;
 import ocsf.server.*;
 
@@ -136,6 +140,9 @@ public class EchoServer extends AbstractServer {
 					CheckForActiveSale(msg1, conn, client);
 				else if (msg1.getRole().equals("check if there is active sale for close"))
 					CheckForActiveSale(msg1, conn, client);
+				else if(msg1.getRole().equals("get orders id"))
+					get_user_order(msg1,conn,client);
+			
 			}
 			case "UPDATE": {
 				if (msg1.getRole().equals("user logout"))
@@ -156,6 +163,8 @@ public class EchoServer extends AbstractServer {
 					update_answer_complain(msg1, conn, client);
 				else if (msg1.getRole().equals("close sale"))
 					close_sale(msg1, conn, client);
+				else if (msg1.getRole().equals("change order status"))
+					change_order_status(msg1,conn,client);
 			}
 
 			case "INSERT": {
@@ -187,6 +196,119 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
+ 
+	public static  void change_order_status(Msg msg1, Connection conn, ConnectionToClient client) 
+	{
+		
+		Msg msg = (Msg) msg1;
+		Order order=(Order) msg.oldO;
+		PreparedStatement ps;
+	 
+	 
+		try {
+			/* set up and execute the update query */
+			ps = conn.prepareStatement("UPDATE zerli.`order` SET Status=? WHERE ID=?;");
+			ps.setString(1, "Canceled");
+			ps.setString(2,  order.getId());
+			ps.executeUpdate();
+			
+			msg.freeField="succeed";
+		 
+			 client.sendToClient(msg );
+		} catch (SQLException e) {
+			e.printStackTrace();
+		 }  catch (IOException e) {
+			 e.printStackTrace();
+		 }
+	}
+		
+	 
+
+	/**
+	 * get the details of the user active orders
+	 * according the user id
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static  void get_user_order(Msg msg1, Connection conn, ConnectionToClient client) {
+		 
+		Msg msg = (Msg) msg1;
+		Person cur_p=(Person) msg.oldO;
+		ArrayList<Order> id = new ArrayList<Order>();
+	 
+
+		try {
+			/** Building the query */
+			 
+			PreparedStatement ps = conn.prepareStatement(" SELECT * FROM zerli.`order` where Person_ID=? and status=?; ");
+			ps.setString(1, cur_p.getUser_ID());
+			ps.setString(2, "Active");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{	
+				Order temp= new Order();
+				temp.setId(rs.getString(1));
+				temp.setDelivery1(rs.getString(3));
+				temp.setStatus(rs.getString(4));
+				temp.setPayment(rs.getString(5));
+				temp.setTotprice(rs.getFloat(6));
+				temp.setStoreid(rs.getString(7)); 
+				temp.setCreatetime(rs.getString(8));
+				temp.setCreatedate(rs.getString(9));
+				temp.setRequesttime(rs.getString(10));
+				temp.setRequestdate(rs.getString(11));
+		
+			 id.add(temp);
+			 
+			}
+			msg1.newO=id;
+
+			client.sendToClient( msg);
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	 
+	public static  void get_user_orders_id(Msg msg1, Connection conn, ConnectionToClient client) {
+	 
+		Msg msg = (Msg) msg1;
+		Person cur_p=(Person) msg.oldO;
+		ArrayList<String> id = new ArrayList<String>();
+	 
+
+		try {
+			/** Building the query */
+			 
+			PreparedStatement ps = conn.prepareStatement("SELECT ID FROM zerli.`order` where Person_ID=? ,status=?;");
+			ps.setString(1, cur_p.getUser_ID());
+			ps.setString(2, "Active");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{	
+			 
+				id.add(rs.getString(1));
+			}
+			msg1.newO=id;
+
+			client.sendToClient((Msg) msg1);
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+ 
 
 	public static void insert_delivery(Msg msg1, Connection conn, ConnectionToClient client) {
 

@@ -4,15 +4,20 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Order implements Serializable{
-	String id, personid, status, payment, storeid;
-	String createtime, createdate, requesttime, requestdate;
+	private String id, personid, status, payment, storeid,delivery1;
+	private String createtime, createdate, requesttime, requestdate;
 	
 	float totPrice;
-	
 	//public static int id = lastID();
-	
 	boolean delivery;
 	Delivery d;
+	
+	
+	public Order(String id,String status)
+	{
+		this.id=id;
+		this.status=status;
+	}
 	
 	public Order() {}
 	
@@ -117,6 +122,14 @@ public class Order implements Serializable{
 
 	public void setRequestdate(String requestdate) {
 		this.requestdate = requestdate;
+	}
+
+	public String getDelivery1() {
+		return delivery1;
+	}
+
+	public void setDelivery1(String delivery1) {
+		this.delivery1 = delivery1;
 	}
 
 	
