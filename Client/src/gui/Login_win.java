@@ -136,7 +136,7 @@ public class Login_win  implements ControllerI,Initializable  {
 				  chosen_store=s.substring(s.lastIndexOf("-")+1);
 				  System.out.println(chosen_store);
 				 
-			   /**open the main menu window*/			 
+			   /**open the main menu window**/			 
 			   Platform.runLater(new Runnable() {
 				
 				@Override
@@ -151,6 +151,22 @@ public class Login_win  implements ControllerI,Initializable  {
 					
 				}
 			}); 	  
+			  }
+			  else {
+				  Platform.runLater(new Runnable() {
+						
+						@Override
+						public void run() {
+							 	try {
+							 		 welcomeL.setVisible(true);
+									move(event_log);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}  
+							
+						}
+					}); 	  
 			  }
 		  }
 	 
