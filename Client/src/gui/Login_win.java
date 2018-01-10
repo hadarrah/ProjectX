@@ -113,9 +113,10 @@ public class Login_win  implements ControllerI,Initializable  {
 			  user_not_existL.setVisible(false);			  
 				already_conL.setVisible(false);				
 			 
-			  /**save the details on the entered user**/
+			  /*save the details on the entered user*/
 			  current_user=user;
-			  
+			
+			  /*choosing store option*/
 			  if (user.getStore().size()>1)
 				{	
 				  	cbxStore.setVisible(true);
@@ -130,6 +131,8 @@ public class Login_win  implements ControllerI,Initializable  {
 					chosen_store=cbxStore.getValue().substring(cbxStore.getValue().lastIndexOf("-")+1);
 									
 				}
+			  
+			  /*if user has one payment account, set it automatically*/
 			  else if(user.getStore().size()==1){
 				  String s=user.getStore().get(0);
 				  System.out.println(s);
@@ -152,6 +155,7 @@ public class Login_win  implements ControllerI,Initializable  {
 				}
 			}); 	  
 			  }
+			  /*user does'nt have a payment account*/
 			  else {
 				  Platform.runLater(new Runnable() {
 						
@@ -163,8 +167,7 @@ public class Login_win  implements ControllerI,Initializable  {
 								} catch (IOException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
-								}  
-							
+								}  							
 						}
 					}); 	  
 			  }
@@ -199,6 +202,7 @@ public class Login_win  implements ControllerI,Initializable  {
 		//  to_Client.setController(new Main_menu());
 		 Scene win1= new Scene(menu);
 		 Stage win_1= (Stage) ((Node) (event_log.getSource())).getScene().getWindow();
+		 win_1.setResizable(false);
 		 win_1.setScene(win1);
 		 win_1.show();
 		 //close window by X button

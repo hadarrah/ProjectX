@@ -23,6 +23,7 @@ public class main extends Application {
 		URL url = getClass().getResource(fxmlDir+ "Login_F.fxml");
 	 	Pane pane = FXMLLoader.load( url );
 	  	Scene scene = new Scene( pane );
+	  	primaryStage.setResizable(false);
 		
 	    // setting the stage
 	    primaryStage.setScene( scene );

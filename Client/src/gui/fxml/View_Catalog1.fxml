@@ -80,10 +80,13 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <Label fx:id="lblSale" layoutX="94.0" layoutY="374.0" prefHeight="25.0" prefWidth="198.0" style="-fx-background-color: yellow; -fx-border-color: red;" text="Sale" textAlignment="CENTER" textFill="#e40707" visible="false">
+            <Label fx:id="lblSale" layoutX="94.0" layoutY="374.0" prefHeight="25.0" prefWidth="198.0" style="-fx-background-color: yellow; -fx-border-color: red;" text="Sale" textAlignment="CENTER" textFill="#e40707">
                <font>
-                  <Font name="System Bold Italic" size="14.0" />
+                  <Font name="Goudy Stout" size="14.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </Label>
          </children>
       </Pane>
