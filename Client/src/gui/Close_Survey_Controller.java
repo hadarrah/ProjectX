@@ -37,7 +37,7 @@ public class Close_Survey_Controller implements Initializable,ControllerI{
     }
 
     /**
-     * hanbdle function for pressing "close survey" 
+     * handle function for pressing "close survey" 
      * @param event
      */
     public void close_Survey(ActionEvent event) {

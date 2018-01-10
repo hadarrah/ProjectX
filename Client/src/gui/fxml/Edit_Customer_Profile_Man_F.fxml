@@ -14,7 +14,7 @@
             <Image url="@page.jpg" />
          </image></ImageView>
       <Button fx:id="back_B" layoutX="71.0" layoutY="531.0" mnemonicParsing="false" onAction="#back" text="Back" />
-      <Button fx:id="edit_B" layoutX="232.0" layoutY="444.0" mnemonicParsing="false" onAction="#edit_Profile" text="Edit" />
+      <Button fx:id="edit_B" layoutX="232.0" layoutY="444.0" mnemonicParsing="false" onAction="#edit_Profile" text="Save Edit" />
       <Label layoutX="116.0" layoutY="30.0" text="Edit Customer Profile" textFill="#0d0d0c">
          <font>
             <Font name="Arial Black" size="27.0" />

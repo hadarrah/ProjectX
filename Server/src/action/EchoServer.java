@@ -810,7 +810,7 @@ public class EchoServer extends AbstractServer {
 		Person employee = (Person)msg1.oldO;
 		PreparedStatement ps, psItem;
 		ResultSet rs, rsItem, rsClose;
-		String store, table="";
+		String store;
 		Sale sale = null;
 		SortedMap<String , String> items = new TreeMap<String , String>();
 		ArrayList<String> items_in_sale = new ArrayList<String>();
@@ -845,13 +845,9 @@ public class EchoServer extends AbstractServer {
 						sale = new Sale(store,rsClose.getString("Description"),rsClose.getString("Discount"));
 						sale.setID(rsClose.getString("ID"));
 					}
-					if(rs.getString("Table").equals("Item"))
-						table = "item";
-					else
-						table = "item_in_catalog";
 					
 					/*get the name of each item from the origin table that participant in the sale*/
-					psItem = conn.prepareStatement(" SELECT * FROM "+table+" WHERE ID = ?;");
+					psItem = conn.prepareStatement(" SELECT * FROM item_in_catalog WHERE ID = ?;");
 					psItem.setString(1, rs.getString("Item_ID"));
 					rsItem = psItem.executeQuery();
 					rsItem.next();
@@ -859,17 +855,15 @@ public class EchoServer extends AbstractServer {
 				}
 				else //get the name of the item
 				{
-					if(rs.getString("Table").equals("Item"))
-						table = "item";
-					else
-						table = "item_in_catalog";
-					
-					/*get the name of each item from the origin table*/
-					psItem = conn.prepareStatement(" SELECT * FROM "+table+" WHERE ID = ?;");
-					psItem.setString(1, rs.getString("Item_ID"));
-					rsItem = psItem.executeQuery();
-					rsItem.next();
-					items.put(rsItem.getString("ID"), rsItem.getString("Name"));
+					if(rs.getString("Table").equals("Catalog"))	//only for item from catalog
+					{
+						/*get the name of each item from the origin table*/
+						psItem = conn.prepareStatement(" SELECT * FROM item_in_catalog WHERE ID = ?;");
+						psItem.setString(1, rs.getString("Item_ID"));
+						rsItem = psItem.executeQuery();
+						rsItem.next();
+						items.put(rsItem.getString("ID"), rsItem.getString("Name"));
+					}
 				}
 			}
 			
