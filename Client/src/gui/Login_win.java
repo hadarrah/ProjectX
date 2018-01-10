@@ -38,21 +38,25 @@ import javafx.scene.control.ComboBox;
 public class Login_win  implements ControllerI,Initializable  {
 	public static String user_name;
 	public static String user_pass;
-	public Button Blogin,Bmanngment,Bquit;
+	public Button Blogin,Bmanngment,Bquit, BOK;
 	public TextField user_IdT,user_passT;
 	public Label invalid_detailsL;
-	public Label welcomeL,already_conL,user_not_existL;
+	public Label welcomeL,already_conL,user_not_existL, must_storeL;
+	public ComboBox<String> cbxStore;
 	public static int login_counter=0;
 	public static action.ClientConsole to_Client;
 	public static Person current_user;
 	public static Payment_Account current_user_pay_account;
 	public static ActionEvent event_log;
+	public static String chosen_store;
+	
 	 
 	
 	 
 	
 	public void hit_login(ActionEvent event) throws IOException, InterruptedException
 	{
+		chosen_store=null;
 		/*saves the login button event*/	 
 		 event_log =new ActionEvent();		 
 		 event_log=event.copyFor(event.getSource(), event.getTarget());
@@ -84,8 +88,13 @@ public class Login_win  implements ControllerI,Initializable  {
 	
 	public void get_comfirmation(Object obj) 
 	{
-	 		Msg msg=(Msg) obj;
-		Person user=(Person) msg.newO;
+		
+		
+	 	Msg msg=(Msg) obj;
+		Person user=(Person) msg.newO;	
+		ObservableList<String> list = FXCollections.observableArrayList(user.getStore());
+				
+		
 		current_user_pay_account=(Payment_Account)msg.oldO;
 		if(user.isAlreadyConnected()==true) {
 			already_conL.setVisible(true);
@@ -100,18 +109,35 @@ public class Login_win  implements ControllerI,Initializable  {
 			
 		  if(user.getIsExist().equals("1") && user.getIsOnline().equals("1")&& !(user.isAlreadyConnected()==true))
 		  {
-			  user_not_existL.setVisible(false);
-			  welcomeL.setVisible(true);
-				already_conL.setVisible(false);
+			  user_not_existL.setVisible(false);			  
+				already_conL.setVisible(false);				
 			 
-			  /*save the details on the entered user */
-			  current_user=user;				   
-			   /*opne the main menu window*/
+			  /**save the details on the entered user**/
+			  current_user=user;
+			  
+			  if (user.getStore().size()>1)
+				{	
+				  	cbxStore.setVisible(true);
+				  	cbxStore.setItems(list);
+					BOK.setVisible(true);					
+					Blogin.setVisible(false);
+					while(cbxStore.getSelectionModel().getSelectedItem()==null)
+					{
+						BOK.setDisable(true);
+					}
+					BOK.setDisable(false);
+					chosen_store=cbxStore.getValue().substring(cbxStore.getValue().lastIndexOf("-")+1);
+									
+				}
+			  else {
+				 
+			   /**open the main menu window*/			 
 			   Platform.runLater(new Runnable() {
 				
 				@Override
 				public void run() {
 					 	try {
+					 		 welcomeL.setVisible(true);
 							move(event_log);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
@@ -119,12 +145,30 @@ public class Login_win  implements ControllerI,Initializable  {
 						}  
 					
 				}
-			}); 
-				 
-			  
-			     
+			}); 	  
+			  }
 		  }
 	 
+	}
+	
+	/**open the next window after choosing a store**/
+	public void Ok(ActionEvent event)throws IOException 
+	{
+		System.out.println(chosen_store);	
+		 Platform.runLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					 	try {
+					 		 welcomeL.setVisible(true);
+							move(event_log);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}  
+					
+				}
+			}); 	  
 	}
 	     
 	public void move(ActionEvent event)throws IOException 
@@ -154,6 +198,7 @@ public class Login_win  implements ControllerI,Initializable  {
 	public static Optional<ButtonType> showPopUp(String typeOfPopUpString, String title, String header, String content)
 	{
 		Alert alert = null;
+		
 		
 		switch(typeOfPopUpString)
 		{

@@ -1,6 +1,9 @@
 package action;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Person implements Serializable {
 	private String user_name;
@@ -12,6 +15,7 @@ public class Person implements Serializable {
 	private String IsExist;//0//1
 	private String WWID;
 	private boolean isAlreadyConnected;
+	private ArrayList<String> Store=new ArrayList<String>();
 	
 	
 	
@@ -74,6 +78,18 @@ public class Person implements Serializable {
 	}
 	public void setUser_last_name(String user_last_name) {
 		this.user_last_name = user_last_name;
+	}
+	/**
+	 * @return the store
+	 */
+	public ArrayList<String> getStore() {
+		return Store;
+	}
+	/**
+	 * @param store the store to set
+	 */
+	public void setStore(ArrayList<String> store) {
+		Store = store;
 	}
 	
 	
