@@ -93,6 +93,7 @@ public class Login_win  implements ControllerI,Initializable  {
 	 	Msg msg=(Msg) obj;
 		Person user=(Person) msg.newO;	
 		ObservableList<String> list = FXCollections.observableArrayList(user.getStore());
+		cbxStore.setItems(list);
 				
 		
 		current_user_pay_account=(Payment_Account)msg.oldO;
@@ -118,7 +119,7 @@ public class Login_win  implements ControllerI,Initializable  {
 			  if (user.getStore().size()>1)
 				{	
 				  	cbxStore.setVisible(true);
-				  	cbxStore.setItems(list);
+				  
 					BOK.setVisible(true);					
 					Blogin.setVisible(false);
 					while(cbxStore.getSelectionModel().getSelectedItem()==null)
@@ -129,7 +130,11 @@ public class Login_win  implements ControllerI,Initializable  {
 					chosen_store=cbxStore.getValue().substring(cbxStore.getValue().lastIndexOf("-")+1);
 									
 				}
-			  else {
+			  else if(user.getStore().size()==1){
+				  String s=user.getStore().get(0);
+				  System.out.println(s);
+				  chosen_store=s.substring(s.lastIndexOf("-")+1);
+				  System.out.println(chosen_store);
 				 
 			   /**open the main menu window*/			 
 			   Platform.runLater(new Runnable() {
