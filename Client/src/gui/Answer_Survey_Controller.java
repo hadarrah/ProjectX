@@ -529,12 +529,13 @@ public void setCustomersId() {
 	
 	
 }
-
+/**
+ * set the customers id in the comboBox
+ */
 public void setIdInCombO(Object o)
 {
 	Msg msg=(Msg) o;
 	ArrayList<String>id =(ArrayList<String>) msg.newO;
-	
 	list = FXCollections.observableArrayList(id); 
 	users_id.setItems(list);
 	
