@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 import action.Msg;
 import action.Survey;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -40,7 +43,9 @@ public Button Back_to_main,submit_survey;
 public ToggleGroup a1,a2,a3,a4,a5,a6 ;
 public Label q1,q2,q3,q4,q5,q6;
 public Label survey_id;
+public ComboBox<String> users_id;
 public static Survey current_survey;
+ObservableList<String> list;
  /**
   * need to be 10 radio button 
   */
@@ -49,7 +54,7 @@ public void back_to_main(ActionEvent event) throws IOException {
 
 
 	 Parent menu;
-	 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Main_menu_F.fxml"));
+	 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Managment_F.fxml"));
 	// to_Client.setController(new Managment_Controller());
 	 Scene win1= new Scene(menu);
 	 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
@@ -59,15 +64,20 @@ public void back_to_main(ActionEvent event) throws IOException {
 
 public void form_submit(ActionEvent event) throws IOException {
 	int validity_flag = 0;
-	 
+	 if(users_id.getValue()==null)
+	 {
+		   Optional<ButtonType> r = Login_win.showPopUp("ERROR", "Message", "You must choose a Customer!", "Thank you!"); 
+		   return;
+	 }
 	
 	  /*send answers of the client to DB*/
-		if (check_user_form())
+		if (check_user_form() )
 		{
 			validity_flag=1;
 			 get_customer_answers();
 			 update_survey_answers_inDB();
 			 set_customerId_in_survey_list();
+			 
 		}
 	
 	if(validity_flag==1) {
@@ -503,11 +513,32 @@ public void set_survey_question(Object msg)
 			
 		}
 	});
-	
-	
+	 
+
 	/*set the radio buttons by groups*/
 		 setRadioB();
+		 setCustomersId();
 	}
+
+public void setCustomersId() {
+	Msg msg= new Msg();
+	msg.setSelect();
+	msg.setRole("get customres id");
+	msg.setTableName("person");
+	Login_win.to_Client.accept(msg);
+	
+	
+}
+
+public void setIdInCombO(Object o)
+{
+	Msg msg=(Msg) o;
+	ArrayList<String>id =(ArrayList<String>) msg.newO;
+	
+	list = FXCollections.observableArrayList(id); 
+	users_id.setItems(list);
+	
+}
 
 public void set_customerId_in_survey_list()
 {
@@ -696,6 +727,7 @@ public void setRadioB()
 public void initialize(URL location, ResourceBundle resources) 
 {
 	 Login_win.to_Client.setController(this);
+	 
 	 get_survey_qustion();
 	 
 

@@ -41,7 +41,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     public Button display_Reports_B;
     public Button close_Survey_B;
     public Button add_Comments_B;
-    public Button close_Sale_B;
+    public Button close_Sale_B,survey_b;
 	public static ActionEvent event_log;
 	public static Survey active_survey;
 	public static ArrayList<Complain> complaint;
@@ -49,6 +49,7 @@ public class Managment_Controller implements Initializable,ControllerI {
 	public static TreeMap<String , String> items;
 	public static Sale sale;
 	public static ArrayList<String> item_in_sale;
+	public static Survey current_survey;
 
     public void update_Catalog(ActionEvent event) {
 
@@ -175,7 +176,19 @@ public class Managment_Controller implements Initializable,ControllerI {
     public void edit_CustomersProfile(ActionEvent event) throws IOException {
     	move(event ,main.fxmlDir+ "Edit_Customer_Profile_Man_F.fxml");
     }
+    
+    public void answer_survey(ActionEvent event) throws IOException {
+    	move(event ,main.fxmlDir+ "Answer_Survey_F.fxml");
+    }
 
+	public void set_current_survey_and_chek_customer_survey(Object o) {
+		Msg msg = (Msg) o;
+		Survey survey = (Survey) msg.newO;
+		current_survey = survey;
+		System.out.println(current_survey.getID());
+
+	}
+    
     public void display_Reports(ActionEvent event) {
 
     }
@@ -497,6 +510,12 @@ public class Managment_Controller implements Initializable,ControllerI {
     			edit_CustomersProfile_B.setVisible(true);
         		break;
     	}
+    	
+		Msg msg = new Msg();
+		msg.setSelect();
+		msg.setRole("get the current survey id");
+		msg.setTableName("survey");
+		Login_win.to_Client.accept(msg);
 	}
 	
 
