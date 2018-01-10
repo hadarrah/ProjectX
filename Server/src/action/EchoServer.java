@@ -350,14 +350,23 @@ public class EchoServer extends AbstractServer {
 	public static void insert_new_complain(Msg msg1, Connection conn, ConnectionToClient client) {
 		Msg msg  = (Msg) msg1;
 		Complain com= (Complain) msg1.oldO;
+		int new_id;
 		/**to create a random number for the complain id */
-		Random rand = new Random();
-		int  n = rand.nextInt(5000) + 1;
+	//	Random rand = new Random();
+		//int  n = rand.nextInt(5000) + 1;
 		try {
 			/** Building the query */
+			
+			/* get the last ID of sale*/
+			PreparedStatement	ps1 = conn.prepareStatement("SELECT max(ID) FROM "+msg.getTableName()+";");
+			ResultSet	rs = ps1.executeQuery();
+			rs.next();
+			new_id = (rs.getInt(1)) + 1;
+
+			
 			PreparedStatement ps =
 			conn.prepareStatement("INSERT INTO "+msg.getTableName()+ "(`ID`, `Customer_ID`, `Text`, `Status`, `Date`, `Hour`) VALUES (?,?,?,?,?,?);" );
-			ps.setString(1, Integer.toString(n));
+			ps.setInt(1,  new_id );
 			ps.setString(2, com.getCustomer_ID());
 			ps.setString(3, com.getUser_txt());
 			ps.setString(4, "Pending");
