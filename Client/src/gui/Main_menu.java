@@ -127,6 +127,19 @@ public class Main_menu implements Initializable, ControllerI {
 		win_1.setScene(win1);
 		win_1.show();
 	}
+	
+	
+	
+	public void cancel_order(ActionEvent event) throws IOException {
+
+		Parent menu;
+		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Cancel_Order_F.fxml"));
+		// to_Client.setController(new Managment_Controller());
+		Scene win1 = new Scene(menu);
+		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		win_1.setScene(win1);
+		win_1.show();
+	}
 
 	public void to_user_profile(ActionEvent event) throws IOException {
 		Parent menu;
