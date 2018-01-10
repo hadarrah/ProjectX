@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map; 
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
@@ -22,8 +22,10 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
 
+ 
 import javafx.collections.ObservableList;
 
+ 
 import java.sql.PreparedStatement;
 import ocsf.server.*;
 
@@ -97,10 +99,10 @@ public class EchoServer extends AbstractServer {
 			case "SELECT": {
 
 				if (msg1.getRole().equals("View all catalog items"))
-					ViewItems(msg1, conn, client);				
-				else if(msg1.getRole().equals("check if user already did this survey")) 
-					 check_if_user_took_this_survey(msg1,conn,client);
-				 else if (msg1.getRole().equals("verify user details"))
+					ViewItems(msg1, conn, client);
+				else if (msg1.getRole().equals("check if user already did this survey"))
+					check_if_user_took_this_survey(msg1, conn, client);
+				else if (msg1.getRole().equals("verify user details"))
 					check_user_details(msg1, conn, client);
 				else if (msg1.getRole().equals("check if ID exist and add payment account"))
 					check_id_exist(msg1, conn, client);
@@ -129,7 +131,7 @@ public class EchoServer extends AbstractServer {
 				else if (msg1.getRole().equals("get combo all customers"))
 					GetComboForEditManProfile(msg1, conn, client);
 				else if (msg1.getRole().equals("get the current survey id"))
-					get_the_current_survey_id(msg1,conn,client);
+					get_the_current_survey_id(msg1, conn, client);
 				else if (msg1.getRole().equals("get combo customer ID for answer complaint"))
 					GetComboForAnsComplaint(msg1, conn, client);
 				else if (msg1.getRole().equals("check for pending complaints"))
@@ -149,13 +151,13 @@ public class EchoServer extends AbstractServer {
 					Update_user_details(msg1, conn, client);
 				else if (msg1.getRole().equals("close survey"))
 					Close_survey(msg1, conn, client);
-				else if (msg1.getRole().equals("update survey answers")) 
+				else if (msg1.getRole().equals("update survey answers"))
 					update_survey_answers(msg1, conn, client);
 				else if (msg1.getRole().equals("set comment survey"))
 					update_comment_survey(msg1, conn, client);
 				else if (msg1.getRole().equals("set conclusion survey"))
 					update_conclusion_survey(msg1, conn, client);
-				else if (msg1.getRole().equals("set edit profile manager"))
+				else if (msg1.getRole().equals("set edit profile manager")) 
 					update_profile_by_manager(msg1, conn, client);
 				else if (msg1.getRole().equals("set answer complaint"))
 					update_answer_complain(msg1, conn, client);
@@ -164,16 +166,16 @@ public class EchoServer extends AbstractServer {
 				else if (msg1.getRole().equals("change order status"))
 					change_order_status(msg1,conn,client);
 			}
-			
+
 			case "INSERT": {
 				if (msg1.getRole().equals("insert survey"))
 					insert_survey(msg1, conn, client);
-				else if (msg1.getRole().equals("insert customer id to survey")) 
-				set_customer_in_survey_answered(msg1, conn, client);
-				else if(msg1.getRole().equals("insert a new complain"))
-					insert_new_complain(msg1,conn,client);
-				else if(msg1.getRole().equals("insert new sale"))
-					insert_new_sale(msg1,conn,client);
+				else if (msg1.getRole().equals("insert customer id to survey"))
+					set_customer_in_survey_answered(msg1, conn, client);
+				else if (msg1.getRole().equals("insert a new complain"))
+					insert_new_complain(msg1, conn, client);
+				else if (msg1.getRole().equals("insert new sale"))
+					insert_new_sale(msg1, conn, client);
 				else if (msg1.getRole().equals("insert order"))
 					insert_order(msg1, conn, client);
 				else if (msg1.getRole().equals("insert items in order"))
@@ -194,6 +196,7 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
+ 
 	public static  void change_order_status(Msg msg1, Connection conn, ConnectionToClient client) 
 	{
 		
@@ -305,6 +308,7 @@ public class EchoServer extends AbstractServer {
 		
 		
 	}
+ 
 
 	public static void insert_delivery(Msg msg1, Connection conn, ConnectionToClient client) {
 
@@ -387,8 +391,8 @@ public class EchoServer extends AbstractServer {
 	public static void insert_items_in_order(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Msg msg = (Msg) msg1;
-		ArrayList<Item> items = (ArrayList<Item>) msg1.oldO;	//arrives as individual items
-		HashMap<String, Integer> amounts = (HashMap<String, Integer>) msg1.newO;	//amounts.(Item_ID)==amount
+		ArrayList<Item> items = (ArrayList<Item>) msg1.oldO; // arrives as individual items
+		HashMap<String, Integer> amounts = (HashMap<String, Integer>) msg1.newO; // amounts.(Item_ID)==amount
 		int orderID = (int) msg.num1;
 
 		PreparedStatement ps;
@@ -456,22 +460,35 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-	
-/**
- * insert a new complain to the system
- * @param msg1
- * @param conn
- * @param client
- */
+
+	/**
+	 * insert a new complain to the system
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
 	public static void insert_new_complain(Msg msg1, Connection conn, ConnectionToClient client) {
-		Msg msg  = (Msg) msg1;
-		Complain com= (Complain) msg1.oldO;
+
+		Msg msg = (Msg) msg1;
+		Complain com = (Complain) msg1.oldO;
+		/** to create a random number for the complain id */
+		Random rand = new Random();
+		int n = rand.nextInt(5000) + 1;
+
+		
 		int new_id;
 		/**to create a random number for the complain id */
 	//	Random rand = new Random();
 		//int  n = rand.nextInt(5000) + 1;
+
 		try {
 			/** Building the query */
+
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO " + msg.getTableName()
+					+ "(`ID`, `Customer_ID`, `Text`, `Status`, `Date`, `Hour`) VALUES (?,?,?,?,?,?);");
+			ps.setString(1, Integer.toString(n));
+
 			
 			/* get the last ID of sale*/
 			PreparedStatement	ps1 = conn.prepareStatement("SELECT max(ID) FROM "+msg.getTableName()+";");
@@ -480,9 +497,10 @@ public class EchoServer extends AbstractServer {
 			new_id = (rs.getInt(1)) + 1;
 
 			
-			PreparedStatement ps =
+		/*	PreparedStatement ps =
 			conn.prepareStatement("INSERT INTO "+msg.getTableName()+ "(`ID`, `Customer_ID`, `Text`, `Status`, `Date`, `Hour`) VALUES (?,?,?,?,?,?);" );
-			ps.setInt(1,  new_id );
+			ps.setInt(1,  new_id );*/
+
 			ps.setString(2, com.getCustomer_ID());
 			ps.setString(3, com.getUser_txt());
 			ps.setString(4, "Pending");
@@ -490,133 +508,117 @@ public class EchoServer extends AbstractServer {
 			ps.setString(6, com.getHour());
 
 			ps.executeUpdate();
-			
-			msg.freeField="insert succeed";
-			 client.sendToClient(msg);
-		}
-		catch (SQLException e) {
+
+			msg.freeField = "insert succeed";
+			client.sendToClient(msg);
+		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (IOException ex) {
+			System.err.println("unable to send msg to client");
 		}
-	  catch (IOException ex)
-		 	{ 
-		 	System.err.println("unable to send msg to client");
-		 	}
 	}
-	
-	
+
 	/**
-	 * insert a new sale 
+	 * insert a new sale
+	 * 
 	 * @param msg1
 	 * @param conn
 	 * @param client
 	 */
-		public static void insert_new_sale(Msg msg1, Connection conn, ConnectionToClient client) {
-			
-			/*set variables*/
-			ArrayList<String> items_ID = (ArrayList<String>) msg1.oldO;
-			Sale sale = (Sale)msg1.newO;
-			String description = sale.getDescription();
-			String discount = sale.getDiscount();
-			String store = sale.getStoreID();
-			String saleID="";
-			
-			PreparedStatement ps;
-			ResultSet rs;
-			int new_id;
-			try {
-				/* get the last ID of sale*/
-				ps = conn.prepareStatement("SELECT max(ID) FROM sales;");
-				rs = ps.executeQuery();
-				rs.next();
-				
-				/* execute the insert query */
-				ps = conn.prepareStatement("INSERT INTO sales (ID, Description, Discount) VALUES (?, ?, ?);");
-				new_id = Integer.parseInt(rs.getString(1)) + 1;
-				ps.setString(1, "" + new_id); // insert the last id + 1
-				ps.setString(2, description);
-				ps.setString(3, discount);
-				ps.executeUpdate();
+	public static void insert_new_sale(Msg msg1, Connection conn, ConnectionToClient client) {
 
-				saleID = "" + new_id;
-				/*update in store table*/
-				for(String item: items_ID)
-				{
-					ps = conn.prepareStatement("UPDATE store SET Sale_ID=? WHERE ID=? and Item_ID =?;");
-					ps.setString(1, saleID);
-					ps.setString(2, store);
-					ps.setString(3, item);
-					ps.executeUpdate();
-				}
-				
-				
-				client.sendToClient(msg1);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+		/* set variables */
+		ArrayList<String> items_ID = (ArrayList<String>) msg1.oldO;
+		Sale sale = (Sale) msg1.newO;
+		String description = sale.getDescription();
+		String discount = sale.getDiscount();
+		String store = sale.getStoreID();
+		String saleID = "";
+
+		PreparedStatement ps;
+		ResultSet rs;
+		int new_id;
+		try {
+			/* get the last ID of sale */
+			ps = conn.prepareStatement("SELECT max(ID) FROM sales;");
+			rs = ps.executeQuery();
+			rs.next();
+
+			/* execute the insert query */
+			ps = conn.prepareStatement("INSERT INTO sales (ID, Description, Discount) VALUES (?, ?, ?);");
+			new_id = Integer.parseInt(rs.getString(1)) + 1;
+			ps.setString(1, "" + new_id); // insert the last id + 1
+			ps.setString(2, description);
+			ps.setString(3, discount);
+			ps.executeUpdate();
+
+			saleID = "" + new_id;
+			/* update in store table */
+			for (String item : items_ID) {
+				ps = conn.prepareStatement("UPDATE store SET Sale_ID=? WHERE ID=? and Item_ID =?;");
+				ps.setString(1, saleID);
+				ps.setString(2, store);
+				ps.setString(3, item);
+				ps.executeUpdate();
 			}
+
+			client.sendToClient(msg1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-	
-/**
- * get the number of the current active survey
- * @param msg1
- * @param conn
- * @param client
- */
-	public static  void get_the_current_survey_id(Msg msg1, Connection conn, ConnectionToClient client)
-	{
-	 
-		 Msg msg  = (Msg) msg1;
-		 Survey survey=new Survey();
-		
+	}
+
+	/**
+	 * get the number of the current active survey
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static void get_the_current_survey_id(Msg msg1, Connection conn, ConnectionToClient client) {
+
+		Msg msg = (Msg) msg1;
+		Survey survey = new Survey();
+
 		try {
 			/** Building the query */
-			 
 
 			PreparedStatement ps = conn.prepareStatement("SELECT ID FROM survey where Status='Active';");
 			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next())
-			{
-				 survey.setID(rs.getString(1));
-				 
-					
+
+			while (rs.next()) {
+				survey.setID(rs.getString(1));
+
 			}
-			 msg.newO=survey;
-			 client.sendToClient(msg);
-		}
-		catch (SQLException e) {
+			msg.newO = survey;
+			client.sendToClient(msg);
+		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (IOException ex) {
+			System.err.println("unable to send msg to client");
 		}
-	  catch (IOException ex)
-		 	{ 
-		 	System.err.println("unable to send msg to client");
-		 	}
-		 
-		
+
 	}
 
-	 
+	public static void set_customer_in_survey_answered(Msg msg1, Connection conn, ConnectionToClient client) {
 
-	public static void set_customer_in_survey_answered(Msg msg1, Connection conn, ConnectionToClient client)
-	{
-		 
-		 Msg msg  = (Msg) msg1;
-		 Survey survey=(Survey) msg.oldO;
-		 Person customer= (Person) msg.newO;
+		Msg msg = (Msg) msg1;
+		Survey survey = (Survey) msg.oldO;
+		Person customer = (Person) msg.newO;
 		try {
 			/** Building the query */
-		 
 
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO `zerli`.`comments_survey` (`ID`, `Customer_ID`) VALUES (?, ?);");
+			PreparedStatement ps = conn
+					.prepareStatement("INSERT INTO `zerli`.`comments_survey` (`ID`, `Customer_ID`) VALUES (?, ?);");
 			ps.setString(1, survey.getID());
 			ps.setString(2, customer.getUser_ID());
- 			ps.executeUpdate();
-		}
-		catch (SQLException e) {
+			ps.executeUpdate();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public static void decoy(Msg msg, Connection con, ConnectionToClient client) throws IOException {
@@ -634,7 +636,6 @@ public class EchoServer extends AbstractServer {
 	 *            The connection from which the message originated.
 	 */
 	public static void SelectItemsCTP(Msg msg, Connection con, ConnectionToClient client) {
-
 
 		Msg msg1 = (Msg) msg;
 		Item p = (Item) msg1.oldO;
@@ -686,47 +687,45 @@ public class EchoServer extends AbstractServer {
 		return;
 	}
 
-	public static void check_if_user_took_this_survey(Msg msg1, Connection conn, ConnectionToClient client)
-	{	  
+	public static void check_if_user_took_this_survey(Msg msg1, Connection conn, ConnectionToClient client) {
 		Msg msg = (Msg) msg1;
-		Person user=(Person) msg.newO;
-		Survey survey=(Survey) msg.oldO;
-		int flag=0;
- 
+		Person user = (Person) msg.newO;
+		Survey survey = (Survey) msg.oldO;
+		int flag = 0;
+
 		try {
-			 
+
 			PreparedStatement ps = conn.prepareStatement(" SELECT Customer_ID FROM  comments_survey WHERE ID=?;");
-			ps.setString(1,survey.getID());
+			ps.setString(1, survey.getID());
 			ResultSet rs = ps.executeQuery();
-			while ( rs.next( ))
-			{
-				
-			if(user.getUser_ID().equals(rs.getString(1)))
-			{
-				msg.freeField="false";
-				flag=1;
+			while (rs.next()) {
+
+				if (user.getUser_ID().equals(rs.getString(1))) {
+					msg.freeField = "false";
+					flag = 1;
+				}
 			}
+			if (flag == 0) {
+				msg.freeField = "true";
 			}
-			if(flag==0)
-			{
-				msg.freeField="true";
-			}
-			 
+
 			client.sendToClient(msg);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-		 
-	} catch (IOException e) {
-			 
+
+		} catch (IOException e) {
+
 			e.printStackTrace();
 		}
 	}
+
 	public static void check_user_details(Msg msg1, Connection conn, ConnectionToClient client) {
 		Person user = (Person) msg1.oldO;
 		String a;
-		Payment_Account pay_account= new Payment_Account(null,null,null,null);
- 
+		ArrayList<String> store = new ArrayList<String>();
+		ArrayList<Payment_Account> pay_account_arr = new ArrayList<Payment_Account>();
+
 		try {
 			PreparedStatement ps = conn
 					.prepareStatement(" SELECT * FROM " + msg1.getTableName() + " " + "WHERE ID=? and Password=?;");
@@ -740,8 +739,8 @@ public class EchoServer extends AbstractServer {
 				a = rs.getString(1);
 
 				// if the user exist
-				if (!(a.equals("0")))
-				{
+				if (!(a.equals("0"))) {
+					Payment_Account pay_account = new Payment_Account();
 					user.setIsExist("1");
 					user.setUser_name(rs.getString(2));
 					user.setPrivilege(rs.getString(5));
@@ -754,34 +753,47 @@ public class EchoServer extends AbstractServer {
 					/* get the account details for this user */
 					ps2.setString(1, user.getUser_ID());
 					ResultSet rs2 = ps2.executeQuery();
-					 while(rs2.next())
-					 { 		pay_account.setID(rs2.getString(1));
-						 pay_account.setCreditCard(rs2.getString(2));
-						 pay_account.setStatus(rs2.getString(3));
-						 pay_account.setSubscription (rs2.getString(4));
-						
-					 }
-					
-					
+					while (rs2.next()) {
+						int flag = 0;
+						pay_account.setID(rs2.getString(1));
+						pay_account.setCreditCard(rs2.getString(2));
+						pay_account.setStatus(rs2.getString(3));
+						pay_account.setSubscription(rs2.getString(4));
+						pay_account.setStoreID(rs2.getString(5));
+						pay_account_arr.add(pay_account);
+						PreparedStatement ps3 = conn.prepareStatement("SELECT ID,Location FROM store where ID=?;");
+						ps3.setString(1, rs2.getString(5));
+
+						ResultSet rs3 = ps3.executeQuery();
+						while (rs3.next()) {
+							for (int i = 0; i < store.size(); i++) {
+								if (store.get(i).equals(rs3.getString(2) + "-" + rs3.getString(1)))
+									flag = 1;
+							}
+							if (flag == 0)
+								store.add(rs3.getString(2) + "-" + rs3.getString(1));
+							else
+								flag = 0;
+						}
+					}
+					user.setStore(store);
+
 					/* check if it is possible to change the status of the user */
-					if (change_online_status(msg1, conn, "1") == true) 
-					{
+					if (change_online_status(msg1, conn, "1") == true) {
 						msg1.newO = (Person) user;
-						msg1.oldO=(Payment_Account)pay_account;
+						msg1.oldO = (Payment_Account) pay_account;
 						client.sendToClient(msg1);
 						return;
-					} 
-					else 
-					{// if the user is already connected
+					} else {// if the user is already connected
 
 						msg1.newO = (Person) user;
-						msg1.oldO=(Payment_Account)pay_account;
+						msg1.oldO = (Payment_Account) pay_account;
 						user.setAlreadyConnected(true);
 						client.sendToClient(msg1);
 						return;
 					}
 				} // end if
-				
+
 			} // while rs
 
 			if (rs.next() == false) /* if the user dosent exist in the system */
@@ -859,14 +871,12 @@ public class EchoServer extends AbstractServer {
 					return;
 				}
 
-
 				/* get the store id from manager */
-				/*ps = conn.prepareStatement(" SELECT * FROM store WHERE Manager_ID=?;");
-				ps.setString(1, manager.getUser_ID());
-				rs = ps.executeQuery();
-				rs.next();
-				String store = rs.getString("ID");
-				rs.close();*/
+				/*
+				 * ps = conn.prepareStatement(" SELECT * FROM store WHERE Manager_ID=?;");
+				 * ps.setString(1, manager.getUser_ID()); rs = ps.executeQuery(); rs.next();
+				 * String store = rs.getString("ID"); rs.close();
+				 */
 
 				/*
 				 * if we reach here --> all the test are fine and we insert the new payment
@@ -917,101 +927,118 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * check if there is already active sale in the user's store
+	 * 
 	 * @param msg1
 	 * @param conn
 	 * @param client
 	 */
-	public static void CheckForActiveSale(Msg msg1, Connection conn, ConnectionToClient client) 
-	{
-		Person employee = (Person)msg1.oldO;
+	public static void CheckForActiveSale(Msg msg1, Connection conn, ConnectionToClient client) {
+		Person employee = (Person) msg1.oldO;
 		PreparedStatement ps, psItem;
 		ResultSet rs, rsItem, rsClose;
-		String store, table="";
+
+		String store, table = "";
+
+		//String store;
+
 		Sale sale = null;
-		SortedMap<String , String> items = new TreeMap<String , String>();
+		SortedMap<String, String> items = new TreeMap<String, String>();
 		ArrayList<String> items_in_sale = new ArrayList<String>();
 		boolean exist = false;
-		
+
 		try {
-			/*get the store id of the employee (every employee has a payment account)*/
+			/* get the store id of the employee (every employee has a payment account) */
 			ps = conn.prepareStatement(" SELECT * FROM payment_account WHERE ID = ?;");
 			ps.setString(1, employee.getUser_ID());
 			rs = ps.executeQuery();
 			rs.next();
 			store = rs.getString("Store_ID");
-			
-			/*check if there is sale by checking all the items*/
+
+			/* check if there is sale by checking all the items */
 			ps = conn.prepareStatement(" SELECT * FROM store WHERE ID = ?;");
 			ps.setString(1, store);
 			rs = ps.executeQuery();
-			
-			while(rs.next())
-			{
-				if(rs.getString("Sale_ID") != null)
-				{
-					exist=true;
-					
-					if(sale == null)
-					{
-						/*get the details of sale*/
+
+			while (rs.next()) {
+				if (rs.getString("Sale_ID") != null) {
+					exist = true;
+
+					if (sale == null) {
+						/* get the details of sale */
 						ps = conn.prepareStatement(" SELECT * FROM sales WHERE ID = ?;");
-						ps.setString(1,rs.getString("Sale_ID"));
+						ps.setString(1, rs.getString("Sale_ID"));
 						rsClose = ps.executeQuery();
 						rsClose.next();
-						sale = new Sale(store,rsClose.getString("Description"),rsClose.getString("Discount"));
+						sale = new Sale(store, rsClose.getString("Description"), rsClose.getString("Discount"));
 						sale.setID(rsClose.getString("ID"));
 					}
-					if(rs.getString("Table").equals("Item"))
+
+					if (rs.getString("Table").equals("Item"))
 						table = "item";
 					else
 						table = "item_in_catalog";
+
+					/*
+					 * get the name of each item from the origin table that participant in the sale
+					 */
+					psItem = conn.prepareStatement(" SELECT * FROM " + table + " WHERE ID = ?;");
+
 					
 					/*get the name of each item from the origin table that participant in the sale*/
-					psItem = conn.prepareStatement(" SELECT * FROM "+table+" WHERE ID = ?;");
+				//	psItem = conn.prepareStatement(" SELECT * FROM item_in_catalog WHERE ID = ?;");
+
 					psItem.setString(1, rs.getString("Item_ID"));
 					rsItem = psItem.executeQuery();
 					rsItem.next();
 					items_in_sale.add(rsItem.getString("Name"));
-				}
-				else //get the name of the item
+				} else // get the name of the item
 				{
-					if(rs.getString("Table").equals("Item"))
+
+					if (rs.getString("Table").equals("Item"))
 						table = "item";
 					else
 						table = "item_in_catalog";
-					
-					/*get the name of each item from the origin table*/
-					psItem = conn.prepareStatement(" SELECT * FROM "+table+" WHERE ID = ?;");
+
+					/* get the name of each item from the origin table */
+					psItem = conn.prepareStatement(" SELECT * FROM " + table + " WHERE ID = ?;");
 					psItem.setString(1, rs.getString("Item_ID"));
 					rsItem = psItem.executeQuery();
 					rsItem.next();
 					items.put(rsItem.getString("ID"), rsItem.getString("Name"));
+
+					if(rs.getString("Table").equals("Catalog"))	//only for item from catalog
+					{
+						/*get the name of each item from the origin table*/
+						psItem = conn.prepareStatement(" SELECT * FROM item_in_catalog WHERE ID = ?;");
+						psItem.setString(1, rs.getString("Item_ID"));
+						rsItem = psItem.executeQuery();
+						rsItem.next();
+						items.put(rsItem.getString("ID"), rsItem.getString("Name"));
+					}
+
 				}
 			}
-			
-			if(exist)
-			{
+
+			if (exist) {
 				msg1.freeField = "There is sale"; // this is mean that there is active sale
 				msg1.oldO = sale;
 				msg1.newO = store;
 				msg1.freeUse = items_in_sale;
 				client.sendToClient(msg1);
-			}
-			else
-			{
+			} else {
 				msg1.freeField = "There is no sale"; // this is mean that there is no active sale
 				msg1.oldO = store; // save the store id for the future
 				msg1.freeUse = items;
 				client.sendToClient(msg1);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * insert the survey to survey table with new id
 	 * 
@@ -1088,7 +1115,7 @@ public class EchoServer extends AbstractServer {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * close the specific sale
 	 * 
@@ -1096,8 +1123,7 @@ public class EchoServer extends AbstractServer {
 	 * @param conn
 	 * @param client
 	 */
-	public static void close_sale(Msg msg1, Connection conn, ConnectionToClient client) 
-	{
+	public static void close_sale(Msg msg1, Connection conn, ConnectionToClient client) {
 		String sale = (String) msg1.oldO;
 		String store = (String) msg1.newO;
 		PreparedStatement ps;
@@ -1107,16 +1133,14 @@ public class EchoServer extends AbstractServer {
 			ps = conn.prepareStatement("SELECT * FROM store WHERE ID=?;");
 			ps.setString(1, store);
 			rs = ps.executeQuery();
-			
+
 			/* set up and execute the update query */
-			while(rs.next())
-			{
+			while (rs.next()) {
 				ps = conn.prepareStatement("UPDATE store SET Sale_ID=NULL WHERE ID=? AND Item_ID=?;");
 				ps.setString(1, store);
 				ps.setString(2, rs.getString("Item_ID"));
 				ps.executeUpdate();
 			}
-			
 
 			client.sendToClient(msg1);
 		} catch (SQLException e) {
@@ -1201,9 +1225,8 @@ public class EchoServer extends AbstractServer {
 	public static void GetComboForAddComment(Msg msg1, Connection conn, ConnectionToClient client) {
 		PreparedStatement ps;
 		ResultSet rs;
-		Map<String , String> forCombo = new HashMap<String , String>();
-		String surveyID = (String)msg1.oldO;
-
+		Map<String, String> forCombo = new HashMap<String, String>();
+		String surveyID = (String) msg1.oldO;
 
 		try {
 			/* set up and execute the update query */
@@ -1223,7 +1246,6 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
-	
 	/**
 	 * get the customer id for combobox in answer complaint
 	 * 
@@ -1237,22 +1259,21 @@ public class EchoServer extends AbstractServer {
 		ArrayList<Complain> complaint = new ArrayList<Complain>();
 		String id, customer_id, user_text, date, hour;
 		try {
-			 /*set up and execute the select query in order to get the pending complaint*/
-			  ps = conn.prepareStatement("SELECT * FROM complaint WHERE Status=?;");
-			  ps.setString(1, "Pending");
-			  rs = ps.executeQuery();
-			  
-			  /*insert the results to the ArrayList*/
-			while (rs.next())
-			{
-				id=rs.getString("ID");
-				customer_id=rs.getString("Customer_ID");
-				user_text=rs.getString("Text");
-				date=rs.getString("Date");
-				hour=rs.getString("Hour");
+			/* set up and execute the select query in order to get the pending complaint */
+			ps = conn.prepareStatement("SELECT * FROM complaint WHERE Status=?;");
+			ps.setString(1, "Pending");
+			rs = ps.executeQuery();
+
+			/* insert the results to the ArrayList */
+			while (rs.next()) {
+				id = rs.getString("ID");
+				customer_id = rs.getString("Customer_ID");
+				user_text = rs.getString("Text");
+				date = rs.getString("Date");
+				hour = rs.getString("Hour");
 				complaint.add(new Complain(id, customer_id, user_text, date, hour));
 			}
-				
+
 			msg1.newO = complaint;
 			client.sendToClient(msg1);
 		} catch (SQLException e) {
@@ -1261,43 +1282,38 @@ public class EchoServer extends AbstractServer {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	   * set the new conclusion in survey table
-	   * @param msg1
-	   * @param conn
-	   * @param client
-	   */
-	  public static void update_conclusion_survey(Msg msg1 ,Connection conn,ConnectionToClient client)
-	  {
-		  String conclusion=(String) msg1.oldO;
-		  String surveyID=(String) msg1.freeField;
 
-		  PreparedStatement ps;
-		  ResultSet rs;
-		  
-		  try
-		   {
-			  /*set up and execute the update query*/
-			  ps = conn.prepareStatement("UPDATE survey SET Conclusion=? WHERE ID=?;");
-			  ps.setString(1, conclusion);
-			  ps.setString(2, surveyID);
-			  ps.executeUpdate();
-			  
-			  client.sendToClient(msg1);
-		   }
-		  catch (SQLException e) 
-		  	{
-				e.printStackTrace();
-		  	} 
-		  catch (IOException e) 
-		    {
-				e.printStackTrace();
-			}
-	  }
-	  
 	/**
-	 * get  all  customers id
+	 * set the new conclusion in survey table
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static void update_conclusion_survey(Msg msg1, Connection conn, ConnectionToClient client) {
+		String conclusion = (String) msg1.oldO;
+		String surveyID = (String) msg1.freeField;
+
+		PreparedStatement ps;
+		ResultSet rs;
+
+		try {
+			/* set up and execute the update query */
+			ps = conn.prepareStatement("UPDATE survey SET Conclusion=? WHERE ID=?;");
+			ps.setString(1, conclusion);
+			ps.setString(2, surveyID);
+			ps.executeUpdate();
+
+			client.sendToClient(msg1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * get all customers id
 	 * 
 	 * @param msg1
 	 * @param conn
@@ -1306,45 +1322,47 @@ public class EchoServer extends AbstractServer {
 	public static void GetComboForEditManProfile(Msg msg1, Connection conn, ConnectionToClient client) {
 		PreparedStatement ps;
 		ResultSet rs;
-		SortedMap<String , String> privilegeCombo = new TreeMap<String , String>();
-		SortedMap<String , ArrayList<String>> paymentCombo = new TreeMap<String , ArrayList<String>>();
+		SortedMap<String, String> privilegeCombo = new TreeMap<String, String>();
+		SortedMap<String, ArrayList<String>> paymentCombo = new TreeMap<String, ArrayList<String>>();
 		ArrayList<String> stores = new ArrayList<String>();
 		String current_id = (String) msg1.oldO;
-		
+
 		try {
-			 /*set up and execute the select query from person table to get all the customers*/
-			  ps = conn.prepareStatement("SELECT * FROM person WHERE ID != ?;");
-			  ps.setString(1, current_id);
-			  rs = ps.executeQuery();
-			  
+			/*
+			 * set up and execute the select query from person table to get all the
+			 * customers
+			 */
+			ps = conn.prepareStatement("SELECT * FROM person WHERE ID != ?;");
+			ps.setString(1, current_id);
+			rs = ps.executeQuery();
+
 			while (rs.next())
 				privilegeCombo.put(rs.getString("ID"), rs.getString("Privilege"));
 
 			msg1.newO = privilegeCombo;
-			
-			/*set up and execute the select query from payment_account table*/
-			  ps = conn.prepareStatement("SELECT * FROM payment_account WHERE ID != ?;");
-			  ps.setString(1, current_id);
-			  rs = ps.executeQuery();
 
-			  while (rs.next()) 
-			  {
-				  ArrayList<String> status_subscription = new ArrayList<String>();
-				  status_subscription.add(rs.getString("Status"));
-				  status_subscription.add(rs.getString("Subscription"));
-				  status_subscription.add(rs.getString("Store_ID"));
-				  paymentCombo.put(rs.getString("ID"), status_subscription);
-			  }
+			/* set up and execute the select query from payment_account table */
+			ps = conn.prepareStatement("SELECT * FROM payment_account WHERE ID != ?;");
+			ps.setString(1, current_id);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				ArrayList<String> status_subscription = new ArrayList<String>();
+				status_subscription.add(rs.getString("Status"));
+				status_subscription.add(rs.getString("Subscription"));
+				status_subscription.add(rs.getString("Store_ID"));
+				paymentCombo.put(rs.getString("ID"), status_subscription);
+			}
 
 			msg1.oldO = paymentCombo;
-			
-			/* set up and execute the select query from store table to get all the stores*/
+
+			/* set up and execute the select query from store table to get all the stores */
 			rs = conn.createStatement().executeQuery("SELECT * FROM store GROUP BY ID;");
 
 			while (rs.next())
 				stores.add(rs.getString("ID"));
 			msg1.freeUse = stores;
-			
+
 			client.sendToClient(msg1);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1352,7 +1370,7 @@ public class EchoServer extends AbstractServer {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * get the customer id for combobox in add comments to survey
 	 * 
@@ -1360,20 +1378,21 @@ public class EchoServer extends AbstractServer {
 	 * @param conn
 	 * @param client
 	 */
-	public static void 	GetComboForAddConclusion(Msg msg1, Connection conn, ConnectionToClient client) {
+	public static void GetComboForAddConclusion(Msg msg1, Connection conn, ConnectionToClient client) {
 		PreparedStatement ps;
 		ResultSet rs;
 		ArrayList<Survey> forCombo = new ArrayList<Survey>();
 
 		try {
-			 /*set up and execute the update query*/
-			  ps = conn.prepareStatement("SELECT * FROM survey WHERE Status = ?;");
-			  ps.setString(1, "No Active");
-			  rs = ps.executeQuery();
+			/* set up and execute the update query */
+			ps = conn.prepareStatement("SELECT * FROM survey WHERE Status = ?;");
+			ps.setString(1, "No Active");
+			rs = ps.executeQuery();
 			while (rs.next())
-				forCombo.add(new Survey(rs.getString("ID"), rs.getString("Date"), rs.getString("Num_Of_Participant"), rs.getString("Conclusion")));
+				forCombo.add(new Survey(rs.getString("ID"), rs.getString("Date"), rs.getString("Num_Of_Participant"),
+						rs.getString("Conclusion")));
 
-			if(forCombo.isEmpty())
+			if (forCombo.isEmpty())
 				msg1.newO = null;
 			else
 				msg1.newO = forCombo;
@@ -1385,95 +1404,81 @@ public class EchoServer extends AbstractServer {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	 /**
-	   * set the new details of customer by system manager
-	   * @param msg1
-	   * @param conn
-	   * @param client
-	   */
-	  public static void update_profile_by_manager(Msg msg1 ,Connection conn,ConnectionToClient client)
-	  {
-		  String customerID= ((ArrayList<String>)msg1.oldO).get(0);
-		  String privilege= ((ArrayList<String>)msg1.oldO).get(1);
-		  String status= ((ArrayList<String>)msg1.oldO).get(2);
-		  String subscription= ((ArrayList<String>)msg1.oldO).get(3);
-		  String store= ((ArrayList<String>)msg1.oldO).get(4);
 
-		  PreparedStatement ps;
-		  ResultSet rs;
-		  
-		  try
-		   {
-			  /*set up and execute the update privilege in person table */
-			  ps = conn.prepareStatement("UPDATE person SET Privilege=? WHERE ID=?;");
-			 
-			  ps.setString(1, privilege);
-			  ps.setString(2, customerID);
-			  ps.executeUpdate();
-			  
-			  /*set up and execute the update status in payment account table */
-			  ps = conn.prepareStatement("UPDATE payment_account SET Status=?, Subscription=?, Store_ID=? WHERE ID=?;");
-			 
-			  ps.setString(1, status);
-			  ps.setString(2, subscription);
-			  ps.setString(3, store);
-			  ps.setString(4, customerID);
-			  ps.executeUpdate();
-			  
-			  client.sendToClient(msg1);
-		   }
-		  catch (SQLException e) 
-		  	{
-				e.printStackTrace();
-		  	} 
-		  catch (IOException e) 
-		    {
-				e.printStackTrace();
-			}
-	  }
-	  
-	  
-	  /**
-	   * set the new details of customer by system manager
-	   * @param msg1
-	   * @param conn
-	   * @param client
-	   */
-	  public static void update_answer_complain(Msg msg1 ,Connection conn,ConnectionToClient client)
-	  {
-		  String complainID= ((Complain)msg1.oldO).getComplain_ID();
-		  String answer= ((Complain)msg1.oldO).getAnswer();
-		  String compensation= ((Complain)msg1.oldO).getCompensation();
+	/**
+	 * set the new details of customer by system manager
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static void update_profile_by_manager(Msg msg1, Connection conn, ConnectionToClient client) {
+		String customerID = ((ArrayList<String>) msg1.oldO).get(0);
+		String privilege = ((ArrayList<String>) msg1.oldO).get(1);
+		String status = ((ArrayList<String>) msg1.oldO).get(2);
+		String subscription = ((ArrayList<String>) msg1.oldO).get(3);
+		String store = ((ArrayList<String>) msg1.oldO).get(4);
 
-		  PreparedStatement ps;
-		  ResultSet rs;
-		  
-		  try
-		   {
-			  /*set up and execute the update complaint answer in complaint table */
-			  ps = conn.prepareStatement("UPDATE complaint SET Answer=?, Compensation=?, Status=? WHERE ID=?;");
-			  ps.setString(1, answer);
-			  ps.setString(2, compensation);
-			  ps.setString(3, "Closed");
-			  ps.setString(4, complainID);
-			  ps.executeUpdate();
-			  
-			  client.sendToClient(msg1);
-		   }
-		  catch (SQLException e) 
-		  	{
-				e.printStackTrace();
-		  	} 
-		  catch (IOException e) 
-		    {
-				e.printStackTrace();
-			}
-	  }
-	  
-	
-	
+		PreparedStatement ps;
+		ResultSet rs;
+
+		try {
+			/* set up and execute the update privilege in person table */
+			ps = conn.prepareStatement("UPDATE person SET Privilege=? WHERE ID=?;");
+
+			ps.setString(1, privilege);
+			ps.setString(2, customerID);
+			ps.executeUpdate();
+
+			/* set up and execute the update status in payment account table */
+			ps = conn.prepareStatement("UPDATE payment_account SET Status=?, Subscription=?, Store_ID=? WHERE ID=?;");
+
+			ps.setString(1, status);
+			ps.setString(2, subscription);
+			ps.setString(3, store);
+			ps.setString(4, customerID);
+			ps.executeUpdate();
+
+			client.sendToClient(msg1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * set the new details of customer by system manager
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static void update_answer_complain(Msg msg1, Connection conn, ConnectionToClient client) {
+		String complainID = ((Complain) msg1.oldO).getComplain_ID();
+		String answer = ((Complain) msg1.oldO).getAnswer();
+		String compensation = ((Complain) msg1.oldO).getCompensation();
+
+		PreparedStatement ps;
+		ResultSet rs;
+
+		try {
+			/* set up and execute the update complaint answer in complaint table */
+			ps = conn.prepareStatement("UPDATE complaint SET Answer=?, Compensation=?, Status=? WHERE ID=?;");
+			ps.setString(1, answer);
+			ps.setString(2, compensation);
+			ps.setString(3, "Closed");
+			ps.setString(4, complainID);
+			ps.executeUpdate();
+
+			client.sendToClient(msg1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * set the new comment in comments_survey table
 	 * 
@@ -1526,42 +1531,40 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
-	
-
 	/**
-	 * this function update the survey answers after each customer that took the survey
-	 * updated the Num_Of_Participant in the survey by on +1 
+	 * this function update the survey answers after each customer that took the
+	 * survey updated the Num_Of_Participant in the survey by on +1
+	 * 
 	 * @param msg
 	 * @param con
 	 * @param client
 	 */
-	public static void update_survey_answers(Object msg, Connection con, ConnectionToClient client)
-	{
-		   Msg msg1=(Msg) msg;
-		   Survey survey_answers=(Survey) msg1.oldO;
-		   PreparedStatement ps; 
-		   ResultSet rs;
-		   try {
-		    ps = con.prepareStatement("UPDATE " +msg1.getTableName()+" SET A1=A1+?, A2=A2+? , A3=A3+? ,A4=A4+? , A5=A5+? , A6=A6+?, Num_Of_Participant =Num_Of_Participant+1  WHERE ID=?;");
-		    ps.setInt(1, +survey_answers.getA1());
-		    ps.setInt(2, +survey_answers.getA2());
-		    ps.setInt(3, +survey_answers.getA3());
-		    ps.setInt(4, +survey_answers.getA4());
-		    ps.setInt(5, +survey_answers.getA5());
-		    ps.setInt(6, +survey_answers.getA6());
-		    ps.setString(7, survey_answers.getID());
-		    ps.executeUpdate();
-		   
-		   msg1.newO = survey_answers; 
-		   System.out.println("after the update in data base");
-		  //client.sendToClient(msg1); 
-		   }
-		   
-		  catch (SQLException e) 
-		  	{
-				e.printStackTrace();
-		  	}
-		 }
+	public static void update_survey_answers(Object msg, Connection con, ConnectionToClient client) {
+		Msg msg1 = (Msg) msg;
+		Survey survey_answers = (Survey) msg1.oldO;
+		PreparedStatement ps;
+		ResultSet rs;
+		try {
+			ps = con.prepareStatement("UPDATE " + msg1.getTableName()
+					+ " SET A1=A1+?, A2=A2+? , A3=A3+? ,A4=A4+? , A5=A5+? , A6=A6+?, Num_Of_Participant =Num_Of_Participant+1  WHERE ID=?;");
+			ps.setInt(1, +survey_answers.getA1());
+			ps.setInt(2, +survey_answers.getA2());
+			ps.setInt(3, +survey_answers.getA3());
+			ps.setInt(4, +survey_answers.getA4());
+			ps.setInt(5, +survey_answers.getA5());
+			ps.setInt(6, +survey_answers.getA6());
+			ps.setString(7, survey_answers.getID());
+			ps.executeUpdate();
+
+			msg1.newO = survey_answers;
+			System.out.println("after the update in data base");
+			// client.sendToClient(msg1);
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * get the different color/type for combobox in self item
@@ -1624,34 +1627,36 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-	/**--executing all items details to set in catalog--**/
+
+	/** --executing all items details to set in catalog-- **/
 	public static void ViewItems(Object msg, Connection con, ConnectionToClient client) {
 		Msg msg1 = (Msg) msg;
-		Statement stmt;
+		// Statement stmt;
 		ResultSet rs;
 		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery("SELECT Store_ID FROM payment_account WHERE ID=" + msg1.freeField);// checking if //
-																										// customer has
-																										// payment
-																										// account exist
+			// stmt = con.createStatement();
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM payment_account WHERE ID=? AND Store_ID=?");
+			ps.setString(1, msg1.freeField);
+			ps.setString(2, msg1.freeField2);
+			rs = ps.executeQuery();
 			if (!(rs.next()))
 				ViewItemsWithoutPaymentAccount(msg1, con, client);
 			else {
-				msg1.freeField = rs.getString(1); // set the current store_id
+				
 				ViewItemsWithPaymentAccount(msg1, con, client);
 			}
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	/**--Show catalog for a customer without payment account--**/
+	/** --Show catalog for a customer without payment account-- **/
 	public static void ViewItemsWithoutPaymentAccount(Object msg, Connection con, ConnectionToClient client) {
 		Msg msg1 = (Msg) msg;
 		Statement stmt1;
-		
+
 		ArrayList<Item_In_Catalog> Itc_arr = new ArrayList<Item_In_Catalog>();
 		try {
 			stmt1 = con.createStatement();
@@ -1659,16 +1664,16 @@ public class EchoServer extends AbstractServer {
 			rs1 = stmt1.executeQuery("SELECT * FROM " + msg1.getTableName());
 			while (rs1.next()) {
 				Item_In_Catalog Itc = new Item_In_Catalog();
-				MyFile f= new MyFile();
+				MyFile f = new MyFile();
 				Itc.setID(rs1.getString(1));
 				Itc.setName(rs1.getString(2));
 				Itc.setPrice(rs1.getFloat(3));
 				Itc.setDescription(rs1.getString(4));
-				f=getFileInfo(Itc.getID());
-				Itc.setImage(f);		
+				f = getFileInfo(Itc.getID());
+				Itc.setImage(f);
 				Itc_arr.add(Itc);
 			}
-			 rs1.close();
+			rs1.close();
 			msg1.newO = Itc_arr;
 			client.sendToClient(msg1);
 
@@ -1691,73 +1696,70 @@ public class EchoServer extends AbstractServer {
 		{
 			stmt1 = con.createStatement();
 			ResultSet rs1, rs2, rs3;
-			rs1 = stmt1.executeQuery("SELECT * FROM " + msg1.getTableName());
+			
+			PreparedStatement ps=con.prepareStatement("SELECT Item_ID,Amount,Sale_ID FROM store WHERE ID=? AND Type=?");
+			ps.setString(1,msg1.freeField2);
+			ps.setString(2,"Catalog");
+			rs1=ps.executeQuery();
 			while (rs1.next()) 
 			{
-				Item_In_Catalog Itc = new Item_In_Catalog();
-				MyFile f= new MyFile();
-				Itc.setID(rs1.getString(1));
-				Itc.setName(rs1.getString(2));
-				Itc.setPrice(rs1.getFloat(3));
-				Itc.setDescription(rs1.getString(4));
-				f=getFileInfo(Itc.getID());
-				Itc.setImage(f);		
-
-				PreparedStatement ps = con
-						.prepareStatement("SELECT Amount,Sale_ID FROM store WHERE ID=? AND Item_ID=?");
-				ps.setString(1, msg1.freeField);
-				ps.setString(2, Itc.getID());
-				rs2 = ps.executeQuery();
-				if (!(rs2.next())) 
+				PreparedStatement ps1=con.prepareStatement("SELECT * FROM item_in_catalog WHERE ID=?");
+				ps1.setString(1, rs1.getString(1)); 				
+				rs2=ps1.executeQuery();
+				
+				while(rs2.next()) 
 				{
-					Itc.setAmount(0);
-					Itc.setSale(null);
-					Itc_arr.add(Itc);
-					return;
-				}
-				else 
-				{
+					Item_In_Catalog Itc = new Item_In_Catalog();
+					MyFile f= new MyFile();
+					Itc.setID(rs2.getString(1));
+					Itc.setName(rs2.getString(2));
+					Itc.setPrice(rs2.getFloat(3));
+					Itc.setDescription(rs2.getString(4));
+					f=getFileInfo(Itc.getID());
+					Itc.setImage(f);	
+					Itc.setAmount(rs1.getInt(2));
 					Sale S = new Sale();
-					Itc.setAmount(rs2.getInt(1));
-					if (!(rs2.getString(2) == null))
+					if (!(rs2.getString(3) == null))
 					{					
-						PreparedStatement ps1 = con.prepareStatement("SELECT * FROM sales WHERE ID=?");
-						ps1.setString(1, rs2.getString(2));
-						rs3 = ps1.executeQuery();
+						PreparedStatement ps2 = con.prepareStatement("SELECT * FROM sales WHERE ID=?");
+						ps2.setString(1, rs1.getString(3));
+						rs3 = ps2.executeQuery();
 						while (rs3.next()) 
 						{
 							S.setID(rs3.getString(1));
 							S.setDescription(rs3.getString(2));
 							S.setDiscount(rs3.getString(3));
-							Itc.setSale(S);
-							
-						}
-
+							Itc.setSale(S);						
+						}//while rs3
 						rs3.close();
-						ps1.close();
+						ps2.close();
+					}//if			
+					
+					if(!(Itc.getSale().getID()==null))
+					{
+						Itc_arr.add(0, Itc);
 					}
+					else Itc_arr.add(Itc);
 				}
 				rs2.close();
-				ps.close();
-				if(!(Itc.getSale().getID()==null))
-				{
-					Itc_arr.add(0, Itc);
-				}
-				else Itc_arr.add(Itc);
-				
+				ps1.close();
 			}
-			rs1.close();
-			
+			rs1.close();			
 			msg1.newO=Itc_arr;		
-			 client.sendToClient(msg1);
-		} catch (SQLException e) {
+			client.sendToClient(msg1);
+		}//try		
+				
+		catch(SQLException e)
+		{
 			e.printStackTrace();
 		}
-		
-		  catch (IOException x) { System.err.println("unable to send msg to client"); }
+
+		catch(IOException x)
+		{
+		System.err.println("unable to send msg to client");
+		}
 	}
-	
-	
+
 	/**convert image to MyFile**/
 	public static MyFile getFileInfo(String id)
 	  {
@@ -1790,7 +1792,6 @@ public class EchoServer extends AbstractServer {
 		  
 		 return to_send;
 	  }
-		
 
 	/**
 	 * this method gets the product name and change it. gets two Objects(product)

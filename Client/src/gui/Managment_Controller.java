@@ -381,7 +381,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     			items = (TreeMap<String , String>)(((Msg) message).freeUse);
     			/*there is no active sale -> run in new thread the new window*/
             	Platform.runLater(new Runnable() {
-        			
+            		
         			@Override
         			public void run() {
         				 	try {

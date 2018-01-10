@@ -71,6 +71,9 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 	
 /**open the catalog window**/
 	public void back(ActionEvent event) throws IOException {
+		Itc.clear();
+		Itc_counter=0;
+		view_counter=0;
 		move(event, main.fxmlDir + "Main_menu_F.fxml");
 	}
 
@@ -103,15 +106,22 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 		msg.setSelect();
 		msg.setTableName("item_in_catalog");
 		msg.freeField=current_user.getUser_ID();//save current user id 
+		msg.freeField2=gui.Login_win.chosen_store; //save chosen store id
+		System.out.println("view catalog controller chosen stroe: "+msg.freeField2);
 		Login_win.to_Client.accept(msg); 
 	}
 
-	/*--setting default values by opening the catalog--*/
+	/**--setting default values by opening the catalog--**/
 	public void initCatalog(Object message)  {
 		
 		Msg tmp = (Msg) message;
 		Itc = (ArrayList<Item_In_Catalog>) tmp.newO;
 		Itc_counter=Itc.size();	
+		if(Itc_counter==1)
+		{
+			Prev_B.setDisable(true);
+			Next_B.setDisable(true);			
+		}
 		Prev_B.setDisable(true);
 		SetCounter(view_counter+1,Itc_counter);
 		SetDetailsGui(Itc.get(0)); //default view is the first item in the array
@@ -120,7 +130,7 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 	/**--Setting the current item details in gui--**/			
 	public void SetDetailsGui(Item_In_Catalog Itc)
 	{	
-Platform.runLater(new Runnable() {
+		Platform.runLater(new Runnable() {
 			
 			@Override
 			public void run() {
