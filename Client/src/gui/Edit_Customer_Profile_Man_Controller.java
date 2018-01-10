@@ -165,6 +165,7 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
    	status_combo.setDisable(false);
 	subscription_combo.setDisable(false);
 	store_combo.setDisable(false);
+	privilege_combo.setDisable(false);
 
 	/*set the privilege combobox by the specific customer id*/
    	for(String ID : customer_privilege.keySet())
@@ -252,6 +253,12 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
     	
     	/*turn off the error label*/
     	invalid_detailsL_ID.setVisible(false);
+    	
+    	/*set combboxe to disable except id*/
+    	status_combo.setDisable(true);
+    	subscription_combo.setDisable(true);
+    	store_combo.setDisable(true);
+    	privilege_combo.setDisable(true);
     	
     	/*set comboboxes*/
     	get_combobox();

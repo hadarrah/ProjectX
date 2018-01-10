@@ -347,16 +347,38 @@ public class EchoServer extends AbstractServer {
 	 * @param client
 	 */
 	public static void insert_new_complain(Msg msg1, Connection conn, ConnectionToClient client) {
+
 		Msg msg = (Msg) msg1;
 		Complain com = (Complain) msg1.oldO;
 		/** to create a random number for the complain id */
 		Random rand = new Random();
 		int n = rand.nextInt(5000) + 1;
+
+		
+		int new_id;
+		/**to create a random number for the complain id */
+	//	Random rand = new Random();
+		//int  n = rand.nextInt(5000) + 1;
+
 		try {
 			/** Building the query */
+
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO " + msg.getTableName()
 					+ "(`ID`, `Customer_ID`, `Text`, `Status`, `Date`, `Hour`) VALUES (?,?,?,?,?,?);");
 			ps.setString(1, Integer.toString(n));
+
+			
+			/* get the last ID of sale*/
+			PreparedStatement	ps1 = conn.prepareStatement("SELECT max(ID) FROM "+msg.getTableName()+";");
+			ResultSet	rs = ps1.executeQuery();
+			rs.next();
+			new_id = (rs.getInt(1)) + 1;
+
+			
+		/*	PreparedStatement ps =
+			conn.prepareStatement("INSERT INTO "+msg.getTableName()+ "(`ID`, `Customer_ID`, `Text`, `Status`, `Date`, `Hour`) VALUES (?,?,?,?,?,?);" );
+			ps.setInt(1,  new_id );*/
+
 			ps.setString(2, com.getCustomer_ID());
 			ps.setString(3, com.getUser_txt());
 			ps.setString(4, "Pending");
@@ -792,7 +814,11 @@ public class EchoServer extends AbstractServer {
 		Person employee = (Person) msg1.oldO;
 		PreparedStatement ps, psItem;
 		ResultSet rs, rsItem, rsClose;
+
 		String store, table = "";
+
+		//String store;
+
 		Sale sale = null;
 		SortedMap<String, String> items = new TreeMap<String, String>();
 		ArrayList<String> items_in_sale = new ArrayList<String>();
@@ -824,6 +850,7 @@ public class EchoServer extends AbstractServer {
 						sale = new Sale(store, rsClose.getString("Description"), rsClose.getString("Discount"));
 						sale.setID(rsClose.getString("ID"));
 					}
+
 					if (rs.getString("Table").equals("Item"))
 						table = "item";
 					else
@@ -833,12 +860,18 @@ public class EchoServer extends AbstractServer {
 					 * get the name of each item from the origin table that participant in the sale
 					 */
 					psItem = conn.prepareStatement(" SELECT * FROM " + table + " WHERE ID = ?;");
+
+					
+					/*get the name of each item from the origin table that participant in the sale*/
+				//	psItem = conn.prepareStatement(" SELECT * FROM item_in_catalog WHERE ID = ?;");
+
 					psItem.setString(1, rs.getString("Item_ID"));
 					rsItem = psItem.executeQuery();
 					rsItem.next();
 					items_in_sale.add(rsItem.getString("Name"));
 				} else // get the name of the item
 				{
+
 					if (rs.getString("Table").equals("Item"))
 						table = "item";
 					else
@@ -850,6 +883,17 @@ public class EchoServer extends AbstractServer {
 					rsItem = psItem.executeQuery();
 					rsItem.next();
 					items.put(rsItem.getString("ID"), rsItem.getString("Name"));
+
+					if(rs.getString("Table").equals("Catalog"))	//only for item from catalog
+					{
+						/*get the name of each item from the origin table*/
+						psItem = conn.prepareStatement(" SELECT * FROM item_in_catalog WHERE ID = ?;");
+						psItem.setString(1, rs.getString("Item_ID"));
+						rsItem = psItem.executeQuery();
+						rsItem.next();
+						items.put(rsItem.getString("ID"), rsItem.getString("Name"));
+					}
+
 				}
 			}
 
