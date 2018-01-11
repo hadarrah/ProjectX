@@ -151,7 +151,7 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 
 **Cart**<br/>
 - [ ] View item details option
-- [ ] Move card functionality Cart_Controller
+- [ ] Move card functionality from Cart_Controller to Cart entity
 
 **Card** <br/>
 - [ ] adding Card to order
