@@ -12,6 +12,7 @@ import action.Person;
 import action.Self_Item;
 import action.Cart;
 import action.Item;
+import action.Item_In_Catalog;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -61,19 +62,25 @@ public class Cart_Controller implements Initializable, ControllerI {
 		// If item is self item, input it with the value of 1;
 		if (t instanceof Self_Item)
 			this.itemToAmount.put(t, 1);
+		if (t instanceof Item_In_Catalog)
+			this.itemToAmount.put(t, 1);
+
 	}
 
 	public void removeFromSelected(ActionEvent event) {
 
 		if (selectedFromLV != null) {
+			if (selectedFromLV instanceof Self_Item) {
+				removedItems.add(new Self_Item((Self_Item) selectedFromLV));
+			} else {
+				removedItems.add(selectedFromLV);
+			}
 
-			removedItems.add(new Self_Item((Self_Item) selectedFromLV));
 			selectedItemsArr.remove(selectedFromLV);
 			selectedFromLV = null;
 
 			setSelected();
 			setTotalPrice();
-
 		}
 	}
 
@@ -189,11 +196,14 @@ public class Cart_Controller implements Initializable, ControllerI {
 				if (empty || item == null) {
 					setText(null);
 				} else {
-					if (item instanceof Self_Item)
+					if (item instanceof Self_Item) {
 						if (item.getName() != null)
 							setText(item.getName() + "  x 1");
 						else
 							setText("Self Item  x 1");
+					} else
+						setText(item.getName() + "  x " + item.getAmount());
+
 				}
 			}
 		});

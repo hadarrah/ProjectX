@@ -1697,7 +1697,7 @@ public class EchoServer extends AbstractServer {
 		try {
 			stmt1 = con.createStatement();
 			ResultSet rs1;
-			rs1 = stmt1.executeQuery("SELECT * FROM " + msg1.getTableName());
+			rs1 = stmt1.executeQuery("SELECT * FROM item_in_catalog");
 			while (rs1.next()) {
 				Item_In_Catalog Itc = new Item_In_Catalog();
 				MyFile f = new MyFile();
@@ -1707,6 +1707,7 @@ public class EchoServer extends AbstractServer {
 				Itc.setDescription(rs1.getString(4));
 				f = getFileInfo(Itc.getID());
 				Itc.setImage(f);
+				Itc.setAmount(-1);
 				Itc_arr.add(Itc);
 			}
 			rs1.close();

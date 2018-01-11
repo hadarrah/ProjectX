@@ -8,76 +8,32 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class Item_In_Catalog implements Serializable{
+public class Item_In_Catalog extends Item {
 	
-	private String ID;		
-	private String Name;
-	private float Price ;
+
 	private String Description;
-	private MyFile Image;
-	private int Amount;
 	private Sale Sale_ID;
 	
 	/**Default constructor**/
 	public  Item_In_Catalog()
 	{
-		this.ID=null;
-		this.Name=null;
-		this.Price=0;
-		this.Description=null;
-		this.Image=new MyFile();
-		this.Amount=-1;
+		super();		
+		this.Description=null;	
 		this.Sale_ID=new Sale();
+		
 	}
 	
-	/**Constructor with values**/
-	public  Item_In_Catalog(String ID, String Name,float Price,String Description,MyFile Image)
+	/**Copy constructor**/
+	public Item_In_Catalog(Item_In_Catalog Itc)
 	{
-		this.ID=ID;
-		this.Name=Name;
-		this.Price=Price;
-		this.Description=Description;
-		this.Image=Image;
-	}
-	
-	/**
-	 * @return the iD
-	 */
-	public String getID() {
-		return ID;
-	}
-	/**
-	 * @param iD the iD to set
-	 */
-	public void setID(String iD) {
-		ID = iD;
+		super.setID(Itc.getID());
+		super.setName(Itc.getName());
+		super.setAmount(Itc.getAmount());
+		super.setPrice(Itc.getPrice());
+		super.setType("Catalog");
 	}
 	
 	
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return Name;
-	}
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		Name = name;
-	}
-	/**
-	 * @return the price
-	 */
-	public float getPrice() {
-		return Price;
-	}
-	/**
-	 * @param price the price to set
-	 */
-	public void setPrice(float price) {
-		Price = price;
-	}
 	/**
 	 * @return the description
 	 */
@@ -90,18 +46,7 @@ public class Item_In_Catalog implements Serializable{
 	public void setDescription(String description) {
 		Description = description;
 	}
-	/**
-	 * @return the image
-	 */
-	public MyFile getImage() {
-		return Image;
-	}
-	/**
-	 * @param image the image to set
-	 */
-	public void setImage(MyFile image) {
-		Image = image;
-	}
+	
 	/**print all Item_id**/
 	public Set<String> PrintOnlyItemID(Set<Item>Item_ID)
 	{
@@ -112,19 +57,7 @@ public class Item_In_Catalog implements Serializable{
 		}
 		return id_to_print;
 	}
-	/**
-	 * @return the amount
-	 */
-	public int getAmount() {
-		return Amount;
-	}
-
-	/**
-	 * @param amount the amount to set
-	 */
-	public void setAmount(int amount) {
-		Amount = amount;
-	}
+	
 
 	/**
 	 * @return the sale

@@ -51,8 +51,9 @@ public class Managment_Controller implements Initializable,ControllerI {
 	public static ArrayList<String> item_in_sale;
 	public static Survey current_survey;
 
-    public void update_Catalog(ActionEvent event) {
-
+    public void update_Catalog(ActionEvent event) throws IOException {
+    	
+    	move(event,main.fxmlDir+ "View_Catalog1.fxml");
     }
 
     public void back(ActionEvent event) throws IOException {

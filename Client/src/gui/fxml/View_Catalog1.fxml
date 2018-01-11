@@ -23,64 +23,64 @@
             <Font name="Arial Black" size="45.0" />
          </font>
       </Text>
-      <Pane fx:id="borderPane" layoutX="50.0" layoutY="103.0" prefHeight="400.0" prefWidth="400.0" style="-fx-border-color: black;">
+      <Pane fx:id="borderPane" layoutX="15.0" layoutY="105.0" prefHeight="400.0" prefWidth="469.0" style="-fx-border-color: black;">
          <children>
-            <Label layoutX="21.0" layoutY="207.0" prefHeight="30.0" text="ID:" textFill="#2700c2">
+            <Label layoutX="21.0" layoutY="189.0" prefHeight="30.0" text="ID:" textFill="#2700c2">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="21.0" layoutY="236.0" text="Name:" textAlignment="CENTER" textFill="#2700c2">
+            <Label layoutX="21.0" layoutY="228.0" text="Name:" textAlignment="CENTER" textFill="#2700c2">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="22.0" layoutY="302.0" prefHeight="30.0" text="Price:" textAlignment="CENTER" textFill="#2700c2">
+            <Label layoutX="22.0" layoutY="316.0" prefHeight="30.0" text="Price:" textAlignment="CENTER" textFill="#2700c2">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lblAmount" layoutX="20.0" layoutY="333.0" prefHeight="30.0" text="Amount:" textAlignment="CENTER" textFill="#2700c2">
+            <Label fx:id="lblAmount" layoutX="20.0" layoutY="358.0" prefHeight="30.0" text="Amount:" textAlignment="CENTER" textFill="#2700c2">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="21.0" layoutY="264.0" prefHeight="30.0" text="Description:" textAlignment="CENTER" textFill="#2700c2">
+            <Label layoutX="21.0" layoutY="266.0" prefHeight="30.0" text="Description:" textAlignment="CENTER" textFill="#2700c2">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Text fx:id="txtDescription" fill="#322b2b" layoutX="130.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="desc" textAlignment="CENTER" wrappingWidth="255.0">
+            <Text fx:id="txtDescription" fill="#322b2b" layoutX="130.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="desc" textAlignment="CENTER" wrappingWidth="255.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <ImageView fx:id="Itemimg" fitHeight="170.0" fitWidth="170.0" layoutX="115.0" layoutY="22.0" pickOnBounds="true" smooth="false">
+            <ImageView fx:id="Itemimg" fitHeight="170.0" fitWidth="170.0" layoutX="151.0" layoutY="12.0" pickOnBounds="true" smooth="false">
                <viewport>
                   <Rectangle2D />
                </viewport>
             </ImageView>
-            <Text fx:id="txtID" fill="#322b2b" layoutX="128.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="id" textAlignment="CENTER" wrappingWidth="255.0">
+            <Text fx:id="txtID" fill="#322b2b" layoutX="128.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="id" textAlignment="CENTER" wrappingWidth="255.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="txtName" fill="#322b2b" layoutX="128.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="name" textAlignment="CENTER" wrappingWidth="255.0">
+            <Text fx:id="txtName" fill="#322b2b" layoutX="128.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="name" textAlignment="CENTER" wrappingWidth="255.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="txtAmount" fill="#322b2b" layoutX="128.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="amount" textAlignment="CENTER" wrappingWidth="255.0">
+            <Text fx:id="txtAmount" fill="#322b2b" layoutX="128.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="amount" textAlignment="CENTER" wrappingWidth="255.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text fx:id="txtPrice" fill="#322b2b" layoutX="128.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="price" textAlignment="CENTER" wrappingWidth="255.0">
+            <Text fx:id="txtPrice" fill="#322b2b" layoutX="128.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="price" textAlignment="CENTER" wrappingWidth="255.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Label fx:id="lblSale" layoutX="122.0" layoutY="373.0" prefHeight="25.0" prefWidth="147.0" style="-fx-background-color: yellow; -fx-border-color: red;" text="Sale" textAlignment="CENTER" textFill="#e40707">
+            <Label fx:id="lblSale" alignment="TOP_CENTER" cacheHint="ROTATE" contentDisplay="CENTER" layoutX="-17.0" layoutY="18.0" lineSpacing="20.0" mouseTransparent="true" prefHeight="25.0" prefWidth="147.0" rotate="-25.6" style="-fx-background-color: yellow; -fx-border-color: red;" text="Sale" textAlignment="CENTER" textFill="#e40707" visible="false">
                <font>
                   <Font name="Goudy Stout" size="14.0" />
                </font>
@@ -88,22 +88,44 @@
                   <DropShadow />
                </effect>
             </Label>
+            <ComboBox fx:id="cbxAmount" layoutX="303.0" layoutY="358.0" prefHeight="27.0" prefWidth="55.0" promptText="1" style="-fx-border-color: red;" visible="false" />
+            <Label fx:id="lblOutOfStock" alignment="CENTER" layoutX="-17.0" layoutY="18.0" prefHeight="25.0" prefWidth="147.0" rotate="-25.6" style="-fx-background-color: red; -fx-border-color: white;" text="Out Of Stock" textAlignment="CENTER" textFill="#fcf8f8" visible="false">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="Goudy Stout" size="10.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Button fx:id="back_B" layoutY="574.0" mnemonicParsing="false" onAction="#back" text="Back" />
-      <Button fx:id="Prev_B" layoutX="50.0" layoutY="503.0" mnemonicParsing="false" onAction="#prevItem" text="&lt;&lt;Prev" />
-      <Button fx:id="Next_B" layoutX="392.0" layoutY="503.0" mnemonicParsing="false" onAction="#nextItem" text="Next&gt;&gt;" />
-      <Text fx:id="txtCounter" layoutX="239.0" layoutY="516.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+      <Button fx:id="Prev_B" layoutX="15.0" layoutY="506.0" mnemonicParsing="false" onAction="#prevItem" text="&lt;&lt;Prev" />
+      <Button fx:id="Next_B" layoutX="428.0" layoutY="506.0" mnemonicParsing="false" onAction="#nextItem" text="Next&gt;&gt;" />
+      <Text fx:id="txtCounter" layoutX="239.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Text>
-      <Label fx:id="lblOutOfStock" layoutX="146.0" layoutY="476.0" prefHeight="25.0" prefWidth="190.0" style="-fx-background-color: red; -fx-border-color: white;" text="Out Of Stock" textAlignment="CENTER" textFill="#fcf8f8" visible="false">
-         <effect>
-            <DropShadow />
-         </effect>
-         <font>
-            <Font name="Goudy Stout" size="14.0" />
-         </font>
-      </Label>
+      <Button fx:id="AddToCart_B" layoutX="214.0" layoutY="506.0" mnemonicParsing="false" onAction="#AddToCart" text="Add to cart" />
+      <Button fx:id="OK_B" layoutX="233.0" layoutY="504.0" mnemonicParsing="false" onAction="#OK" prefHeight="27.0" prefWidth="40.0" text="OK" visible="false" />
+      <Pane fx:id="ManagePane" layoutX="120.0" layoutY="506.0" minHeight="50.0" prefWidth="260.0" style="-fx-background-color: blue; -fx-border-color: black;" visible="false">
+         <children>
+            <Button fx:id="Add_B" layoutX="190.0" layoutY="10.0" mnemonicParsing="false" onAction="#AddToCart" prefHeight="30.0" prefWidth="60.0" text="Add">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="Edit_B" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#AddToCart" prefHeight="30.0" prefWidth="60.0" text="Edit">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="Delete_B" layoutX="100.0" layoutY="10.0" mnemonicParsing="false" onAction="#AddToCart" prefHeight="30.0" prefWidth="60.0" text="Delete">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
    </children>
 </Pane>

@@ -10,7 +10,7 @@ public class Item implements Serializable{
 	private String Color;
 	private float Price;
 	private String Type;	
-	private String Image;
+	private MyFile Image;
 	private int Amount;
 	
 	/**constructor**/
@@ -21,6 +21,7 @@ public class Item implements Serializable{
 		this.Color=null;
 		this.Price=0;
 		this.Type=null;
+		
 	}
 	
 	/**
@@ -88,16 +89,7 @@ public class Item implements Serializable{
 	/**
 	 * @return the image
 	 */
-	public String getImage() {
-		return Image;
-	}
-
-	/**
-	 * @param image the image to set
-	 */
-	public void setImage(String image) {
-		Image = image;
-	}
+	
 	
 	public String toString()
 	{
@@ -117,6 +109,20 @@ public class Item implements Serializable{
 	 */
 	public void setAmount(int amount) {
 		Amount = amount;
+	}
+
+	/**
+	 * @return the image
+	 */
+	public MyFile getImage() {
+		return Image;
+	}
+
+	/**
+	 * @param image the image to set
+	 */
+	public void setImage(MyFile image) {
+		Image = image;
 	}
 	
 }

@@ -16,6 +16,7 @@ import action.Self_Item;
 import action.Cart;
 import action.Delivery;
 import action.Item;
+import action.Item_In_Catalog;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -360,8 +361,29 @@ public class Order_Controller implements Initializable, ControllerI {
 				}
 				}
 			}
+			else {
+				
+				
+				for(int k=0; k<newarr.size(); k++) {	//for every existing item in order, check if it is in
+					
+					Item check = newarr.get(k);
+					if(itemincart.getID().equals(check.getID()))	//equals->compares ID
+					{
+						int amnt = itemincart.getAmount();	//how many of this item in the self item
+						int have = newamounts.get(itemincart.getID());	//how many we have in new order amounts						
+						int newtotal = amnt+have;		//new amount						
+						newamounts.put(itemincart.getID(), newtotal);	//update the map
+						newItem=false;
+						k=newarr.size();					//exit the loop
+					}
+				}
+				if(newItem) { //if item does not appear;
+					int amnt = itemincart.getAmount();
+					newarr.add(itemincart);
+					newamounts.put(itemincart.getID(), amnt);
+				}
+			}
 		}
-		
 		
 		Msg msg = new Msg();
 

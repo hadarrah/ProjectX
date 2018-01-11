@@ -87,15 +87,12 @@ public class Login_win  implements ControllerI,Initializable  {
 	
 	
 	public void get_comfirmation(Object obj) 
-	{
-		
+	{	
 		
 	 	Msg msg=(Msg) obj;
 		Person user=(Person) msg.newO;	
 		ObservableList<String> list = FXCollections.observableArrayList(user.getStore());
-		cbxStore.setItems(list);
-				
-		
+		cbxStore.setItems(list);		
 		current_user_pay_account=(Payment_Account)msg.oldO;
 		if(user.isAlreadyConnected()==true) {
 			already_conL.setVisible(true);
@@ -119,8 +116,7 @@ public class Login_win  implements ControllerI,Initializable  {
 			  /*choosing store option*/
 			  if (user.getStore().size()>1)
 				{	
-				  	cbxStore.setVisible(true);
-				  
+				  	cbxStore.setVisible(true);				  
 					BOK.setVisible(true);					
 					Blogin.setVisible(false);
 					while(cbxStore.getSelectionModel().getSelectedItem()==null)
