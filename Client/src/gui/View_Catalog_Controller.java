@@ -1,6 +1,5 @@
 package gui;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -49,6 +48,7 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 
 	public Label lblSale;
 	public Label lblAmount;
+	public Label lblOutOfStock;
 	public Button Prev_B;
 	public Button back_B;
 	public Button Next_B;	
@@ -143,12 +143,15 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 					txtPrice.setText(""+Itc.getPrice());
 					txtDescription.setText(Itc.getDescription());
 					txtAmount.setText(""+Itc.getAmount());
+					if(Itc.getAmount()==0) lblOutOfStock.setVisible(true);
+					else lblOutOfStock.setVisible(false);
 					Image img=CreateImage(Itc.getImage());
 					Itemimg.setImage(img);
 					if(!(Itc.getSale().getID()==null))
 					{
 						lblSale.setVisible(true);
-						lblSale.setText("Sale: "+(Itc.getSale().getDiscount()+"%"));
+						lblSale.setText(" Sale: "+(Itc.getSale().getDiscount()+"%"));
+						
 					}
 					else lblSale.setVisible(false);
 				
@@ -156,7 +159,7 @@ public class View_Catalog_Controller  implements ControllerI, Initializable  {
 		}); 
 			
 	}
-	/**create an image from bytearray**/
+	/**create an image from byte array**/
 	public Image CreateImage (Object msg)
 	  {
 		  MyFile mf = (MyFile)msg;
