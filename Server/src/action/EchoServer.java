@@ -148,9 +148,11 @@ public class EchoServer extends AbstractServer {
 			}
 			case "UPDATE": {
 				//System.out.println("in server- update case: "+msg1.getRole());
-				if(msg1.getRole().equals("update item in catalog"))
+				if(msg1.getRole().equals("delete item from catalog"))
+				DeleteItem(msg1,conn,client);
+				else if(msg1.getRole().equals("update item in catalog"))
 					UpdateItem(msg1,conn,client);
-				if (msg1.getRole().equals("user logout"))
+				else if (msg1.getRole().equals("user logout"))
 					change_online_status(msg1, conn, "0");
 				else if (msg1.getRole().equals("update user details"))
 					Update_user_details(msg1, conn, client);
@@ -1699,7 +1701,7 @@ public class EchoServer extends AbstractServer {
 		try {
 			stmt1 = con.createStatement();
 			ResultSet rs1;
-			rs1 = stmt1.executeQuery("SELECT * FROM item_in_catalog");
+			rs1 = stmt1.executeQuery("SELECT * FROM item_in_catalog WHERE Status='Active'");
 			while (rs1.next()) {
 				Item_In_Catalog Itc = new Item_In_Catalog();
 				MyFile f = new MyFile();
@@ -1872,6 +1874,20 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
+	public static void DeleteItem(Object msg,Connection con, ConnectionToClient client) throws IOException {
+		Msg msg1=(Msg)msg;
+		try {
+			PreparedStatement ps = con.prepareStatement("UPDATE item_in_catalog SET Status=? WHERE ID=?");
+			ps.setString(1, "Deleted");
+			ps.setString(2,msg1.freeField );
+			ps.executeUpdate();
+			client.sendToClient(msg1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 
 	/**
 	 * this method gets the name of a product sends back the products details

@@ -162,7 +162,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 			if (txtName.getText().equals(""))
 				xName.setVisible(true);
 			else {
-
+				
 				xName.setVisible(false);
 			}
 			if (txtDescription.getText().equals(""))
@@ -189,6 +189,12 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 			}
 
 		}
+		txtName.setStyle("");
+		txtDescription.setStyle("");
+		txtPrice.setStyle("");
+		txtName.setEditable(false);
+		txtDescription.setEditable(false);
+		txtPrice.setEditable(false);
 		tmp.setID(txtID.getText());
 		tmp.setName(txtName.getText());
 		tmp.setDescription(txtDescription.getText());		
@@ -205,23 +211,37 @@ Platform.runLater(new Runnable() {
 			
 			@Override
 			public void run() {
-				 	try {
-				 	    Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");
-						move(log , main.fxmlDir+ "View_Catalog1.fxml");
-						txtName.getStyleClass().clear();
-						txtName.setStyle(null);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}  
+				 	Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");	
+				 		//move(event_log , main.fxmlDir+ "Managment_F.fxml");  
 				
 			}
 		}); 
+		
+		
+	}
+	public void delete_item_success(Object msg)
+	{
+Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				 	Login_win.showPopUp("INFORMATION", "Message", "Delete Done successfully", "");
+				 	init();
+				 		//move(event_log , main.fxmlDir+ "Managment_F.fxml");  
+				
+			}
+		}); 
+		
+		
 	}
 
 	/** change item status to deleted **/
 	public void DeleteCatalog(ActionEvent event) throws IOException {
-
+		Msg msg = new Msg();
+		msg.freeField= txtID.getText();		
+		msg.setRole("delete item from catalog");
+		msg.setUpdate();
+		Login_win.to_Client.accept(msg);
 	}
 
 	/** Reset catalog view **/
@@ -266,7 +286,7 @@ Platform.runLater(new Runnable() {
 				txtID.setText(It.getID());
 				txtName.setText(It.getName());
 				txtPrice.setText("" + It.getPrice());
-				txtDescription.appendText(It.getDescription());
+				txtDescription.setText(It.getDescription());
 				txtAmount.setText("" + It.getAmount());
 				if (It.getAmount() == 0) {
 					lblOutOfStock.setVisible(true);
