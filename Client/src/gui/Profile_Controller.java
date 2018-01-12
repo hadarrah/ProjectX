@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -51,7 +52,16 @@ public class Profile_Controller implements ControllerI,Initializable {
 		 if(!(current_user.getPrivilege().equals("Customer"))) {
 		 details="WWID:"+current_user.getWWID();
 		 details_txt.appendText(details+"\n\n\n");
+		  }
 		 
+		
+		 
+		 
+		 
+		 /*
+		if(!(gui.Login_win.current_user_pay_account.getCreditCard()==null)) 
+		{
+			
 		
 		 details="Account Details";
 		 details_txt.appendText("\t\t\t"+details+"\n\n");
@@ -63,7 +73,13 @@ public class Profile_Controller implements ControllerI,Initializable {
 		 details="Status:"+gui.Login_win.current_user_pay_account.getStatus();
 		 details_txt.appendText(details+"\n\n");
 		 }
-
+		else {
+			 details="Payment Account wasn't set yet- Please Contact the store manager !";
+			 details_txt.setFont(new Font("Verdana", 12));
+			 details_txt.appendText("\t\t\t"+details+"\n\n");
+			
+		}
+		 */
  	}
 	
 	

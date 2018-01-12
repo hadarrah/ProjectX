@@ -54,6 +54,7 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     
     /**
      * set the initial info in the form according the current user
+     * if there is no order for this user shows a msg and return to the main menu
      * @param o
      */
     public void SetOrdersIds(Object o)
@@ -61,6 +62,17 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     	Msg msg=new Msg();
     	msg=(Msg)o;
     	orders=(ArrayList<Order>) msg.newO;
+    	/*this user has no order*/
+    	if(orders.size()<1)
+    	{
+    		
+    		Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					Login_win.showPopUp("ERROR", "Message", "You dont have any Orders in your account", "");
+				}});
+    	}
     	ArrayList<String>orders_id=new ArrayList<String>();
     	
     	

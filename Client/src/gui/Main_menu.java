@@ -35,15 +35,13 @@ import javafx.stage.WindowEvent;
 
 public class Main_menu implements Initializable, ControllerI {
 
-	public ColorPicker color_PICK;
 	public Button mannag_B, back_B, user_profile_B;
 	public Label main_label, lblStore;
 	// public JFXButton take_survey_B;
 	public static Person current_user;
 	public boolean logout_flag;
 	public Button view_catalog_B, cancel_order_B, self_item_B, complain_B;
-
-	public static ActionEvent event_l;
+	public static ActionEvent event_l,event_n;
 	public static Cart userCart;
 
 	public void back_logOut(ActionEvent event) throws IOException {
@@ -128,6 +126,9 @@ public class Main_menu implements Initializable, ControllerI {
 	}
 
 	public void cancel_order(ActionEvent event) throws IOException {
+		
+		 event_n =new ActionEvent();		 
+		 event_n=event.copyFor(event.getSource(), event.getTarget());
 
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Cancel_Order_F.fxml"));
