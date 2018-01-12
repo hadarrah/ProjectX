@@ -99,7 +99,7 @@ public class EchoServer extends AbstractServer {
 			case "SELECT": {
 
 				if (msg1.getRole().equals("View all catalog items"))
-					ViewItems(msg1, conn, client);
+					ViewItems(msg1, conn, client); 
 				else if (msg1.getRole().equals("check if user already did this survey"))
 					check_if_user_took_this_survey(msg1, conn, client);
 				else if (msg1.getRole().equals("verify user details"))
@@ -147,6 +147,9 @@ public class EchoServer extends AbstractServer {
 			
 			}
 			case "UPDATE": {
+				//System.out.println("in server- update case: "+msg1.getRole());
+				if(msg1.getRole().equals("update item in catalog"))
+					UpdateItem(msg1,conn,client);
 				if (msg1.getRole().equals("user logout"))
 					change_online_status(msg1, conn, "0");
 				else if (msg1.getRole().equals("update user details"))
@@ -1668,19 +1671,18 @@ public class EchoServer extends AbstractServer {
 	public static void ViewItems(Object msg, Connection con, ConnectionToClient client) {
 		Msg msg1 = (Msg) msg;
 		// Statement stmt;
-		ResultSet rs;
+		
 		try {
 			// stmt = con.createStatement();
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM payment_account WHERE ID=? AND Store_ID=?");
 			ps.setString(1, msg1.freeField);
 			ps.setString(2, msg1.freeField2);
-			rs = ps.executeQuery();
-			if (!(rs.next()))
+			ResultSet rs = ps.executeQuery();
+			if((rs.next()))
+				ViewItemsWithPaymentAccount(msg1, con, client);						
+			else 
 				ViewItemsWithoutPaymentAccount(msg1, con, client);
-			else {
 				
-				ViewItemsWithPaymentAccount(msg1, con, client);
-			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1736,12 +1738,14 @@ public class EchoServer extends AbstractServer {
 			
 			PreparedStatement ps=con.prepareStatement("SELECT Item_ID,Amount,Sale_ID FROM store WHERE ID=? AND Type=?");
 			ps.setString(1,msg1.freeField2);
-			ps.setString(2,"Catalog");
+			ps.setString(2,"Catalog");			
 			rs1=ps.executeQuery();
+			
 			while (rs1.next()) 
 			{
-				PreparedStatement ps1=con.prepareStatement("SELECT * FROM item_in_catalog WHERE ID=?");
-				ps1.setString(1, rs1.getString(1)); 				
+				PreparedStatement ps1=con.prepareStatement("SELECT * FROM item_in_catalog WHERE ID=? AND Status=?");
+				ps1.setString(1, rs1.getString(1)); 
+				ps1.setString(2, "Active"); 	
 				rs2=ps1.executeQuery();
 				
 				while(rs2.next()) 
@@ -1802,7 +1806,7 @@ public class EchoServer extends AbstractServer {
 	  {
 		 
 		  String fileLocation;		
-		  fileLocation=System.getProperty("user.dir")+File.separator+"Pictures"+File.separator +id+".jpg";
+		  fileLocation=System.getProperty("user.dir")+File.separator+"Pictures"+File.separator +"Itc"+id+".jpg";
 		  MyFile to_send=new MyFile(id+".jpg");
 		  to_send.setDescription(fileLocation);
 		  try{
@@ -1836,25 +1840,27 @@ public class EchoServer extends AbstractServer {
 	 * @param con
 	 * @param msg
 	 * @param client
+	 * @throws IOException 
 	 */
-	public static void UpdateItem(Connection con, Object msg, ConnectionToClient client) {
-		String ans = "Update done";
+	public static void UpdateItem(Object msg,Connection con, ConnectionToClient client) throws IOException {
+		
 		Msg msg1 = (Msg) msg;
-		Item p_old = (Item) msg1.oldO;
-		Item p_new = (Item) msg1.newO;
+		Item_In_Catalog tmp=(Item_In_Catalog)msg1.newO;
+		
+		
 		try {
 			PreparedStatement ps = con.prepareStatement(
-					"UPDATE hw2.product SET ProductId=?,ProductName=?,ProductType=? WHERE ProductName=?");
+					"UPDATE item_in_catalog SET Name=?,Price=?,Description=? WHERE ID=?");
 
 			/* insert the names to the query */
-			ps.setString(1, p_new.getID());
-			ps.setString(2, p_new.getName());
-			ps.setString(3, p_new.getType());
-			ps.setString(4, p_old.getName());
-
+			ps.setString(1,tmp.getName());
+			ps.setString(2, ""+tmp.getPrice());
+			ps.setString(3, tmp.getDescription());
+			ps.setString(4, tmp.getID());
 			ps.executeUpdate();
+			ps.close();			
 
-			client.sendToClient(ans);
+			client.sendToClient(msg1);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1863,8 +1869,6 @@ public class EchoServer extends AbstractServer {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-		} catch (IOException x) {
-			System.err.println("unable to send msg to client");
 		}
 
 	}
@@ -1904,6 +1908,11 @@ public class EchoServer extends AbstractServer {
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}
 	}
+	public static void update_item_in_catalog(Object msg, Connection con, ConnectionToClient client) {
+		Msg msg1=(Msg)msg;
+		
+	}
+	
 
 	/**
 	 * This method overrides the one in the superclass. Called when the server

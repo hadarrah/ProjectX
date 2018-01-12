@@ -50,9 +50,10 @@ public class Managment_Controller implements Initializable,ControllerI {
 	public static Sale sale;
 	public static ArrayList<String> item_in_sale;
 	public static Survey current_survey;
+	public static int ManagmentFlage=0;
 
     public void update_Catalog(ActionEvent event) throws IOException {
-    	
+    	ManagmentFlage=1;    	
     	move(event,main.fxmlDir+ "View_Catalog1.fxml");
     }
 

@@ -183,7 +183,10 @@ public class ClientConsole implements ChatIF {
 			}
 			 if(check.getType().equals("UPDATE"))
 			 {
-				 if(check.getRole().equals("close survey"))
+				 
+				 if(check.getRole().equals("update item in catalog"))
+						((gui.View_Catalog_Controller) mc).update_item_success(message);
+				 else if(check.getRole().equals("close survey"))
 					 ((gui.Close_Survey_Controller)mc).close_survey_success(message);
 				 else if(check.getRole().equals("set comment survey"))
 					 ((gui.Add_Comments_Controller)mc).update_comment_survey_success(message);

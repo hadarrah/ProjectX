@@ -39,9 +39,9 @@ public class Menu_controller implements ControllerI, Initializable {
 	 {
 	    ArrayList<String> al= (ArrayList<String>)message;
 	    list = FXCollections.observableArrayList(al); 
-	   product_list.setItems(list);
-	      
+	   product_list.setItems(list);	      
 	 }
+	
 	/**
 	 * after the user click on VIEW_INFO button -> a new window is shown
 	 * If the user didn't choose a product -> show error msg 

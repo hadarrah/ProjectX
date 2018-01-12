@@ -21,6 +21,7 @@ public class Item implements Serializable{
 		this.Color=null;
 		this.Price=0;
 		this.Type=null;
+		this.Image=new MyFile();
 		
 	}
 	

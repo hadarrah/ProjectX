@@ -20,6 +20,7 @@ public class Item_In_Catalog extends Item {
 		super();		
 		this.Description=null;	
 		this.Sale_ID=new Sale();
+		
 	}
 	
 	/**Copy constructor**/

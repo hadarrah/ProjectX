@@ -49,9 +49,6 @@ public class Login_win  implements ControllerI,Initializable  {
 	public static Payment_Account current_user_pay_account;
 	public static ActionEvent event_log;
 	public static String chosen_store;
-	
-	 
-	
 	 
 	
 	public void hit_login(ActionEvent event) throws IOException, InterruptedException
@@ -174,7 +171,6 @@ public class Login_win  implements ControllerI,Initializable  {
 	/**open the next window after choosing a store**/
 	public void Ok(ActionEvent event)throws IOException 
 	{
-		System.out.println(chosen_store);	
 		 Platform.runLater(new Runnable() {
 				
 				@Override
@@ -185,8 +181,7 @@ public class Login_win  implements ControllerI,Initializable  {
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-						}  
-					
+						} 					
 				}
 			}); 	  
 	}
