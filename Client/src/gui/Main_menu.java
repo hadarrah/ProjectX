@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-
 //import com.jfoenix.controls.JFXButton;
 
 import action.Complain;
@@ -38,17 +37,18 @@ public class Main_menu implements Initializable, ControllerI {
 
 	public ColorPicker color_PICK;
 	public Button mannag_B, back_B, user_profile_B;
-	public Label main_label;
-	//public JFXButton take_survey_B;
+	public Label main_label, lblStore;
+	// public JFXButton take_survey_B;
 	public static Person current_user;
 	public boolean logout_flag;
 	public Button view_catalog_B, cancel_order_B, self_item_B, complain_B;
-	 
+
 	public static ActionEvent event_l;
 	public static Cart userCart;
 
 	public void back_logOut(ActionEvent event) throws IOException {
 		logout_flag = false;
+		lblStore.setVisible(false);
 		show_logout_msg();
 
 		/* logout process */
@@ -75,7 +75,7 @@ public class Main_menu implements Initializable, ControllerI {
 	}
 
 	public void catalog(ActionEvent event) throws IOException {
-		
+
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "View_Catalog1.fxml"));
 		// to_Client.setController(new Managment_Controller());
@@ -126,9 +126,7 @@ public class Main_menu implements Initializable, ControllerI {
 		win_1.setScene(win1);
 		win_1.show();
 	}
-	
-	
-	
+
 	public void cancel_order(ActionEvent event) throws IOException {
 
 		Parent menu;
@@ -150,22 +148,20 @@ public class Main_menu implements Initializable, ControllerI {
 		win_1.show();
 	}
 
-	/*/* check if the user already took this survey *//*
-	/public void take_survey(ActionEvent event) throws IOException {
-
-		event_l = new ActionEvent();
-		event_l = event.copyFor(event.getSource(), event.getTarget());
-		
-		Msg msg = new Msg();
-		msg.setSelect();
-		msg.setRole("check if user already did this survey");
-		msg.setTableName("comments_survey");
-		msg.newO = current_user;
-		msg.oldO = current_survey;
-		Login_win.to_Client.accept(msg);
-
-	}
-*/
+	/* /* check if the user already took this survey *//*
+														 * /public void take_survey(ActionEvent event) throws
+														 * IOException {
+														 * 
+														 * event_l = new ActionEvent(); event_l =
+														 * event.copyFor(event.getSource(), event.getTarget());
+														 * 
+														 * Msg msg = new Msg(); msg.setSelect();
+														 * msg.setRole("check if user already did this survey");
+														 * msg.setTableName("comments_survey"); msg.newO = current_user;
+														 * msg.oldO = current_survey; Login_win.to_Client.accept(msg);
+														 * 
+														 * }
+														 */
 	public void survey_premession(Object o) {
 		Msg msg = (Msg) o;
 
@@ -227,8 +223,6 @@ public class Main_menu implements Initializable, ControllerI {
 
 	}
 
-
-
 	public void check_for_complaints() {
 		Msg getCustomer = new Msg();
 		getCustomer.setSelect();
@@ -270,10 +264,13 @@ public class Main_menu implements Initializable, ControllerI {
 		Login_win.to_Client.setController(this);
 		userCart = new Cart();
 		current_user = gui.Login_win.current_user;
+		if (!(Login_win.titelStore == null)) {
+			lblStore.setText("Welcome to " + Login_win.titelStore);
+			lblStore.setVisible(true);
+		}
 		if (!(current_user.getPrivilege().equals("Customer"))) {
 			mannag_B.setVisible(true);
 		}
-
 
 		if (current_user.getPrivilege().equals("Customer Service Employee"))
 			check_for_complaints();

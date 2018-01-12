@@ -227,7 +227,7 @@ Platform.runLater(new Runnable() {
 			public void run() {
 				 	Login_win.showPopUp("INFORMATION", "Message", "Delete Done successfully", "");
 				 	init();
-				 		//move(event_log , main.fxmlDir+ "Managment_F.fxml");  
+				 		
 				
 			}
 		}); 

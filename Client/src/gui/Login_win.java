@@ -49,11 +49,13 @@ public class Login_win  implements ControllerI,Initializable  {
 	public static Payment_Account current_user_pay_account;
 	public static ActionEvent event_log;
 	public static String chosen_store;
+	public static String titelStore;
 	 
 	
 	public void hit_login(ActionEvent event) throws IOException, InterruptedException
 	{
 		chosen_store=null;
+		titelStore=null;
 		/*saves the login button event*/	 
 		 event_log =new ActionEvent();		 
 		 event_log=event.copyFor(event.getSource(), event.getTarget());
@@ -121,6 +123,7 @@ public class Login_win  implements ControllerI,Initializable  {
 						BOK.setDisable(true);
 					}
 					BOK.setDisable(false);
+					titelStore=cbxStore.getValue();
 					chosen_store=cbxStore.getValue().substring(cbxStore.getValue().lastIndexOf("-")+1);
 									
 				}
