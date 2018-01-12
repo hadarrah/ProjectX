@@ -20,6 +20,10 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
 import javax.swing.JOptionPane;
 
  
@@ -50,6 +54,8 @@ public class EchoServer extends AbstractServer {
 	public static String table_name;
 	public static String schema_name;
 	public static String user_name;
+	protected static  Logger logger = Logger.getLogger("MyLog");  
+	protected FileHandler fh;  
 	// Constructors ****************************************************
 
 	/**
@@ -60,6 +66,22 @@ public class EchoServer extends AbstractServer {
 	 */
 	public EchoServer(int port) {
 		super(port);
+/*adding a log file*/
+		 try {
+			fh = new FileHandler("Zerli-LogFile.log", true); 
+			 logger.addHandler(fh);
+	        SimpleFormatter formatter = new SimpleFormatter();  
+	        fh.setFormatter(formatter);
+ 	        
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+	       
+	        
 		user_name = JOptionPane.showInputDialog("Enter User name  ");
 		if (user_name.equals("")) {
 			JOptionPane.showMessageDialog(null, "Invalid name");
@@ -89,6 +111,7 @@ public class EchoServer extends AbstractServer {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/" + schema_name, user_name,
 					user_pass);
+			logger.info("SQL connection succeed");
 			System.out.println("SQL connection succeed");
 			/* Define which kind the message the server got */
 			/**
@@ -539,7 +562,7 @@ public class EchoServer extends AbstractServer {
 	 
 		try {
 			/* set up and execute the update query */
-			ps = conn.prepareStatement("UPDATE orders SET Status=? WHERE ID=?;");
+			ps = conn.prepareStatement("UPDATE order SET Status=? WHERE ID=?;");
 			ps.setString(1, "Canceled");
 			ps.setString(2,  order.getId());
 			ps.executeUpdate();
@@ -573,7 +596,7 @@ public class EchoServer extends AbstractServer {
 		try {
 			/** Building the query */
 			 
-			PreparedStatement ps = conn.prepareStatement(" SELECT * FROM orders where Person_ID=? and status=?; ");
+			PreparedStatement ps = conn.prepareStatement(" SELECT * FROM  `zerli`.`order`  where Person_ID=? and status=?; ");
 			ps.setString(1, cur_p.getUser_ID());
 			ps.setString(2, "Active");
 			ResultSet rs = ps.executeQuery();
@@ -1055,6 +1078,7 @@ public class EchoServer extends AbstractServer {
 	public static void check_user_details(Msg msg1, Connection conn, ConnectionToClient client) {
 		Person user = (Person) msg1.oldO;
 		String a;
+		logger.info("user"+" "+user.getUser_ID()+"got in to the system");
 		ArrayList<String> store = new ArrayList<String>();
 		ArrayList<Payment_Account> pay_account_arr = new ArrayList<Payment_Account>();
 
@@ -1379,6 +1403,7 @@ public class EchoServer extends AbstractServer {
 	 * @param client
 	 */
 	public static void insert_survey(Msg msg1, Connection conn, ConnectionToClient client) {
+	
 		Survey survey = (Survey) msg1.oldO;
 		PreparedStatement ps;
 		ResultSet rs;
@@ -1411,6 +1436,7 @@ public class EchoServer extends AbstractServer {
 			ps.executeUpdate();
 
 			msg1.newO = survey;
+			logger.info("a new survey was insert with "+survey.getID()+"ID");
 			client.sendToClient(msg1);
 		} catch (SQLException e) {
 			e.printStackTrace();
