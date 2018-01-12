@@ -49,6 +49,7 @@ public class Managment_Controller implements Initializable,ControllerI {
 	public static TreeMap<String , String> items;
 	public static Sale sale;
 	public static ArrayList<String> item_in_sale;
+	public static ArrayList<String> stores;
 	public static Survey current_survey;
 
     public void update_Catalog(ActionEvent event) throws IOException {
@@ -191,7 +192,16 @@ public class Managment_Controller implements Initializable,ControllerI {
 	}
     
     public void display_Reports(ActionEvent event) {
-
+    	
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+		
+		/*get all the stores*/
+    	Msg toSend = new Msg();
+    	toSend.setSelect();
+    	toSend.setRole("get the stores for report");
+		Login_win.to_Client.accept((Object)toSend);
     }
 
     public void compare_Reports(ActionEvent event) {
@@ -424,6 +434,28 @@ public class Managment_Controller implements Initializable,ControllerI {
     		
     	}
 
+    }
+    
+    /**
+     * receive the stores from server and move on to display report
+     * @param message
+     * @throws IOException 
+     */
+    public void get_stores_for_report(Object message) throws IOException
+    {
+    	stores = (ArrayList<String>)(((Msg) message).oldO);
+    	Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+		    	try {
+					move(event_log ,main.fxmlDir+ "Display_Report_F.fxml");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}); 
     }
     
     /**

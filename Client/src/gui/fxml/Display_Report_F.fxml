@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Display_Report_Controller">
+   <children>
+      <ImageView fitHeight="600.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@page2.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="back_B" layoutX="24.0" layoutY="533.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Label layoutX="135.0" layoutY="24.0" text="Reports">
+         <font>
+            <Font name="Nebulo Demo" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="invalid_detailsL_ID" layoutX="14.0" layoutY="142.0" text="You must choose ID" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="invalid_detailsL_Quarter" layoutX="119.0" layoutY="142.0" text="You must choose quarter" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="report_Text" editable="false" layoutX="19.0" layoutY="210.0" prefHeight="302.0" prefWidth="462.0" promptText="Here you can see the report" wrapText="true" />
+      <Label fx:id="invalid_detailsL_Report" layoutX="347.0" layoutY="142.0" text="You must choose report" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Button fx:id="viewReport_B" layoutX="210.0" layoutY="176.0" mnemonicParsing="false" onAction="#view_Report" text="View Report" />
+      <Label fx:id="invalid_detailsL_Year" layoutX="249.0" layoutY="142.0" text="You must choose year" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <BarChart fx:id="histogram" layoutY="210.0" prefHeight="302.0" prefWidth="491.0">
+        <xAxis>
+          <CategoryAxis label="Month" side="BOTTOM" fx:id="xAxis" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="yAxis" label="Complaints" side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <HBox layoutX="19.0" layoutY="104.0" prefHeight="46.0" prefWidth="462.0" spacing="20.0">
+         <children>
+            <ComboBox fx:id="store_ID_combo" prefWidth="150.0" promptText="Store" />
+            <ComboBox fx:id="quarter_combo" prefWidth="150.0" promptText="Quarter" />
+            <ComboBox fx:id="year_combo" prefWidth="150.0" promptText="Year" />
+            <ComboBox fx:id="report_combo" onAction="#check_selected_type" prefWidth="200.0" promptText="Report" />
+         </children>
+      </HBox>
+   </children>
+</Pane>

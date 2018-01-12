@@ -8,7 +8,7 @@ import java.util.Date;
 public class Survey implements Serializable {
 
 	private String q1, q2, q3, q4, q5, q6;
-	private int a1, a2, a3, a4, a5, a6;
+	private float a1, a2, a3, a4, a5, a6;
 	private String date, conclusion, ID, Num_Of_Participant,status;
 	
 	public Survey()
@@ -83,32 +83,32 @@ public class Survey implements Serializable {
 		return this.q6;
 	}
 	
-	public int getA1()
+	public float getA1()
 	{
 		return this.a1;
 	}
 	
-	public int getA2()
+	public float getA2()
 	{
 		return this.a2;
 	}
 	
-	public int getA3()
+	public float getA3()
 	{
 		return this.a3;
 	}
 	
-	public int getA4()
+	public float getA4()
 	{
 		return this.a4;
 	}
 	
-	public int getA5()
+	public float getA5()
 	{
 		return this.a5;
 	}
 	
-	public int getA6()
+	public float getA6()
 	{
 		return this.a6;
 	}
@@ -178,32 +178,32 @@ public class Survey implements Serializable {
 		this.status=status;
 	}
 	
-	public void setA1(int res)
+	public void setA1(float res)
 	{
 		this.a1=res;
 	}
 	
-	public void setA2(int res)
+	public void setA2(float res)
 	{
 		this.a2=res;
 	}
 	
-	public void setA3(int res)
+	public void setA3(float res)
 	{
 		this.a3=res;
 	}
 	
-	public void setA4(int res)
+	public void setA4(float res)
 	{
 		this.a4=res;
 	}
 	
-	public void setA5(int res)
+	public void setA5(float res)
 	{
 		this.a5=res;
 	}
 	
-	public void setA6(int res)
+	public void setA6(float res)
 	{
 		this.a6=res;
 	} 
