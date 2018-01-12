@@ -31,6 +31,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,7 +48,11 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	public Label lblSale;
 	public Label lblAmount;
 	public Label lblOutOfStock;
+	public Label xName;
+	public Label xDescription;
+	public Label xPrice;
 	public Button Prev_B;
+	public Button Save_B;
 	public Button back_B;
 	public Button Next_B;
 	public Button Edit_B;
@@ -56,11 +61,11 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	public Button AddToCart_B;
 	public Button OK_B;
 	public ComboBox<String> cbxAmount;
-	public Text txtID;
-	public Text txtName;
-	public Text txtPrice;
-	public Text txtAmount;
-	public Text txtDescription;
+	public TextField txtID;
+	public TextField txtName;
+	public TextField txtPrice;
+	public TextField txtAmount;
+	public TextArea txtDescription;
 	public Text txtCatalog;
 	public Text txtCounter;
 	public Pane borderPane;
@@ -72,15 +77,21 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	public static int view_counter = 0;
 	public static Person current_user;
 	public static ObservableList<String> list;
+	public static String chosenStore;
+	public static ActionEvent log;
 
 	/** open the catalog window **/
 	public void back(ActionEvent event) throws IOException {
+		if (Managment_Controller.ManagmentFlage == 1) {
+			Login_win.chosen_store = chosenStore;
+			ResetCatalog();
+		}
 		Itc.clear();
 		Itc_counter = 0;
 		view_counter = 0;
 		move(event, main.fxmlDir + "Main_menu_F.fxml");
 	}
-	
+
 	public void move(ActionEvent event, String next_fxml) throws IOException {
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(next_fxml));
@@ -105,6 +116,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 	/** --init the object with SELECTALL query-- **/
 	public void init() {
+
 		Msg msg = new Msg();
 		msg.setRole("View all catalog items");
 		msg.setSelect();
@@ -112,13 +124,133 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		msg.freeField = current_user.getUser_ID();// save current user id
 		msg.freeField2 = gui.Login_win.chosen_store; // save chosen store id
 		Login_win.to_Client.accept(msg);
+
 	}
-	
-	public void UpdateCatalog()
-	{
-		AddToCart_B.setVisible(false);
+
+	/** set catalog to management form **/
+	public void UpdateCatalog() {
+		chosenStore = Login_win.chosen_store;
+		Login_win.chosen_store = null; // show catalog with no dependency on specific store
 		ManagePane.setVisible(true);
 		init();
+	}
+
+	/** change item values in catalog **/
+	public void EditCatalog(ActionEvent event) throws IOException {
+		txtName.setEditable(true);
+		txtName.setStyle("-fx-border-color: red ;");
+		txtDescription.setEditable(true);
+		txtDescription.setStyle("-fx-border-color: red ;");
+		txtPrice.setEditable(true);
+		txtPrice.setStyle("-fx-border-color: red ;");
+		txtID.setDisable(false);
+		Save_B.setVisible(true);
+
+	}
+
+	/** save changes in DB **/
+	public void Save(ActionEvent event) throws IOException {
+
+		Msg msg = new Msg();
+		Item_In_Catalog tmp = new Item_In_Catalog();
+
+		if (txtPrice.getText().equals(""))
+			txtPrice.setText("0.0");
+
+		if (txtName.getText().equals("") || txtDescription.getText().equals("") || txtPrice.getText().equals("0.0")) {
+			Login_win.showPopUp("ERROR", "", "Empty Fields", "");
+			if (txtName.getText().equals(""))
+				xName.setVisible(true);
+			else {
+				
+				xName.setVisible(false);
+			}
+			if (txtDescription.getText().equals(""))
+				xDescription.setVisible(true);
+			else {
+
+				xDescription.setVisible(false);
+			}
+			if (txtPrice.getText().equals("0.0"))
+				xPrice.setVisible(true);
+			else {
+
+				xPrice.setVisible(false);
+			}
+
+		}
+		if (!(txtPrice.getText().equals("0.0"))) {
+			try {
+				tmp.setPrice(Float.parseFloat(txtPrice.getText()));
+				xPrice.setVisible(false);
+			} catch (NumberFormatException e) {
+				Login_win.showPopUp("ERROR", "", "Wrong input", "");
+				// here provide your logic to tell the user to "Enter a valid number"
+			}
+
+		}
+		txtName.setStyle("");
+		txtDescription.setStyle("");
+		txtPrice.setStyle("");
+		txtName.setEditable(false);
+		txtDescription.setEditable(false);
+		txtPrice.setEditable(false);
+		tmp.setID(txtID.getText());
+		tmp.setName(txtName.getText());
+		tmp.setDescription(txtDescription.getText());		
+		msg.setUpdate();
+		msg.setRole("update item in catalog");
+		msg.newO = tmp;
+		Login_win.to_Client.accept(msg);
+
+	}
+	
+	public void update_item_success(Object msg)
+	{
+Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				 	Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");	
+				 		//move(event_log , main.fxmlDir+ "Managment_F.fxml");  
+				
+			}
+		}); 
+		
+		
+	}
+	public void delete_item_success(Object msg)
+	{
+Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				 	Login_win.showPopUp("INFORMATION", "Message", "Delete Done successfully", "");
+				 	init();
+				 		
+				
+			}
+		}); 
+		
+		
+	}
+
+	/** change item status to deleted **/
+	public void DeleteCatalog(ActionEvent event) throws IOException {
+		Msg msg = new Msg();
+		msg.freeField= txtID.getText();		
+		msg.setRole("delete item from catalog");
+		msg.setUpdate();
+		Login_win.to_Client.accept(msg);
+	}
+
+	/** Reset catalog view **/
+	public void ResetCatalog() {
+		Login_win.chosen_store = chosenStore;
+		Managment_Controller.ManagmentFlage = 0;
+		AddToCart_B.setVisible(true);
+		ManagePane.setVisible(false);
+
 	}
 
 	/** --setting default values by opening the catalog-- **/
@@ -139,10 +271,14 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 	/** --Setting the current item details in gui-- **/
 	public void SetDetailsGui(Item_In_Catalog It) {
+		if (Managment_Controller.ManagmentFlage == 1) {
+			AddToCart_B.setVisible(false);
+		}
 		Platform.runLater(new Runnable() {
 
 			@Override
 			public void run() {
+
 				if (It.getAmount() == -1) {
 					txtAmount.setVisible(false);
 					lblAmount.setVisible(false);
@@ -162,7 +298,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 				Image img = CreateImage(It.getImage());
 				Itemimg.setImage(img);
 				if (!(It.getSale().getID() == null)) {
-					
+
 					lblSale.setVisible(true);
 					lblSale.setText(" Sale: " + (It.getSale().getDiscount() + "%"));
 
@@ -215,7 +351,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 	/** --set the next item-- **/
 	public void nextItem(ActionEvent event) throws IOException {
-		if(!((Itc.get(view_counter).getAmount())==-1))
+		if (!((Itc.get(view_counter).getAmount()) == -1))
 			list.clear();
 		cbxAmount.setVisible(false);
 		OK_B.setVisible(false);
@@ -229,8 +365,8 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 	/** --set the previews item-- **/
 	public void prevItem(ActionEvent event) throws IOException {
-		if(!(Itc.get(view_counter).getAmount()==-1))
-		list.clear();
+		if (!(Itc.get(view_counter).getAmount() == -1))
+			list.clear();
 		cbxAmount.setVisible(false);
 		OK_B.setVisible(false);
 		if (view_counter < Itc_counter)
@@ -247,31 +383,30 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		txtCounter.setText("<" + (view_counter + 1) + "/" + Itc_counter + ">");
 	}
 
-	/**--Pressing on Add to cart button--**/
+	/** --Pressing on Add to cart button-- **/
 	public void AddToCart() {
 		AddToCart_B.setVisible(false);
-		//if user does'nt have payment account
+		// if user does'nt have payment account
 		if (Itc.get(view_counter).getAmount() == -1) {
 			Login_win.showPopUp("INFORMATION", "Message", "You have to creat a payment account",
 					"Please contact your store manager");
-			//if user has payment account->select amount from combo box
+			// if user has payment account->select amount from combo box
 		} else {
 
 			cbxAmount.setItems(list);
 			cbxAmount.getSelectionModel().selectFirst();
 			cbxAmount.setVisible(true);
-			OK_B.setVisible(true);				
+			OK_B.setVisible(true);
 		}
 
 	}
-	/**after select amount, add item to cart**/
-	public void OK()
-	{
-		Login_win.showPopUp("CONFIRMATION", "Message", "Item successfully added",
-				" ");
-		Item it=new Item();
+
+	/** after select amount, add item to cart **/
+	public void OK() {
+		Login_win.showPopUp("CONFIRMATION", "Message", "Item successfully added", " ");
+		Item it = new Item();
 		String value;
-		value=cbxAmount.getValue();
+		value = cbxAmount.getValue();
 		it.setID(txtID.getText());
 		it.setAmount(Integer.parseInt(value));
 		it.setPrice(Float.parseFloat(txtPrice.getText()));
@@ -288,7 +423,10 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		 */
 		current_user = gui.Login_win.current_user;
 		Login_win.to_Client.setController(this);
-		init();
+		if (Managment_Controller.ManagmentFlage == 1) {
+			UpdateCatalog();
+		} else
+			init();
 	}
 
 }

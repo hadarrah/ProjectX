@@ -50,36 +50,11 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Text fx:id="txtDescription" fill="#322b2b" layoutX="130.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="desc" textAlignment="CENTER" wrappingWidth="255.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Text>
             <ImageView fx:id="Itemimg" fitHeight="170.0" fitWidth="170.0" layoutX="151.0" layoutY="12.0" pickOnBounds="true" smooth="false">
                <viewport>
                   <Rectangle2D />
                </viewport>
             </ImageView>
-            <Text fx:id="txtID" fill="#322b2b" layoutX="128.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="id" textAlignment="CENTER" wrappingWidth="255.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Text>
-            <Text fx:id="txtName" fill="#322b2b" layoutX="128.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="name" textAlignment="CENTER" wrappingWidth="255.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Text>
-            <Text fx:id="txtAmount" fill="#322b2b" layoutX="128.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="amount" textAlignment="CENTER" wrappingWidth="255.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Text>
-            <Text fx:id="txtPrice" fill="#322b2b" layoutX="128.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-border-color: black;" text="price" textAlignment="CENTER" wrappingWidth="255.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Text>
             <Label fx:id="lblSale" alignment="TOP_CENTER" cacheHint="ROTATE" contentDisplay="CENTER" layoutX="-17.0" layoutY="18.0" lineSpacing="20.0" mouseTransparent="true" prefHeight="25.0" prefWidth="147.0" rotate="-25.6" style="-fx-background-color: yellow; -fx-border-color: red;" text="Sale" textAlignment="CENTER" textFill="#e40707" visible="false">
                <font>
                   <Font name="Goudy Stout" size="14.0" />
@@ -88,13 +63,28 @@
                   <DropShadow />
                </effect>
             </Label>
-            <ComboBox fx:id="cbxAmount" layoutX="303.0" layoutY="358.0" prefHeight="27.0" prefWidth="55.0" promptText="1" style="-fx-border-color: red;" visible="false" />
+            <ComboBox fx:id="cbxAmount" layoutX="319.0" layoutY="358.0" prefHeight="27.0" prefWidth="57.0" promptText="10" visible="false" />
             <Label fx:id="lblOutOfStock" alignment="CENTER" layoutX="-17.0" layoutY="18.0" prefHeight="25.0" prefWidth="147.0" rotate="-25.6" style="-fx-background-color: red; -fx-border-color: white;" text="Out Of Stock" textAlignment="CENTER" textFill="#fcf8f8" visible="false">
                <effect>
                   <DropShadow />
                </effect>
                <font>
                   <Font name="Goudy Stout" size="10.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtID" alignment="CENTER" editable="false" layoutX="163.0" layoutY="192.0" />
+            <TextField fx:id="txtName" alignment="CENTER" editable="false" layoutX="163.0" layoutY="227.0" />
+            <TextField fx:id="txtAmount" alignment="CENTER" editable="false" layoutX="163.0" layoutY="361.0" />
+            <TextField fx:id="txtPrice" alignment="CENTER" editable="false" layoutX="163.0" layoutY="324.0" />
+            <TextArea fx:id="txtDescription" layoutX="163.0" layoutY="260.0" prefHeight="57.0" prefWidth="149.0" wrapText="true" />
+            <Label layoutX="148.0" layoutY="231.0" text="X" textFill="#e40808" visible="false" fx:id="xName">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="148.0" layoutY="260.0" text="X" textFill="#e40808" visible="false" fx:id="xDescription">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
          </children>
@@ -108,24 +98,30 @@
          </font></Text>
       <Button fx:id="AddToCart_B" layoutX="214.0" layoutY="506.0" mnemonicParsing="false" onAction="#AddToCart" text="Add to cart" />
       <Button fx:id="OK_B" layoutX="233.0" layoutY="504.0" mnemonicParsing="false" onAction="#OK" prefHeight="27.0" prefWidth="40.0" text="OK" visible="false" />
-      <Pane fx:id="ManagePane" layoutX="120.0" layoutY="506.0" minHeight="50.0" prefWidth="260.0" style="-fx-background-color: blue; -fx-border-color: black;" visible="false">
+      <Pane fx:id="ManagePane" layoutX="120.0" layoutY="506.0" minHeight="30.0" prefHeight="46.0" prefWidth="260.0" style="-fx-background-color: blue; -fx-border-color: black;" visible="false">
          <children>
-            <Button fx:id="Add_B" layoutX="190.0" layoutY="10.0" mnemonicParsing="false" onAction="#AddToCart" prefHeight="30.0" prefWidth="60.0" text="Add">
+            <Button fx:id="Add_B" layoutX="190.0" layoutY="10.0" mnemonicParsing="false" text="Add">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="Edit_B" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#AddToCart" prefHeight="30.0" prefWidth="60.0" text="Edit">
+            <Button fx:id="Edit_B" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#EditCatalog" text="Edit">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="Delete_B" layoutX="100.0" layoutY="10.0" mnemonicParsing="false" onAction="#AddToCart" prefHeight="30.0" prefWidth="60.0" text="Delete">
+            <Button fx:id="Delete_B" layoutX="96.0" layoutY="10.0" mnemonicParsing="false" onAction="#DeleteCatalog" text="Delete">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
          </children>
       </Pane>
+      <Button fx:id="Save_B" layoutX="224.0" layoutY="466.0" mnemonicParsing="false" onAction="#Save" text="Save" visible="false" />
+      <Label layoutX="163.0" layoutY="426.0" text="X" textFill="#e40808" visible="false" fx:id="xPrice">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

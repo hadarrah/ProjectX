@@ -44,7 +44,7 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cbxStore" layoutX="175.0" layoutY="196.0" prefWidth="150.0" promptText="Choose a store" style="-fx-border-color: red;" visible="false" />
+      <ComboBox fx:id="cbxStore" layoutX="175.0" layoutY="196.0" prefWidth="150.0" promptText="Choose a store" visible="false" />
       <Button fx:id="BOK" layoutX="234.0" layoutY="251.0" mnemonicParsing="false" onAction="#Ok" text="OK" visible="false" />
    </children>
 </Pane>
