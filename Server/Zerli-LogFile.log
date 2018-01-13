@@ -448,3 +448,21 @@ INFO: SQL connection succeed
 INFO: SQL connection succeed
 ιπε 13, 2018 7:47:48 PM action.EchoServer handleMessageFromClient
 INFO: SQL connection succeed
+Jan 13, 2018 8:15:33 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 8:15:33 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+Jan 13, 2018 8:15:33 PM action.EchoServer change_online_status
+INFO: user 1 logged out from ZerLi system
+Jan 13, 2018 8:15:53 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 8:15:55 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 8:15:55 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 8:16:08 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 8:16:11 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 8:16:11 PM action.EchoServer change_online_status
+INFO: user 1 logged out from ZerLi system
