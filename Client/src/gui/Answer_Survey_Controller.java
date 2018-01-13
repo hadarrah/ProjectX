@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import action.Msg;
+import action.Person;
 import action.Survey;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -66,7 +67,7 @@ public void form_submit(ActionEvent event) throws IOException {
 	int validity_flag = 0;
 	 if(users_id.getValue()==null)
 	 {
-		   Optional<ButtonType> r = Login_win.showPopUp("ERROR", "Message", "You must choose a Customer!", "Thank you!"); 
+		    Login_win.showPopUp("ERROR", "Message", "You must choose a Customer!", "Thank you!"); 
 		   return;
 	 }
 	
@@ -97,22 +98,9 @@ public void form_submit(ActionEvent event) throws IOException {
       }
 	}
 	else {
-		/*Alert alert = new Alert(AlertType.INFORMATION);
-	      alert.setTitle("Message");
-	      alert.setContentText("In order to complete the survey to will have to answers all 6 Q");
-	      alert.setHeaderText("Invalid fields!");
-
-
-	      Optional<ButtonType> result = alert.showAndWait();*/
-		
-	      Optional<ButtonType> result = Login_win.showPopUp("INFORMATION", "Message", "In order to complete the survey to will have to answers all 6 Q", "Invalid fields!");
-
-	      if (result.get() == ButtonType.OK)
-	      {
-	    	  System.out.println("");
-	      }
-		
-		
+ 
+	      Login_win.showPopUp("INFORMATION", "Message", "In order to complete the survey to will have to answers all 6 Q", "Invalid fields!");
+ 
 	}
       
     
@@ -467,13 +455,15 @@ public void update_survey_answers_inDB()
 {
 	Msg msg= new Msg();
 	Survey update_survey=current_survey;
+	Person person=new Person(users_id.getValue(),null);
 	
 	msg.setUpdate();
 	msg.setRole("update survey answers");
 	msg.setTableName("survey");
 	msg.oldO=update_survey;
+	msg.newO=person;
+	
 	Login_win.to_Client.accept(msg);
-
 	
 	
 	

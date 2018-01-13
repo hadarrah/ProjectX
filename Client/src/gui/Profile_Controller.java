@@ -69,7 +69,7 @@ public class Profile_Controller implements ControllerI,Initializable {
 		 
 		 
 		 
-		 /*
+		 
 		if(!(gui.Login_win.current_user_pay_account.getCreditCard()==null)) 
 		{
 			
@@ -90,7 +90,7 @@ public class Profile_Controller implements ControllerI,Initializable {
 			 details_txt.appendText("\t\t\t"+details+"\n\n");
 			
 		}
-		 */
+		 
  	}
 	
 	
