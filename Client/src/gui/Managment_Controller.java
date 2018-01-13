@@ -207,6 +207,15 @@ public class Managment_Controller implements Initializable,ControllerI {
 
     public void compare_Reports(ActionEvent event) {
 
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+		
+		/*get all the stores*/
+    	Msg toSend = new Msg();
+    	toSend.setSelect();
+    	toSend.setRole("get the stores for report compare");
+		Login_win.to_Client.accept((Object)toSend);
     }
     /**
      * get message from server and act regarding to the answer
@@ -445,6 +454,8 @@ public class Managment_Controller implements Initializable,ControllerI {
     public void get_stores_for_report(Object message) throws IOException
     {
     	stores = (ArrayList<String>)(((Msg) message).oldO);
+    	if((((Msg) message).getRole()).equals("get the stores for report"))
+    	{
     	Platform.runLater(new Runnable() {
 			
 			@Override
@@ -457,6 +468,22 @@ public class Managment_Controller implements Initializable,ControllerI {
 				}
 			}
 		}); 
+    	}
+    	else
+    	{
+    		Platform.runLater(new Runnable() {
+    			
+    			@Override
+    			public void run() {
+    		    	try {
+    					move(event_log ,main.fxmlDir+ "Compare_Report_F.fxml");
+    				} catch (IOException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+    			}
+    		}); 
+    	}
     }
     
     /**

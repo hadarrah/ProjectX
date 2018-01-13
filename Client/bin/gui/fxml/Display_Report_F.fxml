@@ -45,7 +45,7 @@
       </Label>
       <BarChart fx:id="histogram" layoutY="210.0" prefHeight="302.0" prefWidth="491.0">
         <xAxis>
-          <CategoryAxis label="Month" side="BOTTOM" fx:id="xAxis" />
+          <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
         <yAxis>
           <NumberAxis fx:id="yAxis" label="Complaints" side="LEFT" />

@@ -185,8 +185,19 @@ public class ClientConsole implements ChatIF {
 						e.printStackTrace();
 					}
 				}
+				else if (check.getRole().equals("get the stores for report compare")) {
+					try {
+						((gui.Managment_Controller) mc).get_stores_for_report(message);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				else if (check.getRole().equals("get report for display")) {
 					((gui.Display_Report_Controller) mc).get_report(message);
+				}
+				else if (check.getRole().equals("get reports for compare")) {
+					((gui.Compare_Report_Controller) mc).get_report(message);
 				}
 				
 				//else if (check.getRole().equals("check if the user already did this survey")) {

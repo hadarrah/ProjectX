@@ -2,7 +2,10 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -48,6 +51,8 @@ public class Display_Report_Controller implements Initializable, ControllerI{
 	public static ActionEvent event_log;
 	public CategoryAxis xAxis;
     public NumberAxis yAxis;
+    public int current_year;
+	public String current_month;
     /**
 	 * return to the previous window
 	 * @param event
@@ -84,8 +89,11 @@ public class Display_Report_Controller implements Initializable, ControllerI{
 		/*check input from user*/
 		if(store == null)
 		{
-			invalid_detailsL_ID.setVisible(true);
-			return;
+			if(!(report != null && report.equals("Satisfaction")))
+			{
+				invalid_detailsL_ID.setVisible(true);
+				return;
+			}
 		}
 		if(quarter == null)
 		{
@@ -103,6 +111,13 @@ public class Display_Report_Controller implements Initializable, ControllerI{
 			return;
 		}
 
+		/*check if the quarter is possible*/
+		if(String.valueOf(current_year).equals(year) && (Integer.parseInt(current_month)/4 +1)<= Integer.parseInt(quarter))
+		{
+	 	    Login_win.showPopUp("INFORMATION", "Message", "Your choosen quarter is unavialable yet", "Please select other quarter...");
+	 	    return;
+		}
+		
 		/*change output windows regarding to the type report*/
 		if(report.equals("Complaints"))
 		{
@@ -144,68 +159,72 @@ public class Display_Report_Controller implements Initializable, ControllerI{
     {
     	Report report = (Report)(((Msg) message).oldO);
     	
-    	/*check which report was selected*/
-    	switch(report.getName())
+    	
+    	/*the creating was successful -> run in new thread the new window*/
+    	Platform.runLater(new Runnable() 
     	{
-    	case "Incomes":
-    		Incomes_Report incomes = (Incomes_Report)(((Msg) message).newO);
-    		report_Text.setText(incomes.toString());
-			break;
-		case "Reservations":
-			Reservation_Report reservation = (Reservation_Report)(((Msg) message).newO);
-    		report_Text.setText(reservation.toString());
-			break;
-		case "Complaints":
-			Complaint_Report complaint = (Complaint_Report)(((Msg) message).newO);
-			String month1, month2, month3;
-			
-			/*set the x parameter regarding to the quarter*/
-			if(quarter_combo.getValue().equals("1"))
+			@Override
+			public void run() 
 			{
-				month1 = "January";
-				month2 = "February";
-				month3 = "March";
-			}
-			else if(quarter_combo.getValue().equals("2"))
-			{
-				month1 = "April";
-				month2 = "May";
-				month3 = "June";
-			}
-			else if(quarter_combo.getValue().equals("3"))
-			{
-				month1 = "July";
-				month2 = "August";
-				month3 = "September";
-			}
-			else
-			{
-				month1 = "October";
-				month2 = "November";
-				month3 = "December";
-			}
-			
-			/*insert the number of complaint on which month*/
-	        XYChart.Series<String , Number> series1 = new XYChart.Series<String , Number>();
-	        series1.getData().add(new XYChart.Data<String, Number>(month1, complaint.getMonth1()));
-	        series1.getData().add(new XYChart.Data<String, Number>(month2, complaint.getMonth2()));
-	        series1.getData().add(new XYChart.Data<String, Number>(month3, complaint.getMonth3()));
-	        histogram.getData().clear();
-	        /*the creating was successful -> run in new thread the new window*/
-	    	Platform.runLater(new Runnable() {
-				
-				@Override
-				public void run() {
-					 	histogram.getData().add(series1);  
+				/*check which report was selected*/
+		    	switch(report.getName())
+		    	{
+		    	case "Incomes":
+		    		Incomes_Report incomes = (Incomes_Report)(((Msg) message).oldO);
+		    		report_Text.setText(incomes.toString());
+					break;
+				case "Reservations":
+					Reservation_Report reservation = (Reservation_Report)(((Msg) message).oldO);
+		    		report_Text.setText(reservation.toString());
+					break;
+				case "Complaints":
+					Complaint_Report complaint = (Complaint_Report)(((Msg) message).oldO);
+					String month1, month2, month3;
 					
-				}
-			}); 
-			break;
-		case "Satisfaction":
-			Satisfaction_Report satisfaction = (Satisfaction_Report)(((Msg) message).newO);
-    		report_Text.setText(satisfaction.toString());
-			break;
-    	}
+					/*set the x parameter regarding to the quarter*/
+					if(quarter_combo.getValue().equals("1"))
+					{
+						month1 = "January";
+						month2 = "February";
+						month3 = "March";
+					}
+					else if(quarter_combo.getValue().equals("2"))
+					{
+						month1 = "April";
+						month2 = "May";
+						month3 = "June";
+					}
+					else if(quarter_combo.getValue().equals("3"))
+					{
+						month1 = "July";
+						month2 = "August";
+						month3 = "September";
+					}
+					else
+					{
+						month1 = "October";
+						month2 = "November";
+						month3 = "December";
+					}
+					
+					/*insert the number of complaint on which month*/
+			        XYChart.Series<String , Number> series1 = new XYChart.Series<String , Number>();
+			        series1.getData().add(new XYChart.Data<String, Number>(month1, complaint.getMonth1()));
+			        series1.getData().add(new XYChart.Data<String, Number>(month2, complaint.getMonth2()));
+			        series1.getData().add(new XYChart.Data<String, Number>(month3, complaint.getMonth3()));
+			        histogram.setTitle("Store " + complaint.getStore());
+			        if(histogram.getData().isEmpty())
+						histogram.getData().add(series1);  
+					else
+				        histogram.getData().set(0, series1);
+					break;
+				case "Satisfaction":
+					Satisfaction_Report satisfaction = (Satisfaction_Report)(((Msg) message).oldO);
+		    		report_Text.setText(satisfaction.toString());
+					break;
+		    	}
+			}
+		}); 
     }
     
     /**
@@ -224,9 +243,19 @@ public class Display_Report_Controller implements Initializable, ControllerI{
     	ObservableList<String> list = FXCollections.observableArrayList(al); 
 	    quarter_combo.setItems(list);
 	    
+	    /*get current year*/
+	    DateFormat dateFormatYear = new SimpleDateFormat("yyyy");
+		Date dateYear = new Date();
+		current_year = Integer.parseInt(dateFormatYear.format(dateYear)); 
+		
+	    /*get current month*/
+		DateFormat dateFormatMonth = new SimpleDateFormat("MM");
+		Date dateMonth = new Date();
+		current_month = dateFormatMonth.format(dateMonth);
+		
 	    /*set the year combobox*/
 	    al.clear();
-	    for(i=2010; i<2020;i++)
+	    for(i=2010; i<=current_year;i++)
 	    	al.add(""+i);
     	list = FXCollections.observableArrayList(al); 
     	year_combo.setItems(list);

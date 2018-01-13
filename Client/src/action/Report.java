@@ -48,7 +48,7 @@ public class Report implements Serializable{
 	public String toString()
 	{
 		String report;
-		report = name + "\nQuarter: " + quarter + "\nStore: " + store + "\nDetails:\n\n" + details;  
+		report = name + "\nYear: " + year +"\nQuarter: " + quarter + "\nStore: " + store + "\nDetails:\n\n" + details;  
 		return report;
 	}
 
