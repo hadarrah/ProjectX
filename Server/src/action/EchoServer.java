@@ -2275,7 +2275,7 @@ public class EchoServer extends AbstractServer {
 	 * @param client
 	 * @throws IOException 
 	 */
-	public static void UpdateItem(Object msg,Connection con, ConnectionToClient client) throws IOException {
+public static void UpdateItem(Object msg,Connection con, ConnectionToClient client) throws IOException {
 		
 		Msg msg1 = (Msg) msg;
 		Item_In_Catalog tmp=(Item_In_Catalog)msg1.newO;
@@ -2291,7 +2291,12 @@ public class EchoServer extends AbstractServer {
 			ps.setString(3, tmp.getDescription());
 			ps.setString(4, tmp.getID());
 			ps.executeUpdate();
-			ps.close();			
+			ps.close();		
+			if(!(tmp.getImage()==null))
+			{
+				
+				CreateImage(tmp.getImage());
+			}
 
 			client.sendToClient(msg1);
 
@@ -2303,8 +2308,40 @@ public class EchoServer extends AbstractServer {
 				e1.printStackTrace();
 			}
 		}
+		
+		
 
 	}
+	public static void CreateImage(MyFile msg) {
+		MyFile mf = (MyFile) msg;
+		System.out.println(mf);
+		//Image img = null;
+		 FileOutputStream fos = null;
+		
+		  try { 
+			  fos = new FileOutputStream(System.getProperty("user.dir")+File.separator+"Pictures"+File.separator+"Itc"+mf.getFileName());//(System.getProperty("user.dir")+"/Pic/" +
+		
+		  
+		  } catch (FileNotFoundException e) { // TODO Auto-generated catch block
+		  e.printStackTrace(); } BufferedOutputStream in = new
+		  BufferedOutputStream(fos);
+		 
+		 try {
+		//+img = new Image(new ByteArrayInputStream(mf.getMybytearray()));
+
+		 in.write(mf.getMybytearray());
+		 in.close();
+		 fos.close();
+		
+		 } catch (IOException e) { // TODO Auto-generated catch block
+		 e.printStackTrace(); }
+		 
+
+		int fileSize = ((MyFile) msg).getSize();
+		System.out.println("Message received: " + msg);
+		System.out.println("length " + fileSize);		
+	}
+	
 	public static void DeleteItem(Object msg,Connection con, ConnectionToClient client) throws IOException {
 		Msg msg1=(Msg)msg;
 		try {
