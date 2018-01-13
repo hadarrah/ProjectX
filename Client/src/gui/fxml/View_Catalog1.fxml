@@ -76,7 +76,7 @@
             <TextField fx:id="txtName" alignment="CENTER" editable="false" layoutX="163.0" layoutY="227.0" />
             <TextField fx:id="txtAmount" alignment="CENTER" editable="false" layoutX="163.0" layoutY="361.0" />
             <TextField fx:id="txtPrice" alignment="CENTER" editable="false" layoutX="163.0" layoutY="324.0" />
-            <TextArea fx:id="txtDescription" layoutX="163.0" layoutY="260.0" prefHeight="57.0" prefWidth="149.0" wrapText="true" />
+            <TextArea fx:id="txtDescription" layoutX="163.0" layoutY="260.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="57.0" prefWidth="149.0" text="&#10;" wrapText="true" />
             <Label layoutX="148.0" layoutY="231.0" text="X" textFill="#e40808" visible="false" fx:id="xName">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
@@ -87,6 +87,7 @@
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
+            <Button fx:id="Pic_B" layoutX="334.0" layoutY="12.0" mnemonicParsing="false" onAction="#ChangePicture" text="Choose a picture" visible="false" />
          </children>
       </Pane>
       <Button fx:id="back_B" layoutY="574.0" mnemonicParsing="false" onAction="#back" text="Back" />

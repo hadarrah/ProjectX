@@ -40,6 +40,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -60,6 +61,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	public Button Delete_B;
 	public Button AddToCart_B;
 	public Button OK_B;
+	public Button Pic_B;
 	public ComboBox<String> cbxAmount;
 	public TextField txtID;
 	public TextField txtName;
@@ -145,7 +147,18 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		txtPrice.setStyle("-fx-border-color: red ;");
 		txtID.setDisable(false);
 		Save_B.setVisible(true);
+		Pic_B.setVisible(true);
 
+	}
+	
+	/**Change item in catalog picture**/
+	public void ChangePicture(ActionEvent event) throws IOException {
+		File f;
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		f=fileChooser.showOpenDialog(null);
+		System.out.println(f);
+	
 	}
 
 	/** save changes in DB **/
@@ -182,7 +195,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		if (!(txtPrice.getText().equals("0.0"))) {
 			try {
 				tmp.setPrice(Float.parseFloat(txtPrice.getText()));
-				xPrice.setVisible(false);
+				xPrice.setVisible(false);				
 			} catch (NumberFormatException e) {
 				Login_win.showPopUp("ERROR", "", "Wrong input", "");
 				// here provide your logic to tell the user to "Enter a valid number"
@@ -212,7 +225,7 @@ Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				 	Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");	
-				 		//move(event_log , main.fxmlDir+ "Managment_F.fxml");  
+				 	Pic_B.setVisible(false);
 				
 			}
 		}); 
