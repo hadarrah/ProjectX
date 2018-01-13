@@ -124,7 +124,10 @@ public class EchoServer extends AbstractServer {
 				if (msg1.getRole().equals("View all catalog items"))
 					ViewItems(msg1, conn, client); 
 				else if (msg1.getRole().equals("check if user already did this survey"))
-					check_if_user_took_this_survey(msg1, conn, client);
+				{
+					//check_if_user_took_this_survey(msg1, conn, client);
+				}
+					
 				else if (msg1.getRole().equals("verify user details"))
 					check_user_details(msg1, conn, client);
 				else if (msg1.getRole().equals("check if ID exist and add payment account"))
@@ -282,7 +285,9 @@ public class EchoServer extends AbstractServer {
 		try {
 			/** Building the query */
 			 
-			PreparedStatement ps = conn.prepareStatement(" SELECT ID FROM person where Privilege='Customer';");
+			PreparedStatement ps = conn.prepareStatement(" SELECT ID "+ 
+					"FROM person where Privilege='Customer' and ID not in ( SELECT  Customer_ID FROM zerli.comments_survey);"); 
+				 
 			ResultSet rs = ps.executeQuery();
 			while(rs.next())
 			{	
@@ -1279,8 +1284,8 @@ public class EchoServer extends AbstractServer {
 					"UPDATE " + msg1.getTableName() + " " + "SET Online=? WHERE ID=" + user.getUser_ID());
 			ps.setString(1, new_status);
 			ps.executeUpdate();
-
-			// System.out.println("the online status was changed ");
+		logger.info("user "+user.getUser_ID()+" logged out from ZerLi system");
+			 
 		}
 
 		catch (SQLException e) {

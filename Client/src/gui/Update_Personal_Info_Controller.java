@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import action.Msg;
 import action.Person;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -71,17 +72,28 @@ public class Update_Personal_Info_Controller implements ControllerI,Initializabl
 		 
 	 }
 	 
-	 
+	 /**
+	  * after the answer to the update was accepted(updated was done successfully or not)
+	  * a confirmation window us shown to the user /
+	  * the new user details are saved in the system as current user.
+	  * @param message
+	  */
 	 public void get_new_user_details(Object message)
 	 {
 		Msg msg= (Msg)message;
 		System.out.println(msg.getRole());
 		Person new_user_details=(Person) msg.newO;
-		System.out.println(new_user_details.getUser_name());
 		gui.Login_win.current_user=(Person) msg.newO;
 		
+	Platform.runLater(new Runnable() {
 		
-		System.out.println(gui.Login_win.current_user.getUser_name()+gui.Login_win.current_user.getUser_last_name());
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			gui.Login_win.showPopUp("INFORMATION", "UpDate was done!", "Your details were Successfully updated !", "");
+		}
+	});
+		
 	 }
 	 
 	 

@@ -108,7 +108,7 @@ public class ClientConsole implements ChatIF {
 					((gui.Login_win) mc).get_comfirmation(message);					
 				}
 				else if (check.getRole().equals("check if user already did this survey")) {
-					((gui.Main_menu)mc).survey_premession(message);
+					//((gui.Main_menu)mc).survey_premession(message);
 				}
 				else if (check.getRole().equals("check if ID exist and add payment account")) {
 					((gui.Create_PaymentAccount_Controller) mc).check_if_create_success(message);
@@ -208,6 +208,8 @@ public class ClientConsole implements ChatIF {
 			 {
 				 if(check.getRole().equals("delete item from catalog"))
 					 ((gui.View_Catalog_Controller) mc).delete_item_success(message);
+				 else if (check.getRole().equals("update user details")) 
+					  ((gui.Update_Personal_Info_Controller)mc).get_new_user_details(message);
 				 else if(check.getRole().equals("update item in catalog"))
 						((gui.View_Catalog_Controller) mc).update_item_success(message);
 				 else if(check.getRole().equals("close survey"))
@@ -244,8 +246,7 @@ public class ClientConsole implements ChatIF {
 				((gui.Order_Controller) mc).insert_card_success(message);
 				
 			}
-			else if (check.getRole().equals("update user details")) {
-			  ((gui.Update_Personal_Info_Controller)mc).get_new_user_details(message);
+			
 			
 		}
 		} // else its an update query
@@ -256,5 +257,5 @@ public class ClientConsole implements ChatIF {
 
 	}
 	// Class methods ***************************************************
-}
+
 // End of ConsoleChat class
