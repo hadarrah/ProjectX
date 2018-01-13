@@ -27,6 +27,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
@@ -44,6 +45,7 @@ public Button Back_to_main,submit_survey;
 public ToggleGroup a1,a2,a3,a4,a5,a6 ;
 public Label q1,q2,q3,q4,q5,q6;
 public Label survey_id;
+public TextArea user_comments;
 public ComboBox<String> users_id;
 public static Survey current_survey;
 ObservableList<String> list;
@@ -195,7 +197,7 @@ public void get_customer_answers()
 		current_survey.setA1(10);
 	}
 	
-	System.out.println(current_survey.getA1());
+	 
 	
 	
 	if(a2.getSelectedToggle() ==R2_1)
@@ -241,7 +243,7 @@ public void get_customer_answers()
 		current_survey.setA2(10);
 	}
  
-	System.out.println(current_survey.getA2());
+ 
 	
 	
 	
@@ -290,10 +292,7 @@ public void get_customer_answers()
 		current_survey.setA3(10);
 	}
 	
-	
-	System.out.println(current_survey.getA3());
-	
-	
+ 
 	
 	if(a4.getSelectedToggle() ==R4_1)
 	{
@@ -340,9 +339,7 @@ public void get_customer_answers()
 	}
 	
 	
-	
-	
-	System.out.println(current_survey.getA4());
+ 
 
 	
 	if(a5.getSelectedToggle() ==R5_1)
@@ -389,16 +386,7 @@ public void get_customer_answers()
 		current_survey.setA5(10);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	System.out.println(current_survey.getA5());
-
+	 
 	
 	if(a6.getSelectedToggle() ==R6_1)
 	{
@@ -442,11 +430,6 @@ public void get_customer_answers()
 		current_survey.setA6(10);
 	}
 	
-	
-	System.out.println(current_survey.getA6());
- 
-	
-	 
 	 
 }
 
@@ -456,6 +439,11 @@ public void update_survey_answers_inDB()
 	Msg msg= new Msg();
 	Survey update_survey=current_survey;
 	Person person=new Person(users_id.getValue(),null);
+	
+	if(user_comments.getText().length()>201)
+	msg.freeField= user_comments.getText().substring(0,200);
+	else
+	msg.freeField=user_comments.getText();
 	
 	msg.setUpdate();
 	msg.setRole("update survey answers");

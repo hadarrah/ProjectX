@@ -2024,9 +2024,10 @@ public class EchoServer extends AbstractServer {
 			 
 			// add the user to the list of the comment survey
 			PreparedStatement ps2 = con
-					.prepareStatement("INSERT INTO comments_survey (`ID`, `Customer_ID`) VALUES (?, ?);");
+					.prepareStatement("INSERT INTO comments_survey (`ID`, `Customer_ID`, `comment`) VALUES (?, ?, ?);");
 			ps2.setString(1,  survey_answers.getID());
 			ps2.setString(2, person.getUser_ID());
+			ps2.setString(3, msg1.freeField);
 			ps2.executeUpdate();
 
 			// client.sendToClient(msg1);
