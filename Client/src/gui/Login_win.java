@@ -131,9 +131,11 @@ public class Login_win  implements ControllerI,Initializable  {
 			  /*if user has one payment account, set it automatically*/
 			  else if(user.getStore().size()==1){
 				  String s=user.getStore().get(0);
-				  System.out.println(s);
+				 // System.out.println(s);
+				  titelStore=s;
+				  System.out.println(titelStore);
 				  chosen_store=s.substring(s.lastIndexOf("-")+1);
-				  System.out.println(chosen_store);
+				//  System.out.println(chosen_store);
 				 
 			   /**open the main menu window**/			 
 			   Platform.runLater(new Runnable() {

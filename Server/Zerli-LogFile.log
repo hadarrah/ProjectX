@@ -192,3 +192,71 @@ INFO: user 1got in to the system
 INFO: SQL connection succeed
 ιπε 13, 2018 9:51:12 AM action.EchoServer handleMessageFromClient
 INFO: SQL connection succeed
+ιπε 13, 2018 2:39:04 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:39:04 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+ιπε 13, 2018 2:39:57 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:39:57 PM action.EchoServer check_user_details
+INFO: user 5got in to the system
+ιπε 13, 2018 2:39:59 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:39:59 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:40:05 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:40:58 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:40:58 PM action.EchoServer check_user_details
+INFO: user 3got in to the system
+ιπε 13, 2018 2:43:54 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:43:54 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+ιπε 13, 2018 2:44:17 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:44:20 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:44:20 PM action.EchoServer check_user_details
+INFO: user 3got in to the system
+ιπε 13, 2018 2:44:38 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:45:12 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:45:12 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+ιπε 13, 2018 2:46:08 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:46:11 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:46:11 PM action.EchoServer check_user_details
+INFO: user 3got in to the system
+ιπε 13, 2018 2:46:13 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:46:34 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:46:34 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+ιπε 13, 2018 2:46:40 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:46:42 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:46:42 PM action.EchoServer check_user_details
+INFO: user 3got in to the system
+ιπε 13, 2018 2:46:48 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:47:24 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:47:24 PM action.EchoServer check_user_details
+INFO: user 3got in to the system
+ιπε 13, 2018 2:48:08 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:48:08 PM action.EchoServer check_user_details
+INFO: user 3got in to the system
+ιπε 13, 2018 2:48:19 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 2:48:19 PM action.EchoServer check_user_details
+INFO: user 3got in to the system
+ιπε 13, 2018 2:48:21 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
