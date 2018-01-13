@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -14,17 +16,27 @@
             <Image url="@page2.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="169.0" layoutY="29.0" text="Profile Details" textFill="#0d0d0c">
+      <Label layoutX="190.0" layoutY="29.0" prefHeight="43.0" prefWidth="171.0" text="Profile" textFill="#0d0d0c">
          <font>
             <Font name="Arial Black" size="29.0" />
          </font>
       </Label>
-      <Button fx:id="back_to_main_B" layoutX="52.0" layoutY="513.0" mnemonicParsing="false" onAction="#back_to_main" text="Back" />
-      <Button fx:id="edit_details_B" layoutX="169.0" layoutY="348.0" mnemonicParsing="false" onAction="#to_update_info" text="Edit Personal Details" />
-      <VBox fx:id="v_details" layoutX="90.0" layoutY="102.0" prefHeight="238.0" prefWidth="312.0">
+      <Button fx:id="back_to_main_B" layoutX="14.0" layoutY="543.0" mnemonicParsing="false" onAction="#back_to_main" text="Back" />
+      <Button fx:id="edit_details_B" layoutX="72.0" layoutY="418.0" mnemonicParsing="false" onAction="#to_update_info" text="Edit Personal Details" />
+      <VBox layoutX="339.0" layoutY="123.0" spacing="20.0">
          <children>
-            <TextArea fx:id="details_txt" prefHeight="218.0" prefWidth="277.0" />
+            <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="31.0" prefWidth="147.0" text="View Purchase history" textAlignment="CENTER" fx:id="history" onAction="#to_purchase_history">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+            <Button lineSpacing="15.0" mnemonicParsing="false" text="Cancel Order">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
          </children>
       </VBox>
+      <TextArea fx:id="details_txt" layoutX="14.0" layoutY="123.0" prefHeight="281.0" prefWidth="270.0" />
    </children>
 </Pane>

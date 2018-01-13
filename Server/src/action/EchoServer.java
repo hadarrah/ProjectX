@@ -124,7 +124,10 @@ public class EchoServer extends AbstractServer {
 				if (msg1.getRole().equals("View all catalog items"))
 					ViewItems(msg1, conn, client); 
 				else if (msg1.getRole().equals("check if user already did this survey"))
-					check_if_user_took_this_survey(msg1, conn, client);
+				{
+					//check_if_user_took_this_survey(msg1, conn, client);
+				}
+					
 				else if (msg1.getRole().equals("verify user details"))
 					check_user_details(msg1, conn, client);
 				else if (msg1.getRole().equals("check if ID exist and add payment account"))
@@ -282,7 +285,9 @@ public class EchoServer extends AbstractServer {
 		try {
 			/** Building the query */
 			 
-			PreparedStatement ps = conn.prepareStatement(" SELECT ID FROM person where Privilege='Customer';");
+			PreparedStatement ps = conn.prepareStatement(" SELECT ID "+ 
+					"FROM person where Privilege='Customer' and ID not in ( SELECT  Customer_ID FROM zerli.comments_survey);"); 
+				 
 			ResultSet rs = ps.executeQuery();
 			while(rs.next())
 			{	
@@ -1279,8 +1284,8 @@ public class EchoServer extends AbstractServer {
 					"UPDATE " + msg1.getTableName() + " " + "SET Online=? WHERE ID=" + user.getUser_ID());
 			ps.setString(1, new_status);
 			ps.executeUpdate();
-
-			// System.out.println("the online status was changed ");
+	
+			 
 		}
 
 		catch (SQLException e) {
@@ -1996,8 +2001,9 @@ public class EchoServer extends AbstractServer {
 	public static void update_survey_answers(Object msg, Connection con, ConnectionToClient client) {
 		Msg msg1 = (Msg) msg;
 		Survey survey_answers = (Survey) msg1.oldO;
+		Person person=(Person) msg1.newO;
 		PreparedStatement ps;
-		ResultSet rs;
+
 		try {
 			ps = con.prepareStatement("UPDATE " + msg1.getTableName()
 					+ " SET A1=A1+?, A2=A2+? , A3=A3+? ,A4=A4+? , A5=A5+? , A6=A6+?, Num_Of_Participant =Num_Of_Participant+1  WHERE ID=?;");
@@ -2011,7 +2017,14 @@ public class EchoServer extends AbstractServer {
 			ps.executeUpdate();
 
 			msg1.newO = survey_answers;
-			System.out.println("after the update in data base");
+			 
+			// add the user to the list of the comment survey
+			PreparedStatement ps2 = con
+					.prepareStatement("INSERT INTO comments_survey (`ID`, `Customer_ID`) VALUES (?, ?);");
+			ps2.setString(1,  survey_answers.getID());
+			ps2.setString(2, person.getUser_ID());
+			ps2.executeUpdate();
+
 			// client.sendToClient(msg1);
 		}
 

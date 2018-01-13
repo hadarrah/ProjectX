@@ -23,9 +23,20 @@ import javafx.stage.WindowEvent;
 
 public class Profile_Controller implements ControllerI,Initializable {
 	public TextArea details_txt;
-	public Button back_to_main_B,edit_details_B;
+	public Button back_to_main_B,edit_details_B,history;
 	public VBox v_details;
 	
+	
+	
+	public void to_purchase_history(ActionEvent event)throws IOException 
+	{
+		  Parent menu;
+		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+"Purchase_History_F.fxml"));
+		 Scene win1= new Scene(menu);
+		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		 win_1.setScene(win1);
+		 win_1.show();
+	}
 	/**
 	 * set the current user details in the window 
 	 * also present the account details
@@ -58,7 +69,7 @@ public class Profile_Controller implements ControllerI,Initializable {
 		 
 		 
 		 
-		 /*
+		 
 		if(!(gui.Login_win.current_user_pay_account.getCreditCard()==null)) 
 		{
 			
@@ -79,7 +90,7 @@ public class Profile_Controller implements ControllerI,Initializable {
 			 details_txt.appendText("\t\t\t"+details+"\n\n");
 			
 		}
-		 */
+		 
  	}
 	
 	
