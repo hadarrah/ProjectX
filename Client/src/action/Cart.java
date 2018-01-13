@@ -22,6 +22,10 @@ public class Cart {
 		this.removedItems.clear();
 	}
 	
+	public boolean isEmpty() {
+		return selectedItemsArr.isEmpty();
+	}
+	
 	public void addItemToCart(Item t) {
 
 		// Add the item

@@ -68,7 +68,7 @@ public class Login_win  implements ControllerI,Initializable  {
 			login_counter++;
 			if(login_counter>2)//user had tried 3 times
 			{
-				System.exit(1);
+//				System.exit(1);
 			}
 		}
 		/*user details are valid -> check if the user exist in the system*/

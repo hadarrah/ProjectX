@@ -9,10 +9,18 @@ public class Self_Item extends Item {
 	public ArrayList<Item> items = new ArrayList<Item>();
 	public Map<Item, Integer> amounts = new HashMap<Item, Integer>();
 
-	public String description;
+	public String type;
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public float totPrice;
 
-	public Self_Item(ArrayList<Item> itemsarr, Map<Item, Integer> amountmap, String desc) {
+	public Self_Item(ArrayList<Item> itemsarr, Map<Item, Integer> amountmap, String type) {
 
 		for(Item t:itemsarr) {
 			Item in = new Item();
@@ -24,24 +32,15 @@ public class Self_Item extends Item {
 			amounts.put(in, amountmap.get(t));
 		}
 
-		this.description = desc;
-		// display name up to 6 first letters of description
-		if (desc.length() > 0)
-			this.setName(desc);
-		if (desc.length() > 8)
-			this.setName(desc.substring(0, 8) + "...");
+		this.setType(type);
+
 		setPrice();
 	}
 
 	public Self_Item(Self_Item st) {
 		this.items = st.items;
 		this.amounts = st.amounts;
-		this.description = st.description;
-		// display name up to 6 first letters of description
-		if (this.description.length() > 0)
-			this.setName(this.description);
-		if (this.description.length() > 8)
-			this.setName(this.description.substring(0, 8) + "...");
+		this.type= st.getType();
 		setPrice();
 	}
 
@@ -59,12 +58,8 @@ public class Self_Item extends Item {
 		setPrice();
 	}
 
-	// Setters
-	public void setDescription(String desc) {
-		this.description = desc;
-	}
 
-	/* Calculates total price of */
+	/** Calculates total price of the item */
 	public void setPrice() {
 		float price = 0;
 		for (Item t : items) {
@@ -72,11 +67,6 @@ public class Self_Item extends Item {
 		}
 		this.totPrice = price;
 	}
-
-	/* Getters */
-	public String getDesctiprion() {
-		return this.description;
-	} // Description.
 
 	public float getPrice() {
 		return this.totPrice;

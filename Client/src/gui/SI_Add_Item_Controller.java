@@ -97,12 +97,16 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		}
 	}
 
+	/**
+	 * func: itemSelected
+	 * desc: update screen when selecting an item from CB
+	 * */
 	public void itemSelected(ActionEvent event) {
 
 		String name = select_item_CB.getValue();
 		float price = -1;
 
-		System.out.println("You have selected: " + name);
+//		System.out.println("You have selected: " + name);
 
 		for (int i = 0; i < products.size(); i++) {
 			if (products.get(i).getName().equals(name)) {
@@ -117,14 +121,15 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 	}
 
+	
+	/**
+	 * func: findItemsByAttributes
+	 * desc: checking for input errors, if pass-> requesting server for items
+	 * */
 	public void findItemsByAttributes(ActionEvent event) {
-
-		/* save the event */
-		// event_log = new ActionEvent();
-		// event_log = event.copyFor(event.getSource(), event.getTarget());
-
-
-
+		
+		
+		newSearch();
 		/* Preparing label string to show incase of incorrect inpur */
 		String selmis = "Selection Missing: ";
 		/* Assuming the selection is good */
@@ -198,6 +203,11 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		Login_win.to_Client.accept(msg);
 	}
 
+	
+	/**
+	 * func: setReturnedItems
+	 * desc: set items which fit the users description from server
+	 * */
 	public void setReturnedItems(Object message) {
 
 		products = (ArrayList<Item>) ((Msg) message).newO;
@@ -239,6 +249,13 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 		}
 
+	}
+	
+	/**Sets when a new search is requested*/
+	public void newSearch() {
+		select_item_CB.setValue(null);
+		amount_wanted_TF.setText("");
+		unit_price_TF.setText("");
 	}
 
 	/**

@@ -6,7 +6,16 @@ import java.time.LocalDateTime;
 public class Order implements Serializable{
 	private String id, personid, status, payment, storeid,delivery1;
 	private String createtime, createdate, requesttime, requestdate;
+	private String card;
 	
+	public String getCard() {
+		return card;
+	}
+
+	public void setCard(String card) {
+		this.card = card;
+	}
+
 	float totPrice;
 	//public static int id = lastID();
 	boolean delivery;

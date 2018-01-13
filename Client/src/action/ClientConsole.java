@@ -229,6 +229,9 @@ public class ClientConsole implements ChatIF {
 					((gui.Order_Controller) mc).create_delivery_success(message);
 				else if(check.getRole().equals("insert items in order")) 
 					((gui.Order_Controller) mc).insert_items_success(message);
+				else if(check.getRole().equals("insert card")) 
+				((gui.Order_Controller) mc).insert_card_success(message);
+				
 			}
 			else if (check.getRole().equals("update user details")) {
 			  ((gui.Update_Personal_Info_Controller)mc).get_new_user_details(message);

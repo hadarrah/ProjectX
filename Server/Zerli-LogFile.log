@@ -260,3 +260,171 @@ INFO: SQL connection succeed
 INFO: user 3got in to the system
 ιπε 13, 2018 2:48:21 PM action.EchoServer handleMessageFromClient
 INFO: SQL connection succeed
+Jan 13, 2018 3:51:22 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:51:22 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+Jan 13, 2018 3:51:37 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:51:37 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:51:41 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:52:00 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:52:07 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:52:10 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:52:13 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:52:14 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:52:14 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:54:05 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:54:05 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+Jan 13, 2018 3:54:14 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:54:20 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:54:27 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:54:34 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:54:34 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:54:34 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:54:34 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:55:24 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:55:24 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:55:27 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:55:37 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:55:43 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:55:48 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:56:43 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:57:04 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:57:04 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+Jan 13, 2018 3:57:09 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:57:09 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:57:13 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:57:22 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:57:26 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:58:25 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:58:49 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:58:49 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+Jan 13, 2018 3:58:55 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:58:55 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:58:58 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:59:08 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 3:59:12 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:00:03 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:00:03 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+Jan 13, 2018 4:00:18 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:00:18 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+Jan 13, 2018 4:00:28 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:00:28 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:00:31 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:00:40 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:00:45 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:01:42 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:01:42 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+Jan 13, 2018 4:01:47 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:01:47 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:01:51 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:02:00 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:02:05 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:03:16 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:03:27 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:03:27 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+Jan 13, 2018 4:03:31 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:03:31 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:03:34 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:03:45 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:03:49 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:04:33 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:04:33 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+Jan 13, 2018 4:04:44 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:04:44 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+Jan 13, 2018 4:04:48 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:04:48 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:04:52 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:05:02 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:05:06 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:05:27 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:05:36 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:05:41 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:08:52 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:09:32 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:09:32 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+Jan 13, 2018 4:09:37 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:09:47 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+Jan 13, 2018 4:09:53 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed

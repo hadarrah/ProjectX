@@ -28,6 +28,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -39,12 +41,13 @@ import javafx.stage.WindowEvent;
 
 public class Self_Item_Controller implements Initializable, ControllerI {
 
-	public Button add_items_B, remove_items_B, add_to_cart_B, cancel_B;
-	public TextField description_TF, total_price_TF;
+	public Button add_items_B, remove_items_B, add_to_cart_B, back_B;
+	public TextField total_price_TF;
 	public ListView<Item> items_selected_LV;
-	public static ActionEvent event_log;
+	public ComboBox<String> si_type_CB;
+	public Label cbX;
 
-	public String description = null;
+	public String type = null;
 
 	// Pointer to user's cart page
 	public static Cart userCart = Main_menu.userCart;
@@ -61,9 +64,16 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 	Item selectedFromLV = null;
 
 	public float totalPrice;
-
+	
+	/**Moves the current self item to cart*/
 	public void moveItemToCart() {
 		//If user hasn't selected any items.
+		if(si_type_CB.getValue()==null)
+		{
+			cbX.setVisible(true);
+			return;
+		}
+		
 		if(this.selectedProductsArr.size()<=0) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("There are no items in your cart");
@@ -75,8 +85,7 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 			return;			
 		}
 		
-		description = getDescription();
-		Self_Item selfi = new Self_Item(this.selectedProductsArr, this.itemToAmount, this.description);
+		Self_Item selfi = new Self_Item(this.selectedProductsArr, this.itemToAmount, this.type);
 		selfi.setPrice(totalPrice);
 		userCart.addItemToCart(selfi);
 		this.addedItem = selfi;
@@ -91,13 +100,17 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 		clearList();
 	}
 
+	/**Clears current ListView*/
 	public void clearList() {
 		selectedProductsArr.clear();
 		itemToAmount.clear();
 		setSelected();
 		setTotalPrice();
+		this.type=null;
+		si_type_CB.setValue(null);
 	}
 	
+	/**Removes the selected items from ListView*/
 	public void removeFromSelected(ActionEvent event) {
 
 		if (selectedFromLV != null) {
@@ -108,6 +121,7 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 		}
 	}
 
+	/**Sets the selected items in the list view*/
 	public void setSelected() {
 
 		String pnames[] = new String[selectedProductsArr.size()];
@@ -121,6 +135,15 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 
 	}
 
+	/**Action for when a type is selected from CB*/
+	public void typeSelected(ActionEvent e) {
+		if(si_type_CB.getValue()!=null) {
+		this.type=si_type_CB.getValue();
+		cbX.setVisible(false);
+		}
+	}
+	
+	/**Set total price in TextField*/
 	public void setTotalPrice() {
 		totalPrice = 0;
 		for (Item p : selectedProductsArr) {
@@ -131,21 +154,31 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 		total_price_TF.setText(Float.toString(totalPrice));
 	}
 
+	/**Get currently selected item from ListView*/
 	public void getSelectedFromLV(ActionEvent event) {
 		Item pr = items_selected_LV.getSelectionModel().getSelectedItem();
-
-		System.out.println(pr.getName() + " is selected");
+//		System.out.println(pr.getName() + " is selected");
+	}
+	
+	public void setTypeCB() {
+		ArrayList<String> arr = new ArrayList<String>();
+		arr.add("As Is");
+		arr.add("Flower Arrangement");
+		arr.add("Flower Pot");
+		arr.add("Bride's Bouquet");
+		arr.add("Ordinary Bouquet");
+		
+		ObservableList<String> list = FXCollections.observableArrayList(arr);
+		si_type_CB.setItems(list);
 
 	}
 
-	public String getDescription() {
-		return this.description_TF.getText();
-	}
-
-	public void cancel(ActionEvent event) throws IOException {
+	/**Back to main Menu*/
+	public void back(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Main_Menu_F.fxml");
 	}
 
+	/**Move to Add Items page*/
 	public void add_Items(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Self_Item_Add_Items_F.fxml");
 	}
@@ -215,6 +248,8 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 			setSelected(); // Present selected item list from products arraylist;
 
 		setTotalPrice();
+		setTypeCB();
+		cbX.setVisible(false);
 	}
 
 }

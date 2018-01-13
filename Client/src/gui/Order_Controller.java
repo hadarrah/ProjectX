@@ -29,6 +29,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -46,6 +47,7 @@ public class Order_Controller implements Initializable, ControllerI {
 			min_TF;
 	public Pane delivery_P; // Pane which appears after the user selects delivery_R
 	public Pane self_P, time_P;
+	public Label store_L;
 
 	// Current user cart, synch in initialize().
 	public Cart userCart = Cart_Controller.userCart;
@@ -55,6 +57,8 @@ public class Order_Controller implements Initializable, ControllerI {
 	public static ActionEvent event;
 
 	public float totalPrice = 0;
+	public String card = Cart_Controller.cardType;
+	public String cardDesc = Cart_Controller.cardDesc;
 
 	public static int orderid;
 
@@ -63,11 +67,11 @@ public class Order_Controller implements Initializable, ControllerI {
 	private boolean isDelivery = false;
 	private boolean backToMenu = false;
 	private boolean noErrors = false;
-	private boolean itemsInOrder = false;
 	private boolean good = false;
 	private boolean orderDone = false;
 	private boolean deliveryDone = false;
 	private boolean itemsInDB = false;
+	private boolean cardInDB = false;
 
 	public Order order = null;
 
@@ -95,6 +99,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		if (noErrors == true) {
 			insertOrderToDB();
 
+
 			//Wait in incremets of 10ms for thread to finish the order process
 			while (!orderDone)
 				try {
@@ -103,6 +108,8 @@ public class Order_Controller implements Initializable, ControllerI {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			
+			
 			
 			if(order.haveDelivery()) {
 				insertDeliveryToDB();
@@ -116,12 +123,36 @@ public class Order_Controller implements Initializable, ControllerI {
 					e.printStackTrace();
 				}
 			}
+				insertItemsToDB();
+				
+				while (!itemsInDB)
+					try {
+						Thread.sleep(10);// wait
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+			if (order.getCard() != null && order.getCard() != "") {
+				insertCardToDB();
+
+				while (!cardInDB)
+					try {
+						Thread.sleep(10);// wait
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
 			
-			insertItemsToDB();
+			System.out.println("after insert card");
+			
 			
 			good = true;
 
 		}
+			
+		
 
 		//Process successful
 		//If everything went well -> order, delivery and items are in database
@@ -153,6 +184,8 @@ public class Order_Controller implements Initializable, ControllerI {
 		}
 	}
 
+
+	/** Check if the current users order details are valid */
 	public void checkUserOrder() {
 
 		// no order type selected
@@ -214,16 +247,6 @@ public class Order_Controller implements Initializable, ControllerI {
 		// No errors
 		else {
 			noErrors = true;
-
-			// try {
-			// Thread.sleep(100);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-
-			/** insertOrderToDB(); */
-
 		}
 
 	}
@@ -264,6 +287,8 @@ public class Order_Controller implements Initializable, ControllerI {
 
 		order.setTotprice(userCart.totalPrice);
 
+		order.setCard(card);
+
 		order.setStoreid(acc.getStoreID()); // user's store id by payment_account registration
 
 		this.time = hour_TF.getText() + ":" + min_TF.getText(); // 14:36
@@ -276,8 +301,6 @@ public class Order_Controller implements Initializable, ControllerI {
 			p = "Credit";
 		order.setPayment(p);
 
-		// order.setStoreid(storeid); -> need to add sid to person
-
 		msg.setRole("insert order");
 		msg.setInsert();
 		order.setStatus("Requested");
@@ -288,6 +311,25 @@ public class Order_Controller implements Initializable, ControllerI {
 		// Order has been created
 		// we insert the delivery (if exists) from within create_order_success
 		// we insert all the items to DB from within create_order_success
+
+	}
+
+	public void insertCardToDB() {
+		Msg msg = new Msg();
+
+		String oid = Integer.toString(this.orderid);
+		String type = Cart_Controller.cardType;
+		String text = Cart_Controller.cardDesc;
+
+		msg.oldO = (Object) type;
+		msg.newO = (Object) text;
+		msg.freeField = oid;
+
+		msg.setRole("insert card");
+		msg.setInsert();
+
+		
+		Login_win.to_Client.accept(msg);
 
 	}
 
@@ -319,7 +361,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		ArrayList<Item> items = Main_menu.userCart.selectedItemsArr;
 		ArrayList<Item> newarr = new ArrayList<Item>();
 
-		Map<Item,Integer> amounts = Main_menu.userCart.itemToAmount;	/**We will need this for catalog items-> if more than one bought*/
+		Map<Item,Integer> amounts = Main_menu.userCart.itemToAmount;
 		Map<String,Integer> newamounts = new HashMap<String, Integer>();
 		
 		for(int i=0; i<items.size(); i++) {
@@ -327,9 +369,15 @@ public class Order_Controller implements Initializable, ControllerI {
 			
 			Item itemincart = items.get(i);
 
-			if(itemincart instanceof Self_Item) {	//if item is self_item
-				Self_Item st = (Self_Item)itemincart;
-				//System.out.println("st size: "+st.items.size());
+			System.out.println("curr item: "+itemincart.getType());
+			
+			if (itemincart instanceof Self_Item) { // if item is self_item
+				System.out.println("inside SI"+itemincart.getType());
+				Self_Item st = (Self_Item) itemincart;
+				System.out.println("inside SI"+st.getType());
+				if(st.getType()!="As Is")
+				newarr.add(st);
+				newamounts.put(st.getID(), 1);
 
 				for(int j=0; j<st.items.size();j++) {	//go through all items in st
 					
@@ -358,7 +406,7 @@ public class Order_Controller implements Initializable, ControllerI {
 						int amnt = st.amounts.get(t);
 						newarr.add(t);
 						newamounts.put(t.getID(), amnt);			
-				}
+					}
 				}
 			}
 			else {
@@ -384,6 +432,9 @@ public class Order_Controller implements Initializable, ControllerI {
 				}
 			}
 		}
+		
+		
+
 		
 		Msg msg = new Msg();
 
@@ -412,8 +463,15 @@ public class Order_Controller implements Initializable, ControllerI {
 
 	public void insert_items_success(Object msg) {
 		int oid = (int) ((Msg) msg).num1;
-		System.out.println("Items for order " + oid +" " + "been added!");
-		itemsInOrder = true;
+		System.out.println("Items for order " + oid + " " + "been added!");
+		itemsInDB = true;
+	}
+
+	public void insert_card_success(Object msg) {
+		float num1 = ((Msg) msg).num1;
+		if (num1 == 1)
+			System.out.println("Card has been inserted");
+		cardInDB = true;
 	}
 
 	// A function which receives the returned msg from server after inserting an
@@ -449,9 +507,25 @@ public class Order_Controller implements Initializable, ControllerI {
 		} else if (selectdelivery_TG.getSelectedToggle() == self_R)
 			if (delivery_P.isVisible())
 				delivery_P.setVisible(false);
+			
+			String storeLoc="";
+			if(Login_win.current_user.getStore().size()==1)
+				storeLoc=Login_win.current_user.getStore().get(0);
+			else
+				System.out.println("correct chosen store: "+Login_win.chosen_store);
+				for(String s : Login_win.current_user.getStore()) {
+					System.out.println("s: "+s);
+					if(s.endsWith(Login_win.chosen_store)) {
+						storeLoc=s;
+						break;
+					}
+				}
+			
+			//storeLoc=storeLoc.substring(storeLoc.lastIndexOf("-")+1);
+		store_L.setText(storeLoc);
 		self_P.setVisible(true);
 		return;
-	}
+		}
 
 	public void setTotalPrice() {
 		// Cart.calcTotalPrice() calculates according to subscription

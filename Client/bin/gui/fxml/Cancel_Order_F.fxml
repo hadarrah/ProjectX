@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Cancel_Order_Controller">
+   <children>
+      <ComboBox fx:id="order_ids" layoutX="160.0" layoutY="85.0" prefWidth="150.0" />
+      <Button fx:id="view_details_b" layoutX="177.0" layoutY="130.0" mnemonicParsing="false" text="View order Details"  onAction="#setOrderdetails"/>
+      <TextArea fx:id="order_details" editable="false" layoutX="68.0" layoutY="167.0" prefHeight="207.0" prefWidth="326.0" visible="false" />
+      <Button fx:id="back" layoutX="24.0" layoutY="448.0" mnemonicParsing="false" text="Back" onAction="#back_to_main" />
+      <Button fx:id="cancel_order_b" layoutX="316.0" layoutY="384.0" mnemonicParsing="false" text="Cancel Order" onAction="#CancelOrder" />
+      <Label layoutX="24.0" layoutY="90.0" text="Choose The Order Id" />
+      <Label fx:id="calc" layoutX="24.0" layoutY="388.0" text="Percent of compensation:" />
+   </children>
+</Pane>

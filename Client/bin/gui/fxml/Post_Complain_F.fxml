@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="471.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Post_Complain_Controller">
+   <children>
+      <Label layoutX="127.0" layoutY="28.0" text="Post a New Complian" textFill="#433f3f">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <VBox fillWidth="false" layoutX="146.0" layoutY="83.0" prefHeight="265.0" prefWidth="303.0" spacing="25.0">
+         <children>
+            <ComboBox fx:id="topic_names" prefWidth="150.0" />
+            <TextField fx:id="user_id" prefHeight="23.0" prefWidth="154.0" />
+            <TextArea fx:id="user_txt_complain" prefHeight="133.0" prefWidth="270.0" />
+         </children>
+      </VBox>
+      <Button fx:id="back_to_main" layoutX="15.0" layoutY="382.0" mnemonicParsing="false" text="Back" onAction="#back_to_main" />
+      <Button fx:id="sumbit_complain" layoutX="398.0" layoutY="382.0" mnemonicParsing="false" text="Submit" onAction="#submit_complain" />
+      <Label fx:id="date" layoutX="395.0" layoutY="21.0" text="DATE" />
+      <CheckBox layoutX="146.0" layoutY="332.0" mnemonicParsing="false" text="CheckBox" />
+      <VBox layoutX="46.0" layoutY="83.0" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label fx:id="complain_topic" text="Complain Topic:" />
+            <Label text="User Id:">
+               <padding>
+                  <Insets right="15.0" top="38.0" />
+               </padding>
+            </Label>
+            <Label  fx:id="user_complain"  text="Your Complain:">
+               <padding>
+                  <Insets top="35.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</Pane>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Create_Sale_Controller">
+   <children>
+      <ImageView fitHeight="600.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@page2.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="back_B" layoutX="24.0" layoutY="533.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Label layoutX="135.0" layoutY="24.0" text="Create Sale">
+         <font>
+            <Font name="Nebulo Demo" size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="create_sale_B" layoutX="202.0" layoutY="521.0" mnemonicParsing="false" onAction="#create_Sale" text="Create Sale" />
+      <TextArea fx:id="description_Text" layoutX="27.0" layoutY="361.0" prefHeight="111.0" prefWidth="446.0" promptText="Enter your discription200 charchters max)" wrapText="true" />
+      <Label layoutX="202.0" layoutY="342.0" text="Description:">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <VBox alignment="TOP_CENTER" layoutX="16.0" layoutY="102.0" prefHeight="200.0" prefWidth="128.0" spacing="20.0">
+         <children>
+            <Label text="Store ID:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label text="Discount:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label text="Participants Items:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="185.0" layoutY="102.0" prefHeight="200.0" prefWidth="204.0" spacing="20.0">
+         <children>
+            <Label fx:id="store_ID_L" text=" ">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="discount_Text" promptText="Enter discount in %" />
+            <ListView fx:id="item_list" prefHeight="142.0" prefWidth="192.0" />
+         </children>
+      </VBox>
+      <Label fx:id="invalid_detailsL_Item" layoutX="191.0" layoutY="302.0" text="You must choose at least one item" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="invalid_detailsL_description" layoutX="166.0" layoutY="479.0" text="You must fill the comment" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="invalid_detailsL_description_length" layoutX="144.0" layoutY="479.0" text="The length of comment is too long" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="invalid_detailsL_Discount" layoutX="395.0" layoutY="145.0" text="X" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

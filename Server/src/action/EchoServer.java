@@ -203,6 +203,8 @@ public class EchoServer extends AbstractServer {
 			case "INSERT": {
 				if (msg1.getRole().equals("insert survey"))
 					insert_survey(msg1, conn, client);
+				else if (msg1.getRole().equals("insert card"))
+					insert_card(msg1, conn, client);
 				else if (msg1.getRole().equals("insert customer id to survey"))
 					set_customer_in_survey_answered(msg1, conn, client);
 				else if (msg1.getRole().equals("insert a new complain"))
@@ -229,6 +231,38 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
+	
+	
+	public static void insert_card(Msg msg1, Connection conn, ConnectionToClient client) {
+
+		String oid = (String) msg1.freeField;
+		String type = (String) msg1.oldO;
+		String text = (String) msg1.newO;
+		PreparedStatement ps;
+		ResultSet rs;
+
+		try {
+			ps = conn.prepareStatement("INSERT INTO `zerli`.`card` (Order_ID, Type, Text)" + " VALUES (?, ?, ?);");
+
+			ps.setString(1, oid);
+			ps.setString(2, type);
+			ps.setString(3, text);
+
+			ps.executeUpdate();
+			// insert deliv after order created -> no deliveries without orders.
+
+			msg1.num1 = 1;
+			client.sendToClient((Msg) msg1);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	
  /**
   * get the Customers ids
   * @param msg1
@@ -751,19 +785,43 @@ public class EchoServer extends AbstractServer {
 		int orderID = (int) msg.num1;
 
 		PreparedStatement ps;
+
 		try {
-			ps = conn.prepareStatement(
-					"INSERT INTO item_in_order (Order_ID, Item_ID, Type, Amount)" + " VALUES (?, ?, ?, ? );");
 
 			// insert all the items
 			for (Item t : (ArrayList<Item>) items) {
-				System.out.println("item: " + t.getName());
+				//if self_item then add it to self tables with new id
+				int newid = -1;
+				if (t instanceof Self_Item) {
+					PreparedStatement ps1 = conn.prepareStatement("SELECT max(ID) FROM self_item;");
+					ResultSet rs = ps1.executeQuery();
+					rs.next();
+					newid = (rs.getInt(1)) + 1;
+					System.out.println("got my new self item id!: "+newid);
+
+					ps = conn.prepareStatement("INSERT INTO self_item (ID, Type)" + " VALUES (?, ?);");
+					ps.setString(1, Integer.toString(newid));
+					ps.setString(2, t.getType());
+					
+					ps.executeUpdate();
+				}
+
+				//then associate the item with the order.
+				ps = conn.prepareStatement(
+						"INSERT INTO `item_in_order` (Order_ID, Item_ID, Type, Amount)" + " VALUES (?, ?, ?, ? );");
+
+				String id;
+				
 				ps.setString(1, Integer.toString(orderID));
-				ps.setString(2, t.getID());
+				if(newid>-1) id=Integer.toString(newid);
+				else id=t.getID();
+				
+				ps.setString(2, id);
 				ps.setString(3, t.getType());
 				ps.setString(4, Integer.toString(amounts.get(t.getID())));
-
+				
 				ps.executeUpdate();
+
 			}
 
 			client.sendToClient(msg);
