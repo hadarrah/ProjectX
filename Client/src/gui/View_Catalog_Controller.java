@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,12 +34,14 @@ import javafx.scene.control.Pagination;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -52,8 +55,10 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	public Label xName;
 	public Label xDescription;
 	public Label xPrice;
+	public Label xImage;
 	public Button Prev_B;
 	public Button Save_B;
+	public Button AddSave_B;
 	public Button back_B;
 	public Button Next_B;
 	public Button Edit_B;
@@ -77,10 +82,12 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	public static ArrayList<Item_In_Catalog> Itc;
 	public static int Itc_counter = 0;
 	public static int view_counter = 0;
+	public static int ChangePicture = 0;
 	public static Person current_user;
 	public static ObservableList<String> list;
 	public static String chosenStore;
 	public static ActionEvent log;
+	public static Item_In_Catalog tmp = new Item_In_Catalog();
 
 	/** open the catalog window **/
 	public void back(ActionEvent event) throws IOException {
@@ -150,23 +157,57 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Pic_B.setVisible(true);
 
 	}
-	
-	/**Change item in catalog picture**/
+
+	/** Change item in catalog picture **/
 	public void ChangePicture(ActionEvent event) throws IOException {
-		File f;
+		ChangePicture = 1;
+		FileChooser.ExtensionFilter i = new FileChooser.ExtensionFilter("Image Files", "*.jpg");// option to choose only
+																								// jpg files.
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Open Resource File");
-		f=fileChooser.showOpenDialog(null);
-		System.out.println(f);
-	
+		fileChooser.getExtensionFilters().add(i);
+		fileChooser.setTitle("Choose a picture");
+		File f = fileChooser.showOpenDialog(null);		
+		
+		String s = f.getPath();
+		// System.out.println(s);
+		// System.out.println();
+		MyFile mf = new MyFile(txtID.getText() + ".jpg");
+		mf.setDescription(s);
+		mf = getFileInfo(mf);
+		tmp.setImage(mf);
+
+	}
+
+	/** convert image to MyFile **/
+	public static MyFile getFileInfo(MyFile mf) {
+
+		try {
+
+			File newFile = new File(mf.getDescription());
+
+			byte[] mybytearray = new byte[(int) newFile.length()];
+			FileInputStream fis = new FileInputStream(newFile);
+			BufferedInputStream bis = new BufferedInputStream(fis);
+
+			mf.initArray(mybytearray.length);
+			mf.setSize(mybytearray.length);
+
+			bis.read(mf.getMybytearray(), 0, mybytearray.length);
+
+			bis.close();
+			fis.close();
+
+		} catch (Exception e) {
+			System.out.println("Error send (Files)msg) to Server");
+		}
+
+		return mf;
 	}
 
 	/** save changes in DB **/
 	public void Save(ActionEvent event) throws IOException {
 
 		Msg msg = new Msg();
-		Item_In_Catalog tmp = new Item_In_Catalog();
-
 		if (txtPrice.getText().equals(""))
 			txtPrice.setText("0.0");
 
@@ -175,7 +216,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 			if (txtName.getText().equals(""))
 				xName.setVisible(true);
 			else {
-				
+
 				xName.setVisible(false);
 			}
 			if (txtDescription.getText().equals(""))
@@ -195,7 +236,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		if (!(txtPrice.getText().equals("0.0"))) {
 			try {
 				tmp.setPrice(Float.parseFloat(txtPrice.getText()));
-				xPrice.setVisible(false);				
+				xPrice.setVisible(false);
 			} catch (NumberFormatException e) {
 				Login_win.showPopUp("ERROR", "", "Wrong input", "");
 				// here provide your logic to tell the user to "Enter a valid number"
@@ -208,54 +249,138 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		txtName.setEditable(false);
 		txtDescription.setEditable(false);
 		txtPrice.setEditable(false);
+		if (ChangePicture == 0)
+			tmp.setImage(null);
 		tmp.setID(txtID.getText());
 		tmp.setName(txtName.getText());
-		tmp.setDescription(txtDescription.getText());		
+		tmp.setDescription(txtDescription.getText());
 		msg.setUpdate();
 		msg.setRole("update item in catalog");
 		msg.newO = tmp;
 		Login_win.to_Client.accept(msg);
 
 	}
-	
-	public void update_item_success(Object msg)
-	{
-Platform.runLater(new Runnable() {
-			
+
+	/** show message of success update **/
+	public void update_item_success(Object msg) {
+		Platform.runLater(new Runnable() {
+
 			@Override
 			public void run() {
-				 	Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");	
-				 	Pic_B.setVisible(false);
-				
+				Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");
+				Pic_B.setVisible(false);
+				ChangePicture = 0;
+				init();
 			}
-		}); 
-		
-		
-	}
-	public void delete_item_success(Object msg)
-	{
-Platform.runLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				 	Login_win.showPopUp("INFORMATION", "Message", "Delete Done successfully", "");
-				 	init();
-				 		
-				
-			}
-		}); 
-		
-		
+		});
+
 	}
 
 	/** change item status to deleted **/
 	public void DeleteCatalog(ActionEvent event) throws IOException {
 		Msg msg = new Msg();
-		msg.freeField= txtID.getText();		
+		msg.freeField = txtID.getText();
 		msg.setRole("delete item from catalog");
 		msg.setUpdate();
 		Login_win.to_Client.accept(msg);
 	}
+
+	/** show message of success delete **/
+	public void delete_item_success(Object msg) {
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				Login_win.showPopUp("INFORMATION", "Message", "Delete Done successfully", "");
+				init();
+			}
+		});
+
+	}
+
+	/** Add a new item to catalog **/
+	public void AddNewItemToCatalog(ActionEvent event) throws IOException {
+		txtID.setText("Automaticlly");
+		txtName.clear();
+		txtDescription.clear();
+		txtAmount.setVisible(false);
+		txtPrice.clear();
+		txtName.setEditable(true);
+		txtDescription.setEditable(true);
+		txtPrice.setEditable(true);
+		Itemimg.setImage(null);
+		Pic_B.setVisible(true);
+		AddSave_B.setVisible(true);
+		txtName.setEditable(true);
+		txtName.setStyle("-fx-border-color: red ;");
+		txtDescription.setEditable(true);
+		txtDescription.setStyle("-fx-border-color: red ;");
+		txtPrice.setEditable(true);
+		txtPrice.setStyle("-fx-border-color: red ;");
+		txtID.setDisable(false);
+
+	}
+
+	public void SaveNewItem(ActionEvent event) throws IOException {
+		// Calculate id by maximum
+		Msg msg = new Msg();
+		if (txtPrice.getText().equals(""))
+			txtPrice.setText("0.0");
+
+		if (txtName.getText().equals("") || txtDescription.getText().equals("") || txtPrice.getText().equals("0.0")||ChangePicture==0) {
+			Login_win.showPopUp("ERROR", "", "Empty Fields", "");
+			if(ChangePicture==0) {
+				xImage.setVisible(true);
+				ChangePicture=1;
+			}				
+			else
+			{
+				xImage.setVisible(false);
+			}
+			if (txtName.getText().equals(""))
+				xName.setVisible(true);
+			else {
+
+				xName.setVisible(false);
+			}
+			if (txtDescription.getText().equals(""))
+				xDescription.setVisible(true);
+			else {
+
+				xDescription.setVisible(false);
+			}
+			if (txtPrice.getText().equals("0.0"))
+				xPrice.setVisible(true);
+			else {
+
+				xPrice.setVisible(false);
+			}
+
+		}
+		if (!(txtPrice.getText().equals("0.0"))) {
+			try {
+				tmp.setPrice(Float.parseFloat(txtPrice.getText()));
+				xPrice.setVisible(false);
+			} catch (NumberFormatException e) {
+				Login_win.showPopUp("ERROR", "", "Wrong input", "");
+			}
+		}
+		txtName.setStyle("");
+		txtDescription.setStyle("");
+		txtPrice.setStyle("");
+		txtName.setEditable(false);
+		txtDescription.setEditable(false);
+		txtPrice.setEditable(false);		
+		tmp.setID(txtID.getText());
+		tmp.setName(txtName.getText());
+		tmp.setDescription(txtDescription.getText());
+		msg.setUpdate();
+		msg.setRole("update item in catalog");
+		msg.newO = tmp;
+		Login_win.to_Client.accept(msg);
+		}
+
+	
 
 	/** Reset catalog view **/
 	public void ResetCatalog() {

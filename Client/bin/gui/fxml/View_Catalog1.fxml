@@ -88,6 +88,11 @@
                </font>
             </Label>
             <Button fx:id="Pic_B" layoutX="334.0" layoutY="12.0" mnemonicParsing="false" onAction="#ChangePicture" text="Choose a picture" visible="false" />
+            <Label layoutX="442.0" layoutY="16.0" text="X" textFill="#e40808" visible="false" fx:id="xImage">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Button fx:id="back_B" layoutY="574.0" mnemonicParsing="false" onAction="#back" text="Back" />
@@ -101,7 +106,7 @@
       <Button fx:id="OK_B" layoutX="233.0" layoutY="504.0" mnemonicParsing="false" onAction="#OK" prefHeight="27.0" prefWidth="40.0" text="OK" visible="false" />
       <Pane fx:id="ManagePane" layoutX="120.0" layoutY="506.0" minHeight="30.0" prefHeight="46.0" prefWidth="260.0" style="-fx-background-color: blue; -fx-border-color: black;" visible="false">
          <children>
-            <Button fx:id="Add_B" layoutX="190.0" layoutY="10.0" mnemonicParsing="false" text="Add">
+            <Button fx:id="Add_B" layoutX="190.0" layoutY="10.0" mnemonicParsing="false" onAction="#AddNewItemToCatalog" text="Add">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -124,5 +129,6 @@
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </Label>
+      <Button fx:id="AddSave_B" layoutX="224.0" layoutY="466.0" mnemonicParsing="false" onAction="#SaveNewItem" text="Save" visible="false" />
    </children>
 </Pane>
