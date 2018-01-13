@@ -298,6 +298,7 @@ public class Display_Report_Controller implements Initializable, ControllerI{
         histogram.setAnimated(false);
         histogram.setLegendVisible(false);
 
+        report_Text.setStyle("-fx-font-family: monospace");
     	/*set the error label off*/
     	invalid_detailsL_ID.setVisible(false);
     	invalid_detailsL_Quarter.setVisible(false);

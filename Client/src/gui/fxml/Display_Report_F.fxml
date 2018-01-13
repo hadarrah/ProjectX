@@ -31,7 +31,7 @@
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </Label>
-      <TextArea fx:id="report_Text" editable="false" layoutX="19.0" layoutY="210.0" prefHeight="302.0" prefWidth="462.0" promptText="Here you can see the report" wrapText="true" />
+      <TextArea fx:id="report_Text" editable="false" layoutX="19.0" layoutY="210.0" prefHeight="302.0" prefWidth="462.0" promptText="Here you can see the report" />
       <Label fx:id="invalid_detailsL_Report" layoutX="347.0" layoutY="142.0" text="You must choose report" textFill="RED">
          <font>
             <Font name="System Bold Italic" size="12.0" />

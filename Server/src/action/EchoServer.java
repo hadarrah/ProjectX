@@ -244,7 +244,7 @@ public class EchoServer extends AbstractServer {
 		try {
 			/** Building the query */
 			 
-			PreparedStatement ps = conn.prepareStatement(" SELECT ID FROM zerli.`person` where Privilege='Customer';");
+			PreparedStatement ps = conn.prepareStatement(" SELECT ID FROM person where Privilege='Customer';");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next())
 			{	
@@ -562,7 +562,7 @@ public class EchoServer extends AbstractServer {
 	 
 		try {
 			/* set up and execute the update query */
-			ps = conn.prepareStatement("UPDATE order SET Status=? WHERE ID=?;");
+			ps = conn.prepareStatement("UPDATE orders SET Status=? WHERE ID=?;");
 			ps.setString(1, "Canceled");
 			ps.setString(2,  order.getId());
 			ps.executeUpdate();
@@ -596,7 +596,7 @@ public class EchoServer extends AbstractServer {
 		try {
 			/** Building the query */
 			 
-			PreparedStatement ps = conn.prepareStatement(" SELECT * FROM  `zerli`.`order`  where Person_ID=? and status=?; ");
+			PreparedStatement ps = conn.prepareStatement(" SELECT * FROM  orders  where Person_ID=? and status=?; ");
 			ps.setString(1, cur_p.getUser_ID());
 			ps.setString(2, "Active");
 			ResultSet rs = ps.executeQuery();
@@ -672,7 +672,7 @@ public class EchoServer extends AbstractServer {
 		ResultSet rs;
 
 		try {
-			ps = conn.prepareStatement("INSERT INTO `zerli`.`delivery` (Order_ID, Address, RecieverName, Phone)"
+			ps = conn.prepareStatement("INSERT INTO delivery (Order_ID, Address, RecieverName, Phone)"
 					+ " VALUES (?, ?, ?, ? );");
 
 			ps.setString(1, Integer.toString(d.getOrderid()));
@@ -702,13 +702,13 @@ public class EchoServer extends AbstractServer {
 		try {
 
 			/* get the last ID */
-			ps = conn.prepareStatement("SELECT max(ID) FROM `zerli`.`order`;");
+			ps = conn.prepareStatement("SELECT max(ID) FROM orders;");
 			rs = ps.executeQuery();
 			rs.next();
 			int newid = Integer.parseInt(rs.getString(1));
 			/* execute the insert query */
 			ps = conn.prepareStatement(
-					"INSERT INTO `zerli`.`order` (ID, Person_ID, Delivery, Status, Payment_Type, Price, Store_ID, Time, Date, Requested_Time, Requested_Date)"
+					"INSERT INTO orders (ID, Person_ID, Delivery, Status, Payment_Type, Price, Store_ID, Time, Date, Requested_Time, Requested_Date)"
 							+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
 			order.setId(Integer.toString(newid + 1)); // max oid+1
@@ -753,7 +753,7 @@ public class EchoServer extends AbstractServer {
 		PreparedStatement ps;
 		try {
 			ps = conn.prepareStatement(
-					"INSERT INTO `zerli`.`item_in_order` (Order_ID, Item_ID, Type, Amount)" + " VALUES (?, ?, ?, ? );");
+					"INSERT INTO item_in_order (Order_ID, Item_ID, Type, Amount)" + " VALUES (?, ?, ?, ? );");
 
 			// insert all the items
 			for (Item t : (ArrayList<Item>) items) {
@@ -966,7 +966,7 @@ public class EchoServer extends AbstractServer {
 			/** Building the query */
 
 			PreparedStatement ps = conn
-					.prepareStatement("INSERT INTO `zerli`.`comments_survey` (`ID`, `Customer_ID`) VALUES (?, ?);");
+					.prepareStatement("INSERT INTO comments_survey (`ID`, `Customer_ID`) VALUES (?, ?);");
 			ps.setString(1, survey.getID());
 			ps.setString(2, customer.getUser_ID());
 			ps.executeUpdate();
@@ -1006,7 +1006,7 @@ public class EchoServer extends AbstractServer {
 		try {
 			/** Building the query */
 			PreparedStatement ps = con.prepareStatement(
-					" SELECT * FROM `zerli`.`item` WHERE Color=? AND Type=? " + "AND Price BETWEEN ? AND ?");
+					" SELECT * FROM item WHERE Color=? AND Type=? " + "AND Price BETWEEN ? AND ?");
 			ps.setString(1, color);
 			ps.setString(2, type);
 			ps.setString(3, minprice);

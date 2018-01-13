@@ -2,3 +2,127 @@
 INFO: SQL connection succeed
 ιπε 12, 2018 10:05:36 PM action.EchoServer check_user_details
 INFO: user1got in to the system
+ιπε 13, 2018 8:21:24 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:21:24 AM action.EchoServer check_user_details
+INFO: user 6got in to the system
+ιπε 13, 2018 8:21:31 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:21:38 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:21:40 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:21:59 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:23:38 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:23:45 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:23:50 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:24:06 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:24:09 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:24:47 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:24:47 AM action.EchoServer check_user_details
+INFO: user 6got in to the system
+ιπε 13, 2018 8:24:49 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:24:50 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:25:01 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:25:09 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:27:15 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:27:15 AM action.EchoServer check_user_details
+INFO: user 6got in to the system
+ιπε 13, 2018 8:27:18 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:27:19 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:27:29 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:28:05 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:29:32 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:29:32 AM action.EchoServer check_user_details
+INFO: user 6got in to the system
+ιπε 13, 2018 8:29:34 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:29:35 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:29:45 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:30:02 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:30:46 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:30:46 AM action.EchoServer check_user_details
+INFO: user 6got in to the system
+ιπε 13, 2018 8:30:49 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:30:50 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:31:03 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:31:12 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:31:38 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:31:38 AM action.EchoServer check_user_details
+INFO: user 6got in to the system
+ιπε 13, 2018 8:31:39 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:31:41 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:31:50 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:32:06 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:35:15 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:35:15 AM action.EchoServer check_user_details
+INFO: user 6got in to the system
+ιπε 13, 2018 8:35:16 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:35:20 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:35:37 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:35:41 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:36:27 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:36:31 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:36:36 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:38:15 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:38:15 AM action.EchoServer check_user_details
+INFO: user 6got in to the system
+ιπε 13, 2018 8:38:16 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:38:18 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:38:29 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:38:44 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:39:38 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:39:38 AM action.EchoServer check_user_details
+INFO: user 6got in to the system
+ιπε 13, 2018 8:39:40 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:39:41 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:39:50 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 13, 2018 8:40:01 AM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed

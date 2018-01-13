@@ -49,15 +49,15 @@ public class Reservation_Report extends Report{
 	
 	public void calculateReport()
 	{
-		String report="\n\tItem ID\t\tName\t\tCount of ordered\n";
+		String report= String.format("\t%-10s | %-20s | %s\n", "Item ID", "Name", "Count of ordered"); 
 		report +="-----------------------------------------------------------\n";
 		for(Item i: items)
 		{
-			report += String.format("\t%-20s %-30s %d\n", i.getID(), i.getName(), checkHowManyOrder(i.getID()));
+			report += String.format("\t%-10s | %-20s | %s\n", i.getID(), i.getName(), checkHowManyOrder(i.getID()));
 		}
 		for(Item_In_Catalog ic: items_catalog)
 		{
-			report += String.format("\t%-20s %-30s %d\n", ic.getID(), ic.getName(), checkHowManyOrder(ic.getID()));
+			report += String.format("\t%-10s | %-20s | %s\n", ic.getID(), ic.getName(), checkHowManyOrder(ic.getID()));
 		}
 		
 		super.setDetails(report);
