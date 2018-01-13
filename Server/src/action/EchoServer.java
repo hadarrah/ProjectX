@@ -213,7 +213,10 @@ public class EchoServer extends AbstractServer {
 				else if (msg1.getRole().equals("insert card"))
 					insert_card(msg1, conn, client);
 				else if (msg1.getRole().equals("insert customer id to survey"))
-					set_customer_in_survey_answered(msg1, conn, client);
+				{
+						//set_customer_in_survey_answered(msg1, conn, client);
+				}
+				
 				else if (msg1.getRole().equals("insert a new complain"))
 					insert_new_complain(msg1, conn, client);
 				else if (msg1.getRole().equals("insert new sale"))
@@ -1057,14 +1060,14 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+/*
 	public static void set_customer_in_survey_answered(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Msg msg = (Msg) msg1;
 		Survey survey = (Survey) msg.oldO;
 		Person customer = (Person) msg.newO;
 		try {
-			/** Building the query */
+		 
 
 			PreparedStatement ps = conn
 					.prepareStatement("INSERT INTO comments_survey (`ID`, `Customer_ID`) VALUES (?, ?);");
@@ -1076,6 +1079,7 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
+	*/
 
 	public static void decoy(Msg msg, Connection con, ConnectionToClient client) throws IOException {
 
