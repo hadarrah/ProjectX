@@ -241,6 +241,12 @@ public class EchoServer extends AbstractServer {
 
 	}
 
+	/**
+	 * insert new item to item_in_catalog table and create item id by max value in the table
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
 	public static void insertNewItemInCatalog(Msg msg1, Connection conn, ConnectionToClient client) {		
 		Msg msg = (Msg) msg1;
 		Item_In_Catalog tmp = (Item_In_Catalog) msg1.newO;
@@ -2102,7 +2108,13 @@ public class EchoServer extends AbstractServer {
 
 	}
 
-	/** --executing all items details to set in catalog-- **/
+	
+	/**
+	 * executing all items details to set in catalog
+	 * @param msg
+	 * @param con
+	 * @param client
+	 */
 	public static void ViewItems(Object msg, Connection con, ConnectionToClient client) {
 		Msg msg1 = (Msg) msg;
 
@@ -2122,7 +2134,13 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
-	/** --Show catalog for a customer without payment account-- **/
+	
+	/**
+	 * Show catalog for a customer without payment account,with no sales stores
+	 * @param msg
+	 * @param con
+	 * @param client
+	 */
 	public static void ViewItemsWithoutPaymentAccount(Object msg, Connection con, ConnectionToClient client) {
 		Msg msg1 = (Msg) msg;
 		Statement stmt1;
@@ -2157,7 +2175,13 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
-	/** --Show catalog for a customer with payment account **/
+	
+	/**
+	 * Show catalog for a customer with payment account of specific store stock and sales
+	 * @param msg
+	 * @param con
+	 * @param client
+	 */
 	public static void ViewItemsWithPaymentAccount(Object msg, Connection con, ConnectionToClient client) {
 
 		Msg msg1 = (Msg) msg;
@@ -2226,7 +2250,12 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
-	/** convert image to MyFile **/
+	
+	/**
+	 * convert image path to MyFile object
+	 * @param id
+	 * @return
+	 */
 	public static MyFile getFileInfo(String id) {
 
 		String fileLocation;
@@ -2299,12 +2328,15 @@ public class EchoServer extends AbstractServer {
 
 	}
 
+	/**
+	 * create image with MyFile object
+	 * @param msg
+	 */
 	public static void CreateImage(MyFile msg) {
 		MyFile mf = (MyFile) msg;
 		System.out.println(mf);
 		// Image img = null;
 		FileOutputStream fos = null;
-
 		try {
 			fos = new FileOutputStream(System.getProperty("user.dir") + File.separator + "Pictures" + File.separator
 					+ "Itc" + mf.getFileName());// (System.getProperty("user.dir")+"/Pic/" +
@@ -2324,12 +2356,18 @@ public class EchoServer extends AbstractServer {
 		} catch (IOException e) { // TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		int fileSize = ((MyFile) msg).getSize();
 		System.out.println("Message received: " + msg);
 		System.out.println("length " + fileSize);
 	}
 
+	/**
+	 * change item status to deleted by update query
+	 * @param msg
+	 * @param con
+	 * @param client
+	 * @throws IOException
+	 */
 	public static void DeleteItem(Object msg, Connection con, ConnectionToClient client) throws IOException {
 		Msg msg1 = (Msg) msg;
 		try {

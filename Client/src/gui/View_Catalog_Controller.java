@@ -90,7 +90,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	public File f = null;
 
 	/**
-	 * open the catalog window
+	 * set which window return to
 	 * 
 	 * @param event
 	 * @throws IOException
@@ -108,7 +108,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	}
 
 	/**
-	 * 
+	 * how to open another window
 	 * @param event
 	 * @param next_fxml
 	 * @throws IOException
@@ -121,7 +121,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		win_1.setScene(win1);
 		win_1.show();
 
-		/** close window by X button **/
+		// close window by X button //
 		win_1.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			public void handle(WindowEvent we) {
 				Msg msg = new Msg();
@@ -135,7 +135,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		});
 	}
 
-	/** --init the object with SELECTALL query-- **/
+	/** init the Msg with SELECTALL query **/
 	public void init() {
 
 		Msg msg = new Msg();
@@ -145,10 +145,9 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		msg.freeField = current_user.getUser_ID();// save current user id
 		msg.freeField2 = gui.Login_win.chosen_store; // save chosen store id
 		Login_win.to_Client.accept(msg);
-
 	}
 
-	/** set catalog to management form **/
+	/** set catalog to update current catalog mode **/
 	public void UpdateCatalog() {
 		chosenStore = Login_win.chosen_store;
 		Login_win.chosen_store = null; // show catalog with no dependency on specific store
@@ -156,7 +155,12 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		init();
 	}
 
-	/** change item values in catalog **/
+	
+	/**
+	 * set catalog to edit mode
+	 * @param event
+	 * @throws IOException
+	 */
 	public void EditCatalog(ActionEvent event) throws IOException {
 		ResetXlable();
 		EditableTextField();
@@ -165,7 +169,12 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Pic_B.setVisible(true);
 	}
 
-	/** Change item in catalog picture **/
+	
+	/**
+	 * choose a picture to specific item
+	 * @param event
+	 * @throws IOException
+	 */
 	public void ChangePicture(ActionEvent event) throws IOException {
 		ChangePicture = 1;
 		FileChooser.ExtensionFilter i = new FileChooser.ExtensionFilter("Image Files", "*.jpg");// option to choose only
@@ -184,7 +193,12 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 			ChangePicture = 0;
 	}
 
-	/** convert image to MyFile **/
+	
+	/**
+	 * convert image to MyFile object
+	 * @param mf
+	 * @return
+	 */
 	public static MyFile getFileInfo(MyFile mf) {
 
 		try {
@@ -205,7 +219,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	}
 
 	/**
-	 * 
+	 * save changes after editing item
 	 * @param event
 	 * @throws IOException
 	 */
@@ -256,7 +270,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	}
 
 	/**
-	 * 
+	 * show message after update
 	 * @param msg
 	 */
 	public void update_item_success(Object msg) {
@@ -272,7 +286,12 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		});
 	}
 
-	/** change item status to deleted **/
+	
+	/**
+	 * change item status to deleted
+	 * @param event
+	 * @throws IOException
+	 */
 	public void DeleteCatalog(ActionEvent event) throws IOException {
 		Msg msg = new Msg();
 		msg.freeField = txtID.getText();
@@ -281,7 +300,11 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Login_win.to_Client.accept(msg);
 	}
 
-	/** show message of success delete **/
+	
+	/**
+	 *show message after delete
+	 * @param msg
+	 */
 	public void delete_item_success(Object msg) {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -291,7 +314,10 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 			}
 		});
 	}
-	
+	/**
+	 * show message after insert new item to catalog
+	 * @param msg
+	 */
 	public void insertNewItemInCatalogSuccess(Object msg) {
 		Platform.runLater(new Runnable() {
 			@Override
@@ -302,9 +328,13 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		});
 	}
 
-	/** Add a new item to catalog **/
-	public void AddNewItemToCatalog(ActionEvent event) throws IOException {
-		// calculate the id number and show it up
+
+	/**
+	 *  Add a new item to catalog
+	 * @param event
+	 * @throws IOException
+	 */
+	public void AddNewItemToCatalog(ActionEvent event) throws IOException {		
 		ClearText();
 		txtAmount.setVisible(false);
 		EditableTextField();
@@ -315,7 +345,12 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		SetRedStyle();
 		EditableTextField();
 	}
-
+	
+	/**
+	 *save new item, with consideration if picture was added
+	 * @param event
+	 * @throws IOException
+	 */
 	public void SaveNewItem(ActionEvent event) throws IOException {
 		Msg msg = new Msg();
 		if (txtPrice.getText().equals(""))
@@ -363,46 +398,66 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 			}
 		}
 	}
-
+	/**
+	 * set text field border in red, to mark required filed
+	 */
 	public void SetRedStyle() {
 		txtName.setStyle("-fx-border-color: red ;");
 		txtDescription.setStyle("-fx-border-color: red ;");
 		txtPrice.setStyle("-fx-border-color: red ;");
 	}
-
+	
+	/**
+	 * clear fields for add a new item
+	 */
 	public void ClearText() {
 		txtID.clear();
 		txtName.clear();
 		txtDescription.clear();
 		txtPrice.clear();
 	}
-
+	
+	/**
+	 * change editable mode for updating and inserting item
+	 */
 	public void EditableTextField() {
 		txtName.setEditable(true);
 		txtDescription.setEditable(true);
 		txtPrice.setEditable(true);
 	}
-
+	
+	/**
+	 * reset editable mode to false(Uneditable)
+	 */
 	public void ResetEditableTextField() {
 		txtName.setEditable(false);
 		txtDescription.setEditable(false);
 		txtPrice.setEditable(false);
 	}
 
+	/**
+	 * reset X labels to false
+	 */
 	public void ResetXlable() {
 		xName.setVisible(false);
 		xDescription.setVisible(false);
 		xPrice.setVisible(false);
 		xImage.setVisible(false);
 	}
-
+	
+	/**
+	 * reset text field border to default(with no color)
+	 */
 	public void ResetStyleLable() {
 		txtName.setStyle("");
 		txtDescription.setStyle("");
 		txtPrice.setStyle("");
 	}
 
-	/** Reset catalog view **/
+	
+	/**
+	 * Reset catalog view, reload catalog
+	 */
 	public void ResetCatalog() {
 		Login_win.chosen_store = chosenStore;
 		Managment_Controller.ManagmentFlage = 0;
@@ -411,7 +466,11 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 	}
 
-	/** --setting default values by opening the catalog-- **/
+	
+	/**
+	 * setting first item in catalog values for opening the catalog
+	 * @param message
+	 */
 	public void initCatalog(Object message) {
 
 		Msg tmp = (Msg) message;
@@ -427,7 +486,10 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		SetDetailsGui(Itc.get(0)); // default view is the first item in the array
 	}
 
-	/** --Setting the current item details in gui-- **/
+	/**
+	 * setting the required item into the catalog
+	 * @param It- Item_In_Catalog Object
+	 */
 	public void SetDetailsGui(Item_In_Catalog It) {
 		if (Managment_Controller.ManagmentFlage == 1) {
 			AddToCart_B.setVisible(false);
@@ -475,7 +537,12 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 	}
 
-	/** create an image from byte array **/
+	
+	/**
+	 * create an image with byte array
+	 * @param msg
+	 * @return
+	 */
 	public Image CreateImage(Object msg) {
 		MyFile mf = (MyFile) msg;
 		System.out.println(mf);
@@ -487,7 +554,12 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		return img;
 	}
 
-	/** --set the next item-- **/
+	
+	/**
+	 * show the next item into the catalog by clicking next button
+	 * @param event
+	 * @throws IOException
+	 */
 	public void nextItem(ActionEvent event) throws IOException {
 		if (!((Itc.get(view_counter).getAmount()) == -1))
 			list.clear();
@@ -501,7 +573,12 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		SetDetailsGui(Itc.get(view_counter));
 	}
 
-	/** --set the previews item-- **/
+	
+	/**
+	 * show the preview item into the catalog by clicking prev button
+	 * @param event
+	 * @throws IOException
+	 */
 	public void prevItem(ActionEvent event) throws IOException {
 		if (!(Itc.get(view_counter).getAmount() == -1))
 			list.clear();
@@ -516,12 +593,20 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		SetDetailsGui(Itc.get(view_counter));
 	}
 
-	/** --set counters values-- **/
+	
+	/**
+	 * set catalog's counters
+	 * @param view
+	 * @param Itc
+	 */
 	public void SetCounter(int view, int Itc) {
 		txtCounter.setText("<" + (view_counter + 1) + "/" + Itc_counter + ">");
 	}
 
-	/** --Pressing on Add to cart button-- **/
+	
+	/**
+	 * Add current item from catalog to cart by clicking add button and choose amount
+	 */
 	public void AddToCart() {
 		AddToCart_B.setVisible(false);
 		// if user does'nt have payment account
@@ -530,16 +615,17 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 					"Please contact your store manager");
 			// if user has payment account->select amount from combo box
 		} else {
-
 			cbxAmount.setItems(list);
 			cbxAmount.getSelectionModel().selectFirst();
 			cbxAmount.setVisible(true);
 			OK_B.setVisible(true);
 		}
-
 	}
 
-	/** after select amount, add item to cart **/
+	
+	/**
+	 * after select amount, add item to cart
+	 */
 	public void OK() {
 		Login_win.showPopUp("CONFIRMATION", "Message", "Item successfully added", " ");
 		Item it = new Item();
