@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -93,8 +97,8 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     */
     public void setOrderdetails(ActionEvent event) throws IOException
     {
-    	
-    	
+    	calc.setText("Precent of Compensation");
+    	calc.setTextFill(Color.web("#000000"));
     	non=0; half=0; full=0;cant=0;
     	order_details.setVisible(true);
     	order_details.clear();
@@ -123,18 +127,34 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     				txt="Payment Type:"+orders.get(i).getPayment();
     				order_details.appendText(txt+"\n\n");
     			 
-    				txt="Price"+orders.get(i).getTotprice();
+    				txt="Price :"+orders.get(i).getTotprice();
     				order_details.appendText(txt+"\n\n");
     			 
-    				txt="Date of Order"+orders.get(i).getCreatedate()+"-" +orders.get(i).getCreatetime();
+    				txt="Date of Order: "+orders.get(i).getCreatedate()+"-" +orders.get(i).getCreatetime();
     				order_details.appendText(txt+"\n\n");
     			 
     				date=orders.get(i).getRequestdate();
     				hour=orders.get(i).getRequesttime();
-    			 txt="Requsted time :"+orders.get(i).getRequestdate()+"-" +orders.get(i).getRequesttime();
+    			 txt="Requsted Date :"+orders.get(i).getRequestdate()+"-" +orders.get(i).getRequesttime();
     			 order_details.appendText(txt+"\n\n\n");
     			
-    			calcCompensation(date,hour);
+    			// 02/01/2018
+    			// LocalDate  wanted= LocalDate
+    			 
+    			 //format the wanted date
+    			 int year= Integer.parseInt(date.substring(date.length()-4, date.length()));
+    			 int mon= Integer.parseInt(date.substring(3, 5));
+    			 int day= Integer.parseInt(date.substring(0, 2));
+    			 
+    			 // format the hour 
+    			 int h=Integer.parseInt(hour.substring(0, 2));
+    			 int min=Integer.parseInt(hour.substring(hour.length()-2, hour.length()));
+    			 
+    			 	LocalDate wanted_date = LocalDate.of(year, mon, day);  
+    			    LocalDateTime wanted_time = wanted_date.atTime(h,min,min);  
+    			 
+    			 
+    			calcCompensation(wanted_time);
     		}
     	}
     	
@@ -147,7 +167,7 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     
     public void show_cancel_msg(Object o)
     {
-    	System.out.println("hjkhjk");
+    	 
     	Msg msg=(Msg)o;
     	
     	if(msg.freeField.equals("succeed"))
@@ -214,86 +234,36 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     }
     /**
      * calculate the compensation time according the user story
-     * @param date2
+     * @param wanted_date
      * @param wanted_h
      */
- private void calcCompensation(String date2, String wanted_h)
+ private void calcCompensation(LocalDateTime wanted_date)
  {
-	 int wantedH,curH,wantedM,curM;
-	 	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	 	Date date = new Date();
-    	String date1=(dateFormat.format(date).toString()); 
-    		
-    		
-    		/*check if the date is today*/
-    		if(date2.equals(date1))
-    		{
-    			 DateFormat dateFormat2 = new SimpleDateFormat("HH:mm");
-    			 Date hour = new Date();
-    			 String cur_hour=(dateFormat2.format(hour).toString());
-    			 wantedM= Integer.parseInt(wanted_h.substring(3, 5)); 
-    			 curM=Integer.parseInt(cur_hour.substring(3, 5)); 
-    			 
-    			 
-    			 curH= Integer.parseInt(cur_hour.substring(0, 2)); 
-    			 wantedH=Integer.parseInt(wanted_h.substring(0, 2));
-    			 
-    			 /*last hour*/
-    			    if( curH== (wantedH-1) &&  wantedM<=curM)
-    			    {
-    			    	calc.setTextFill(Color.web("#ed0b31"));
-    			    	calc.setText("0% Companstaion");
-    			    	non=1;
-    			    }
-    			    /*more then an hour 	*/
-    			    else if( curH== (wantedH-1) &&  wantedM>curM)
-    			    {
-    			    
-    			     
-    			    	calc.setTextFill(Color.web("#edda0b"));
-    			     	calc.setText("You will get 50%");
-    			     	half=1;
-    			    }
-    			 /*more then 3 hours*/
-    			    else if(curH>wantedH || curH==wantedH)
-    			    {
-    			    	calc.setTextFill(Color.web("#ed0b31"));
-    			     	calc.setText("You canot cancel on this order");
-    			     	cant=1;
-    			    }
-    			   
-    			    else  if( curH<= (wantedH-3) && wantedM<=curM)
-    			     {	
-    			    	calc.setTextFill(Color.web("#ed0b31"));
-    			    	calc.setText("You will get 50%");
-    			    	 half=1;
-    			    }
-    			    else  if( curH<= (wantedH-3) )
-   			     {	
-   			    	calc.setTextFill(Color.web("#31ed0b"));
-   			    	calc.setText("You will get 100%");
-   			    	full=1;
-   			    	 
-   			    }
-   			    
-
-    			    /*2 hours left*/
-    			    else if( (curH ==(wantedH-2)))
-    			    { 
-    			    	calc.setTextFill(Color.web("#edda0b"));
-
-    			    	calc.setText("You will get 50%");
-    			    	half=1;
-    			    }
-    			    
-    		}
-    		else {
-    			calc.setTextFill(Color.web("#31ed0b"));
-    			calc.setText("You will get 100%");
-    			full=1;
-    			 
-    		}
-    		/*if the date in tomorow..*/
+	  
+	    LocalDateTime now = LocalDateTime.now();  
+	 
+	  
+	 if(now.plusHours(3).isBefore(wanted_date))
+	 {
+		  calc.setText("Precent of Compensation: 100%");
+	    	calc.setTextFill(Color.web("#31ed0b"));
+	    	full=1;
+	 }
+	 
+	 else if(now.plusHours(1).isBefore(wanted_date))
+	 {
+		 calc.setText("Precent of Compensation: 50%");
+	    	calc.setTextFill(Color.web("#bae305"));
+	    	half=1;
+		 
+	 }
+	 else {
+		 calc.setText("Precent of Compensation: 0%");
+	    	calc.setTextFill(Color.web("#ed0b31"));
+	    	non=1;
+	 }
+	 /////////////////to do some thinng with the refund
+    
     			
 	}
 
