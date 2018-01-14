@@ -80,14 +80,15 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	public ImageView Itemimg;
 	public ImageView PrimPane;
 	public static ArrayList<Item_In_Catalog> Itc;
-	public static int Itc_counter = 0;
-	public static int view_counter = 0;
-	public static int ChangePicture = 0;
+	public  int Itc_counter = 0;
+	public  int view_counter = 0;
+	public  int ChangePicture = 0;
 	public static Person current_user;
 	public static ObservableList<String> list;
 	public static String chosenStore;
 	public static ActionEvent log;
 	public static Item_In_Catalog tmp = new Item_In_Catalog();
+	public File f=null;
 
 	/**
 	 * open the catalog window
@@ -158,16 +159,11 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 	/** change item values in catalog **/
 	public void EditCatalog(ActionEvent event) throws IOException {
-		txtName.setEditable(true);
-		txtName.setStyle("-fx-border-color: red ;");
-		txtDescription.setEditable(true);
-		txtDescription.setStyle("-fx-border-color: red ;");
-		txtPrice.setEditable(true);
-		txtPrice.setStyle("-fx-border-color: red ;");
+		ResetXlable();
+		EditableTextField();		
 		txtID.setDisable(false);
 		Save_B.setVisible(true);
 		Pic_B.setVisible(true);
-
 	}
 
 	/** Change item in catalog picture **/
@@ -178,104 +174,93 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(i);
 		fileChooser.setTitle("Choose a picture");
-		File f = fileChooser.showOpenDialog(null);
+		 f = fileChooser.showOpenDialog(null);
 		if (!(f == null)) {
 			String s = f.getPath();
-
-			// System.out.println(s);
-			// System.out.println();
 			MyFile mf = new MyFile(txtID.getText() + ".jpg");
 			mf.setDescription(s);
 			mf = getFileInfo(mf);
 			tmp.setImage(mf);
-		}
-		else ChangePicture=0;
+		} else
+			ChangePicture = 0;
 	}
 
 	/** convert image to MyFile **/
 	public static MyFile getFileInfo(MyFile mf) {
 
 		try {
-
 			File newFile = new File(mf.getDescription());
-
 			byte[] mybytearray = new byte[(int) newFile.length()];
 			FileInputStream fis = new FileInputStream(newFile);
 			BufferedInputStream bis = new BufferedInputStream(fis);
-
 			mf.initArray(mybytearray.length);
 			mf.setSize(mybytearray.length);
-
 			bis.read(mf.getMybytearray(), 0, mybytearray.length);
-
 			bis.close();
 			fis.close();
 
 		} catch (Exception e) {
 			System.out.println("Error send (Files)msg) to Server");
 		}
-
 		return mf;
-	}
+		}
 
-	/** save changes in DB **/
+	/**
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	public void Save(ActionEvent event) throws IOException {
-
-		Msg msg = new Msg();
+		Msg msg = new Msg();		
 		if (txtPrice.getText().equals(""))
 			txtPrice.setText("0.0");
-
-		if (txtName.getText().equals("") || txtDescription.getText().equals("") || txtPrice.getText().equals("0.0")) {
+		if (txtName.getText().isEmpty() || txtDescription.getText().equals("") || txtPrice.getText().equals("0.0")) {
 			Login_win.showPopUp("ERROR", "", "Empty Fields", "");
 			if (txtName.getText().equals(""))
 				xName.setVisible(true);
 			else {
-
 				xName.setVisible(false);
 			}
 			if (txtDescription.getText().equals(""))
 				xDescription.setVisible(true);
 			else {
-
 				xDescription.setVisible(false);
 			}
 			if (txtPrice.getText().equals("0.0"))
 				xPrice.setVisible(true);
 			else {
-
 				xPrice.setVisible(false);
 			}
 
-		}
-		if (!(txtPrice.getText().equals("0.0"))) {
-			try {
-				tmp.setPrice(Float.parseFloat(txtPrice.getText()));
-				xPrice.setVisible(false);
-			} catch (NumberFormatException e) {
-				Login_win.showPopUp("ERROR", "", "Wrong input", "");
-				// here provide your logic to tell the user to "Enter a valid number"
+		} else {
+			if (!(txtPrice.getText().equals("0.0"))) {
+				try {
+					tmp.setPrice(Float.parseFloat(txtPrice.getText()));
+					xPrice.setVisible(false);
+					ResetStyleLable();
+					ResetXlable();
+					ResetEditableTextField();
+					if (ChangePicture == 0)
+						tmp.setImage(null);
+					tmp.setID(txtID.getText());
+					tmp.setName(txtName.getText());
+					tmp.setDescription(txtDescription.getText());
+					msg.setUpdate();
+					msg.setRole("update item in catalog");
+					msg.newO = tmp;
+					Login_win.to_Client.accept(msg);
+				} catch (NumberFormatException e) {
+					Login_win.showPopUp("ERROR", "", "Wrong Price input", "");
+				}
 			}
 
 		}
-		txtName.setStyle("");
-		txtDescription.setStyle("");
-		txtPrice.setStyle("");
-		txtName.setEditable(false);
-		txtDescription.setEditable(false);
-		txtPrice.setEditable(false);
-		if (ChangePicture == 0)
-			tmp.setImage(null);
-		tmp.setID(txtID.getText());
-		tmp.setName(txtName.getText());
-		tmp.setDescription(txtDescription.getText());
-		msg.setUpdate();
-		msg.setRole("update item in catalog");
-		msg.newO = tmp;
-		Login_win.to_Client.accept(msg);
-
 	}
 
-	/** show message of success update **/
+	/**
+	 * 
+	 * @param msg
+	 */
 	public void update_item_success(Object msg) {
 		Platform.runLater(new Runnable() {
 
@@ -314,14 +299,10 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 	/** Add a new item to catalog **/
 	public void AddNewItemToCatalog(ActionEvent event) throws IOException {
-		txtID.setText("Automaticlly");
-		txtName.clear();
-		txtDescription.clear();
+		// calculate the id number and show it up
+		ClearText();
 		txtAmount.setVisible(false);
-		txtPrice.clear();
-		txtName.setEditable(true);
-		txtDescription.setEditable(true);
-		txtPrice.setEditable(true);
+		EditableTextField();
 		Itemimg.setImage(null);
 		Pic_B.setVisible(true);
 		AddSave_B.setVisible(true);
@@ -340,57 +321,99 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Msg msg = new Msg();
 		if (txtPrice.getText().equals(""))
 			txtPrice.setText("0.0");
-
-		if (txtName.getText().equals("") || txtDescription.getText().equals("") || txtPrice.getText().equals("0.0")
-				|| ChangePicture == 0) {
+		if (txtName.getText().isEmpty() || txtDescription.getText().equals("") || txtPrice.getText().equals("0.0")||f==null) {
 			Login_win.showPopUp("ERROR", "", "Empty Fields", "");
-			if (ChangePicture == 0) {
+			if (f==null)
 				xImage.setVisible(true);
-				ChangePicture = 1;
-			} else {
-				xImage.setVisible(false);
+			else {
+				xName.setVisible(false);
 			}
 			if (txtName.getText().equals(""))
 				xName.setVisible(true);
 			else {
-
 				xName.setVisible(false);
 			}
 			if (txtDescription.getText().equals(""))
 				xDescription.setVisible(true);
 			else {
-
 				xDescription.setVisible(false);
 			}
 			if (txtPrice.getText().equals("0.0"))
 				xPrice.setVisible(true);
 			else {
-
 				xPrice.setVisible(false);
 			}
 
-		}
-		if (!(txtPrice.getText().equals("0.0"))) {
-			try {
-				tmp.setPrice(Float.parseFloat(txtPrice.getText()));
-				xPrice.setVisible(false);
-			} catch (NumberFormatException e) {
-				Login_win.showPopUp("ERROR", "", "Wrong input", "");
+		} else {
+			if (!(txtPrice.getText().equals("0.0"))) {
+				try {
+					tmp.setPrice(Float.parseFloat(txtPrice.getText()));
+					xPrice.setVisible(false);
+					txtName.setStyle("");
+					txtDescription.setStyle("");
+					txtPrice.setStyle("");
+					txtName.setEditable(false);
+					txtDescription.setEditable(false);
+					txtPrice.setEditable(false);
+					if (ChangePicture == 0)
+						tmp.setImage(null);
+					tmp.setID(txtID.getText());
+					tmp.setName(txtName.getText());
+					tmp.setDescription(txtDescription.getText());
+					msg.setUpdate();
+					msg.setRole("update item in catalog");
+					msg.newO = tmp;
+					Login_win.to_Client.accept(msg);
+				} catch (NumberFormatException e) {
+					Login_win.showPopUp("ERROR", "", "Wrong input", "");
+				}
 			}
 		}
-		txtName.setStyle("");
-		txtDescription.setStyle("");
-		txtPrice.setStyle("");
+
+	}
+	
+	public void SetRedStyle()
+	{
+		txtName.setStyle("-fx-border-color: red ;");		
+		txtDescription.setStyle("-fx-border-color: red ;");		
+		txtPrice.setStyle("-fx-border-color: red ;");
+	}
+	
+	public void ClearText()
+	{
+		txtID.clear();
+		txtName.clear();
+		txtDescription.clear();
+		txtPrice.clear();
+	}
+	
+	public void EditableTextField()
+	{
+		txtName.setEditable(true);
+		txtDescription.setEditable(true);
+		txtPrice.setEditable(true);
+	}
+	
+	public void ResetEditableTextField()
+	{
 		txtName.setEditable(false);
 		txtDescription.setEditable(false);
 		txtPrice.setEditable(false);
-		tmp.setID(txtID.getText());
-		tmp.setName(txtName.getText());
-		tmp.setDescription(txtDescription.getText());
-		msg.setUpdate();
-		msg.setRole("update item in catalog");
-		msg.newO = tmp;
-		Login_win.to_Client.accept(msg);
+	}
+	
+	public void ResetXlable()
+	{
+		xName.setVisible(false);
+		xDescription.setVisible(false);
+		xPrice.setVisible(false);
+		xImage.setVisible(false);
+	}
+	
+	public void ResetStyleLable()
+	{
+		txtName.setStyle("");
+		txtDescription.setStyle("");
+		txtPrice.setStyle("");
 	}
 
 	/** Reset catalog view **/
@@ -471,27 +494,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		MyFile mf = (MyFile) msg;
 		System.out.println(mf);
 		Image img = null;
-		// FileOutputStream fos = null;
-		/*
-		 * try { fos = new
-		 * FileOutputStream("");//(System.getProperty("user.dir")+"/Pic/" +
-		 * mf.getFileName());
-		 * 
-		 * } catch (FileNotFoundException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); } BufferedOutputStream in = new
-		 * BufferedOutputStream(fos);
-		 */
-		// try {
 		img = new Image(new ByteArrayInputStream(mf.getMybytearray()));
-
-		// in.write(mf.getMybytearray());
-		// in.close();
-		// fos.close();
-		/*
-		 * } catch (IOException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */
-
 		int fileSize = ((MyFile) msg).getSize();
 		System.out.println("Message received: " + msg);
 		System.out.println("length " + fileSize);

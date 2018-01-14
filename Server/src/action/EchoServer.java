@@ -2103,10 +2103,9 @@ public class EchoServer extends AbstractServer {
 	/** --executing all items details to set in catalog-- **/
 	public static void ViewItems(Object msg, Connection con, ConnectionToClient client) {
 		Msg msg1 = (Msg) msg;
-		// Statement stmt;
 		
-		try {
-			// stmt = con.createStatement();
+		
+		try {			
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM payment_account WHERE ID=? AND Store_ID=?");
 			ps.setString(1, msg1.freeField);
 			ps.setString(2, msg1.freeField2);
