@@ -129,6 +129,6 @@
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </Label>
-      <Button fx:id="AddSave_B" layoutX="224.0" layoutY="466.0" mnemonicParsing="false" onAction="#SaveNewItem" text="Save" visible="false" />
+      <Button fx:id="AddSave_B" layoutX="224.0" layoutY="466.0" mnemonicParsing="false" onAction="#SaveNewItem" text="SaveAdd" visible="false" />
    </children>
 </Pane>

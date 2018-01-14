@@ -230,7 +230,9 @@ public class ClientConsole implements ChatIF {
 					 ((gui.Cancel_Order_Controller)mc).show_cancel_msg(message);
 			 }
 			else if (check.getType().equals("INSERT")) {
-				if (check.getRole().equals("insert survey"))
+				if (check.getRole().equals("insert a new item in catalog"))
+					 ((gui.View_Catalog_Controller) mc).insertNewItemInCatalogSuccess(message);
+				else if (check.getRole().equals("insert survey"))
 					((gui.Survey_Controller) mc).create_survey_success(message);
 				else if (check.getRole().equals("insert a new complain"))  
 						((gui.Post_Complain_Controller)mc).get_submit_approved(message);
