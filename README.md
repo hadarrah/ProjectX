@@ -94,7 +94,7 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [x] Put 'x' inside the file to fill.
 
 **toImplement:** <br/>
-- [ ] Card
+- [x] Card
 - [ ] Cancel Order
 - [ ] Reports
 
@@ -111,7 +111,6 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] update TDL (needed?)
 - [ ] Sharon Assignment 2 (until 18.1)
 - [ ] Sharon Meeting (16.1 at 15:50 M316)
-- [ ] Add to ID creators (maxID +1) 'if no ID exists' -> create id=1.
 
 **Login Window**<br/>
 - [ ] login window gui (bg)
@@ -127,23 +126,23 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] After pressing update -> do pop-up || label.
 
 **Order** <br/>
-- [ ] cart order button error when cart empty
+- [x] cart order button error when cart empty
 - [ ] user's order history
-- [ ] repair tabbing in order
+- [x] repair tabbing in order
 - [ ] show final price for order in the order pane.
-- [ ] order.self collect -> auto storeid/present options
+- [x] order.self collect -> auto storeid/present options
 - [ ] order date -> use muhi's method from survey
 
 **Cancel Order** <br/>
 - [ ] verify times regarding money compensation 
 
 **Catalog** <br/>
-- [ ] Implement adding Item From Catalog to Cart->Order
+- [x] Implement adding Item From Catalog to Cart->Order
  
 **Self Item** <br/>
-- [ ] fit Self Item creation for user story (no description -> selection between options)
+- [x] fit Self Item creation for user story (no description -> selection between options)
 - [ ] user input amount of item->check correct input
-- [ ] after adding to cart, message should be 'you can create another item.'
+- [x] after adding to cart, message should be 'you can create another item.'
 
 **Delivery**<br/>
 - [ ] Verify 3 hours time request (curr hour - requested hour >= 3)
@@ -154,7 +153,7 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] Move card functionality from Cart_Controller to Cart entity
 
 **Card** <br/>
-- [ ] adding Card to order
+- [x] adding Card to order
  
 **Reports** <br/>
 - [ ] Implement Reports

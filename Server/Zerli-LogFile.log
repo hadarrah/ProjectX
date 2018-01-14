@@ -501,6 +501,7 @@ INFO: SQL connection succeed
 Jan 13, 2018 8:31:45 PM action.EchoServer handleMessageFromClient
 INFO: SQL connection succeed
 Jan 13, 2018 8:32:04 PM action.EchoServer handleMessageFromClient
+<<<<<<< HEAD
 INFO: SQL connection succeedéðå 14, 2018 8:28:39 AM action.EchoServer handleMessageFromClient
 INFO: SQL connection succeed
 éðå 14, 2018 8:28:39 AM action.EchoServer check_user_details
@@ -562,4 +563,3 @@ INFO: SQL connection succeed
 éðå 14, 2018 10:20:18 AM action.EchoServer handleMessageFromClient
 INFO: SQL connection succeed
 éðå 14, 2018 10:21:06 AM action.EchoServer handleMessageFromClient
-INFO: SQL connection succeed
