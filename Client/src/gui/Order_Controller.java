@@ -2,12 +2,16 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import action.Msg;
 import action.Order;
 import action.Payment_Account;
@@ -29,6 +33,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -37,17 +42,22 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.StringConverter;
 
 public class Order_Controller implements Initializable, ControllerI {
 
 	public Button back_B, payment_B;
 	public RadioButton delivery_R, self_R, creditcard_R, cash_R;
 	public ToggleGroup selectdelivery_TG, paymentmethod_TG;
-	public TextField total_price_TF, name_TF, address_TF, phoneShort_TF, phoneLong_TF, day_TF, month_TF, hour_TF,
-			min_TF;
+	public TextField total_price_TF, name_TF, address_TF, phoneShort_TF, phoneLong_TF, hour_TF, min_TF;
 	public Pane delivery_P; // Pane which appears after the user selects delivery_R
 	public Pane self_P, time_P;
-	public Label store_L;
+	public Label store_L,otX_L,dX_L,tX_L,pmX_L,nameX_L,phX_L,addX_L;
+	public DatePicker datePick;
+	
+	public int lday, lmonth, lyear, lhour, lmin;	
+    public String pattern = "dd/MM/yyyy";
+    public DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
 
 	// Current user cart, synch in initialize().
 	public Cart userCart = Cart_Controller.userCart;
@@ -157,6 +167,14 @@ public class Order_Controller implements Initializable, ControllerI {
 		//Process successful
 		//If everything went well -> order, delivery and items are in database
 		if (good) {
+			nameX_L.setVisible(false);
+			addX_L.setVisible(false);
+			phX_L.setVisible(false);
+			otX_L.setVisible(false);
+			dX_L.setVisible(false);
+			tX_L.setVisible(false);
+			pmX_L.setVisible(false);
+			
 			String content;
 			if (order.haveDelivery())
 				content = "Your delivery should arrive up to 3 hours from the order request";
@@ -190,61 +208,92 @@ public class Order_Controller implements Initializable, ControllerI {
 
 		// no order type selected
 		if (selectdelivery_TG.getSelectedToggle() == null) {
-			Login_win.showPopUp("ERROR", "Error", "One of the details werent filled correctly",
-					"Please select order type");
+			otX_L.setVisible(true);
 			isDelivery = false;
-
-			return;
 		}
+		else otX_L.setVisible(false);
 
 		// delivery
-		else if (selectdelivery_TG.getSelectedToggle() == delivery_R) {
+		if (selectdelivery_TG.getSelectedToggle() == delivery_R) {
 			// flag to indicate delivery wanted
 			isDelivery = true;
 
 			// empty name
 			if (this.name_TF.getText().trim().isEmpty()) {
-				Login_win.showPopUp("ERROR", "Error", "One of the details werent filled correctly",
-						"Please input name");
-				return;
+				nameX_L.setVisible(true);
 			}
+			else nameX_L.setVisible(false);
 
 			// empty address
-			else if (this.address_TF.getText().trim().isEmpty()) {
-				Login_win.showPopUp("ERROR", "Error", "One of the details werent filled correctly",
-						"Please input delivery address");
-				return;
+			if (this.address_TF.getText().trim().isEmpty()) {
+				addX_L.setVisible(true);
 			}
+			else addX_L.setVisible(false);
 
 			// emtpy or non-numeric phone
-			else if ((this.phoneShort_TF.getText()).trim().isEmpty()
+			if ((this.phoneShort_TF.getText()).trim().isEmpty()
 					|| !(this.phoneShort_TF.getText()).matches("^[0-9]+$")
 					|| (this.phoneLong_TF.getText()).trim().isEmpty()
 					|| !(this.phoneLong_TF.getText()).matches("^[0-9]+$")) {
-				Login_win.showPopUp("ERROR", "Error", "One of the details werent filled correctly",
-						"Please check phone number for missing fields or use of letters");
-				return;
+				phX_L.setVisible(true);
 			}
+			else phX_L.setVisible(false);
 
 			// self collect
 		} else if (selectdelivery_TG.getSelectedToggle() == this.self_R)
 			isDelivery = false;
 
 		// empty or non-numeric date & if 1>day>31 || 1>month>12
-		if ((this.day_TF.getText()).trim().isEmpty() || !(this.day_TF.getText()).matches("^[0-9]+$")
-				|| (Integer.parseInt(this.day_TF.getText())) > 31 || (Integer.parseInt(this.day_TF.getText())) < 1
-				|| (Integer.parseInt(this.month_TF.getText())) > 12 || (Integer.parseInt(this.month_TF.getText())) < 1
-				|| (this.month_TF.getText()).trim().isEmpty() || !(this.month_TF.getText()).matches("^[0-9]+$")) {
-			Login_win.showPopUp("ERROR", "Error", "One of the details werent filled correctly",
-					"Please check date for missing fields or use of letters");
-			return;
-
-		} else if (paymentmethod_TG.getSelectedToggle() == null) {
-			Login_win.showPopUp("ERROR", "Error", "One of the details werent filled correctly",
-					"Please select Payment Method");
-			return;
+		if (this.date==null) { dX_L.setVisible(true); }
+		else {
+		     int day = Integer.parseInt(date.substring(0, 2));
+		     int month = Integer.parseInt(date.substring(3, 5));
+		     int year = Integer.parseInt(date.substring(6, 10));
+		     System.out.println("day "+lday+" month "+lmonth+" year "+lyear);
+		     
+		     dX_L.setVisible(false);
+		     
+		     if(lyear+2<=year) dX_L.setVisible(true);
+		     else if(lyear==year) {
+		    	 if(month<lmonth) dX_L.setVisible(true);
+		    	 else if(month==lmonth) {
+		    		 if(day<lday) dX_L.setVisible(true);}
+		     }
+		} 
+		
+		if(hour_TF.getText()==null || min_TF.getText()==null
+			||  hour_TF.getText().equals("") || min_TF.getText().equals("") )
+			tX_L.setVisible(true);
+		else {
+			tX_L.setVisible(false);
+			if(!(dX_L.isVisible())) {
+			int day = Integer.parseInt(date.substring(0, 2));
+			if(day==lday) {
+				int omin=Integer.parseInt(min_TF.getText());
+				int ohour=Integer.parseInt(hour_TF.getText());
+				if(( (60*ohour - 60*lhour) + (omin-lmin) ) < 180 ) {
+					tX_L.setVisible(true);
+					Login_win.showPopUp("INFORMATION", "Cannot Provide Order", "We can deliver an order with a minimum of 3 hours since request",
+							"");
+				}}
+					
+			}
+			
 		}
+		
+		if (paymentmethod_TG.getSelectedToggle() == null) {
+			pmX_L.setVisible(true);
+		}
+		else pmX_L.setVisible(false);
 		// No errors
+		if(		nameX_L.isVisible()
+			||  addX_L.isVisible()
+			||	phX_L.isVisible()
+			||	otX_L.isVisible()
+			||	dX_L.isVisible()
+			||	tX_L.isVisible()
+			||	pmX_L.isVisible() )
+			return;
 		else {
 			noErrors = true;
 		}
@@ -290,9 +339,9 @@ public class Order_Controller implements Initializable, ControllerI {
 		order.setCard(card);
 
 		order.setStoreid(acc.getStoreID()); // user's store id by payment_account registration
-
+		
 		this.time = hour_TF.getText() + ":" + min_TF.getText(); // 14:36
-		this.date = day_TF.getText() + "." + month_TF.getText(); // 02.01
+
 		order.setRequestdate(date);
 		order.setRequesttime(time);
 		if (this.paymentmethod_TG.getSelectedToggle() == cash_R)
@@ -526,6 +575,10 @@ public class Order_Controller implements Initializable, ControllerI {
 		self_P.setVisible(true);
 		return;
 		}
+	
+	public void getDate(ActionEvent e) {
+	     this.date = datePick.getValue().format(dateFormatter);
+	}
 
 	public void setTotalPrice() {
 		// Cart.calcTotalPrice() calculates according to subscription
@@ -587,10 +640,51 @@ public class Order_Controller implements Initializable, ControllerI {
 	}
 
 	public void setTextF() {
-		addTextLimiter(day_TF, 2);
-		addTextLimiter(month_TF, 2);
+		nameX_L.setVisible(false);
+		addX_L.setVisible(false);
+		phX_L.setVisible(false);
+		otX_L.setVisible(false);
+		dX_L.setVisible(false);
+		tX_L.setVisible(false);
+		pmX_L.setVisible(false);
+		
 		addTextLimiter(hour_TF, 2);
 		addTextLimiter(min_TF, 2);
+	}
+	
+	public void setDatePicker() {
+		
+		LocalDateTime now = LocalDateTime.now();
+		lyear = now.getYear();
+		lmonth = now.getMonthValue();
+		lday = now.getDayOfMonth();
+		lhour = now.getHour();
+		lmin = now.getMinute();
+		
+		 datePick.setConverter(new StringConverter<LocalDate>() {
+		     String pattern = "dd/MM/yyyy";
+		     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+
+		     {
+		         datePick.setPromptText(pattern.toLowerCase());
+		     }
+
+		     @Override public String toString(LocalDate date) {
+		         if (date != null) {
+		             return dateFormatter.format(date);
+		         } else {
+		             return "";
+		         }
+		     }
+
+		     @Override public LocalDate fromString(String string) {
+		         if (string != null && !string.isEmpty()) {
+		             return LocalDate.parse(string, dateFormatter);
+		         } else {
+		             return null;
+		         }
+		     }
+		 });
 	}
 
 	// Limit character length in TextFields
@@ -634,6 +728,7 @@ public class Order_Controller implements Initializable, ControllerI {
 
 		setRadioB();
 		setTextF();
+		setDatePicker();
 		delivery_P.setVisible(false);
 		self_P.setVisible(false);
 
