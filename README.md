@@ -137,7 +137,7 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] verify times regarding money compensation 
 
 **Catalog** <br/>
-- [ ] Implement adding Item From Catalog to Cart->Order
+- [x] Implement adding Item From Catalog to Cart->Order
  
 **Self Item** <br/>
 - [x] fit Self Item creation for user story (no description -> selection between options)
