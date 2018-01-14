@@ -72,7 +72,7 @@
                   <Font name="Goudy Stout" size="10.0" />
                </font>
             </Label>
-            <TextField fx:id="txtID" alignment="CENTER" editable="false" layoutX="163.0" layoutY="192.0" />
+            <TextField fx:id="txtID" alignment="CENTER" editable="false" layoutX="163.0" layoutY="192.0" text="Auto" />
             <TextField fx:id="txtName" alignment="CENTER" editable="false" layoutX="163.0" layoutY="227.0" />
             <TextField fx:id="txtAmount" alignment="CENTER" editable="false" layoutX="163.0" layoutY="361.0" />
             <TextField fx:id="txtPrice" alignment="CENTER" editable="false" layoutX="163.0" layoutY="324.0" />
