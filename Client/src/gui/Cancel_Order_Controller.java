@@ -248,7 +248,6 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
 		  calc.setText("Precent of Compensation: 100%");
 	    	calc.setTextFill(Color.web("#31ed0b"));
 	    	full=1;
-		 
 	 }
 	 
 	 else if(now.plusHours(1).isBefore(wanted_date))
@@ -263,7 +262,7 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
 	    	calc.setTextFill(Color.web("#ed0b31"));
 	    	non=1;
 	 }
-	 
+	 /////////////////to do some thinng with the refund
     
     			
 	}
