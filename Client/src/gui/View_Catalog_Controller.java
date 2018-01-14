@@ -89,7 +89,13 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	public static ActionEvent log;
 	public static Item_In_Catalog tmp = new Item_In_Catalog();
 
-	/** open the catalog window **/
+	/**
+	 * open the catalog window
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
+
 	public void back(ActionEvent event) throws IOException {
 		if (Managment_Controller.ManagmentFlage == 1) {
 			Login_win.chosen_store = chosenStore;
@@ -101,6 +107,12 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		move(event, main.fxmlDir + "Main_menu_F.fxml");
 	}
 
+	/**
+	 * 
+	 * @param event
+	 * @param next_fxml
+	 * @throws IOException
+	 */
 	public void move(ActionEvent event, String next_fxml) throws IOException {
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(next_fxml));
@@ -166,16 +178,18 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(i);
 		fileChooser.setTitle("Choose a picture");
-		File f = fileChooser.showOpenDialog(null);		
-		
-		String s = f.getPath();
-		// System.out.println(s);
-		// System.out.println();
-		MyFile mf = new MyFile(txtID.getText() + ".jpg");
-		mf.setDescription(s);
-		mf = getFileInfo(mf);
-		tmp.setImage(mf);
+		File f = fileChooser.showOpenDialog(null);
+		if (!(f == null)) {
+			String s = f.getPath();
 
+			// System.out.println(s);
+			// System.out.println();
+			MyFile mf = new MyFile(txtID.getText() + ".jpg");
+			mf.setDescription(s);
+			mf = getFileInfo(mf);
+			tmp.setImage(mf);
+		}
+		else ChangePicture=0;
 	}
 
 	/** convert image to MyFile **/
@@ -327,14 +341,13 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		if (txtPrice.getText().equals(""))
 			txtPrice.setText("0.0");
 
-		if (txtName.getText().equals("") || txtDescription.getText().equals("") || txtPrice.getText().equals("0.0")||ChangePicture==0) {
+		if (txtName.getText().equals("") || txtDescription.getText().equals("") || txtPrice.getText().equals("0.0")
+				|| ChangePicture == 0) {
 			Login_win.showPopUp("ERROR", "", "Empty Fields", "");
-			if(ChangePicture==0) {
+			if (ChangePicture == 0) {
 				xImage.setVisible(true);
-				ChangePicture=1;
-			}				
-			else
-			{
+				ChangePicture = 1;
+			} else {
 				xImage.setVisible(false);
 			}
 			if (txtName.getText().equals(""))
@@ -370,7 +383,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		txtPrice.setStyle("");
 		txtName.setEditable(false);
 		txtDescription.setEditable(false);
-		txtPrice.setEditable(false);		
+		txtPrice.setEditable(false);
 		tmp.setID(txtID.getText());
 		tmp.setName(txtName.getText());
 		tmp.setDescription(txtDescription.getText());
@@ -378,9 +391,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		msg.setRole("update item in catalog");
 		msg.newO = tmp;
 		Login_win.to_Client.accept(msg);
-		}
-
-	
+	}
 
 	/** Reset catalog view **/
 	public void ResetCatalog() {
