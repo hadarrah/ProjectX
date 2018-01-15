@@ -67,6 +67,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	public Button AddToCart_B;
 	public Button OK_B;
 	public Button Pic_B;
+	public Button AddCancel_B;
 	public ComboBox<String> cbxAmount;
 	public TextField txtID;
 	public TextField txtName;
@@ -137,7 +138,13 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 	/** init the Msg with SELECTALL query **/
 	public void init() {
-
+		AddCancel_B.setVisible(false);
+		AddSave_B.setVisible(false);
+		if(Managment_Controller.ManagmentFlage==1)
+		{
+			Edit_B.setDisable(false);
+			Delete_B.setDisable(false);
+		}
 		Msg msg = new Msg();
 		msg.setRole("View all catalog items");
 		msg.setSelect();
@@ -163,10 +170,13 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 */
 	public void EditCatalog(ActionEvent event) throws IOException {
 		ResetXlable();
+		SetRedStyle();
 		EditableTextField();
 		txtID.setDisable(false);
 		Save_B.setVisible(true);
 		Pic_B.setVisible(true);
+		Delete_B.setDisable(true);
+		Add_B.setDisable(true);
 	}
 
 	
@@ -224,6 +234,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 * @throws IOException
 	 */
 	public void Save(ActionEvent event) throws IOException {
+		
 		Msg msg = new Msg();
 		if (txtPrice.getText().equals(""))
 			txtPrice.setText("0.0");
@@ -278,12 +289,14 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 			@Override
 			public void run() {
-				Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");
-				Pic_B.setVisible(false);
-				ChangePicture = 0;
-				init();
+				Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");				
 			}
 		});
+		Pic_B.setVisible(false);
+		ChangePicture = 0;
+		Delete_B.setDisable(false);
+		Add_B.setDisable(false);
+		init();
 	}
 
 	
@@ -298,6 +311,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		msg.setRole("delete item from catalog");
 		msg.setUpdate();
 		Login_win.to_Client.accept(msg);
+		
 	}
 
 	
@@ -309,10 +323,13 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+				
 				Login_win.showPopUp("INFORMATION", "Message", "Delete Done successfully", "");
-				init();
-			}
+				if(!(view_counter==0)) view_counter--;
+				init();			
+			}			
 		});
+		
 	}
 	/**
 	 * show message after insert new item to catalog
@@ -322,10 +339,12 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				Login_win.showPopUp("INFORMATION", "Message", "Item successfully added", "");
-				init();
+				Login_win.showPopUp("INFORMATION", "Message", "Item successfully added", "");				
 			}
 		});
+		Delete_B.setDisable(false);
+		Edit_B.setDisable(false);
+		init();
 	}
 
 
@@ -334,13 +353,16 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 * @param event
 	 * @throws IOException
 	 */
-	public void AddNewItemToCatalog(ActionEvent event) throws IOException {		
+	public void AddNewItemToCatalog(ActionEvent event) throws IOException {	
+		Delete_B.setDisable(true);
+		Edit_B.setDisable(true);
 		ClearText();
 		txtAmount.setVisible(false);
 		EditableTextField();
 		Itemimg.setImage(null);
 		Pic_B.setVisible(true);
 		AddSave_B.setVisible(true);
+		AddCancel_B.setVisible(true);
 		txtName.setEditable(true);
 		SetRedStyle();
 		EditableTextField();
@@ -352,6 +374,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 * @throws IOException
 	 */
 	public void SaveNewItem(ActionEvent event) throws IOException {
+		
 		Msg msg = new Msg();
 		if (txtPrice.getText().equals(""))
 			txtPrice.setText("0.0");

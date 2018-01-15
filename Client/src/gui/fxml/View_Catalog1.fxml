@@ -93,6 +93,8 @@
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
+            <Button fx:id="AddCancel_B" layoutX="151.0" layoutY="360.0" mnemonicParsing="false" onAction="#init" prefWidth="60.0" text="Cancel" visible="false" />
+            <Button fx:id="AddSave_B" layoutX="262.0" layoutY="361.0" mnemonicParsing="false" onAction="#SaveNewItem" prefWidth="60.0" text="Save" visible="false" />
          </children>
       </Pane>
       <Button fx:id="back_B" layoutY="574.0" mnemonicParsing="false" onAction="#back" text="Back" />
@@ -129,6 +131,5 @@
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </Label>
-      <Button fx:id="AddSave_B" layoutX="224.0" layoutY="466.0" mnemonicParsing="false" onAction="#SaveNewItem" text="SaveAdd" visible="false" />
    </children>
 </Pane>
