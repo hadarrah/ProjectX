@@ -100,6 +100,8 @@ public class ClientConsole implements ChatIF {
 				if(check.getRole().equals("View all catalog items")) {				
 					((gui.View_Catalog_Controller) mc).initCatalog(message);	
 				}
+				else if (check.getRole().equals("get user orders history"))
+					((gui.Purchase_History_Controller)mc).setUserHistory(message);
 				else if (check.getRole().equals("get customres id"))
 					((gui.Answer_Survey_Controller)mc).setIdInCombO(message);
 				else if (check.getRole().equals("get orders id"))

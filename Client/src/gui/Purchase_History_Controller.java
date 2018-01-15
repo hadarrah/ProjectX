@@ -3,91 +3,145 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Observable;
 import java.util.ResourceBundle;
-
-import com.sun.media.jfxmediaimpl.platform.Platform;
 
 import action.Msg;
 import action.Order;
+import action.Person;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Purchase_History_Controller implements ControllerI,Initializable {
+public class Purchase_History_Controller  implements ControllerI,Initializable {
+public ArrayList<Order> order_history;
+public Button back_to_profile;
+public Label user_name;
+
+	  @FXML
+	  TableView<Order_History> table = new TableView<Order_History>();	  
+	  @FXML    
+	  TableColumn<Order_History, String> OrderId; //  
+	  @FXML
+	  TableColumn<Order_History, String> Status;
+	  @FXML
+      TableColumn<Order_History, String> Price;
+	  @FXML
+      TableColumn<Order_History, String> Order_date;
+	  @FXML
+      TableColumn<Order_History, String> Delivery;
+	  @FXML
+      TableColumn<Order_History, String> Req_date;
+
+	  
+	      @SuppressWarnings("unchecked")
+	      /**
+	       * init the table according the user history orders including canceled orders
+	       */
+	   public void InitTable()
+	      {
+	    	  
+	    	  OrderId.setCellValueFactory(new PropertyValueFactory<>("ID"));
+	    	  Status.setCellValueFactory(new PropertyValueFactory<>("Status"));
+	    	  Price.setCellValueFactory(new PropertyValueFactory<>("Price"));
+	    	  Order_date.setCellValueFactory(new PropertyValueFactory<>("Date"));
+	    	  Delivery.setCellValueFactory(new PropertyValueFactory<>("Delivery"));
+	    	  Req_date.setCellValueFactory(new PropertyValueFactory<>("Requested_Date"));
+	    	  
+	      // Set Sort type for userName column
+	    	  OrderId.setSortType(TableColumn.SortType.DESCENDING);
+
+	  	ObservableList<Order_History> list = getUserList(order_history);
+	      table.setItems(list);
 	
-	// define table
-	 @FXML
-	  TableView<Table> tableID;
-	 @FXML
-	  TableColumn<Table,String> ID;
-	 @FXML
-	 TableColumn<Table,String> Status;
-	 @FXML
-	 TableColumn<Table,String>  Date;
-	 @FXML
-	  TableColumn<Table,String>  Price;
+ 
+	      }
+	/**
+	 * sets the details in the table
+	 * @param orders
+	 * @return
+	 */
+	  private ObservableList<Order_History> getUserList(ArrayList<Order> orders) {
+		  
+		  ArrayList<Order_History>to_ob=new  ArrayList<Order_History>();
+		  /*according  the amount of the user orders*/
+		  for(int i=0;i<orders.size();i++)
+		  {
+	      Order_History user1 = new Order_History(orders.get(i).getId(),
+	      orders.get(i).getStatus(),Float.toString(orders.get(i).getTotprice())+"-"+ orders.get(i).getPayment(),orders.get(i).getCreatedate()+"-"+orders.get(i).getCreatetime(),
+	      orders.get(i).getDelivery1(),orders.get(i).getRequestdate()+"-"+orders.get(i).getRequesttime()); //
+	 
+	      to_ob.add(user1);
+		  }
+	     
+	      ObservableList<Order_History> list = FXCollections.observableArrayList(to_ob);
+	      return list;
+	  }
 	
-	// define var
- public float  var=(float) 0.9;
-	public Button back_to_profile;
-	//table data 
-	final ObservableList<Table> data= FXCollections.observableArrayList(new Table("1","a","d"));
-	
-	
-	public void back_to_profile (ActionEvent event) throws IOException 
+	 /**
+	  * sends a request to the server-> DB
+	  * to get this user order history
+	  */
+	  protected void getUserHistory() 
+	  {
+		  Msg msg= new Msg();
+		  msg.setRole("get user orders history");
+		  msg.setSelect();
+		  Person cur=new Person(null,null);
+		  cur=gui.Main_menu.current_user;
+		  msg.oldO= cur;
+		  Login_win.to_Client.accept(msg);
+
+		}
+	  
+	 /**
+	  * the return value from the DB 
+	  * calling the initTable function to set the details in the table 
+	  * @param o
+	  */
+	public void setUserHistory(Object o)
 	{
-		Parent menu;
-		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Profile_F.fxml"));
-		Scene win1 = new Scene(menu);
-		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
-		win_1.setScene(win1);
-		win_1.show();
-	}
-	public  void getData()
-	{	 System.out.println("i got to fuc in purc ");
-
-		Msg msg= new Msg();
-		msg.setSelect();
-		msg.setRole("get user order history");
-		msg.oldO=gui.Login_win.current_user;
-		Login_win.to_Client.accept(msg);
-		
+		order_history= (ArrayList<Order>) ((Msg)o).newO;
+	    InitTable();
 	}
 	
-	public void setData(Object o)
-	{	
-
-		Msg msg=(Msg) o;
-		ArrayList<Order>orders=new ArrayList<Order>();
-		orders=(ArrayList<Order>) msg.newO;
 	
-		
+	/**
+	 * back to the profile screen
+	 * @param event
+	 * @throws IOException
+	 */
+	public void back_to_profile(ActionEvent event)throws IOException 
+	{
+		  Parent menu;
+		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+"Profile_F.fxml"));
+		 Scene win1= new Scene(menu);
+		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		 win_1.setScene(win1);
+		 win_1.show();
 	}
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// Login_win.to_Client.setController(this);
-		ID.setCellValueFactory(new PropertyValueFactory<Table,String>("rID"));
-		Status.setCellValueFactory(new PropertyValueFactory<Table,String>("rStatus"));
-		Date.setCellValueFactory(new PropertyValueFactory<Table,String>("rDate"));
-	//	Price.setCellValueFactory(new PropertyValueFactory<Table,float>("rPrice"));
-		//getData();
-		tableID.setItems(data);
-		tableID.setVisible(true);
-	 
+		Login_win.to_Client.setController(this);
+		user_name.setText(gui.Main_menu.current_user.getUser_name()+" "+"Purchase History");
+		getUserHistory();
 	}
+
+	
 
 
 }
