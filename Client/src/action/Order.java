@@ -7,6 +7,7 @@ public class Order implements Serializable{
 	private String id, personid, status, payment, storeid,delivery1;
 	private String createtime, createdate, requesttime, requestdate;
 	private String card;
+	private String refund_amount;
 	
 	public String getCard() {
 		return card;
@@ -139,6 +140,14 @@ public class Order implements Serializable{
 
 	public void setDelivery1(String delivery1) {
 		this.delivery1 = delivery1;
+	}
+
+	public String getRefund_amount() {
+		return refund_amount;
+	}
+
+	public void setRefund_amount(String refund_amount) {
+		this.refund_amount = refund_amount;
 	}
 
 	
