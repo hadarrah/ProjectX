@@ -132,6 +132,7 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] show final price for order in the order pane.
 - [x] order.self collect -> auto storeid/present options
 - [ ] order date -> use muhi's method from survey
+- [ ] add subscription discount to final price
 
 **Cancel Order** <br/>
 - [ ] verify times regarding money compensation 
@@ -151,6 +152,7 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 **Cart**<br/>
 - [ ] View item details option
 - [ ] Move card functionality from Cart_Controller to Cart entity
+- [ ] Add sale discount to item
 
 **Card** <br/>
 - [x] adding Card to order
