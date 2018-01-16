@@ -353,7 +353,7 @@ public class Order_Controller implements Initializable, ControllerI {
 
 		msg.setRole("insert order");
 		msg.setInsert();
-		order.setStatus("Requested");
+		order.setStatus("Active");
 		msg.oldO = order;
 
 		Login_win.to_Client.accept(msg);
@@ -631,6 +631,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		});
 	}
 
+	/**Set RadioButton Javafx*/
 	public void setRadioB() {
 
 		this.delivery_R.setToggleGroup(this.selectdelivery_TG);
@@ -651,6 +652,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		self_R.setOnAction(handler);
 	}
 
+	/**Set TextFields Javafx*/
 	public void setTextF() {
 		nameX_L.setVisible(false);
 		addX_L.setVisible(false);
@@ -664,6 +666,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		addTextLimiter(min_TF, 2);
 	}
 	
+	/**Set DatePicker Javafx*/
 	public void setDatePicker() {
 		
 		LocalDateTime now = LocalDateTime.now();
@@ -699,7 +702,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		 });
 	}
 
-	// Limit character length in TextFields
+	/**Text Limiters for max hour and min TextFields*/
 	public static void addTextLimiter(final TextField tf, final int maxLength) {
 		tf.textProperty().addListener(new ChangeListener<String>() {
 			@Override
