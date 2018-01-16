@@ -52,7 +52,7 @@ public class EchoServer extends AbstractServer {
 	public static String table_name;
 	public static String schema_name;
 	public static String user_name;
-	protected static Logger logger = Logger.getLogger("MyLog");
+	//protected static Logger logger = Logger.getLogger("MyLog");
 	protected FileHandler fh;
 	// Constructors ****************************************************
 
@@ -110,7 +110,7 @@ public class EchoServer extends AbstractServer {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/" + schema_name, user_name,
 					user_pass);
-			logger.info("SQL connection succeed");
+			//logger.info("SQL connection succeed");
 			System.out.println("SQL connection succeed");
 			/* Define which kind the message the server got */
 			/**
@@ -1247,7 +1247,7 @@ public class EchoServer extends AbstractServer {
 	public static void check_user_details(Msg msg1, Connection conn, ConnectionToClient client) {
 		Person user = (Person) msg1.oldO;
 		String a;
-		logger.info("user" + " " + user.getUser_ID() + "got in to the system");
+		//logger.info("user" + " " + user.getUser_ID() + "got in to the system");
 		ArrayList<String> store = new ArrayList<String>();
 		ArrayList<Payment_Account> pay_account_arr = new ArrayList<Payment_Account>();
 
@@ -1594,7 +1594,7 @@ public class EchoServer extends AbstractServer {
 			ps.executeUpdate();
 
 			msg1.newO = survey;
-			logger.info("a new survey was insert with " + survey.getID() + "ID");
+			//logger.info("a new survey was insert with " + survey.getID() + "ID");
 			client.sendToClient(msg1);
 		} catch (SQLException e) {
 			e.printStackTrace();
