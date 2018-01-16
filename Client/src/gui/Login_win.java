@@ -98,13 +98,12 @@ public class Login_win  implements ControllerI,Initializable  {
 			user_not_existL.setVisible(false);
 		}
 			
-	 
-		if(user.getIsExist().equals("0")) {
+		else if(user.getIsExist().equals("0")) {
 			user_not_existL.setVisible(true);
-		already_conL.setVisible(false);
+			already_conL.setVisible(false);
 		}
 			
-		  if(user.getIsExist().equals("1") && user.getIsOnline().equals("1")&& !(user.isAlreadyConnected()==true))
+		else if(user.getIsExist().equals("1") && user.getIsOnline().equals("1")&& !(user.isAlreadyConnected()==true))
 		  {
 			  user_not_existL.setVisible(false);			  
 				already_conL.setVisible(false);				

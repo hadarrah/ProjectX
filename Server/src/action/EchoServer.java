@@ -710,15 +710,30 @@ public class EchoServer extends AbstractServer {
 
 		Msg msg = (Msg) msg1;
 		Order order = (Order) msg.oldO;
+		Person user=(Person)msg.newO;
 		PreparedStatement ps;
+		ResultSet rs;
+		String refund,compensation = null;
 		/*calc the refund amount */
 		 float price = order.getTotprice();
 		 if(order.getRefund_amount().equals("full"))
+		 {
 			 order.setRefund_amount(Float.toString( order.getTotprice() ));
+			 compensation=Float.toString( order.getTotprice() );
+		 }
+			
 		 else if(order.getRefund_amount().equals("half"))
+		 {
 			 order.setRefund_amount(Float.toString( order.getTotprice()/2  ));
+			 compensation=Float.toString( order.getTotprice()/2 );
+		 }
+			 
 		 else if(order.getRefund_amount().equals("none"))
+		 {
 			 order.setRefund_amount("0");
+			 compensation="0";
+		 }
+			 
 
 		try {
 			/* set up and execute the update query */
@@ -728,6 +743,28 @@ public class EchoServer extends AbstractServer {
 			ps.setString(3, order.getId());
 			ps.executeUpdate();
 
+			
+		 
+
+			/* check if the user has payment account*/
+			ps = conn.prepareStatement("SELECT * FROM payment_account WHERE ID=? AND Store_ID=?;");
+			ps.setString(1, user.getUser_ID());
+			ps.setString(2, order.getStoreid());
+			rs = ps.executeQuery();
+			if(rs.next())
+			{
+				refund = rs.getString("Refund");
+				if(refund != null)
+					compensation = String.valueOf(Float.parseFloat(refund) + Float.parseFloat(compensation));
+				ps = conn.prepareStatement("UPDATE payment_account SET Refund=? WHERE ID=? AND Store_ID=?;");
+				ps.setString(1, compensation);
+				ps.setString(2,  user.getUser_ID());
+				ps.setString(3, order.getStoreid());
+				ps.executeUpdate();
+			}
+			
+	
+			
 			msg.freeField = "succeed";
 
 			client.sendToClient(msg);

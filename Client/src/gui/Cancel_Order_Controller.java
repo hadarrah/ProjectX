@@ -163,9 +163,6 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     	}
     }
      
-    
-    
-    
     public void show_cancel_msg(Object o)
     {
     	 
@@ -202,8 +199,9 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     }
     
     /**
-     * check if the form is valid
+     * 
      * send a msg to server-> Db to change the order status
+     * with the amount of refund and the user details in order to update his balance in payment account
      * @param event
      * @throws IOException
      */
@@ -221,19 +219,21 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     		msg.setTableName("order");
     		msg.setRole("change order status");
     		Order o =new Order();
-    	//	o.setId(order_ids.getValue());
     		
     		for(int i=0;i<orders.size();i++)
     			if(orders.get(i).getId().equals(order_ids.getValue()))
     				o=orders.get(i);
-    		
+    		/*define the amount of refund*/
     		if(full==1)
     		o.setRefund_amount("full");
     		else if(half==1)
         		o.setRefund_amount("half");
     		else if(none==1)
         		o.setRefund_amount("none");
+   
+    		//*set the user object and the order(object) that he chose to cancel*//
     		msg.oldO=o;
+    		msg.newO=gui.Main_menu.current_user;
     		 Login_win.to_Client.accept(msg);
     		
     		
