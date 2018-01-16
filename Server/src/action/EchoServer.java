@@ -469,7 +469,7 @@ public class EchoServer extends AbstractServer {
 
 					/* get the relevant order */
 					while (rs.next()) {
-						if (checkDate(rs.getString("Date"), quarter, year) && rs.getString("Status").equals("Active")) {
+						if (checkDate(rs.getString("Date"), quarter, year) && rs.getString("Status").equals("Paid")) {
 							Order order = new Order(rs.getString("ID"), rs.getString("Status"));
 							order.setTotprice(Float.parseFloat(rs.getString("Price")));
 							orders.add(order);
