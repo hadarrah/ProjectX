@@ -65,6 +65,7 @@ public class EchoServer extends AbstractServer {
 	public EchoServer(int port) {
 		super(port);
 		/* adding a log file */
+		/*
 		try {
 			fh = new FileHandler("Zerli-LogFile.log", true);
 			logger.addHandler(fh);
@@ -72,13 +73,13 @@ public class EchoServer extends AbstractServer {
 			fh.setFormatter(formatter);
 
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
-
+		 */
 		user_name = JOptionPane.showInputDialog("Enter User name  ");
 		if (user_name.equals("")) {
 			JOptionPane.showMessageDialog(null, "Invalid name");
