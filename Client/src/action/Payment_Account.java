@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Payment_Account implements Serializable {
 
 	private String ID, CreditCard, Subscription, Status, StoreID;
+	private Float refund_sum;
 	
 	public Payment_Account() {}
 	
@@ -62,5 +63,13 @@ public class Payment_Account implements Serializable {
 
 	public void setStoreID(String storeID) {
 		StoreID = storeID;
+	}
+
+	public Float getRefund_sum() {
+		return refund_sum;
+	}
+
+	public void setRefund_sum(Float refund_sum) {
+		this.refund_sum = refund_sum;
 	}
 }
