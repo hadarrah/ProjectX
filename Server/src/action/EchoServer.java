@@ -140,6 +140,8 @@ public class EchoServer extends AbstractServer {
 					check_survey_exist(msg1, conn, client);
 				else if (msg1.getRole().equals("check if there is active survey for add comment"))
 					check_survey_exist(msg1, conn, client);
+				else if (msg1.getRole().equals("check if there is active survey"))
+					check_survey_exist(msg1, conn, client);
 				else if (msg1.getRole().equals("find items color-type-price"))
 					SelectItemsCTP(msg1, conn, client);
 				else if (msg1.getRole().equals("get survey qustion"))
@@ -1137,7 +1139,7 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * get the number of the current active survey
-	 * 
+	 * if there is no active survey at all-> return with No active survey msg
 	 * @param msg1
 	 * @param conn
 	 * @param client
@@ -1153,12 +1155,21 @@ public class EchoServer extends AbstractServer {
 			PreparedStatement ps = conn.prepareStatement("SELECT ID FROM survey where Status='Active';");
 			ResultSet rs = ps.executeQuery();
 
+			if (!rs.next())
+			{
+				msg.newO = null; // this is mean that there is no active survey
+				client.sendToClient(msg);
+				return;
+			}
+			rs.beforeFirst();
 			while (rs.next()) {
 				survey.setID(rs.getString(1));
 
 			}
 			msg.newO = survey;
 			client.sendToClient(msg);
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException ex) {
@@ -1468,7 +1479,8 @@ public class EchoServer extends AbstractServer {
 			ps = conn.prepareStatement(" SELECT * FROM survey WHERE Status = 'Active';");
 			rs = ps.executeQuery();
 			if (!rs.next()) {
-				msg1.newO = null; // this is mean that there is no active server
+				msg1.newO = null; // this is mean that there is no active survey
+				msg1.freeField="No Active";
 				client.sendToClient(msg1);
 				return;
 			}

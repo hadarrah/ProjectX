@@ -107,7 +107,7 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("get orders id"))
 					((gui.Cancel_Order_Controller)mc).SetOrdersIds(message);
 				else if (check.getRole().equals("verify user details")) {
-					((gui.Login_win) mc).get_comfirmation(message);					
+					((gui.Login_win) mc).get_comfirmation(message);		
 				}
 				else if (check.getRole().equals("check if user already did this survey")) {
 					//((gui.Main_menu)mc).survey_premession(message);

@@ -150,15 +150,15 @@ public class Main_menu implements Initializable, ControllerI {
 	}
 
 	/* /* check if the user already took this survey *//*
-														 * /public void take_survey(ActionEvent event) throws
-														 * IOException {
-														 * 
-														 * event_l = new ActionEvent(); event_l =
-														 * event.copyFor(event.getSource(), event.getTarget());
-														 * 
-														 * Msg msg = new Msg(); msg.setSelect();
-														 * msg.setRole("check if user already did this survey");
-														 * msg.setTableName("comments_survey"); msg.newO = current_user;
+														   /public void take_survey(ActionEvent event) throws
+														   IOException {
+														   
+														  event_l = new ActionEvent(); event_l =
+														   event.copyFor(event.getSource(), event.getTarget());
+														   
+														   Msg msg = new Msg(); msg.setSelect();
+														  msg.setRole("check if user already did this survey");
+														   msg.setTableName("comments_survey"); msg.newO = current_user;
 														 * msg.oldO = current_survey; Login_win.to_Client.accept(msg);
 														 * 
 														 * }

@@ -51,6 +51,7 @@ public class Managment_Controller implements Initializable,ControllerI {
 	public static ArrayList<String> stores;
 	public static Survey current_survey;
 	public static int ManagmentFlage=0;
+	public static boolean survey_open; 
 
     public void update_Catalog(ActionEvent event) throws IOException {
     	ManagmentFlage=1;    	
@@ -135,6 +136,9 @@ public class Managment_Controller implements Initializable,ControllerI {
 		
     }
     
+  
+    
+    
     public void answer_Complaint(ActionEvent event) throws IOException {
     	
     	/*save the event*/
@@ -163,14 +167,40 @@ public class Managment_Controller implements Initializable,ControllerI {
     }
     
     public void answer_survey(ActionEvent event) throws IOException {
+    	if(survey_open==true)
     	move(event ,main.fxmlDir+ "Answer_Survey_F.fxml");
+    	else
+    		Platform.runLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					Login_win.showPopUp("ERROR", "System error", "There is no active survey", "");
+					
+				}
+			});
+    	
     }
-
+/**
+ * get the survey id from the server-DB
+ * if the is no active survey it alert it by using a flag
+ * @param o
+ */
 	public void set_current_survey_and_chek_customer_survey(Object o) {
 		Msg msg = (Msg) o;
+		Survey s=new Survey();
+		s=(Survey) msg.newO;
+		if(s.getID()==null)
+		{
+			survey_open=false;
+			System.out.println("no survey is open");
+		}
+    		
+    	else {
+    		survey_open=true;
+		
 		Survey survey = (Survey) msg.newO;
 		current_survey = survey;
-		System.out.println(current_survey.getID());
+    	}
 
 	}
     
@@ -524,6 +554,8 @@ public class Managment_Controller implements Initializable,ControllerI {
     	{
     		case "Chain Employee":
     			update_Catalog_B.setVisible(true);
+    			//survey_b.setVisible(false);
+    			
     			break;
     		case "Customer Service Employee":
     			create_Survey_B.setVisible(true);
@@ -533,25 +565,29 @@ public class Managment_Controller implements Initializable,ControllerI {
     		case "Chain Manager":
     			display_Reports_B.setVisible(true);
     			compare_Reports_B.setVisible(true);
+    			survey_b.setVisible(false);
         		break;
     		case "Store Manager":
     			create_PaymentAccount_B.setVisible(true);
     			display_Reports_B.setVisible(true);
     			create_Sale_B.setVisible(true);
     			close_Sale_B.setVisible(true);
+    			survey_b.setVisible(false);
         		break;
     		case "Service Expert":
     			conclusion_Survey_B.setVisible(true);
+    			survey_b.setVisible(false);
         		break;
     		case "Store Employee":
     			create_Sale_B.setVisible(true);
     			close_Sale_B.setVisible(true);
+    			 
         		break;
     		case "System Manager":
     			edit_CustomersProfile_B.setVisible(true);
         		break;
     	}
-    	
+    	/*get the survey id that is active now- if there is no active survey return with no active survey msg*/
 		Msg msg = new Msg();
 		msg.setSelect();
 		msg.setRole("get the current survey id");
