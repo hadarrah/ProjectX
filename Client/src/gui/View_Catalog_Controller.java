@@ -291,7 +291,8 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 			@Override
 			public void run() {
-				Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");				
+				Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");	
+				Save_B.setVisible(false);
 			}
 		});
 		Pic_B.setVisible(false);
@@ -299,6 +300,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Delete_B.setDisable(false);
 		Add_B.setDisable(false);
 		init();
+		
 	}
 
 	
@@ -633,7 +635,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 * Add current item from catalog to cart by clicking add button and choose amount
 	 */
 	public void AddToCart() {
-		AddToCart_B.setVisible(false);
+		
 		// if user does'nt have payment account
 		if (Itc.get(view_counter).getAmount() == -1) {
 			Login_win.showPopUp("INFORMATION", "Message", "You have to creat a payment account",

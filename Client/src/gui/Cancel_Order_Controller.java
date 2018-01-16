@@ -41,7 +41,8 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     ObservableList<String> list;
     /*a struck that contains the cur_user orders*/
     public static ArrayList<Order> orders;
-    public int half=0,full=0,non=0,cant=0;
+    public static Order slected_order;
+    public int half=0,full=0,none=0,cant=0;
     public static ActionEvent event_log;
     
     
@@ -99,7 +100,7 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     {
     	calc.setText("Precent of Compensation");
     	calc.setTextFill(Color.web("#000000"));
-    	non=0; half=0; full=0;cant=0;
+    	none=0; half=0; full=0;cant=0;
     	order_details.setVisible(true);
     	order_details.clear();
     	String date,hour;
@@ -219,12 +220,19 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     		msg.setUpdate();
     		msg.setTableName("order");
     		msg.setRole("change order status");
-    		if(full==1)
-    			msg.freeField="full";
-    		else 
-    			msg.freeField="half";
     		Order o =new Order();
-    		o.setId(order_ids.getValue());
+    	//	o.setId(order_ids.getValue());
+    		
+    		for(int i=0;i<orders.size();i++)
+    			if(orders.get(i).getId().equals(order_ids.getValue()))
+    				o=orders.get(i);
+    		
+    		if(full==1)
+    		o.setRefund_amount("full");
+    		else if(half==1)
+        		o.setRefund_amount("half");
+    		else if(none==1)
+        		o.setRefund_amount("none");
     		msg.oldO=o;
     		 Login_win.to_Client.accept(msg);
     		
@@ -234,6 +242,8 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     }
     /**
      * calculate the compensation time according the user story
+     * and saves the compensation amount according in the specific order
+     * update the balance field in the payment account
      * @param wanted_date
      * @param wanted_h
      */
@@ -260,9 +270,10 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
 	 else {
 		 calc.setText("Precent of Compensation: 0%");
 	    	calc.setTextFill(Color.web("#ed0b31"));
-	    	non=1;
+	    	none=1;
 	 }
-	 /////////////////to do some thinng with the refund
+
+	 
     
     			
 	}
