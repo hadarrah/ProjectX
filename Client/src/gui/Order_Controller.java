@@ -49,7 +49,7 @@ public class Order_Controller implements Initializable, ControllerI {
 	public Button back_B, payment_B;
 	public RadioButton delivery_R, self_R, creditcard_R, cash_R;
 	public ToggleGroup selectdelivery_TG, paymentmethod_TG;
-	public TextField total_price_TF, name_TF, address_TF, phoneShort_TF, phoneLong_TF, hour_TF, min_TF;
+	public TextField total_price_TF, name_TF, address_TF, phoneShort_TF, phoneLong_TF, hour_TF, min_TF,totp_TF;
 	public Pane delivery_P; // Pane which appears after the user selects delivery_R
 	public Pane self_P, time_P;
 	public Label store_L,otX_L,dX_L,tX_L,pmX_L,nameX_L,phX_L,addX_L;
@@ -67,6 +67,7 @@ public class Order_Controller implements Initializable, ControllerI {
 	public static ActionEvent event;
 
 	public float totalPrice = 0;
+	public float deliveryPrice=20;
 	public String card = Cart_Controller.cardType;
 	public String cardDesc = Cart_Controller.cardDesc;
 
@@ -300,7 +301,7 @@ public class Order_Controller implements Initializable, ControllerI {
 
 	}
 
-	// Get person's payment account(input: person's id)
+	/** Get person's payment account*/
 	public void getPaymentAcc(String personid) {
 		Msg msg = new Msg();
 
@@ -312,7 +313,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		Login_win.to_Client.accept(msg);
 	}
 
-	// request query to insert the new order
+	/**request query to insert the new order*/
 	public void insertOrderToDB() {
 		String p;
 		order = new Order();
@@ -352,7 +353,7 @@ public class Order_Controller implements Initializable, ControllerI {
 
 		msg.setRole("insert order");
 		msg.setInsert();
-		order.setStatus("Requested");
+		order.setStatus("Active");
 		msg.oldO = order;
 
 		Login_win.to_Client.accept(msg);
@@ -363,6 +364,7 @@ public class Order_Controller implements Initializable, ControllerI {
 
 	}
 
+	/**insert the selected card to DB*/
 	public void insertCardToDB() {
 		Msg msg = new Msg();
 
@@ -382,6 +384,7 @@ public class Order_Controller implements Initializable, ControllerI {
 
 	}
 
+	/**insert the selected delivery to DB*/
 	public void insertDeliveryToDB() {
 		Msg msg = new Msg();
 		Delivery delivery = new Delivery();
@@ -404,7 +407,7 @@ public class Order_Controller implements Initializable, ControllerI {
 
 	}
 
-	// Inserting all the items related to the order into the DB
+	/**Inserting all the items related to the order into the DB*/
 	public void insertItemsToDB() {
 
 		ArrayList<Item> items = Main_menu.userCart.selectedItemsArr;
@@ -499,6 +502,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		Login_win.to_Client.accept(msg);
 	}
 
+	/**Get user's payment account*/
 	public void get_payment_account(Object msg) {
 		Msg msg1 = (Msg) msg;
 
@@ -509,13 +513,14 @@ public class Order_Controller implements Initializable, ControllerI {
 
 		this.acc = (Payment_Account) msg1.newO;
 	}
-
+	
+	/**Successful item insert to DB*/
 	public void insert_items_success(Object msg) {
 		int oid = (int) ((Msg) msg).num1;
 		System.out.println("Items for order " + oid + " " + "been added!");
 		itemsInDB = true;
 	}
-
+	/**Successful card insert to DB*/
 	public void insert_card_success(Object msg) {
 		float num1 = ((Msg) msg).num1;
 		if (num1 == 1)
@@ -523,8 +528,8 @@ public class Order_Controller implements Initializable, ControllerI {
 		cardInDB = true;
 	}
 
-	// A function which receives the returned msg from server after inserting an
-	// order.
+	/** A function which receives the returned msg from server after inserting an
+	/* order. */
 	public void create_order_success(Object msg) {
 		Order created = (Order) (((Msg) msg).newO);
 
@@ -538,6 +543,7 @@ public class Order_Controller implements Initializable, ControllerI {
 
 	}
 
+	/**Successful delivery insert to DB*/
 	public void create_delivery_success(Object msg) {
 		Delivery d = (Delivery) (((Msg) msg).newO);
 		System.out.println(d.toString() + "\n for Order:" + d.getOrderid());
@@ -546,12 +552,13 @@ public class Order_Controller implements Initializable, ControllerI {
 		deliveryDone=true;
 	}
 
-	// Action for delivery & self collect radio buttons
+	/**Action for delivery & self collect radio buttons*/
 	public void wantDelivery(ActionEvent e) {
 		if (selectdelivery_TG.getSelectedToggle() == delivery_R) {
 			if (self_P.isVisible())
 				self_P.setVisible(false);
 			delivery_P.setVisible(true);
+			setTotalPrice();
 			return;
 		} else if (selectdelivery_TG.getSelectedToggle() == self_R)
 			if (delivery_P.isVisible())
@@ -570,21 +577,26 @@ public class Order_Controller implements Initializable, ControllerI {
 					}
 				}
 			
-			//storeLoc=storeLoc.substring(storeLoc.lastIndexOf("-")+1);
 		store_L.setText(storeLoc);
 		self_P.setVisible(true);
+		setTotalPrice();
 		return;
 		}
-	
+	/**Get date from DatePicker*/
 	public void getDate(ActionEvent e) {
 	     this.date = datePick.getValue().format(dateFormatter);
 	}
 
+	/**Set total price including delivery and subscription rates.*/
 	public void setTotalPrice() {
-		// Cart.calcTotalPrice() calculates according to subscription
-		total_price_TF.setText(Float.toString(userCart.calcTotalPrice()));
+		float price = userCart.calcTotalPrice();
+		//price*=subscription
+		if(delivery_P.isVisible())
+			price+=deliveryPrice;
+		
+		totp_TF.setText(Float.toString(price));
 	}
-
+	
 	public void back(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Main_Menu_F.fxml");
 	}
@@ -619,6 +631,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		});
 	}
 
+	/**Set RadioButton Javafx*/
 	public void setRadioB() {
 
 		this.delivery_R.setToggleGroup(this.selectdelivery_TG);
@@ -639,6 +652,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		self_R.setOnAction(handler);
 	}
 
+	/**Set TextFields Javafx*/
 	public void setTextF() {
 		nameX_L.setVisible(false);
 		addX_L.setVisible(false);
@@ -652,6 +666,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		addTextLimiter(min_TF, 2);
 	}
 	
+	/**Set DatePicker Javafx*/
 	public void setDatePicker() {
 		
 		LocalDateTime now = LocalDateTime.now();
@@ -687,7 +702,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		 });
 	}
 
-	// Limit character length in TextFields
+	/**Text Limiters for max hour and min TextFields*/
 	public static void addTextLimiter(final TextField tf, final int maxLength) {
 		tf.textProperty().addListener(new ChangeListener<String>() {
 			@Override
@@ -729,10 +744,9 @@ public class Order_Controller implements Initializable, ControllerI {
 		setRadioB();
 		setTextF();
 		setDatePicker();
+		setTotalPrice();
 		delivery_P.setVisible(false);
 		self_P.setVisible(false);
-
-		// setTotalPrice();
 	}
 
 }

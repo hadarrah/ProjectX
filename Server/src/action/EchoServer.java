@@ -428,7 +428,6 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * get the the relevant report
-	 * 
 	 * @param msg1
 	 * @param conn
 	 * @param client
@@ -664,7 +663,6 @@ public class EchoServer extends AbstractServer {
 	/**
 	 * help function to determine if the date within relevant range of year and
 	 * quarter
-	 * 
 	 * @param date
 	 * @param quarter
 	 * @param yearSpecific
@@ -703,18 +701,32 @@ public class EchoServer extends AbstractServer {
 
 		return false;
 	}
-
+/**
+ * if the user canceled his  order - change the status order and set the correct refund amount
+ * @param msg1
+ * @param conn
+ * @param client
+ */
 	public static void change_order_status(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Msg msg = (Msg) msg1;
 		Order order = (Order) msg.oldO;
 		PreparedStatement ps;
+		/*calc the refund amount */
+		 float price = order.getTotprice();
+		 if(order.getRefund_amount().equals("full"))
+			 order.setRefund_amount(Float.toString( order.getTotprice() ));
+		 else if(order.getRefund_amount().equals("half"))
+			 order.setRefund_amount(Float.toString( order.getTotprice()/2  ));
+		 else if(order.getRefund_amount().equals("none"))
+			 order.setRefund_amount("0");
 
 		try {
 			/* set up and execute the update query */
-			ps = conn.prepareStatement("UPDATE orders SET Status=? WHERE ID=?;");
+			ps = conn.prepareStatement("UPDATE orders SET Status=? , Refund=? WHERE ID=?;");
 			ps.setString(1, "Canceled");
-			ps.setString(2, order.getId());
+			ps.setString(2, order.getRefund_amount());
+			ps.setString(3, order.getId());
 			ps.executeUpdate();
 
 			msg.freeField = "succeed";
@@ -937,7 +949,12 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+/**
+ * get the payment account details according the current user 
+ * @param msg1
+ * @param conn
+ * @param client
+ */
 	public static void get_payment_account(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Msg msg = (Msg) msg1;
@@ -981,8 +998,8 @@ public class EchoServer extends AbstractServer {
 	}
 
 	/**
-	 * insert a new complain to the system
-	 * 
+	 * insert a new complain to the system, generate the number of the complain id
+	 * the init complain status is pending 
 	 * @param msg1
 	 * @param conn
 	 * @param client
@@ -993,33 +1010,25 @@ public class EchoServer extends AbstractServer {
 		Complain com = (Complain) msg1.oldO;
 		/** to create a random number for the complain id */
 		Random rand = new Random();
-		int n = rand.nextInt(5000) + 1;
-
 		int new_id;
-		/** to create a random number for the complain id */
-		// Random rand = new Random();
-		// int n = rand.nextInt(5000) + 1;
-
 		try {
+			
+			PreparedStatement ps1 = conn.prepareStatement("SELECT max(ID) FROM " + msg.getTableName() + ";");
+			ResultSet rs = ps1.executeQuery();
+			rs.next();
+			new_id = (rs.getInt(1));
+			if(new_id==0) {
+				 new_id= rand.nextInt(5000) + 1;
+			}
+			else 
+				new_id+=1;
+			
 			/** Building the query */
 
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO " + msg.getTableName()
 					+ "(`ID`, `Customer_ID`, `Text`, `Status`, `Date`, `Hour`) VALUES (?,?,?,?,?,?);");
-			ps.setString(1, Integer.toString(n));
-
-			/* get the last ID of sale */
-			PreparedStatement ps1 = conn.prepareStatement("SELECT max(ID) FROM " + msg.getTableName() + ";");
-			ResultSet rs = ps1.executeQuery();
-			rs.next();
-			new_id = (rs.getInt(1)) + 1;
-
-			/*
-			 * PreparedStatement ps =
-			 * conn.prepareStatement("INSERT INTO "+msg.getTableName()+
-			 * "(`ID`, `Customer_ID`, `Text`, `Status`, `Date`, `Hour`) VALUES (?,?,?,?,?,?);"
-			 * ); ps.setInt(1, new_id );
-			 */
-
+			ps.setString(1, Integer.toString(new_id));
+ 
 			ps.setString(2, com.getCustomer_ID());
 			ps.setString(3, com.getUser_txt());
 			ps.setString(4, "Pending");

@@ -15,8 +15,7 @@ public class Person implements Serializable {
 	private String IsExist;//0//1
 	private String WWID;
 	private boolean isAlreadyConnected;
-	private ArrayList<String> Store=new ArrayList<String>();
-	
+	private ArrayList<String> Store=new ArrayList<String>();	
 	
 	
 	public Person(String id,String pass)

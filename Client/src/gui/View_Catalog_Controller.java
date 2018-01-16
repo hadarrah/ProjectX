@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import com.sun.corba.se.impl.ior.GenericTaggedProfile;
+
 import action.Msg;
 import action.MyFile;
 import action.Person;
@@ -289,7 +291,8 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 			@Override
 			public void run() {
-				Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");				
+				Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");	
+				Save_B.setVisible(false);
 			}
 		});
 		Pic_B.setVisible(false);
@@ -297,6 +300,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Delete_B.setDisable(false);
 		Add_B.setDisable(false);
 		init();
+		
 	}
 
 	
@@ -631,7 +635,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 * Add current item from catalog to cart by clicking add button and choose amount
 	 */
 	public void AddToCart() {
-		AddToCart_B.setVisible(false);
+		
 		// if user does'nt have payment account
 		if (Itc.get(view_counter).getAmount() == -1) {
 			Login_win.showPopUp("INFORMATION", "Message", "You have to creat a payment account",
@@ -651,14 +655,14 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 */
 	public void OK() {
 		Login_win.showPopUp("CONFIRMATION", "Message", "Item successfully added", " ");
-		Item it = new Item();
+		Item_In_Catalog it = Itc.get(view_counter);
 		String value;
 		value = cbxAmount.getValue();
-		it.setID(txtID.getText());
+//		it.setID(txtID.getText());
 		it.setAmount(Integer.parseInt(value));
-		it.setPrice(Float.parseFloat(txtPrice.getText()));
+//		it.setPrice(Float.parseFloat(txtPrice.getText()));
 		it.setType("Catalog");
-		it.setName(txtName.getText());
+//		it.setName(txtName.getText());
 		Main_menu.userCart.addItemToCart(it);
 	}
 

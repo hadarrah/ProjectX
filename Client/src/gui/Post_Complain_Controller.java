@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -48,7 +49,11 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
 		 win_1.show();
 	}
 	
-	
+	/**
+	 * check if all the fields are valid 
+	 * show error msg if there is a invalid field
+	 * @return
+	 */
 	public boolean check_form()
 	{
 		boolean ans=true;
@@ -67,6 +72,11 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
 		return ans;
 		
 	}
+	/**
+	 * check the user complain form. if OK sends the info to the server
+	 * @param event
+	 * @throws IOException
+	 */
 	public void submit_complain(ActionEvent event) throws IOException 
 	{
 		 event_g =new ActionEvent();		 
@@ -93,7 +103,7 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
 		}
 	}
 	
-/*
+/**
  * get the user details (that he insert)
  */
 	private void getUserComplainDetails() 
@@ -112,7 +122,10 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
 	
 	
 	
-	
+	/**
+	 * after the complain form is send to the server and saves in the DB the user to moved directly to the main menu 
+	 * @throws IOException
+	 */
 	public void go_back_after_send() throws IOException
 	{
 		 
@@ -126,7 +139,7 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
 	       
 	}
 /**
- * to override
+ *check if the complain was inserted to the DB successfully and present and echo msg accordingly
  * @param o
  */
 	public void get_submit_approved(Object o) {
@@ -188,6 +201,8 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
     	topic_names.setItems(list);
     	user_id.setText(gui.Main_menu.current_user.getUser_ID());
     	user_id.setEditable(false);
+    	 LocalDate now = LocalDate.now();
+    	date.setText(now.toString());
     	user_txt_complain.setPromptText("Enter text unit 200 chars");
 	}
 	 
