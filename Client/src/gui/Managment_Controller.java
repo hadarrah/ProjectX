@@ -40,7 +40,6 @@ public class Managment_Controller implements Initializable,ControllerI {
     public Button edit_CustomersProfile_B;
     public Button display_Reports_B;
     public Button close_Survey_B;
-    public Button add_Comments_B;
     public Button close_Sale_B,survey_b;
 	public static ActionEvent event_log;
 	public static Survey active_survey;
@@ -136,23 +135,6 @@ public class Managment_Controller implements Initializable,ControllerI {
 		
     }
     
-    public void add_Comments(ActionEvent event) {
-
-    	/*save the event*/
-    	event_log =new ActionEvent();		 
-		event_log=event.copyFor(event.getSource(), event.getTarget());
-		
-		/*check if already exist an active survey*/
-    	Survey temp_survey = new Survey();
-    	Msg check_survey_exist = new Msg();
-    	check_survey_exist.setSelect();
-    	check_survey_exist.oldO = temp_survey;
-    	check_survey_exist.setTableName("survey");
-    	check_survey_exist.setRole("check if there is active survey for add comment");
-    	check_survey_exist.event=event;
-		Login_win.to_Client.accept((Object)check_survey_exist);
-    }
-
     public void answer_Complaint(ActionEvent event) throws IOException {
     	
     	/*save the event*/
@@ -529,7 +511,6 @@ public class Managment_Controller implements Initializable,ControllerI {
     	conclusion_Survey_B.setVisible(false);
     	edit_CustomersProfile_B.setVisible(false);
     	display_Reports_B.setVisible(false);
-    	add_Comments_B.setVisible(false);
     	close_Survey_B.setVisible(false);
     	close_Sale_B.setVisible(false);
     	
@@ -565,7 +546,6 @@ public class Managment_Controller implements Initializable,ControllerI {
     		case "Store Employee":
     			create_Sale_B.setVisible(true);
     			close_Sale_B.setVisible(true);
-    			add_Comments_B.setVisible(true);
         		break;
     		case "System Manager":
     			edit_CustomersProfile_B.setVisible(true);
