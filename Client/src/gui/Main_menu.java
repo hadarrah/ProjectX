@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
+
 //import com.jfoenix.controls.JFXButton;
 
 import action.Complain;
@@ -37,7 +39,7 @@ public class Main_menu implements Initializable, ControllerI {
 
 	public Button mannag_B, back_B, user_profile_B;
 	public Label main_label, lblStore;
-	 //public JFXButton take_survey_B;
+	public JFXButton tryb;
 	public static Person current_user;
 	public boolean logout_flag;
 	public Button view_catalog_B, cancel_order_B, self_item_B, complain_B;
