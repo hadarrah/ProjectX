@@ -1026,7 +1026,7 @@ public class EchoServer extends AbstractServer {
 			/** Building the query */
 
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO " + msg.getTableName()
-					+ "(`ID`, `Customer_ID`, `Text`, `Status`, `Date`, `Hour`) VALUES (?,?,?,?,?,?);");
+					+ "(`ID`, `Customer_ID`, `Text`, `Status`, `Date`, `Hour`, `Store_Id`) VALUES (?,?,?,?,?,?,?);");
 			ps.setString(1, Integer.toString(new_id));
  
 			ps.setString(2, com.getCustomer_ID());
@@ -1034,6 +1034,7 @@ public class EchoServer extends AbstractServer {
 			ps.setString(4, "Pending");
 			ps.setString(5, com.getDate());
 			ps.setString(6, com.getHour());
+			ps.setString(7, com.getStore());
 
 			ps.executeUpdate();
 

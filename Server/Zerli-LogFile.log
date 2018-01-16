@@ -1633,3 +1633,15 @@ INFO: SQL connection succeed
 Jan 16, 2018 2:49:00 PM action.EchoServer handleMessageFromClient
 >>>>>>> branch 'master' of https://github.com/hadarrah/ProjectX.git
 INFO: SQL connection succeed
+ιπε 16, 2018 3:32:11 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 16, 2018 3:32:11 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+ιπε 16, 2018 3:32:28 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 16, 2018 3:32:28 PM action.EchoServer check_user_details
+INFO: user 1got in to the system
+ιπε 16, 2018 3:32:51 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed
+ιπε 16, 2018 3:33:21 PM action.EchoServer handleMessageFromClient
+INFO: SQL connection succeed

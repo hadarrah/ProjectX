@@ -115,7 +115,7 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
 		topic+=topic_names.getValue();
 		cur_complain.setUser_txt(topic+"\n"+user_txt_complain.getText());
 		cur_complain.setChosen_topic(topic_names.getValue());
-		
+		cur_complain.setStore(Login_win.chosen_store);
 	}
 
 	
