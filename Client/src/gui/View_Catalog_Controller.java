@@ -645,6 +645,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 			cbxAmount.setItems(list);
 			cbxAmount.getSelectionModel().selectFirst();
 			cbxAmount.setVisible(true);
+			AddToCart_B.setVisible(false);
 			OK_B.setVisible(true);
 		}
 	}
@@ -655,6 +656,9 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 */
 	public void OK() {
 		Login_win.showPopUp("CONFIRMATION", "Message", "Item successfully added", " ");
+		OK_B.setVisible(false);
+		AddToCart_B.setVisible(true);
+		cbxAmount.setVisible(false);
 		Item_In_Catalog it = Itc.get(view_counter);
 		String value;
 		value = cbxAmount.getValue();
