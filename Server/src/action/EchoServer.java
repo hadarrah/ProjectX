@@ -428,7 +428,6 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * get the the relevant report
-	 * 
 	 * @param msg1
 	 * @param conn
 	 * @param client
