@@ -664,7 +664,6 @@ public class EchoServer extends AbstractServer {
 	/**
 	 * help function to determine if the date within relevant range of year and
 	 * quarter
-	 * 
 	 * @param date
 	 * @param quarter
 	 * @param yearSpecific
