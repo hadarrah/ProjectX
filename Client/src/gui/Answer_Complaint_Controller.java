@@ -43,7 +43,7 @@ public class Answer_Complaint_Controller implements Initializable,ControllerI{
 		public Label complaint_ID_L, hour_L, date_L, invalid_detailsL_com;
 		public Label invalid_detailsL_ID, invalid_detailsL_comment, invalid_detailsL_comment_length;
 		public TextField compensation_Text;
-		public ComboBox<String> customer_ID_combo;
+		public ComboBox<String> customer_ID_combo, store_ID_combo;
 		public static ActionEvent event_log;
 
 		
@@ -72,7 +72,7 @@ public class Answer_Complaint_Controller implements Initializable,ControllerI{
 				invalid_detailsL_ID.setVisible(true);
 				return;
 			}
-			if(!isInteger(compensation_Text.getText()))
+			if(!isFloat(compensation_Text.getText()))
 			{
 				invalid_detailsL_com.setVisible(true);
 				return;
@@ -94,6 +94,8 @@ public class Answer_Complaint_Controller implements Initializable,ControllerI{
 					{
 						com.setAnswer(answer);
 						com.setCompensation(compensation_Text.getText());
+						com.setCustomer_ID(customer_ID_combo.getValue());
+						com.setStore(store_ID_combo.getValue());
 						/*prepare msg to server*/
 						Msg commentToSet = new Msg();
 						commentToSet.setUpdate();
@@ -105,22 +107,41 @@ public class Answer_Complaint_Controller implements Initializable,ControllerI{
 	    }
 
 		/**
-		 * ipdate the rest of the fields regarding to the selected customer id
+		 * update the rest of the fields regarding to the selected customer id
 		 * @param event
 		 */
 	public void check_SelecetdID(ActionEvent event) 
 	{
 		String customer_seleceted = customer_ID_combo.getValue();
-		    	
+		ArrayList<String> stores = new ArrayList<String>();
+		
 		for(Complain com : Managment_Controller.complaint)
 			if(com.getCustomer_ID().equals(customer_seleceted))
+				stores.add(com.getStore());
+		
+		ObservableList<String> list = FXCollections.observableArrayList(stores);
+		store_ID_combo.setItems(list);
+		store_ID_combo.setDisable(false);
+	}
+	
+	
+	/**
+	 * update the rest of the fields regarding to the selected store id
+	 * @param event
+	 */
+	public void check_SelecetdStoreID(ActionEvent event) 
+	{
+		String store_seleceted = store_ID_combo.getValue();
+	    	
+		for(Complain com : Managment_Controller.complaint)
+			if(com.getStore().equals(store_seleceted) && com.getCustomer_ID().equals(customer_ID_combo.getValue()))
 				{
 					complaint_ID_L.setText(com.getComplain_ID());
 					hour_L.setText(com.getHour());
-					date_L.setText(com.getDate());;
+					date_L.setText(com.getDate());
 				}
 	}
-		
+	
     public void back(ActionEvent event) throws IOException {
     	move(event, main.fxmlDir+ "Managment_F.fxml");
     }
@@ -135,7 +156,8 @@ public class Answer_Complaint_Controller implements Initializable,ControllerI{
     	ArrayList<String> customerID = new ArrayList<String>();
     	
     	for(Complain com: Managment_Controller.complaint)
-    		customerID.add(com.getCustomer_ID());
+    		if(!customerID.contains(com.getCustomer_ID()))
+    			customerID.add(com.getCustomer_ID());
     	
     	ObservableList<String> list = FXCollections.observableArrayList(customerID);
     	customer_ID_combo.setItems(list);
@@ -169,10 +191,10 @@ public class Answer_Complaint_Controller implements Initializable,ControllerI{
      * @param input
      * @return
      */
-    public boolean isInteger( String input ) 
+    public boolean isFloat( String input ) 
     {
         try {
-            Integer.parseInt( input );
+            Float.parseFloat(input);
             return true;
         }
         catch( Exception e ) {
@@ -220,7 +242,8 @@ public class Answer_Complaint_Controller implements Initializable,ControllerI{
     	invalid_detailsL_ID.setVisible(false);
     	invalid_detailsL_comment_length.setVisible(false);
     	invalid_detailsL_com.setVisible(false);
-
+    	store_ID_combo.setDisable(true);
+    	
     	/*set the details of survey in fields*/
     	set_Customer_ID();
 	}

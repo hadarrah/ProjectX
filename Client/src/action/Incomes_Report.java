@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Incomes_Report extends Report {
 
 	private ArrayList<Order> orders;
-	private int total_price;
+	private float total_price;
 	
 	public Incomes_Report(String name, String quarter, String store, String year) 
 	{
@@ -21,11 +21,11 @@ public class Incomes_Report extends Report {
 		this.orders = orders;
 	}
 
-	public int getTotal_price() {
+	public float getTotal_price() {
 		return total_price;
 	}
 
-	public void setTotal_price(int total_price) {
+	public void setTotal_price(float total_price) {
 		this.total_price = total_price;
 	}
 	

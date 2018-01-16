@@ -1488,7 +1488,7 @@ public class EchoServer extends AbstractServer {
 						sale.setID(rsClose.getString("ID"));
 					}
 
-					if (rs.getString("Table").equals("Item"))
+					if (rs.getString("Type").equals("Item"))
 						table = "item";
 					else
 						table = "item_in_catalog";
@@ -1497,33 +1497,21 @@ public class EchoServer extends AbstractServer {
 					 * get the name of each item from the origin table that participant in the sale
 					 */
 					psItem = conn.prepareStatement(" SELECT * FROM " + table + " WHERE ID = ?;");
-
-					/*
-					 * get the name of each item from the origin table that participant in the sale
-					 */
-					// psItem = conn.prepareStatement(" SELECT * FROM item_in_catalog WHERE ID =
-					// ?;");
 
 					psItem.setString(1, rs.getString("Item_ID"));
 					rsItem = psItem.executeQuery();
 					rsItem.next();
 					items_in_sale.add(rsItem.getString("Name"));
-				} else // get the name of the item
+				}
+				else // get the name of the item
 				{
 
-					if (rs.getString("Table").equals("Item"))
+					if (rs.getString("Type").equals("Item"))
 						table = "item";
 					else
 						table = "item_in_catalog";
 
-					/* get the name of each item from the origin table */
-					psItem = conn.prepareStatement(" SELECT * FROM " + table + " WHERE ID = ?;");
-					psItem.setString(1, rs.getString("Item_ID"));
-					rsItem = psItem.executeQuery();
-					rsItem.next();
-					items.put(rsItem.getString("ID"), rsItem.getString("Name"));
-
-					if (rs.getString("Table").equals("Catalog")) // only for item from catalog
+					if (rs.getString("Type").equals("Catalog")) // only for item from catalog
 					{
 						/* get the name of each item from the origin table */
 						psItem = conn.prepareStatement(" SELECT * FROM item_in_catalog WHERE ID = ?;");
@@ -1776,7 +1764,7 @@ public class EchoServer extends AbstractServer {
 		PreparedStatement ps;
 		ResultSet rs;
 		ArrayList<Complain> complaint = new ArrayList<Complain>();
-		String id, customer_id, user_text, date, hour;
+		String id, customer_id, user_text, date, hour, store;
 		try {
 			/* set up and execute the select query in order to get the pending complaint */
 			ps = conn.prepareStatement("SELECT * FROM complaint WHERE Status=?;");
@@ -1790,7 +1778,10 @@ public class EchoServer extends AbstractServer {
 				user_text = rs.getString("Text");
 				date = rs.getString("Date");
 				hour = rs.getString("Hour");
-				complaint.add(new Complain(id, customer_id, user_text, date, hour));
+				store = rs.getString("Store_Id");
+				Complain com = new Complain(id, customer_id, user_text, date, hour);
+				com.setStore(store);
+				complaint.add(com);
 			}
 
 			msg1.newO = complaint;
@@ -1977,19 +1968,40 @@ public class EchoServer extends AbstractServer {
 		String complainID = ((Complain) msg1.oldO).getComplain_ID();
 		String answer = ((Complain) msg1.oldO).getAnswer();
 		String compensation = ((Complain) msg1.oldO).getCompensation();
-
+		String customer_ID = ((Complain) msg1.oldO).getCustomer_ID();
+		String store_ID = ((Complain) msg1.oldO).getStore();
+		String refund;
+		
 		PreparedStatement ps;
 		ResultSet rs;
 
 		try {
 			/* set up and execute the update complaint answer in complaint table */
-			ps = conn.prepareStatement("UPDATE complaint SET Answer=?, Compensation=?, Status=? WHERE ID=?;");
+			ps = conn.prepareStatement("UPDATE complaint SET Answer=?, Compensation=?, Status=? WHERE ID=? AND Store_Id=?;");
 			ps.setString(1, answer);
 			ps.setString(2, compensation);
 			ps.setString(3, "Closed");
 			ps.setString(4, complainID);
+			ps.setString(5, store_ID);
 			ps.executeUpdate();
 
+			/* check if the user has payment account*/
+			ps = conn.prepareStatement("SELECT * FROM payment_account WHERE ID=? AND Store_ID=?;");
+			ps.setString(1, customer_ID);
+			ps.setString(2, store_ID);
+			rs = ps.executeQuery();
+			if(rs.next())
+			{
+				refund = rs.getString("Refund");
+				if(refund != null)
+					compensation = String.valueOf(Float.parseFloat(refund) + Float.parseFloat(compensation));
+				ps = conn.prepareStatement("UPDATE payment_account SET Refund=? WHERE ID=? AND Store_ID=?;");
+				ps.setString(1, compensation);
+				ps.setString(2, customer_ID);
+				ps.setString(3, store_ID);
+				ps.executeUpdate();
+			}
+			
 			client.sendToClient(msg1);
 		} catch (SQLException e) {
 			e.printStackTrace();

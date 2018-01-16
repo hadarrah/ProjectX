@@ -34,6 +34,11 @@
                   <Font size="13.0" />
                </font>
             </Label>
+            <Label text="Store ID:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
             <Label text="Complaint ID:">
                <font>
                   <Font size="13.0" />
@@ -56,9 +61,10 @@
             </Label>
          </children>
       </VBox>
-      <VBox layoutX="185.0" layoutY="102.0" prefHeight="200.0" prefWidth="204.0" spacing="20.0">
+      <VBox layoutX="185.0" layoutY="98.0" prefHeight="200.0" prefWidth="204.0" spacing="20.0">
          <children>
             <ComboBox fx:id="customer_ID_combo" onAction="#check_SelecetdID" prefWidth="150.0" promptText="choose ID" />
+            <ComboBox fx:id="store_ID_combo" onAction="#check_SelecetdStoreID" prefWidth="150.0" promptText="choose ID" />
             <Label fx:id="complaint_ID_L" text=" ">
                <font>
                   <Font size="13.0" />
@@ -92,7 +98,7 @@
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="invalid_detailsL_com" layoutX="396.0" layoutY="268.0" text="Only Integer" textFill="RED">
+      <Label fx:id="invalid_detailsL_com" layoutX="396.0" layoutY="309.0" text="Only number" textFill="RED">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font>

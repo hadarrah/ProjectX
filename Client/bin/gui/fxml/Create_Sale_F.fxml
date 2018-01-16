@@ -77,5 +77,10 @@
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </Label>
+      <Label fx:id="invalid_detailsL_Discount2" layoutX="395.0" layoutY="145.0" text="Only value 1-99" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

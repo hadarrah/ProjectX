@@ -47,7 +47,7 @@ public class Create_Sale_Controller implements Initializable,ControllerI{
 
 		public TextArea description_Text;
 		public Label invalid_detailsL_description, invalid_detailsL_Item;
-		public Label store_ID_L,invalid_detailsL_Discount, invalid_detailsL_description_length;
+		public Label store_ID_L,invalid_detailsL_Discount, invalid_detailsL_description_length, invalid_detailsL_Discount2;
 		public ListView<String> item_list;
 		public Button create_sale_B, back_B;
 		public TextField discount_Text;
@@ -68,6 +68,7 @@ public class Create_Sale_Controller implements Initializable,ControllerI{
 	    	invalid_detailsL_description_length.setVisible(false);
 	    	invalid_detailsL_Discount.setVisible(false);
 	    	invalid_detailsL_Item.setVisible(false);
+	    	invalid_detailsL_Discount2.setVisible(false);
 	    	
 	    	/*get the selected participants items from listview*/
 	    	ObservableList<String> selected_items = item_list.getSelectionModel().getSelectedItems();
@@ -81,6 +82,11 @@ public class Create_Sale_Controller implements Initializable,ControllerI{
 			if(!isInteger(discount))
 			{
 				invalid_detailsL_Discount.setVisible(true);
+				return;
+			}
+			if(Integer.parseInt(discount)<=0 || Integer.parseInt(discount)>=100)
+			{
+				invalid_detailsL_Discount2.setVisible(true);
 				return;
 			}
 			if(selected_items.isEmpty())
@@ -351,6 +357,7 @@ public class Create_Sale_Controller implements Initializable,ControllerI{
     	invalid_detailsL_description_length.setVisible(false);
     	invalid_detailsL_Discount.setVisible(false);
     	invalid_detailsL_Item.setVisible(false);
+    	invalid_detailsL_Discount2.setVisible(false);
     	
     	/*set the details of survey in fields*/
     	store_ID_L.setText(Managment_Controller.storeID);

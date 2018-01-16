@@ -18,7 +18,16 @@ public class Complain  implements Serializable{
 	private String user_txt;
 	private String chosen_topic; 
 	private String date, hour;
+	private String store;
 	
+	public String getStore() {
+		return store;
+	}
+
+	public void setStore(String store) {
+		this.store = store;
+	}
+
 	public Complain() {
 		 this.complain_topic=new ArrayList<String>() ;
 		 setTopics();// set the defaults complain topics 
