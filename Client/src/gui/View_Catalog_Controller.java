@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import com.sun.corba.se.impl.ior.GenericTaggedProfile;
+
 import action.Msg;
 import action.MyFile;
 import action.Person;
@@ -651,14 +653,14 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 */
 	public void OK() {
 		Login_win.showPopUp("CONFIRMATION", "Message", "Item successfully added", " ");
-		Item it = new Item();
+		Item_In_Catalog it = Itc.get(view_counter);
 		String value;
 		value = cbxAmount.getValue();
-		it.setID(txtID.getText());
+//		it.setID(txtID.getText());
 		it.setAmount(Integer.parseInt(value));
-		it.setPrice(Float.parseFloat(txtPrice.getText()));
+//		it.setPrice(Float.parseFloat(txtPrice.getText()));
 		it.setType("Catalog");
-		it.setName(txtName.getText());
+//		it.setName(txtName.getText());
 		Main_menu.userCart.addItemToCart(it);
 	}
 

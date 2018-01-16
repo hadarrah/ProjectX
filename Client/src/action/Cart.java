@@ -39,15 +39,19 @@ public class Cart {
 	public float calcTotalPrice() {
 		totalPrice = 0;
 		
+		System.out.println("Calculating final price");
+		
 		for (Item p : selectedItemsArr) {
 			if(p instanceof Self_Item)
 			totalPrice += p.getPrice();
-			else
-				totalPrice+=p.getPrice()*p.getAmount();
 			
-		//	totalPrice*=subscription;	CHECK if no double sale application
-		//	totalPrice*=sale;			CHECK sale existance SHOULD be calculated before input to cart
-			
+			if(p instanceof Item_In_Catalog) {
+				Item_In_Catalog pc = (Item_In_Catalog)p;
+				if(pc.getSale()!=null) {
+					System.out.println("Calculating final price");
+					totalPrice += pc.getAmount()* (pc.getPrice() - (pc.getPrice()*Integer.parseInt(pc.getSale().getDiscount()))*0.01); 
+				}
+			}
 		}
 		
 		return totalPrice;
