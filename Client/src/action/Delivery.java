@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Delivery implements Serializable {
 	
-	//Order order;
+	//Order
 	private String address;
 	private String name;
 	private String phone;
