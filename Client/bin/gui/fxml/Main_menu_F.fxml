@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import org.controlsfx.control.textfield.*?>
 <?import javafx.scene.effect.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
@@ -35,35 +36,12 @@
             <Button fx:id="cart_B" mnemonicParsing="false" onAction="#cart" text="Cart" />
          </children>
       </VBox>
-      <Button fx:id="user_profile_B" layoutX="14.0" layoutY="94.0" mnemonicParsing="false" onAction="#to_user_profile" text="Profile" />
+      <Button fx:id="user_profile_B" layoutX="19.0" layoutY="100.0" mnemonicParsing="false" onAction="#to_user_profile" text="Profile" />
       <Label fx:id="lblStore" alignment="CENTER" layoutX="82.0" layoutY="93.0" prefHeight="62.0" prefWidth="359.0" textAlignment="CENTER" textFill="#3733cc">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <JFXButton fx:id="tryb" buttonType="RAISED" layoutX="193.0" layoutY="442.0" prefHeight="42.0" prefWidth="115.0" ripplerFill="#b91818" text="hit me !" />
-      <JFXTextArea focusColor="#0c38bc" labelFloat="true" layoutX="14.0" layoutY="166.0" prefHeight="297.0" prefWidth="140.0" text="this is goona be in the user profile&#10;&#10;&#10;what do you say?&#10;&#10;&#10;prees me !" unFocusColor="#d00b0b">
-         <effect>
-            <Lighting>
-               <bumpInput>
-                  <Shadow color="#9e6464" radius="24.7725" width="80.09" />
-               </bumpInput>
-               <light>
-                  <Light.Distant />
-               </light>
-            </Lighting>
-         </effect>
-      </JFXTextArea>
-      <JFXTextField focusColor="#0d41dd" labelFloat="true" layoutX="286.0" layoutY="507.0" promptText="a new text feild insert txt!" />
-      <JFXButton buttonType="RAISED" graphicTextGap="8.0" layoutX="380.0" layoutY="211.0" prefHeight="42.0" prefWidth="93.0" ripplerFill="#083fe4" text="Hit me 2!">
-         <effect>
-            <Shadow color="#8a3c3c">
-               <input>
-                  <Glow />
-               </input>
-            </Shadow>
-         </effect>
-      </JFXButton>
          
    </children>
 </Pane>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
@@ -9,12 +10,12 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Cancel_Order_Controller">
    <children>
-      <ComboBox fx:id="order_ids" layoutX="172.0" layoutY="85.0" prefWidth="150.0" />
-      <Button fx:id="view_details_b" layoutX="173.0" layoutY="128.0" mnemonicParsing="false" onAction="#setOrderdetails" prefHeight="31.0" prefWidth="150.0" text="View order Details" />
-      <TextArea fx:id="order_details" editable="false" layoutX="68.0" layoutY="167.0" prefHeight="207.0" prefWidth="326.0" visible="false" />
       <Button fx:id="back" layoutX="19.0" layoutY="447.0" mnemonicParsing="false" onAction="#back_to_main" text="Back" />
       <Button fx:id="cancel_order_b" layoutX="341.0" layoutY="383.0" mnemonicParsing="false" onAction="#CancelOrder" text="Cancel Order" />
-      <Label layoutX="24.0" layoutY="90.0" text="Choose The Order Id" />
+      <Label layoutX="24.0" layoutY="90.0" text="Order Details" underline="true">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Label>
       <Label fx:id="calc" layoutX="19.0" layoutY="388.0" text="Percent of compensation:">
          <font>
             <Font name="System Bold" size="15.0" />
@@ -24,5 +25,6 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
+      <JFXTextArea fx:id="order_details" focusColor="#093dda" labelFloat="true" layoutX="8.0" layoutY="115.0" prefHeight="229.0" prefWidth="452.0" unFocusColor="#12b8de" />
    </children>
 </Pane>

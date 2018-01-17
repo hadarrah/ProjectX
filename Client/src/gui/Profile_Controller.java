@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXTextArea;
+
 import action.Msg;
 import action.Person;
 import javafx.event.ActionEvent;
@@ -22,7 +24,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class Profile_Controller implements ControllerI,Initializable {
-	public TextArea details_txt;
+	public JFXTextArea details_txt;
 	public Button back_to_main_B,edit_details_B,history;
 	public VBox v_details;
 	
@@ -46,7 +48,7 @@ public class Profile_Controller implements ControllerI,Initializable {
 	{
 		Person current_user=user;
 		details_txt.setEditable(false);
-		details_txt.setFont(new Font("SansSerif", 13));
+		details_txt.setFont(new Font("SansSerif", 17));
 		//details_txt.setStyle("-fx-background-color:orangered;");
 				 
 	  	String details="Personal Details";
@@ -76,7 +78,7 @@ public class Profile_Controller implements ControllerI,Initializable {
 		
 		 details="Account Details";
 		 details_txt.appendText("\t\t\t"+details+"\n\n");
-		 details_txt.setFont(new Font("SansSerif", 12));
+		 details_txt.setFont(new Font("SansSerif", 17));
 		 details="Credit Card:"+gui.Login_win.current_user_pay_account.getCreditCard();
 		 details_txt.appendText(details+"\n\n");
 		 details="Subscription:"+gui.Login_win.current_user_pay_account.getSubscription();

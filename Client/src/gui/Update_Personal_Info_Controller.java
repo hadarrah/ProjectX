@@ -5,6 +5,9 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
+
 import action.Msg;
 import action.Person;
 import javafx.application.Platform;
@@ -25,7 +28,8 @@ import javafx.stage.WindowEvent;
 
 public class Update_Personal_Info_Controller implements ControllerI,Initializable {
 
-	public TextField new_name_T,new_last_name_T,new_pass_T;
+	public JFXTextField new_name_T,new_last_name_T;
+	public JFXPasswordField  new_pass_T;
 	public Button back_to_user_details_B,update_info_B;
 	
 	

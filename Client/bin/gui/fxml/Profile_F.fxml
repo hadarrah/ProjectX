@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -22,21 +23,23 @@
          </font>
       </Label>
       <Button fx:id="back_to_main_B" layoutX="14.0" layoutY="543.0" mnemonicParsing="false" onAction="#back_to_main" text="Back" />
-      <Button fx:id="edit_details_B" layoutX="72.0" layoutY="418.0" mnemonicParsing="false" onAction="#to_update_info" text="Edit Personal Details" />
+      <Button fx:id="edit_details_B" layoutX="74.0" layoutY="444.0" mnemonicParsing="false" onAction="#to_update_info" text="Edit Personal Details" />
       <VBox layoutX="339.0" layoutY="123.0" spacing="20.0">
          <children>
-            <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="31.0" prefWidth="147.0" text="View Purchase history" textAlignment="CENTER" fx:id="history" onAction="#to_purchase_history">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Button>
-            <Button lineSpacing="15.0" mnemonicParsing="false" text="Cancel Order">
+            <Button fx:id="history" contentDisplay="CENTER" mnemonicParsing="false" onAction="#to_purchase_history" prefHeight="31.0" prefWidth="147.0" text="View Purchase history" textAlignment="CENTER">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
          </children>
       </VBox>
-      <TextArea fx:id="details_txt" layoutX="14.0" layoutY="123.0" prefHeight="281.0" prefWidth="270.0" />
+      <JFXTextArea fx:id="details_txt" editable="false" focusColor="#0f4afc" labelFloat="true" layoutX="10.0" layoutY="101.0" prefHeight="323.0" prefWidth="305.0" style="-fx-border-color: gray;" unFocusColor="#ff0202">
+         <font>
+            <Font name="System Bold Italic" size="21.0" />
+         </font>
+         <effect>
+            <Glow />
+         </effect>
+      </JFXTextArea>
    </children>
 </Pane>

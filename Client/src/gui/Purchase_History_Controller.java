@@ -12,6 +12,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,13 +25,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Purchase_History_Controller  implements ControllerI,Initializable {
-public ArrayList<Order> order_history;
-public Button back_to_profile;
+public  static ArrayList<Order> order_history;
+public Button back_to_profile,cancel_orderb;
 public Label user_name;
+public static Order orderID_to_cancel= new Order();
 
 	  @FXML
 	  TableView<Order_History> table = new TableView<Order_History>();	  
@@ -118,8 +121,25 @@ public Label user_name;
 		order_history= (ArrayList<Order>) ((Msg)o).newO;
 	    InitTable();
 	}
-	
-	
+	/**
+	 * get the order that the user chose
+	 * saves the order id 
+	 * @param event
+	 */
+ 	@FXML
+	public void clickItem(MouseEvent event)
+	{
+	    if (event.getClickCount() == 1) //Checking  click
+	    { 
+	    	String a=table.getSelectionModel().getSelectedItem().getStatus();
+	    	if(a.equals("Active")) {
+	      	orderID_to_cancel.setId(table.getSelectionModel().getSelectedItem().getID());
+	    	}
+	    	else {
+	    		orderID_to_cancel.setId(null);
+	    	}
+	    }
+	}
 	/**
 	 * back to the profile screen
 	 * @param event
@@ -128,12 +148,31 @@ public Label user_name;
 	public void back_to_profile(ActionEvent event)throws IOException 
 	{
 		  Parent menu;
-		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+"Profile_F.fxml"));
+		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+"Main_menu_F.fxml"));
 		 Scene win1= new Scene(menu);
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		 win_1.setScene(win1);
 		 win_1.show();
 	}
+	
+	public void cancel_order(ActionEvent event)throws IOException 
+	{
+		if(	orderID_to_cancel.getId()==null)
+		{
+			gui.Login_win.showPopUp("ERROR", "Wrong choise", "You can only cancel Active orders", "Please try again!");
+			return;
+		}
+		
+		  Parent menu;
+		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+"Cancel_Order_F.fxml"));
+		 Scene win1= new Scene(menu);
+		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		 win_1.setScene(win1);
+		 win_1.show();
+	}
+	
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		Login_win.to_Client.setController(this);

@@ -1,16 +1,12 @@
 package gui;
-import   java.util.Date;
-import java.util.Optional;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import com.jfoenix.controls.JFXTextArea;
 
 import action.Msg;
 import action.Order;
@@ -25,7 +21,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -34,60 +29,31 @@ import javafx.stage.Stage;
 
 public class Cancel_Order_Controller  implements ControllerI,Initializable{
  
-    public ComboBox<String> order_ids ;
+    
     public Button back,cancel_order_b,view_details_b;
     public Label calc;
-    public TextArea order_details;
+    public JFXTextArea order_details;
     ObservableList<String> list;
     /*a struck that contains the cur_user orders*/
     public static ArrayList<Order> orders;
     public static Order slected_order;
     public int half=0,full=0,none=0,cant=0;
     public static ActionEvent event_log;
+    public float es_price;
     
     
 	public void back_to_main(ActionEvent event) throws IOException
 	{
 		
 		Parent menu;
-		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Main_menu_F.fxml"));
+		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Purchase_History_F.fxml"));
 		 Scene win1= new Scene(menu);
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		 win_1.setScene(win1);
 		 win_1.show();
 	}
     
-    /**
-     * set the initial info in the form according the current user
-     * if there is no order for this user shows a msg and return to the main menu
-     * @param o
-     */
-    public void SetOrdersIds(Object o)
-    {
-    	Msg msg=new Msg();
-    	msg=(Msg)o;
-    	orders=(ArrayList<Order>) msg.newO;
-    	/*this user has no order*/
-    	if(orders.size()<1)
-    	{
-    		
-    		Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					Login_win.showPopUp("ERROR", "Message", "You dont have any Orders in your account", "");
-				}});
-    	}
-    	ArrayList<String>orders_id=new ArrayList<String>();
-    	
-    	
-    	for(int i=0;i<orders.size();i++)    		
-    	{
-    		orders_id.add(orders.get(i).getId());
-    	}
-    	list = FXCollections.observableArrayList(orders_id); 
-    	 order_ids.setItems(list);
-    }
+  
     
    /**
     * set the details in the main form 
@@ -96,26 +62,20 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     * @param event
     * @throws IOException
     */
-    public void setOrderdetails(ActionEvent event) throws IOException
+    public void setOrderdetails() 
     {
+    	orders=gui.Purchase_History_Controller.order_history;
     	calc.setText("Precent of Compensation");
     	calc.setTextFill(Color.web("#000000"));
     	none=0; half=0; full=0;cant=0;
-    	order_details.setVisible(true);
     	order_details.clear();
     	String date,hour;
     	String txt;
-    	if(order_ids.getValue()==null)
-    	{
-    		calc.setTextFill(Color.web("#ed0b31"));
-    		  Login_win.showPopUp("ERROR", "Message", "You have to choose an Order ID", "Thank you!");
-    	}
-    	
-    	else {
+ 
     	for(int i=0;i<orders.size();i++)
     	{
     		/*set the details in the text are*/
-    		if(order_ids.getValue().equals(orders.get(i).getId()))
+    		if(gui.Purchase_History_Controller.orderID_to_cancel.getId().equals(orders.get(i).getId()))
     		{
     			
     					txt="Order ID:"+orders.get(i).getId();
@@ -130,6 +90,7 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     			 
     				txt="Price :"+orders.get(i).getTotprice();
     				order_details.appendText(txt+"\n\n");
+    				es_price=orders.get(i).getTotprice();
     			 
     				txt="Date of Order: "+orders.get(i).getCreatedate()+"-" +orders.get(i).getCreatetime();
     				order_details.appendText(txt+"\n\n");
@@ -161,8 +122,13 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     	
     
     	}
-    }
-     
+   
+     /**
+      * wait until msg is got from server that the order did canceled
+      * and then display a msg to the user about the cancellation
+      * also refers to the situation that the server broke down
+      * @param o
+      */
     public void show_cancel_msg(Object o)
     {
     	 
@@ -176,7 +142,7 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
 				try {
 				Login_win.showPopUp("INFORMATION", "Message", "Your order has been canceled", "");
 				Parent menu;
-				  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Main_menu_F.fxml"));
+				  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Purchase_History_F.fxml"));
 				 Scene win1= new Scene(menu);
 				 Stage win_1= (Stage) ((Node) (event_log.getSource())).getScene().getWindow();
 				 win_1.setScene(win1);
@@ -221,7 +187,7 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     		Order o =new Order();
     		
     		for(int i=0;i<orders.size();i++)
-    			if(orders.get(i).getId().equals(order_ids.getValue()))
+    			if(orders.get(i).getId().equals(gui.Purchase_History_Controller.orderID_to_cancel.getId()))
     				o=orders.get(i);
     		/*define the amount of refund*/
     		if(full==1)
@@ -255,49 +221,32 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
 	  
 	 if(now.plusHours(3).isBefore(wanted_date))
 	 {
-		  calc.setText("Precent of Compensation: 100%");
+		 calc.setText("Precent of Compensation: 100%\nEstimated:"+(es_price));
 	    	calc.setTextFill(Color.web("#31ed0b"));
 	    	full=1;
 	 }
 	 
 	 else if(now.plusHours(1).isBefore(wanted_date))
 	 {
-		 calc.setText("Precent of Compensation: 50%");
-	    	calc.setTextFill(Color.web("#bae305"));
+		 
+		 calc.setText("Precent of Compensation: 50%\nEstimated:"+(es_price/2));
+	    	calc.setTextFill(Color.web("#dbdc07"));
 	    	half=1;
 		 
 	 }
 	 else {
-		 calc.setText("Precent of Compensation: 0%");
+		 calc.setText("Precent of Compensation: 0%\nEstimated:0");
 	    	calc.setTextFill(Color.web("#ed0b31"));
 	    	none=1;
 	 }
 
-	 
-    
-    			
 	}
-
- /**
-  * get all the orders of this user
-  * in order to save unnecessary DB access
-  */
-private void getOrdersId()
- 	{
-	 Msg msg= new Msg();
-	 msg.setSelect();
-	 msg.setTableName("order");
-	 msg.setRole("get orders id");
-	 Person current= gui.Main_menu.current_user;
-	 msg.oldO=(Person)current;
-	 Login_win.to_Client.accept(msg);
-	 
-		 
-		
-	}
+ 
+ 
 	public void initialize(URL location, ResourceBundle resources) {
 		 Login_win.to_Client.setController(this);
-		 getOrdersId();
+		 setOrderdetails();
+		 
 	}
 
 	

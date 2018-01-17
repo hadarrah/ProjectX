@@ -828,13 +828,11 @@ public class EchoServer extends AbstractServer {
 			}
 			msg1.newO = id;
 
-			client.sendToClient(msg);
+		//	client.sendToClient(msg);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		}  
 
 	}
 
