@@ -298,9 +298,10 @@ public class EchoServer extends AbstractServer {
 	 */
 	public static void insertNewItemInCatalog(Msg msg1, Connection conn, ConnectionToClient client) {		
 		Msg msg = (Msg) msg1;
+		
 		Item_In_Catalog tmp = (Item_In_Catalog) msg1.newO;
-		PreparedStatement ps;
-		ResultSet rs;
+		PreparedStatement ps,ps1;
+		ResultSet rs,rs1;
 		int new_id;
 		try {
 			/* get the last ID of sale */
@@ -323,6 +324,18 @@ public class EchoServer extends AbstractServer {
 			CreateImage(tmp.getImage());
 			System.out.println(tmp.getImage());
 			msg.newO = tmp;
+			
+			ps=conn.prepareStatement("SELECT * FROM store GROUP BY ID");
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				ps1 = conn.prepareStatement("INSERT INTO store (ID, Location, Open_Hours, Manager_ID, Item_ID, Type, Amount)" + " VALUES (?, ?, ?, ?, ?,'Catalog',0)");
+				ps1.setString(1, rs.getString(1));
+				ps1.setString(2, rs.getString(2));
+				ps1.setString(3, rs.getString(3));
+				ps1.setString(4, rs.getString(4));
+				ps1.setString(5, tmp.getID());				
+				ps1.executeUpdate();			
+			}
 			client.sendToClient(msg);			
 		} catch (SQLException e) {
 			e.printStackTrace();
