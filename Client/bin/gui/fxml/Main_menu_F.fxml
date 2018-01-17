@@ -36,7 +36,7 @@
          </children>
       </VBox>
       <Button fx:id="user_profile_B" layoutX="14.0" layoutY="94.0" mnemonicParsing="false" onAction="#to_user_profile" text="Profile" />
-      <Label fx:id="lblStore" alignment="CENTER" layoutX="10.0" layoutY="123.0" prefHeight="27.0" prefWidth="480.0" textAlignment="CENTER" textFill="#3733cc">
+      <Label fx:id="lblStore" alignment="CENTER" layoutX="82.0" layoutY="93.0" prefHeight="62.0" prefWidth="359.0" textAlignment="CENTER" textFill="#3733cc">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

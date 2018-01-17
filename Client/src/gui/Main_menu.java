@@ -268,7 +268,7 @@ public class Main_menu implements Initializable, ControllerI {
 		userCart = new Cart();
 		current_user = gui.Login_win.current_user;
 		if (!(Login_win.titelStore == null)) {
-			lblStore.setText("Welcome to " + Login_win.titelStore);
+			lblStore.setText("Welcome "+Login_win.current_user.getUser_name()+"\nto "+Login_win.titelStore+" store");
 			lblStore.setVisible(true);
 		}
 		if (!(current_user.getPrivilege().equals("Customer"))) {
