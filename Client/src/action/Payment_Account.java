@@ -1,12 +1,24 @@
 package action;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Payment_Account implements Serializable {
 
 	private String ID, CreditCard, Subscription, Status, StoreID;
 	private Float refund_sum;
-	
+	private String date;
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
 	public Payment_Account() {}
 	
 	public Payment_Account(String id,String creditcard, String subscription, String status)
@@ -15,6 +27,9 @@ public class Payment_Account implements Serializable {
 		this.CreditCard = creditcard;
 		this.Subscription = subscription;
 		this.Status = status;
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = new Date();
+		this.date = dateFormat.format(date);
 	}
 	
 	public String getID()

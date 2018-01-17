@@ -10,8 +10,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -20,9 +25,11 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.time.temporal.ChronoUnit;
 
 import javax.swing.JOptionPane;
 
@@ -180,6 +187,8 @@ public class EchoServer extends AbstractServer {
 					get_report_to_display(msg1, conn, client);
 				else if (msg1.getRole().equals("get reports for compare"))
 					get_report_to_display(msg1, conn, client);
+				else if (msg1.getRole().equals("check for start date subscription"))
+					check_start_date_paymentAccount(msg1, conn, client);
 			}
 			case "UPDATE": {
 				// System.out.println("in server- update case: "+msg1.getRole());
@@ -1431,6 +1440,7 @@ public class EchoServer extends AbstractServer {
 	public static void check_id_exist(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Payment_Account user = (Payment_Account) msg1.oldO;
+		Person manager = (Person) msg1.newO;
 		PreparedStatement ps;
 		try {
 			/* check if the id exist in person table */
@@ -1454,23 +1464,26 @@ public class EchoServer extends AbstractServer {
 					return;
 				}
 
-				/* get the store id from manager */
-				/*
-				 * ps = conn.prepareStatement(" SELECT * FROM store WHERE Manager_ID=?;");
-				 * ps.setString(1, manager.getUser_ID()); rs = ps.executeQuery(); rs.next();
-				 * String store = rs.getString("ID"); rs.close();
-				 */
-
+				/*get the store id from manager*/
+				ps = conn.prepareStatement(" SELECT * FROM store WHERE Manager_ID=?;");
+				ps.setString(1, manager.getUser_ID());
+				rs = ps.executeQuery();
+				rs.next();
+				String store = rs.getString("ID");
+				rs.close();
 				/*
 				 * if we reach here --> all the test are fine and we insert the new payment
 				 * account
 				 */
 				ps = conn.prepareStatement(
-						"INSERT INTO payment_account (ID, CreditCard, Status, Subscription) VALUES (?, ?, ?, ?);");
+						"INSERT INTO payment_account (ID, CreditCard, Status, Subscription, Store_ID, Start_Date) VALUES (?, ?, ?, ?, ?, ?);");
 				ps.setString(1, user.getID());
 				ps.setString(2, user.getCreditCard());
 				ps.setString(3, user.getStatus());
 				ps.setString(4, user.getSubscription());
+				ps.setString(5, store);
+				ps.setString(6, user.getDate());
+
 				ps.executeUpdate();
 				msg1.newO = user;
 				client.sendToClient(msg1);
@@ -1998,7 +2011,7 @@ public class EchoServer extends AbstractServer {
 		String subscription = ((ArrayList<String>) msg1.oldO).get(3);
 		String store = ((ArrayList<String>) msg1.oldO).get(4);
 
-		PreparedStatement ps;
+		PreparedStatement ps, _ps;
 		ResultSet rs;
 
 		try {
@@ -2009,14 +2022,37 @@ public class EchoServer extends AbstractServer {
 			ps.setString(2, customerID);
 			ps.executeUpdate();
 
-			/* set up and execute the update status in payment account table */
-			ps = conn.prepareStatement("UPDATE payment_account SET Status=?, Subscription=?, Store_ID=? WHERE ID=?;");
+			/*check if subscription was change*/
+			ps = conn.prepareStatement("SELECT * FROM payment_account WHERE ID=?;");
+			ps.setString(1, customerID);
+			rs = ps.executeQuery();
+			rs.next();
+			if(rs.getString("Subscription").equals(subscription))
+			{
+				/* set up and execute the update status in payment account table */
+				ps = conn.prepareStatement("UPDATE payment_account SET Status=?, Subscription=?, Store_ID=? WHERE ID=?;");
 
-			ps.setString(1, status);
-			ps.setString(2, subscription);
-			ps.setString(3, store);
-			ps.setString(4, customerID);
-			ps.executeUpdate();
+				ps.setString(1, status);
+				ps.setString(2, subscription);
+				ps.setString(3, store);
+				ps.setString(4, customerID);
+				ps.executeUpdate();
+			}
+			else //we need to reset the start date
+			{
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				Date date = new Date();
+				String start_date = dateFormat.format(date);
+				/* set up and execute the update status in payment account table */
+				_ps = conn.prepareStatement("UPDATE payment_account SET Status=?, Subscription=?, Store_ID=?, Start_Date=? WHERE ID=?;");
+				_ps.setString(1, status);
+				_ps.setString(2, subscription);
+				_ps.setString(3, store);
+				_ps.setString(4, start_date);
+				_ps.setString(5, customerID);
+				_ps.executeUpdate();
+			}
+			
 
 			client.sendToClient(msg1);
 		} catch (SQLException e) {
@@ -2080,6 +2116,80 @@ public class EchoServer extends AbstractServer {
 	}
 
 	
+	/**
+	 * check if we need to reset the start sate of subscription 
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public void check_start_date_paymentAccount(Msg msg1, Connection conn, ConnectionToClient client)
+	{
+		Person customer = (Person) msg1.oldO;
+		String store = (String)msg1.newO;
+		boolean change = false;
+		PreparedStatement ps;
+		ResultSet rs , rsP;
+
+		try {
+			/*check if there is a payment account for this user*/
+			ps = conn.prepareStatement("SELECT * FROM person WHERE ID=? AND ID IN (SELECT ID FROM payment_account WHERE Store_ID=?);");
+			ps.setString(1, customer.getUser_ID());
+			ps.setString(2, store);
+			rs = ps.executeQuery();
+			if(rs.next())
+			{
+				/*get the details from payment account*/
+				ps = conn.prepareStatement("SELECT * FROM payment_account WHERE ID=? AND Store_ID=?;");
+				ps.setString(1, customer.getUser_ID());
+				ps.setString(2, store);
+				rsP = ps.executeQuery();
+				rsP.next();
+				if(!check_start_date(rsP.getString("Start_Date"), rsP.getString("Subscription")))
+				{
+					/*update the subscription to be Per Order*/
+					ps = conn.prepareStatement("UPDATE payment_account SET Subscription='Per Order' WHERE ID=? AND Store_ID=?;");
+					ps.setString(1, customer.getUser_ID());
+					ps.setString(2, store);
+					ps.executeUpdate();
+					change = true;
+				}
+			}
+			msg1.newO = change;
+			
+			client.sendToClient(msg1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * check if the number of days between current day to the start date of subscription is ok
+	 * @param start_date
+	 * @param subscription
+	 * @return
+	 */
+	public boolean check_start_date(String start_date, String subscription)
+	{		
+		int day, month, year;
+		long sum_days;
+		/*parse the date in DB*/
+		day = Integer.parseInt(start_date.substring(0, 2));
+		month = Integer.parseInt(start_date.substring(3, 5));
+		year = Integer.parseInt(start_date.substring(6));
+	
+		Calendar myCalendar = new GregorianCalendar(year, month, day);
+		Date myDate = myCalendar.getTime();
+		Date date = new Date();
+
+		/*calculate the days between to dates*/
+		sum_days = date.getTime()-myDate.getTime();
+		if(sum_days>30)
+			return false;
+		return true;
+	}
 
 	/**
 	 * this function update the survey answers after each customer that took the
@@ -2329,7 +2439,6 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
-	
 	/**
 	 * convert image path to MyFile object
 	 * @param id

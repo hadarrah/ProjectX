@@ -198,6 +198,9 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("get reports for compare")) {
 					((gui.Compare_Report_Controller) mc).get_report(message);
 				}
+				else if (check.getRole().equals("check for start date subscription")) {
+					((gui.Main_menu) mc).get_answer_if_start_date_change(message);
+				}
 				
 				//else if (check.getRole().equals("check if the user already did this survey")) {
  				//	((gui.Main_menu)mc).survey_premession(message);

@@ -225,7 +225,42 @@ public class Main_menu implements Initializable, ControllerI {
 			logout_flag = false;
 
 	}
+	
+	/**
+	 * check if the start date of subscription is ok
+	 */
+	public void check_start_date_subscription() {
+		Msg getCustomer = new Msg();
+		getCustomer.setSelect();
+		getCustomer.oldO = current_user;
+		getCustomer.newO = Login_win.chosen_store;
+		getCustomer.setRole("check for start date subscription");
+		Login_win.to_Client.accept((Object) getCustomer);
+	}
+	
+	/*
+	 * handle with the result of checking the start date of subscription
+	 */
+	public void get_answer_if_start_date_change(Object msg) 
+	{
+		boolean answer =  (boolean) (((Msg) msg).newO);
+		if(answer)
+		{
+			/* there are pending complaints -> run in new thread the new window */
+			Platform.runLater(new Runnable() {
 
+				@Override
+				public void run() {
+					Login_win.showPopUp("INFORMATION", "Important Message", "Your subscription was reset", "for renew the membership please talk with your store manager");
+					return;
+				}
+			});
+		}
+	}
+	
+	/**
+	 * check if there is pending complaints 
+	 */
 	public void check_for_complaints() {
 		Msg getCustomer = new Msg();
 		getCustomer.setSelect();
@@ -234,6 +269,10 @@ public class Main_menu implements Initializable, ControllerI {
 		Login_win.to_Client.accept((Object) getCustomer);
 	}
 
+	/**
+	 * handle with the result if there is pending complaints
+	 * @param msg
+	 */
 	public void get_answer_if_exist_complaint(Object msg) {
 		ArrayList<Complain> toCheck = (ArrayList<Complain>) (((Msg) msg).newO);
 		if (!toCheck.isEmpty()) {
@@ -277,6 +316,9 @@ public class Main_menu implements Initializable, ControllerI {
 
 		if (current_user.getPrivilege().equals("Customer Service Employee"))
 			check_for_complaints();
+		if (current_user.getPrivilege().equals("Customer")) {
+			check_start_date_subscription();
+		}
 
 	}
 
