@@ -2173,20 +2173,27 @@ public class EchoServer extends AbstractServer {
 	 */
 	public boolean check_start_date(String start_date, String subscription)
 	{		
-		int day, month, year;
-		long sum_days;
+		int day, month, year, days_toCheck;
+		int sum_days;
 		/*parse the date in DB*/
 		day = Integer.parseInt(start_date.substring(0, 2));
 		month = Integer.parseInt(start_date.substring(3, 5));
 		year = Integer.parseInt(start_date.substring(6));
 	
-		Calendar myCalendar = new GregorianCalendar(year, month, day);
+		Calendar myCalendar = new GregorianCalendar(year, month-1, day);
 		Date myDate = myCalendar.getTime();
 		Date date = new Date();
-
+		
+		if(subscription.equals("Per Order"))
+			return true;
+		else if(subscription.equals("Month"))
+			days_toCheck = 30;
+		else
+			days_toCheck = 365;
+		
 		/*calculate the days between to dates*/
-		sum_days = date.getTime()-myDate.getTime();
-		if(sum_days>30)
+		sum_days = (int)((date.getTime()-myDate.getTime())/(1000*60*60*24));
+		if(sum_days>days_toCheck)
 			return false;
 		return true;
 	}
