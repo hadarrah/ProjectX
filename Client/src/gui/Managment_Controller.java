@@ -30,6 +30,7 @@ import javafx.stage.WindowEvent;
 public class Managment_Controller implements Initializable,ControllerI {
 
     public Button create_Survey_B;
+    public Button updateStockB;
     public Button update_Catalog_B;
     public Button answer_Complaint_B;
     public Button create_Sale_B;
@@ -371,6 +372,13 @@ public class Managment_Controller implements Initializable,ControllerI {
     	}
 
     }
+    /**
+     * update amount of item in catalog
+     */
+    public void updateStock(ActionEvent event) throws IOException {
+    	ManagmentFlage=2;    	
+    	move(event,main.fxmlDir+ "View_Catalog1.fxml");
+    }
 
     /**
      * handle function which check if there is active sale
@@ -581,6 +589,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     		case "Store Employee":
     			create_Sale_B.setVisible(true);
     			close_Sale_B.setVisible(true);
+    			updateStockB.setVisible(true);
     			 
         		break;
     		case "System Manager":

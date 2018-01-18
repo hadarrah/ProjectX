@@ -39,5 +39,6 @@
                </image>
             </ImageView>
          </graphic></Button>
+      <Button fx:id="updateStockB" layoutX="201.0" layoutY="207.0" mnemonicParsing="false" onAction="#updateStock" text="Update stock" visible="false" />
    </children>
 </Pane>

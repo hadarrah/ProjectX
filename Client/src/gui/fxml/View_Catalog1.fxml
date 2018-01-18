@@ -95,6 +95,8 @@
             </Label>
             <Button fx:id="AddCancel_B" layoutX="151.0" layoutY="360.0" mnemonicParsing="false" onAction="#init" prefWidth="60.0" text="Cancel" visible="false" />
             <Button fx:id="AddSave_B" layoutX="262.0" layoutY="361.0" mnemonicParsing="false" onAction="#SaveNewItem" prefWidth="60.0" text="Save" visible="false" />
+            <Button fx:id="SetAmount_B" layoutX="331.0" layoutY="360.0" mnemonicParsing="false" onAction="#SetAmount" text="Set Amount" visible="false" />
+            <Button fx:id="OkSaveAmount_B" layoutX="332.0" layoutY="360.0" mnemonicParsing="false" onAction="#SaveSetAmount" text="OK" visible="false" />
          </children>
       </Pane>
       <Button fx:id="back_B" layoutY="574.0" mnemonicParsing="false" onAction="#back" text="Back" />
