@@ -208,7 +208,9 @@ public class ClientConsole implements ChatIF {
 			}
 			 if(check.getType().equals("UPDATE"))
 			 {
-				 if(check.getRole().equals("delete item from catalog"))
+				 if (check.getRole().equals("update amount"))
+					 ((gui.View_Catalog_Controller) mc).set_item_amount_success(message);
+				 else if(check.getRole().equals("delete item from catalog"))
 					 ((gui.View_Catalog_Controller) mc).delete_item_success(message);
 				 else if (check.getRole().equals("update user details")) 
 					  ((gui.Update_Personal_Info_Controller)mc).get_new_user_details(message);

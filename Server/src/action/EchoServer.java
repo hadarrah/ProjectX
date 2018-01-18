@@ -192,7 +192,9 @@ public class EchoServer extends AbstractServer {
 			}
 			case "UPDATE": {
 				// System.out.println("in server- update case: "+msg1.getRole());
-				if (msg1.getRole().equals("delete item from catalog"))
+				 if (msg1.getRole().equals("update amount"))
+					updateAmount(msg1, conn, client);
+				else if (msg1.getRole().equals("delete item from catalog"))
 					DeleteItem(msg1, conn, client);
 				else if (msg1.getRole().equals("update item in catalog"))
 					UpdateItem(msg1, conn, client);
@@ -252,7 +254,29 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+	
+	/**
+	 * update item amount in DB
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
+	public static  void updateAmount(Msg msg1, Connection conn, ConnectionToClient client) throws IOException {
+		Msg msg = (Msg) msg1;
+		Item_In_Catalog itc=(Item_In_Catalog) msg.newO;	
+		try {
+			PreparedStatement ps = conn.prepareStatement("UPDATE store SET Amount=? WHERE ID=? AND Item_ID=?");
+			ps.setString(1, ""+itc.getAmount());
+			ps.setString(2, msg.freeField);
+			ps.setString(3, itc.getID());
+			ps.executeUpdate();
+			client.sendToClient(msg);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * get the user order history including orders that were canceled
 	 * @param msg1
