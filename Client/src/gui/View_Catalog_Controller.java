@@ -326,7 +326,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 * 
 	 * @param msg
 	 */
-	public void update_item_success(Object msg) {
+	public void update_item_success() {
 		Platform.runLater(new Runnable() {
 
 			@Override
@@ -358,7 +358,11 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 	}
 
-	public void set_item_amount_success(Object msg) {
+	/**
+	 * show message after amount update
+	 * @param msg
+	 */
+	public void set_item_amount_success() {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -376,7 +380,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 * 
 	 * @param msg
 	 */
-	public void delete_item_success(Object msg) {
+	public void delete_item_success() {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -395,7 +399,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 * 
 	 * @param msg
 	 */
-	public void insertNewItemInCatalogSuccess(Object msg) {
+	public void insertNewItemInCatalogSuccess() {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {

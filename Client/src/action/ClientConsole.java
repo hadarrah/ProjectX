@@ -209,13 +209,13 @@ public class ClientConsole implements ChatIF {
 			 if(check.getType().equals("UPDATE"))
 			 {
 				 if (check.getRole().equals("update amount"))
-					 ((gui.View_Catalog_Controller) mc).set_item_amount_success(message);
+					 ((gui.View_Catalog_Controller) mc).set_item_amount_success();
 				 else if(check.getRole().equals("delete item from catalog"))
-					 ((gui.View_Catalog_Controller) mc).delete_item_success(message);
+					 ((gui.View_Catalog_Controller) mc).delete_item_success();
 				 else if (check.getRole().equals("update user details")) 
 					  ((gui.Update_Personal_Info_Controller)mc).get_new_user_details(message);
 				 else if(check.getRole().equals("update item in catalog"))
-						((gui.View_Catalog_Controller) mc).update_item_success(message);
+						((gui.View_Catalog_Controller) mc).update_item_success();
 				 else if(check.getRole().equals("close survey"))
 					 ((gui.Close_Survey_Controller)mc).close_survey_success(message);
 				 else if(check.getRole().equals("set conclusion survey"))
@@ -231,7 +231,7 @@ public class ClientConsole implements ChatIF {
 			 }
 			else if (check.getType().equals("INSERT")) {
 				if (check.getRole().equals("insert a new item in catalog"))
-					 ((gui.View_Catalog_Controller) mc).insertNewItemInCatalogSuccess(message);
+					 ((gui.View_Catalog_Controller) mc).insertNewItemInCatalogSuccess();
 				else if (check.getRole().equals("insert survey"))
 					((gui.Survey_Controller) mc).create_survey_success(message);
 				else if (check.getRole().equals("insert a new complain"))  
