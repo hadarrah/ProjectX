@@ -15,7 +15,7 @@ public class main extends Application {
 	public static String user_port;
 	public  static String user_host;
 	public static String fxmlDir = "fxml/";
-	
+	public static Stage primary;
 	
 	  public void start(Stage primaryStage) throws IOException
 	  {
@@ -29,6 +29,7 @@ public class main extends Application {
 	    primaryStage.setScene( scene );
 	    primaryStage.setTitle("Welcome to ZerLi X");
 	    primaryStage.show();
+	    primary = primaryStage;
 	  }
 	  /**
 	   * run the main program 

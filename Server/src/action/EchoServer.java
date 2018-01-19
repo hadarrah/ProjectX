@@ -495,19 +495,16 @@ public class EchoServer extends AbstractServer {
 		ArrayList<Item_In_Order> items_in_order = new ArrayList<Item_In_Order>();
 		Reservation_Report reservation = null;
 		ArrayList<Complain> complaints = new ArrayList<Complain>();
-		ArrayList<String> customers_id = new ArrayList<String>();
 		Complaint_Report ComplaintsReport = null;
 		ArrayList<Survey> surveys = new ArrayList<Survey>();
 		Satisfaction_Report Satisfaction = null;
-		boolean exist = false;
-		
 		
 		/* save details */
 		quarter = report.getQuarter();
 		year = report.getYear();
 		storeID = report.getStore();
 		name = report.getName();
-
+		
 		/*get all the stores*/
 		if(storeID.equals("All"))
 		{
@@ -730,7 +727,6 @@ public class EchoServer extends AbstractServer {
 					}
 				}
 			}
-			
 
 			client.sendToClient(msg1);
 
