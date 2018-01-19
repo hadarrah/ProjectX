@@ -235,7 +235,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 	public void insertCardToDB() {
 		Msg msg = new Msg();
 
-		String oid = Integer.toString(this.orderid);
+		String oid = order.getId();
 		String type = Cart_Controller.cardType;
 		String text = Cart_Controller.cardDesc;
 
@@ -258,12 +258,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 		this.name = d.getName();
 		this.address = d.getAddress();
 		this.phone = d.getPhone();
-
-		/* New Delivery Request */
-		// delivery = new Delivery(name, address, phone);
-		// delivery.setOrder(order);
-		// delivery.setOrderid(orderid);
-		// order.setDelivery(delivery);
+		d.setOrderid(Integer.parseInt(order.getId()));
 
 		msg.oldO = d;
 		msg.setRole("insert delivery");

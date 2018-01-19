@@ -393,7 +393,6 @@ public class EchoServer extends AbstractServer {
 			ps.setString(3, text);
 
 			ps.executeUpdate();
-			// insert deliv after order created -> no deliveries without orders.
 
 			msg1.num1 = 1;
 			client.sendToClient((Msg) msg1);
