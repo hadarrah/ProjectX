@@ -519,7 +519,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     	display_Reports_B.setVisible(false);
     	close_Survey_B.setVisible(false);
     	close_Sale_B.setVisible(false);
-		survey_b.setVisible(false);
+		survey_b.setVisible(true);
 
     	/*update the current controller to be management controller in general ClientConsole instance*/
     	Login_win.to_Client.setController(this);

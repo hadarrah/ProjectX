@@ -503,6 +503,7 @@ public void setCustomersId() {
 	msg.setSelect();
 	msg.setRole("get customres id");
 	msg.setTableName("person");
+	msg.freeField=gui.Login_win.chosen_store;////////////////////////
 	Login_win.to_Client.accept(msg);
 	
 	

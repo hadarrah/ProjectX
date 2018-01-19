@@ -27,7 +27,7 @@ public class main extends Application {
 		
 	    // setting the stage
 	    primaryStage.setScene( scene );
-	    primaryStage.setTitle("Welcome to ZerLi X");
+	    primaryStage.setTitle("ZerLi X-System");
 	    primaryStage.show();
 	  }
 	  /**

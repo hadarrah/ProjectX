@@ -1,10 +1,9 @@
 package action;
 
-// This file contains material supporting section 3.7 of the textbook:
-// "Object Oriented Software Engineering" and is issued under the open-source
-// license found at www.lloseng.com 
 
+ 
 import java.io.*;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,26 +13,22 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
-import java.util.Scanner;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-import java.time.temporal.ChronoUnit;
-
 import javax.swing.JOptionPane;
 
-import javafx.collections.ObservableList;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.sql.PreparedStatement;
 import ocsf.server.*;
@@ -59,6 +54,7 @@ public class EchoServer extends AbstractServer {
 	public static String table_name;
 	public static String schema_name;
 	public static String user_name;
+ 
 	//protected static Logger logger = Logger.getLogger("MyLog");
 	protected FileHandler fh;
 	// Constructors ****************************************************
@@ -69,6 +65,7 @@ public class EchoServer extends AbstractServer {
 	 * @param port
 	 *            The port number to connect on.
 	 */
+	@SuppressWarnings("deprecation")
 	public EchoServer(int port) {
 		super(port);
 		/* adding a log file */
@@ -87,6 +84,8 @@ public class EchoServer extends AbstractServer {
 			e.printStackTrace();
 		}
 		 */
+	 
+		 
 		user_name = JOptionPane.showInputDialog("Enter User name  ");
 		if (user_name.equals("")) {
 			JOptionPane.showMessageDialog(null, "Invalid name");
@@ -437,7 +436,7 @@ public class EchoServer extends AbstractServer {
 	}
 
 	/**
-	 * get the Customers ids
+	 * get the Customers id who didnt took this survey yet and they have a payment account in this store
 	 * 
 	 * @param msg1
 	 * @param conn
@@ -446,6 +445,7 @@ public class EchoServer extends AbstractServer {
 	public static void get_customres_id(Msg msg1, Connection conn, ConnectionToClient client) {
 		Msg msg = (Msg) msg1;
 		ArrayList<String> id = new ArrayList<String>();
+		ArrayList<String> account_id = new ArrayList<String>();
 		String temp;
 
 		try {
@@ -460,8 +460,25 @@ public class EchoServer extends AbstractServer {
 				id.add(temp);
 
 			}
-			msg1.newO = id;
+			
+			PreparedStatement ps2 = conn.prepareStatement(" SELECT ID FROM payment_account where Store_ID=?;");
+			ps2.setString(1, msg.freeField);
+			ResultSet rs2 = ps2.executeQuery();
+			
+			while (rs2.next()) {
+				temp = rs2.getString(1);
+				account_id.add(temp);
 
+			}
+			
+			for(int i=0;i<id.size();i++)
+				if(!(account_id.contains(id.get(i)))) {
+					id.remove(id.get(i));
+					i--;
+			
+				}
+			msg.newO = id;
+			
 			client.sendToClient(msg);
 
 		} catch (SQLException e) {
@@ -1397,7 +1414,7 @@ public class EchoServer extends AbstractServer {
 				a = rs.getString(1);
 
 				// if the user exist
-				if (!(a.equals("0"))) {
+				if (a!=null) {
 					Payment_Account pay_account = new Payment_Account();
 					user.setIsExist("1");
 					user.setUser_name(rs.getString(2));
@@ -2731,7 +2748,7 @@ public class EchoServer extends AbstractServer {
 	 *            The port number to listen on. Defaults to 5555 if no argument is
 	 *            entered.
 	 */
-	public static void main(String[] args) {
+	public static void main  (String[] args)    {
 		int port = 0; // Port to listen on
 		try {
 			port = Integer.parseInt(args[0]); // Get port from command line
@@ -2740,13 +2757,18 @@ public class EchoServer extends AbstractServer {
 		}
 
 		EchoServer sv = new EchoServer(port);
-
+	 
+ 
 		try {
 			sv.listen(); // Start listening for connections
 		} catch (Exception ex) {
 			System.out.println("ERROR - Could not listen for clients!");
 		}
 	}
+ 
+		
+	}
 
-}
+ 
 // End of EchoServer class
+ 

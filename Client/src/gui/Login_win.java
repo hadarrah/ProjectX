@@ -65,11 +65,7 @@ public class Login_win  implements ControllerI,Initializable  {
 		if(user_IdT.getText().equals("") ||user_passT.getText().equals("") )
 		{
 			invalid_detailsL.setVisible(true);
-			login_counter++;
-			if(login_counter>2)//user had tried 3 times
-			{
-//				System.exit(1);
-			}
+			 return;
 		}
 		/*user details are valid -> check if the user exist in the system*/
 		/*set the user online- */
@@ -90,24 +86,26 @@ public class Login_win  implements ControllerI,Initializable  {
 		
 	 	Msg msg=(Msg) obj;
 		Person user=(Person) msg.newO;	
-		ObservableList<String> list = FXCollections.observableArrayList(user.getStore());
-		cbxStore.setItems(list);		
-		current_user_pay_account=(Payment_Account)msg.oldO;
+		
 		if(user.isAlreadyConnected()==true) {
 			already_conL.setVisible(true);
 			user_not_existL.setVisible(false);
+			return;
 		}
 			
 		else if(user.getIsExist().equals("0")) {
 			user_not_existL.setVisible(true);
 			already_conL.setVisible(false);
+			return;
 		}
 			
 		else if(user.getIsExist().equals("1") && user.getIsOnline().equals("1")&& !(user.isAlreadyConnected()==true))
 		  {
 			  user_not_existL.setVisible(false);			  
 				already_conL.setVisible(false);				
-			 
+				ObservableList<String> list = FXCollections.observableArrayList(user.getStore());
+				cbxStore.setItems(list);		
+				current_user_pay_account=(Payment_Account)msg.oldO;
 			  /*save the details on the entered user*/
 			  current_user=user;
 			
