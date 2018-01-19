@@ -194,6 +194,8 @@ public class EchoServer extends AbstractServer {
 				// System.out.println("in server- update case: "+msg1.getRole());
 				 if (msg1.getRole().equals("update amount"))
 					updateAmount(msg1, conn, client);
+				 else if(msg1.getRole().equals("update refund"))
+					 updateRefund(msg1,conn,client);
 				else if (msg1.getRole().equals("delete item from catalog"))
 					DeleteItem(msg1, conn, client);
 				else if (msg1.getRole().equals("update item in catalog"))
@@ -277,7 +279,36 @@ public class EchoServer extends AbstractServer {
 			e.printStackTrace();
 		}
 	}
+	
 	/**
+	 * update refund for customer
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
+	public static void updateRefund(Msg msg1, Connection conn, ConnectionToClient client) throws IOException {
+		Msg msg = (Msg) msg1;
+		Payment_Account acc = (Payment_Account)msg.oldO;
+		String newRefund = (String)msg.newO;
+		try {
+			PreparedStatement ps = conn.prepareStatement("UPDATE payment_account" +
+						" SET Refund=? WHERE ID=? AND Store_ID=?");
+			ps.setString(1, newRefund);
+			ps.setString(2, acc.getID());
+			ps.setString(3, acc.getStoreID());
+			ps.executeUpdate();
+			
+			msg.freeField=newRefund;
+			
+			client.sendToClient(msg);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+		/**
 	 * get the user order history including orders that were canceled
 	 * @param msg1
 	 * @param conn

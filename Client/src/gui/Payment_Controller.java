@@ -76,6 +76,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 	private boolean deliveryDone = false;
 	private boolean itemsInDB = false;
 	private boolean cardInDB = false;
+	private boolean doRefund = false;
 
 	public void doPay(ActionEvent event) {
 
@@ -135,6 +136,9 @@ public class Payment_Controller implements Initializable, ControllerI {
 						e.printStackTrace();
 					}
 			}
+			
+			if(doRefund)
+				updateRefund();
 
 
 			good = true;
@@ -352,6 +356,21 @@ public class Payment_Controller implements Initializable, ControllerI {
 
 		Login_win.to_Client.accept(msg);
 	}
+	
+	/** insert the selected card to DB */
+	public void updateRefund() {
+		Msg msg = new Msg();
+
+
+		msg.oldO = accP;
+		msg.newO = sur_TF.getText();
+
+		msg.setRole("update refund");
+		msg.setUpdate();
+
+		Login_win.to_Client.accept(msg);
+
+	}
 
 	/** Successful item insert to DB */
 	public void insert_items_success(Object msg) {
@@ -393,6 +412,13 @@ public class Payment_Controller implements Initializable, ControllerI {
 
 		deliveryDone = true;
 	}
+	
+	public void update_refund_success(Object msg) {
+		Msg msg1 = (Msg)msg;
+		
+		System.out.println("Refund updated. new refund is: "+msg1.freeField);
+		accP.setRefund_sum(Float.parseFloat(msg1.freeField));
+	}
 
 	/** Set total price including delivery and subscription rates. */
 	public void setTotalPrice() {
@@ -415,6 +441,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 		disc_amn_L.setText("You get "+disc+"% discount");
 
 		if (accP.getRefund_sum() > 0) {
+			doRefund=true;
 			if(price>accP.getRefund_sum()) {
 			price -= accP.getRefund_sum();
 			sur_TF.setText("0.0");
