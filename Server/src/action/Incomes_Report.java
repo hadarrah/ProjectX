@@ -31,6 +31,7 @@ public class Incomes_Report extends Report {
 	
 	public void calculateReport()
 	{
+		total_price = 0;
 		for(Order o: orders)
 		{
 			total_price += o.getTotprice();
