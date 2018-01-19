@@ -33,14 +33,14 @@ import javafx.stage.WindowEvent;
 public class Edit_Customer_Profile_Man_Controller implements Initializable, ControllerI{
 
 	public Button edit_B, back_B;
-	public Label invalid_detailsL_ID;
+	public Label invalid_detailsL_ID, invalid_detailsL_Store;
 	public ComboBox<String> id_combo, privilege_combo, status_combo, subscription_combo, store_combo;
 	public ObservableList<String> list;
 	public static ActionEvent event_log;
 	public TreeMap<String, String> customer_privilege;
 	public TreeMap<String, ArrayList<String>> status_subscription;
-	public ArrayList<String> storeID;
-	
+	public ArrayList<String> storeID, privilege;
+
 	/**
 	 * return to the previous window
 	 * @param event
@@ -63,14 +63,20 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
 		
 		/*turn off the error label*/
     	invalid_detailsL_ID.setVisible(false);
+    	invalid_detailsL_Store.setVisible(false);
     	
-    	/*check if customer was selected*/
+    	/*check input*/
 		if(id_combo.getValue() == null)
 		{
 			invalid_detailsL_ID.setVisible(true);
 			return;
 		}
-
+		if(!store_combo.isDisable() && store_combo.getValue() == null)
+		{
+			invalid_detailsL_Store.setVisible(true);
+			return;
+		}
+		
 		/*prepare ArrayList object to set in msg*/
 		ArrayList<String> toSend = new ArrayList<String>();
 		toSend.add(id_combo.getValue());
@@ -119,17 +125,6 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
    	ObservableList<String> list = FXCollections.observableArrayList(customerID);
    	id_combo.setItems(list);
    	
-   	/*set privilege combo*/
-   	ArrayList<String> privilege = new ArrayList<String>();
-   	privilege.add("Chain Employee");
-   	privilege.add("Chain Manager");
-   	privilege.add("Customer");
-   	privilege.add("Customer Service Employee");
-   	privilege.add("Service Expert");
-   	privilege.add("Store Employee");
-   	privilege.add("Store Manager");
-   	list = FXCollections.observableArrayList(privilege);
-   	privilege_combo.setItems(list);
    	
    	/*set status of payment combo*/
    	ArrayList<String> status = new ArrayList<String>();
@@ -165,11 +160,6 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
    	status_combo.setDisable(true);
 	subscription_combo.setDisable(true);
 	
-   	/*set the privilege combobox by the specific customer id*/
-   	for(String ID : customer_privilege.keySet())
-   		if(ID.equals(customer_seleceted))
-   			privilege_combo.setValue(customer_privilege.get(ID));
-   	
    	storeID.clear();
    	/*set the relevant stores of user*/
    	for(String ID : status_subscription.keySet())
@@ -179,6 +169,14 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
    			storeID.add(status_subscription.get(ID).get(2));
    		}
    	
+   	/*set privilege combo*/
+   	privilege.clear();
+   	privilege.add("Chain Employee");
+   	privilege.add("Chain Manager");
+   	privilege.add("Customer");
+   	privilege.add("Customer Service Employee");
+   	privilege.add("Service Expert");
+  
    	/*disable status/subscription/store -> in use when the last loop above didn't find match id*/
    	if(!payment_exist)
    	{
@@ -192,7 +190,19 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
    		subscription_combo.setDisable(true);
    		list = FXCollections.observableArrayList(storeID);
    	   	store_combo.setItems(list);
+   	   	
+   	 	privilege.add("Store Employee");
+   	   	privilege.add("Store Manager");
    	}
+   	
+   	list = FXCollections.observableArrayList(privilege);
+   	privilege_combo.setItems(list);
+   	
+	/*set the privilege combobox by the specific customer id*/
+   	for(String ID : customer_privilege.keySet())
+   		if(ID.equals(customer_seleceted))
+   			privilege_combo.setValue(customer_privilege.get(ID));
+   	
    }
    
    /**
@@ -279,6 +289,7 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
     	
     	/*turn off the error label*/
     	invalid_detailsL_ID.setVisible(false);
+    	invalid_detailsL_Store.setVisible(false);
     	
     	/*set combboxe to disable except id*/
     	status_combo.setDisable(true);
@@ -287,6 +298,7 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
     	privilege_combo.setDisable(true);
     	
    		storeID = new ArrayList<String>();
+   		privilege = new ArrayList<String>();
     	/*set comboboxes*/
     	get_combobox();
     }

@@ -2076,17 +2076,45 @@ public class EchoServer extends AbstractServer {
 		try {
 			/* set up and execute the update privilege in person table */
 			ps = conn.prepareStatement("UPDATE person SET Privilege=? WHERE ID=?;");
-
 			ps.setString(1, privilege);
 			ps.setString(2, customerID);
 			ps.executeUpdate();
 
+			if(privilege.equals("Store Manager"))
+			{
+				/*check if the privilege changed by check if the current user is already manager*/
+				ps = conn.prepareStatement("SELECT * FROM store WHERE Manager_ID=? GROUP BY ID;");
+				ps.setString(1, customerID);
+				rs = ps.executeQuery();
+				if(!rs.next())
+				{
+					String saveManager;
+					/*we need to replace the current manager with this user*/
+					ps = conn.prepareStatement("SELECT * FROM store WHERE ID=?;");
+					ps.setString(1, store);
+					rs = ps.executeQuery();
+					rs.next();
+					saveManager = rs.getString("Manager_ID");
+					
+					/*change to this user*/
+					ps = conn.prepareStatement("UPDATE store SET Manager_ID=? WHERE ID=?;");
+					ps.setString(1, customerID);
+					ps.setString(2, store);
+					ps.executeUpdate();
+					
+					/*change the privilege to the exit manager*/
+					ps = conn.prepareStatement("UPDATE person SET Privilege='Store Employee' WHERE ID=?;");
+					ps.setString(1, saveManager);
+					ps.executeUpdate();
+				}
+			}
+			
 			/*check if subscription was change*/
 			ps = conn.prepareStatement("SELECT * FROM payment_account WHERE ID=?;");
 			ps.setString(1, customerID);
 			rs = ps.executeQuery();
 			rs.next();
-			if(rs.getString("Subscription").equals(subscription))
+			if(subscription != null && rs.getString("Subscription").equals(subscription))
 			{
 				/* set up and execute the update status in payment account table */
 				ps = conn.prepareStatement("UPDATE payment_account SET Status=?, Subscription=? WHERE ID=? AND Store_ID=?;");
@@ -2097,7 +2125,7 @@ public class EchoServer extends AbstractServer {
 				ps.setString(4, store);
 				ps.executeUpdate();
 			}
-			else //we need to reset the start date
+			else if(subscription != null && store != null && status != null) //we need to reset the start date
 			{
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 				Date date = new Date();

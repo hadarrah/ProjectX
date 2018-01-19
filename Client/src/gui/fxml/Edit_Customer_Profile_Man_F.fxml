@@ -58,7 +58,12 @@
             <ComboBox fx:id="subscription_combo" prefWidth="250.0" promptText="choose subscription" />
          </children>
       </VBox>
-      <Label fx:id="invalid_detailsL_ID" layoutX="262.0" layoutY="106.0" text="You must choose ID" textFill="RED">
+      <Label fx:id="invalid_detailsL_ID" layoutX="262.0" layoutY="148.0" text="You must choose ID" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="invalid_detailsL_Store" layoutX="262.0" layoutY="255.0" text="You must choose ID" textFill="RED">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font>
