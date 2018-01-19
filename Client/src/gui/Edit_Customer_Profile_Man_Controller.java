@@ -39,7 +39,7 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
 	public static ActionEvent event_log;
 	public TreeMap<String, String> customer_privilege;
 	public TreeMap<String, ArrayList<String>> status_subscription;
-
+	public ArrayList<String> storeID;
 	
 	/**
 	 * return to the previous window
@@ -146,10 +146,6 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
    	list = FXCollections.observableArrayList(subscription);
    	subscription_combo.setItems(list);
    	
-   	/*set store  combo*/
-   	ArrayList<String> store =  (ArrayList<String>)(((Msg) message).freeUse);
-   	list = FXCollections.observableArrayList(store);
-   	store_combo.setItems(list);
    }
    
    /**
@@ -160,26 +156,27 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
    {
    	String customer_seleceted = id_combo.getValue();
    	boolean payment_exist = false;
-   	
-   	/*allowed to the other combobox to be able*/
-   	status_combo.setDisable(false);
-	subscription_combo.setDisable(false);
-	store_combo.setDisable(false);
+	
+	/*set combobox*/
+	store_combo.promptTextProperty();
+	store_combo.getItems().clear();
 	privilege_combo.setDisable(false);
-
-	/*set the privilege combobox by the specific customer id*/
+   	store_combo.setDisable(false);
+   	status_combo.setDisable(true);
+	subscription_combo.setDisable(true);
+	
+   	/*set the privilege combobox by the specific customer id*/
    	for(String ID : customer_privilege.keySet())
    		if(ID.equals(customer_seleceted))
-   			privilege_combo.setValue(customer_privilege.get(ID));	
+   			privilege_combo.setValue(customer_privilege.get(ID));
    	
-	/*set the status/subscription/store combobox by the specific customer id*/
+   	storeID.clear();
+   	/*set the relevant stores of user*/
    	for(String ID : status_subscription.keySet())
-   		if(ID.equals(customer_seleceted))
+   		if(ID.substring(0, ID.indexOf(" ")).equals(customer_seleceted))
    		{
    			payment_exist = true;
-   			status_combo.setValue(status_subscription.get(ID).get(0));	
-   			subscription_combo.setValue(status_subscription.get(ID).get(1));	
-   			store_combo.setValue(status_subscription.get(ID).get(2));
+   			storeID.add(status_subscription.get(ID).get(2));
    		}
    	
    	/*disable status/subscription/store -> in use when the last loop above didn't find match id*/
@@ -189,8 +186,37 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
    		subscription_combo.setDisable(true);
    		store_combo.setDisable(true);
    	}
-   		
+   	else
+   	{
+   		status_combo.setDisable(true);
+   		subscription_combo.setDisable(true);
+   		list = FXCollections.observableArrayList(storeID);
+   	   	store_combo.setItems(list);
+   	}
+   }
+   
+   /**
+    * handle when user select store id from combobox
+    * @param event
+    */
+   public void check_selected_store(ActionEvent event) 
+   {
+		String customer_seleceted = id_combo.getValue();
+	   	
+	   	if(store_combo.getValue() != null)
+	   	{
+	   	/*allowed to the other combobox to be able*/
+	   	status_combo.setDisable(false);
+		subscription_combo.setDisable(false);
 
+		/*set the status/subscription combobox by the specific customer id*/
+	   	for(String ID : status_subscription.keySet())
+	   		if(ID.equals(customer_seleceted + " " + store_combo.getValue()))
+	   		{
+	   			status_combo.setValue(status_subscription.get(ID).get(0));	
+	   			subscription_combo.setValue(status_subscription.get(ID).get(1));	
+	   		}
+	   	}
    }
    
    /**
@@ -260,6 +286,7 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
     	store_combo.setDisable(true);
     	privilege_combo.setDisable(true);
     	
+   		storeID = new ArrayList<String>();
     	/*set comboboxes*/
     	get_combobox();
     }

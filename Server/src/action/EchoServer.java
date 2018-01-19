@@ -145,7 +145,7 @@ public class EchoServer extends AbstractServer {
 					check_survey_exist(msg1, conn, client);
 				else if (msg1.getRole().equals("check if there is active survey for close"))
 					check_survey_exist(msg1, conn, client);
-				else if (msg1.getRole().equals("check if there is active survey for add comment"))
+				else if (msg1.getRole().equals("check if there is active survey for add answer"))
 					check_survey_exist(msg1, conn, client);
 				else if (msg1.getRole().equals("check if there is active survey"))
 					check_survey_exist(msg1, conn, client);
@@ -2008,17 +2008,11 @@ public class EchoServer extends AbstractServer {
 				status_subscription.add(rs.getString("Status"));
 				status_subscription.add(rs.getString("Subscription"));
 				status_subscription.add(rs.getString("Store_ID"));
-				paymentCombo.put(rs.getString("ID"), status_subscription);
+				paymentCombo.put(rs.getString("ID") + " " + rs.getString("Store_ID"), status_subscription);
 			}
 
 			msg1.oldO = paymentCombo;
 
-			/* set up and execute the select query from store table to get all the stores */
-			rs = conn.createStatement().executeQuery("SELECT * FROM store GROUP BY ID;");
-
-			while (rs.next())
-				stores.add(rs.getString("ID"));
-			msg1.freeUse = stores;
 
 			client.sendToClient(msg1);
 		} catch (SQLException e) {
@@ -2095,12 +2089,12 @@ public class EchoServer extends AbstractServer {
 			if(rs.getString("Subscription").equals(subscription))
 			{
 				/* set up and execute the update status in payment account table */
-				ps = conn.prepareStatement("UPDATE payment_account SET Status=?, Subscription=?, Store_ID=? WHERE ID=?;");
+				ps = conn.prepareStatement("UPDATE payment_account SET Status=?, Subscription=? WHERE ID=? AND Store_ID=?;");
 
 				ps.setString(1, status);
 				ps.setString(2, subscription);
-				ps.setString(3, store);
-				ps.setString(4, customerID);
+				ps.setString(3, customerID);
+				ps.setString(4, store);
 				ps.executeUpdate();
 			}
 			else //we need to reset the start date
@@ -2109,12 +2103,12 @@ public class EchoServer extends AbstractServer {
 				Date date = new Date();
 				String start_date = dateFormat.format(date);
 				/* set up and execute the update status in payment account table */
-				_ps = conn.prepareStatement("UPDATE payment_account SET Status=?, Subscription=?, Store_ID=?, Start_Date=? WHERE ID=?;");
+				_ps = conn.prepareStatement("UPDATE payment_account SET Status=?, Subscription=?, Start_Date=? WHERE ID=? AND Store_ID=?;");
 				_ps.setString(1, status);
 				_ps.setString(2, subscription);
-				_ps.setString(3, store);
-				_ps.setString(4, start_date);
-				_ps.setString(5, customerID);
+				_ps.setString(3, start_date);
+				_ps.setString(4, customerID);
+				_ps.setString(5, store);
 				_ps.executeUpdate();
 			}
 			

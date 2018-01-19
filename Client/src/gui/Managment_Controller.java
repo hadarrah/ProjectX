@@ -102,17 +102,11 @@ public class Managment_Controller implements Initializable,ControllerI {
     	/*save the event*/
     	event_log =new ActionEvent();		 
 		event_log=event.copyFor(event.getSource(), event.getTarget());
-    	
     	/*check if already exist an active survey*/
-    	Survey temp_survey = new Survey();
     	Msg check_survey_exist = new Msg();
     	check_survey_exist.setSelect();
-    	check_survey_exist.oldO = temp_survey;
-    	check_survey_exist.setTableName("survey");
     	check_survey_exist.setRole("check if there is active survey for insert");
-    	check_survey_exist.event=event;
 		Login_win.to_Client.accept((Object)check_survey_exist);
-		
     }
 
     /**
@@ -168,42 +162,16 @@ public class Managment_Controller implements Initializable,ControllerI {
     }
     
     public void answer_survey(ActionEvent event) throws IOException {
-    	if(survey_open==true)
-    	move(event ,main.fxmlDir+ "Answer_Survey_F.fxml");
-    	else
-    		Platform.runLater(new Runnable() {
-				
-				@Override
-				public void run() {
-					Login_win.showPopUp("ERROR", "System error", "There is no active survey", "");
-					
-				}
-			});
-    	
-    }
-/**
- * get the survey id from the server-DB
- * if the is no active survey it alert it by using a flag
- * @param o
- */
-	public void set_current_survey_and_chek_customer_survey(Object o) {
-		Msg msg = (Msg) o;
-		Survey s=new Survey();
-		s=(Survey) msg.newO;
-		if(s.getID()==null)
-		{
-			survey_open=false;
-			System.out.println("no survey is open");
-		}
-    		
-    	else {
-    		survey_open=true;
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
 		
-		Survey survey = (Survey) msg.newO;
-		current_survey = survey;
-    	}
-
-	}
+		/*check if already exist an active survey*/
+    	Msg check_survey_exist = new Msg();
+    	check_survey_exist.setSelect();
+    	check_survey_exist.setRole("check if there is active survey for add answer");
+		Login_win.to_Client.accept((Object)check_survey_exist);
+    }
     
     public void display_Reports(ActionEvent event) {
     	
@@ -241,7 +209,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     	/*save the answer from server*/
     	Survey to_check = (Survey) (((Msg) message).newO);
 
-    	if(((Msg) message).getRole().equals("check if there is active survey for close") || ((Msg) message).getRole().equals("check if there is active survey for add comment")) //for close and add comment
+    	if(((Msg) message).getRole().equals("check if there is active survey for close") || ((Msg) message).getRole().equals("check if there is active survey for add answer")) //for close and add answer
     	{
     		if(to_check == null)
         	{
@@ -275,18 +243,18 @@ public class Managment_Controller implements Initializable,ControllerI {
         			}
         		});
     		}
-    		else if(((Msg) message).getRole().equals("check if there is active survey for add comment"))
+    		else if(((Msg) message).getRole().equals("check if there is active survey for add answer"))
     		{
     			/*save the instance of survey in static var for future uses in other controller*/
     			active_survey = to_check;
-    			
+    			current_survey = to_check;
     			/*the creating was successful -> run in new thread the new window*/
             	Platform.runLater(new Runnable() {
         			
         			@Override
         			public void run() {
         				 	try {
-        						move(event_log , main.fxmlDir+ "Add_Comments_F.fxml");
+        						move(event_log , main.fxmlDir+ "Answer_Survey_F.fxml");
         					} catch (IOException e) {
         						// TODO Auto-generated catch block
         						e.printStackTrace();
@@ -551,7 +519,8 @@ public class Managment_Controller implements Initializable,ControllerI {
     	display_Reports_B.setVisible(false);
     	close_Survey_B.setVisible(false);
     	close_Sale_B.setVisible(false);
-    	
+		survey_b.setVisible(false);
+
     	/*update the current controller to be management controller in general ClientConsole instance*/
     	Login_win.to_Client.setController(this);
     	
@@ -562,8 +531,6 @@ public class Managment_Controller implements Initializable,ControllerI {
     	{
     		case "Chain Employee":
     			update_Catalog_B.setVisible(true);
-    			//survey_b.setVisible(false);
-    			
     			break;
     		case "Customer Service Employee":
     			create_Survey_B.setVisible(true);
@@ -573,36 +540,25 @@ public class Managment_Controller implements Initializable,ControllerI {
     		case "Chain Manager":
     			display_Reports_B.setVisible(true);
     			compare_Reports_B.setVisible(true);
-    			survey_b.setVisible(false);
         		break;
     		case "Store Manager":
     			create_PaymentAccount_B.setVisible(true);
     			display_Reports_B.setVisible(true);
     			create_Sale_B.setVisible(true);
     			close_Sale_B.setVisible(true);
-    			survey_b.setVisible(false);
         		break;
     		case "Service Expert":
     			conclusion_Survey_B.setVisible(true);
-    			survey_b.setVisible(false);
         		break;
     		case "Store Employee":
     			create_Sale_B.setVisible(true);
     			close_Sale_B.setVisible(true);
     			updateStockB.setVisible(true);
-    			 
+    			survey_b.setVisible(true);
         		break;
     		case "System Manager":
     			edit_CustomersProfile_B.setVisible(true);
         		break;
     	}
-    	/*get the survey id that is active now- if there is no active survey return with no active survey msg*/
-		Msg msg = new Msg();
-		msg.setSelect();
-		msg.setRole("get the current survey id");
-		msg.setTableName("survey");
-		Login_win.to_Client.accept(msg);
 	}
-	
-
 }

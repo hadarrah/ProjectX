@@ -32,6 +32,11 @@
                   <Font size="13.0" />
                </font>
             </Label>
+            <Label text="Store ID:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
             <Label text="Status of payment:">
                <font>
                   <Font size="13.0" />
@@ -42,20 +47,15 @@
                   <Font size="13.0" />
                </font>
             </Label>
-            <Label text="Store ID:">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Label>
          </children>
       </VBox>
       <VBox layoutX="208.0" layoutY="123.0" prefHeight="281.0" prefWidth="242.0" spacing="28.0">
          <children>
             <ComboBox fx:id="id_combo" onAction="#check_SelecetdID" prefWidth="250.0" promptText="choose id" />
             <ComboBox fx:id="privilege_combo" prefWidth="250.0" promptText="choose privilege" />
+            <ComboBox fx:id="store_combo" onAction="#check_selected_store" prefWidth="250.0" promptText="choose store" />
             <ComboBox fx:id="status_combo" prefWidth="250.0" promptText="choose status" />
             <ComboBox fx:id="subscription_combo" prefWidth="250.0" promptText="choose subscription" />
-            <ComboBox fx:id="store_combo" prefWidth="250.0" promptText="choose store" />
          </children>
       </VBox>
       <Label fx:id="invalid_detailsL_ID" layoutX="262.0" layoutY="106.0" text="You must choose ID" textFill="RED">

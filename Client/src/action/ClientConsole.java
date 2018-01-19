@@ -139,10 +139,10 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("get combo type")) {
 					((gui.SI_Add_Item_Controller) mc).setCombo(message);
 				}
-				else if(check.getRole().equals("get the current survey id")) {
-				 
-				 ((gui.Managment_Controller)mc).set_current_survey_and_chek_customer_survey(message);
-				}
+				else if(check.getRole().equals("check if there is active survey for add answer")) {
+					 
+					 ((gui.Managment_Controller)mc).check_if_survey_active(message);
+					}
 				else if(check.getRole().equals("get combo survey ID")) {					 
 					 ((gui.Add_Conclusion_Controller)mc).setCombo(message);
 				}

@@ -65,7 +65,7 @@
          </children>
       </VBox>
       <Button fx:id="addvertise_B" layoutX="199.0" layoutY="428.0" mnemonicParsing="false" onAction="#addvertise_Survey" text="Addvertise Survey" />
-      <VBox layoutX="25.0" layoutY="148.0" prefHeight="224.0" prefWidth="22.0" spacing="23.0">
+      <VBox layoutX="4.0" layoutY="147.0" prefHeight="224.0" prefWidth="22.0" spacing="23.0">
          <children>
             <Label fx:id="invalid_detailsL_q1" text="X" textFill="RED" visible="false">
                <font>
