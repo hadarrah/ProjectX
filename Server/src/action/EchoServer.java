@@ -266,8 +266,9 @@ public class EchoServer extends AbstractServer {
 		try {
 			/** Building the query */
 
-			PreparedStatement ps = conn.prepareStatement(" SELECT * FROM  orders  where Person_ID=? and Status='Active';");
+			PreparedStatement ps = conn.prepareStatement(" SELECT * FROM  orders  where Person_ID=? and Status='Active' and Store_ID=?;");
 			ps.setString(1, cur_p.getUser_ID());
+			ps.setString(2, msg.freeField);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Order temp = new Order();
@@ -839,6 +840,7 @@ public class EchoServer extends AbstractServer {
 	}
 /**
  * if the user canceled his  order - change the status order and set the correct refund amount
+ * if the changes succeed- take the items in the canceled order and update the item amount in the store
  * @param msg1
  * @param conn
  * @param client
@@ -851,6 +853,7 @@ public class EchoServer extends AbstractServer {
 		PreparedStatement ps;
 		ResultSet rs;
 		String refund,compensation = null;
+		 
 		/*calc the refund amount */
 		 float price = order.getTotprice();
 		 if(order.getRefund_amount().equals("full"))
@@ -900,8 +903,24 @@ public class EchoServer extends AbstractServer {
 				ps.executeUpdate();
 			}
 			
-	
+			//*get the items in the order*//
+			ps = conn.prepareStatement("SELECT Item_ID , Amount FROM item_in_order WHERE Order_ID=? ;");
+			ps.setString(1, order.getId());
+			ResultSet rs2=ps.executeQuery();
+			 
 			
+			while(rs2.next())
+			{
+ 				ps = conn.prepareStatement("Update store SET Amount=Amount+? where Item_ID=? and ID=?;");
+				ps.setString(1, rs2.getString(2));
+				ps.setString(2, rs2.getString(1));
+				ps.setString(3, order.getStoreid());
+				
+				ps.executeUpdate();
+				
+				
+			}
+ 
 			msg.freeField = "succeed";
 
 			client.sendToClient(msg);

@@ -107,6 +107,7 @@ public static Order orderID_to_cancel= new Order();
 		  msg.setSelect();
 		  Person cur=new Person(null,null);
 		  cur=gui.Main_menu.current_user;
+		  msg.freeField=gui.Login_win.chosen_store;
 		  msg.oldO= cur;
 		  Login_win.to_Client.accept(msg);
 
