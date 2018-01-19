@@ -95,8 +95,8 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 
 **toImplement:** <br/>
 - [x] Card
-- [ ] Cancel Order
-- [ ] Reports
+- [x] Cancel Order
+- [x] Reports
 
 
 <br/>
@@ -106,16 +106,15 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [ ] JavaDOC -> /** details of function */
 
 **General** <br/>
-- [ ] a log file ,that record the server action, the system manager can see this file
-- [ ] to view profile -> purcahse history
-- [ ] update TDL (needed?)
-- [ ] Sharon Assignment 2 (until 18.1)
-- [ ] Sharon Meeting (16.1 at 15:50 M316)
+- [x] a log file ,that record the server action, the system manager can see this file
+- [x] to view profile -> purcahse history
+- [x] Sharon Assignment 2 (until 18.1)
+- [x] Sharon Meeting (16.1 at 15:50 M316)
 
 **Login Window**<br/>
 - [ ] login window gui (bg)
 - [ ] No labels -> fix
-- [ ] remove 3 tries
+- [x] remove 3 tries
 
 **Gui** <br/>
 - [ ] complaint window gui
@@ -127,12 +126,13 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 
 **Order** <br/>
 - [x] cart order button error when cart empty
-- [ ] user's order history
+- [x] user's order history
 - [x] repair tabbing in order
-- [ ] show final price for order in the order pane.
+- [x] show final price for order in the order pane.
 - [x] order.self collect -> auto storeid/present options
-- [ ] order date -> use muhi's method from survey
-- [ ] add subscription discount to final price
+- [x] order date -> use muhi's method from survey
+- [x] add subscription discount to final price
+- [ ] fix time input (1:1->01:01)
 
 **Cancel Order** <br/>
 - [ ] verify times regarding money compensation 
@@ -146,18 +146,17 @@ Optional<ButtonType> option = Login_win.showPopUp(type="CONFIRMATION", title="Lo
 - [x] after adding to cart, message should be 'you can create another item.'
 
 **Delivery**<br/>
-- [ ] Verify 3 hours time request (curr hour - requested hour >= 3)
-- [ ] Add Delivery price for every order with delivery
+- [x] Verify 3 hours time request (curr hour - requested hour >= 3)
+- [x] Add Delivery price for every order with delivery
 
 **Cart**<br/>
 - [ ] View item details option
-- [ ] Move card functionality from Cart_Controller to Cart entity
-- [ ] Add sale discount to item
+- [x] Add sale discount to item
 
 **Card** <br/>
 - [x] adding Card to order
  
 **Reports** <br/>
-- [ ] Implement Reports
+- [x] Implement Reports
 
 
