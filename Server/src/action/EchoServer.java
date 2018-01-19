@@ -131,9 +131,10 @@ public class EchoServer extends AbstractServer {
 				else if (msg1.getRole().equals("check if user already did this survey")) {
 					// check_if_user_took_this_survey(msg1, conn, client);
 				}
-
 				else if (msg1.getRole().equals("verify user details"))
 					check_user_details(msg1, conn, client);
+				else if(msg1.getRole().equals("get user active orders"))
+					get_user_active_orders(msg1, conn, client);
 				else if (msg1.getRole().equals("get user orders history"))
 					get_user_orders_history(msg1,conn,client);
 				else if (msg1.getRole().equals("check if ID exist and add payment account"))
@@ -256,6 +257,47 @@ public class EchoServer extends AbstractServer {
 
 	}
 	
+	public static  void get_user_active_orders(Msg msg1, Connection conn, ConnectionToClient client) {
+
+		Msg msg = (Msg) msg1;
+		Person cur_p = (Person) msg.oldO;
+		ArrayList<Order> orders_history = new ArrayList<Order>();
+
+		try {
+			/** Building the query */
+
+			PreparedStatement ps = conn.prepareStatement(" SELECT * FROM  orders  where Person_ID=? and Status='Active';");
+			ps.setString(1, cur_p.getUser_ID());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Order temp = new Order();
+				temp.setId(rs.getString(1));
+				temp.setDelivery1(rs.getString(3));
+				temp.setStatus(rs.getString(4));
+				temp.setPayment(rs.getString(5));
+				temp.setTotprice(rs.getFloat(6));
+				temp.setStoreid(rs.getString(7));
+				temp.setCreatetime(rs.getString(8));
+				temp.setCreatedate(rs.getString(9));
+				temp.setRequesttime(rs.getString(10));
+				temp.setRequestdate(rs.getString(11));
+
+				orders_history.add(temp);
+
+			}
+			msg1.newO = orders_history;
+
+			client.sendToClient(msg);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+ 
+
 	/**
 	 * update item amount in DB
 	 * @param msg1

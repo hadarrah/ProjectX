@@ -46,7 +46,7 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
 	{
 		
 		Parent menu;
-		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Purchase_History_F.fxml"));
+		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Active_Orders_F.fxml"));
 		 Scene win1= new Scene(menu);
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		 win_1.setScene(win1);
@@ -64,7 +64,7 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     */
     public void setOrderdetails() 
     {
-    	orders=gui.Purchase_History_Controller.order_history;
+    	orders=gui.Active_Orders_Controller.order_history;
     	calc.setText("Precent of Compensation");
     	calc.setTextFill(Color.web("#000000"));
     	none=0; half=0; full=0;cant=0;
@@ -75,7 +75,7 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     	for(int i=0;i<orders.size();i++)
     	{
     		/*set the details in the text are*/
-    		if(gui.Purchase_History_Controller.orderID_to_cancel.getId().equals(orders.get(i).getId()))
+    		if(gui.Active_Orders_Controller.orderID_to_cancel.getId().equals(orders.get(i).getId()))
     		{
     			
     					txt="Order ID:"+orders.get(i).getId();
@@ -142,7 +142,7 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
 				try {
 				Login_win.showPopUp("INFORMATION", "Message", "Your order has been canceled", "");
 				Parent menu;
-				  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Purchase_History_F.fxml"));
+				  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Active_Orders_F.fxml"));
 				 Scene win1= new Scene(menu);
 				 Stage win_1= (Stage) ((Node) (event_log.getSource())).getScene().getWindow();
 				 win_1.setScene(win1);
@@ -187,7 +187,7 @@ public class Cancel_Order_Controller  implements ControllerI,Initializable{
     		Order o =new Order();
     		
     		for(int i=0;i<orders.size();i++)
-    			if(orders.get(i).getId().equals(gui.Purchase_History_Controller.orderID_to_cancel.getId()))
+    			if(orders.get(i).getId().equals(gui.Active_Orders_Controller.orderID_to_cancel.getId()))
     				o=orders.get(i);
     		/*define the amount of refund*/
     		if(full==1)
