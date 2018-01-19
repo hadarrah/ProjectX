@@ -153,7 +153,6 @@ public class ClientConsole implements ChatIF {
 					try {
 						((gui.Managment_Controller) mc).check_for_complaint(message);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -161,7 +160,6 @@ public class ClientConsole implements ChatIF {
 					try {
 						((gui.Managment_Controller) mc).check_for_sale(message);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -169,7 +167,6 @@ public class ClientConsole implements ChatIF {
 					try {
 						((gui.Managment_Controller) mc).check_for_sale(message);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -180,7 +177,6 @@ public class ClientConsole implements ChatIF {
 					try {
 						((gui.Managment_Controller) mc).get_stores_for_report(message);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -188,20 +184,16 @@ public class ClientConsole implements ChatIF {
 					try {
 						((gui.Managment_Controller) mc).get_stores_for_report(message);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				else if (check.getRole().equals("get report for display")) {
+				else if (check.getRole().equals("get report for display"))
 					((gui.Display_Report_Controller) mc).get_report(message);
-				}
-				else if (check.getRole().equals("get reports for compare")) {
+				else if (check.getRole().equals("get reports for compare"))
 					((gui.Compare_Report_Controller) mc).get_report(message);
-				}
-				else if (check.getRole().equals("check for start date subscription")) {
+				else if (check.getRole().equals("check for start date subscription"))
 					((gui.Main_menu) mc).get_answer_if_start_date_change(message);
-				}
-				
+								
 				//else if (check.getRole().equals("check if the user already did this survey")) {
  				//	((gui.Main_menu)mc).survey_premession(message);
 				//}
@@ -215,7 +207,7 @@ public class ClientConsole implements ChatIF {
 				 else if (check.getRole().equals("update user details")) 
 					  ((gui.Update_Personal_Info_Controller)mc).get_new_user_details(message);
 				 else if(check.getRole().equals("update item in catalog"))
-						((gui.View_Catalog_Controller) mc).update_item_success();
+					  ((gui.View_Catalog_Controller) mc).update_item_success();
 				 else if(check.getRole().equals("close survey"))
 					 ((gui.Close_Survey_Controller)mc).close_survey_success(message);
 				 else if(check.getRole().equals("set conclusion survey"))
@@ -235,17 +227,17 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("insert survey"))
 					((gui.Survey_Controller) mc).create_survey_success(message);
 				else if (check.getRole().equals("insert a new complain"))  
-						((gui.Post_Complain_Controller)mc).get_submit_approved(message);
+					((gui.Post_Complain_Controller)mc).get_submit_approved(message);
 				else if (check.getRole().equals("insert new sale"))  
 					((gui.Create_Sale_Controller)mc).create_sale_success(message);
 				else if(check.getRole().equals("insert order")) 
-					((gui.Order_Controller) mc).create_order_success(message);
+					((gui.Payment_Controller) mc).create_order_success(message);
 				else if(check.getRole().equals("insert delivery")) 
-					((gui.Order_Controller) mc).create_delivery_success(message);
+					((gui.Payment_Controller) mc).create_delivery_success(message);
 				else if(check.getRole().equals("insert items in order")) 
-					((gui.Order_Controller) mc).insert_items_success(message);
+					((gui.Payment_Controller) mc).insert_items_success(message);
 				else if(check.getRole().equals("insert card")) 
-				((gui.Order_Controller) mc).insert_card_success(message);
+					((gui.Payment_Controller) mc).insert_card_success(message);
 				
 			}
 			

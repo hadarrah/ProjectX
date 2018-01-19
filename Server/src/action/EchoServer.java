@@ -995,20 +995,26 @@ public class EchoServer extends AbstractServer {
 					ResultSet rs = ps1.executeQuery();
 					rs.next();
 					newid = (rs.getInt(1)) + 1;
-					System.out.println("got my new self item id!: " + newid);
+					
+					Self_Item si = (Self_Item)t;
 
-					ps = conn.prepareStatement("INSERT INTO self_item (ID, Type)" + " VALUES (?, ?);");
+					for(Item item_in_self : si.items) {
+					ps = conn.prepareStatement("INSERT INTO self_item (ID, Item_Id, Type, Amount)" + " VALUES (?,?,?,?);");
 					ps.setString(1, Integer.toString(newid));
-					ps.setString(2, t.getType());
+					ps.setString(2, item_in_self.getID());
+					ps.setString(3, t.getType());
+					ps.setString(4, Integer.toString(si.getItemAmount(item_in_self)) );
 
 					ps.executeUpdate();
 				}
+					}
 
 				// then associate the item with the order.
 				ps = conn.prepareStatement(
 						"INSERT INTO `item_in_order` (Order_ID, Item_ID, Type, Amount)" + " VALUES (?, ?, ?, ? );");
 
 				String id;
+				System.out.println("ORDER ID IS: " +orderID);
 
 				ps.setString(1, Integer.toString(orderID));
 				if (newid > -1)
@@ -1039,15 +1045,19 @@ public class EchoServer extends AbstractServer {
  */
 	public static void get_payment_account(Msg msg1, Connection conn, ConnectionToClient client) {
 
+
 		Msg msg = (Msg) msg1;
 		Payment_Account acc = new Payment_Account();
-		String id = (String) (msg1.oldO);
+		String uid=(String)msg.oldO;
+		String sid=(String)msg.newO;
 
 		try {
 			/** Building the query */
 
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM payment_account WHERE ID=?;");
-			ps.setString(1, id);
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM payment_account WHERE ID=? AND Store_ID=?;");
+			ps.setString(1, uid);
+			ps.setString(2, sid);
+
 			ResultSet rs = ps.executeQuery();
 
 			if (!(rs.next())) {
@@ -1064,9 +1074,10 @@ public class EchoServer extends AbstractServer {
 				acc.setStatus(rs.getString(3));
 				acc.setSubscription(rs.getString(4));
 				acc.setStoreID(rs.getString(5));
+				acc.setDate(rs.getString(6));
+				acc.setRefund_sum(Float.parseFloat(rs.getString(7)));
 			}
 
-			System.out.println(acc.getStoreID());
 
 			msg.newO = acc;
 			client.sendToClient(msg);

@@ -38,9 +38,7 @@ public class Cart {
 	
 	public float calcTotalPrice() {
 		totalPrice = 0;
-		
-		System.out.println("Calculating final price");
-		
+
 		for (Item p : selectedItemsArr) {
 			if(p instanceof Self_Item)
 			totalPrice += p.getPrice();
@@ -48,7 +46,6 @@ public class Cart {
 			if(p instanceof Item_In_Catalog) {
 				Item_In_Catalog pc = (Item_In_Catalog)p;
 				if(pc.getSale()!=null) {
-					System.out.println("Calculating final price");
 					totalPrice += pc.getAmount()* (pc.getPrice() - (pc.getPrice()*Integer.parseInt(pc.getSale().getDiscount()))*0.01); 
 				}
 			}

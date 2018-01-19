@@ -9,6 +9,10 @@ public class Order implements Serializable{
 	private String card;
 	private String refund_amount;
 	
+	private float totPrice;
+	private boolean delivery=false;
+	private Delivery d;
+	
 	public String getCard() {
 		return card;
 	}
@@ -16,12 +20,6 @@ public class Order implements Serializable{
 	public void setCard(String card) {
 		this.card = card;
 	}
-
-	float totPrice;
-	//public static int id = lastID();
-	boolean delivery;
-	Delivery d;
-	
 	
 	public Order(String id,String status)
 	{
@@ -59,6 +57,10 @@ public class Order implements Serializable{
 	
 	public void setDelivery(Delivery d) {
 		this.d=d;
+	}
+	
+	public Delivery getDelivery() {
+		return d;
 	}
 
 	public String getStatus() {

@@ -53,7 +53,7 @@ public class Cart_Controller implements Initializable, ControllerI {
 	
 	public boolean card=false;	//does the user want a card?
 	public static String cardType=null;		//which type of card has the user selected
-	protected static String cardDesc;
+	public static String cardDesc;
 	
 	public static ActionEvent event_log;
 
@@ -208,7 +208,13 @@ public class Cart_Controller implements Initializable, ControllerI {
 	 * cart
 	 */
 	public void setTotalPrice() {
-		total_price_TF.setText(Float.toString(userCart.calcTotalPrice()));
+		try{
+			total_price_TF.setText(Float.toString(userCart.calcTotalPrice()));
+		}
+		catch(NumberFormatException e) {
+			System.out.println("problem with price calculation");
+		total_price_TF.setText("0.0");
+		}
 	}
 
 	/**
@@ -294,8 +300,8 @@ public class Cart_Controller implements Initializable, ControllerI {
 			cselX_L.setVisible(true);
 		}
 		else {
-			System.out.println(cardDesc_TA.getText());
 			this.cardDesc=cardDesc_TA.getText();
+			System.out.println("in Cart_Controller.order");
 			move(event, main.fxmlDir + "Order_F.fxml");
 		}
 	}
@@ -394,7 +400,7 @@ public class Cart_Controller implements Initializable, ControllerI {
 						if (item.getName() != null)
 							setText(item.getName() + "  x 1");
 						else
-							setText("Self Item  x 1");
+							setText("Self Item - "+((Self_Item)item).getType()+" x 1");
 					} else
 						setText(item.getName() + "  x " + item.getAmount());
 
