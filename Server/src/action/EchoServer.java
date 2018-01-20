@@ -578,15 +578,47 @@ public class EchoServer extends AbstractServer {
 	public void get_report_to_display(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Report report = (Report) msg1.oldO;
-		String quarter, year, store, name, quarter2 = "", year2 = "", store2 = "";
+		String quarter, year, storeID, name, quarter2 = "", year2 = "", store2 = "";
 		int i, compare = 1;
-
+		PreparedStatement ps;
+		ResultSet rs;
+		ArrayList<String> allStores = new ArrayList<String>();
+		Incomes_Report incomes = null;
+		ArrayList<Order> orders = new ArrayList<Order>();;
+		ArrayList<Item> items = new ArrayList<Item>();
+		ArrayList<Item_In_Catalog> items_in_catalog = new ArrayList<Item_In_Catalog>();
+		ArrayList<Order> orders_store = new ArrayList<Order>();
+		ArrayList<Item_In_Order> items_in_order = new ArrayList<Item_In_Order>();
+		Reservation_Report reservation = null;
+		ArrayList<Complain> complaints = new ArrayList<Complain>();
+		Complaint_Report ComplaintsReport = null;
+		ArrayList<Survey> surveys = new ArrayList<Survey>();
+		Satisfaction_Report Satisfaction = null;
+		
 		/* save details */
 		quarter = report.getQuarter();
 		year = report.getYear();
-		store = report.getStore();
+		storeID = report.getStore();
 		name = report.getName();
-
+		
+		/*get all the stores*/
+		if(storeID.equals("All"))
+		{
+			try 
+			{
+				ps = conn.prepareStatement("SELECT * FROM store GROUP BY ID;");
+				rs = ps.executeQuery();
+				while(rs.next())
+					allStores.add(rs.getString("ID"));
+			} 
+			catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		else
+			allStores.add(storeID);
+		
 		if (msg1.getRole().equals("get reports for compare")) {
 			Report report2 = (Report) msg1.newO;
 			quarter2 = report2.getQuarter();
@@ -595,198 +627,200 @@ public class EchoServer extends AbstractServer {
 			compare = 2;
 		}
 
-		PreparedStatement ps;
-		ResultSet rs;
+		
 		try {
-			for (i = 0; i < compare; i++) {
-				/* check which report was selected */
-				switch (name) {
-				case "Incomes":
-					ArrayList<Order> orders = new ArrayList<Order>();
-					Incomes_Report incomes = new Incomes_Report(name, quarter, store, year);
-
-					/* build query for orders from specific store */
-					ps = conn.prepareStatement("SELECT * FROM orders WHERE Store_ID=?;");
-					ps.setString(1, store);
-					rs = ps.executeQuery();
-
-					/* get the relevant order */
-					while (rs.next()) {
-						if (checkDate(rs.getString("Date"), quarter, year) && rs.getString("Status").equals("Paid")) {
-							Order order = new Order(rs.getString("ID"), rs.getString("Status"));
-							order.setTotprice(Float.parseFloat(rs.getString("Price")));
-							orders.add(order);
+			for(String store: allStores)
+			{
+				for (i = 0; i < compare; i++) {
+					/* check which report was selected */
+					switch (name) {
+					case "Incomes":
+						if(incomes == null || i==1)
+						{
+							incomes = new Incomes_Report(name, quarter, store, year);
+							if(storeID.equals("All"))
+								incomes.setStore("All Stores");
 						}
-					}
+						/* build query for orders from specific store */
+						ps = conn.prepareStatement("SELECT * FROM orders WHERE Store_ID=?;");
+						ps.setString(1, store);
+						rs = ps.executeQuery();
 
-					incomes.setOrders(orders);
-					incomes.calculateReport();
-					if (i == 1)
-						msg1.newO = incomes;
-					else
-						msg1.oldO = incomes;
-					break;
-				case "Reservations":
-					ArrayList<Item> items = new ArrayList<Item>();
-					ArrayList<Item_In_Catalog> items_in_catalog = new ArrayList<Item_In_Catalog>();
-					ArrayList<Order> orders_store = new ArrayList<Order>();
-					ArrayList<Item_In_Order> items_in_order = new ArrayList<Item_In_Order>();
-					Reservation_Report reservation = new Reservation_Report(name, quarter, store, year);
-
-					/* build query for get all items */
-					ps = conn.prepareStatement("SELECT * FROM item;");
-					rs = ps.executeQuery();
-
-					/* insert to the ArrayList */
-					while (rs.next()) {
-						Item item = new Item();
-						item.setID(rs.getString("ID"));
-						item.setName(rs.getString("Name"));
-						items.add(item);
-					}
-
-					/* build query for get all items in catalog */
-					ps = conn.prepareStatement("SELECT * FROM item_in_catalog;");
-					rs = ps.executeQuery();
-
-					/* insert to the ArrayList */
-					while (rs.next()) {
-						Item_In_Catalog item = new Item_In_Catalog();
-						item.setID(rs.getString("ID"));
-						item.setName(rs.getString("Name"));
-						items_in_catalog.add(item);
-					}
-
-					/* build query for orders from specific store */
-					ps = conn.prepareStatement("SELECT * FROM orders WHERE Store_ID=?;");
-					ps.setString(1, store);
-					rs = ps.executeQuery();
-
-					/* get the relevant order */
-					while (rs.next()) {
-						if (checkDate(rs.getString("Date"), quarter, year) && rs.getString("Status").equals("Paid")) {
-							Order order = new Order(rs.getString("ID"), rs.getString("Status"));
-							order.setTotprice(Float.parseFloat(rs.getString("Price")));
-							orders_store.add(order);
+						if(i==1)
+							orders.clear();
+						/* get the relevant order */
+						while (rs.next()) {
+							if (checkDate(rs.getString("Date"), quarter, year) && rs.getString("Status").equals("Paid")) {
+								Order order = new Order(rs.getString("ID"), rs.getString("Status"));
+								order.setTotprice(Float.parseFloat(rs.getString("Price")));
+								orders.add(order);
+							}
 						}
-					}
+						incomes.setOrders(orders);
+						incomes.calculateReport();
+						if (i == 1)
+							msg1.newO = incomes;
+						else
+							msg1.oldO = incomes;
+						break;
+					case "Reservations":
+						if(reservation == null || i==1)
+						{
+							reservation = new Reservation_Report(name, quarter, store, year);
+							if(storeID.equals("All"))
+								reservation.setStore("All Stores");
+							
+							/* build query for get all items */
+							ps = conn.prepareStatement("SELECT * FROM item;");
+							rs = ps.executeQuery();
 
-					/* build query for item in order from specific store */
-					ps = conn.prepareStatement("SELECT * FROM item_in_order;");
-					rs = ps.executeQuery();
+							items.clear();
+							/* insert to the ArrayList */
+							while (rs.next()) {
+								Item item = new Item();
+								item.setID(rs.getString("ID"));
+								item.setName(rs.getString("Name"));
+								items.add(item);
+							}
 
-					/* get the relevant order */
-					while (rs.next()) {
-						Item_In_Order iio = new Item_In_Order(rs.getString("Order_ID"), rs.getString("Item_ID"),
-								rs.getString("Type"), Integer.parseInt(rs.getString("Amount")));
-						items_in_order.add(iio);
-					}
-					reservation.setItems(items);
-					reservation.setItems_catalog(items_in_catalog);
-					reservation.setOrders(orders_store);
-					reservation.setItem_in_order(items_in_order);
-					reservation.filterRelevantItemInOrder();
-					reservation.calculateReport();
-					if (i == 1)
-						msg1.newO = reservation;
-					else
-						msg1.oldO = reservation;
-					break;
-				case "Complaints":
-					ArrayList<Complain> complaints = new ArrayList<Complain>();
-					ArrayList<String> customers_id = new ArrayList<String>();
-					Complaint_Report ComplaintsReport = new Complaint_Report(name, quarter, store, year);
-					boolean exist = false;
-					int j;
+							/* build query for get all items in catalog */
+							ps = conn.prepareStatement("SELECT * FROM item_in_catalog;");
+							rs = ps.executeQuery();
 
-					/* build query for complaints */
-					ps = conn.prepareStatement("SELECT * FROM complaint;");
-					rs = ps.executeQuery();
-
-					/* get all the complaints that appropriate to the relevant date */
-					while (rs.next()) {
-						if (checkDate(rs.getString("Date"), quarter, year)) {
-							Complain com = new Complain();
-							com.setDate(rs.getString("Date"));
-							com.setCustomer_ID(rs.getString("Customer_ID"));
-							complaints.add(com);
+							items_in_catalog.clear();
+							/* insert to the ArrayList */
+							while (rs.next()) {
+								Item_In_Catalog item = new Item_In_Catalog();
+								item.setID(rs.getString("ID"));
+								item.setName(rs.getString("Name"));
+								items_in_catalog.add(item);
+							}
+							
+							items_in_order.clear();
+							/* build query for item in order from specific store */
+							ps = conn.prepareStatement("SELECT * FROM item_in_order;");
+							rs = ps.executeQuery();
+							/* get the relevant order */
+							while (rs.next()) {
+								Item_In_Order iio = new Item_In_Order(rs.getString("Order_ID"), rs.getString("Item_ID"),
+										rs.getString("Type"), Integer.parseInt(rs.getString("Amount")));
+								items_in_order.add(iio);
+							}
 						}
-					}
+						
 
-					/*
-					 * build query to get only the complaints that related to the specific customer
-					 * store
-					 */
-					ps = conn.prepareStatement("SELECT * FROM payment_account WHERE Store_ID=?;");
-					ps.setString(1, store);
-					rs = ps.executeQuery();
+						/* build query for orders from specific store */
+						ps = conn.prepareStatement("SELECT * FROM orders WHERE Store_ID=?;");
+						ps.setString(1, store);
+						rs = ps.executeQuery();
 
-					/* get all store customer id */
-					while (rs.next())
-						customers_id.add(rs.getString("ID"));
-
-					/* filter the complaint that submitted by store customer only */
-					for (j = 0; j < complaints.size(); j++) {
-						for (String id : customers_id) {
-							if (complaints.get(j).getCustomer_ID().equals(id)) {
-								exist = true;
-								break;
+						if(i==1)
+							orders_store.clear();
+						/* get the relevant order */
+						while (rs.next()) {
+							if (checkDate(rs.getString("Date"), quarter, year) && rs.getString("Status").equals("Paid")) {
+								Order order = new Order(rs.getString("ID"), rs.getString("Status"));
+								order.setTotprice(Float.parseFloat(rs.getString("Price")));
+								orders_store.add(order);
 							}
 						}
 
-						if (!exist) {
-							complaints.remove(j);
-							j--;
+						reservation.setItems(items);
+						reservation.setItems_catalog(items_in_catalog);
+						reservation.setOrders(orders_store);
+						if(reservation.getItem_in_order() == null)
+							reservation.setItem_in_order(items_in_order);
+						
+						if(allStores.get(allStores.size()-1).equals(store) || i==1) //only if we in the last store
+						{
+							reservation.filterRelevantItemInOrder();
+							reservation.calculateReport();
 						}
-						exist = false;
-					}
-					ComplaintsReport.setComplaints(complaints);
-					ComplaintsReport.calculateReport();
-					if (i == 1)
-						msg1.newO = ComplaintsReport;
-					else
-						msg1.oldO = ComplaintsReport;
-					break;
-				case "Satisfaction":
-					ArrayList<Survey> surveys = new ArrayList<Survey>();
-					Satisfaction_Report Satisfaction = new Satisfaction_Report(name, quarter, store, year);
 
-					/* build query for survey */
-					ps = conn.prepareStatement(
-							"SELECT * FROM survey WHERE Status='No Active' AND Conclusion != 'null';");
-					rs = ps.executeQuery();
-
-					while (rs.next()) {
-						if (checkDate(rs.getString("Date"), quarter, year)) {
-							Survey survey = new Survey(rs.getString("ID"), rs.getString("Date"),
-									rs.getString("Num_Of_Participant"), rs.getString("Conclusion"));
-							survey.setA1(Float.parseFloat(rs.getString("A1")));
-							survey.setA2(Float.parseFloat(rs.getString("A2")));
-							survey.setA3(Float.parseFloat(rs.getString("A3")));
-							survey.setA4(Float.parseFloat(rs.getString("A4")));
-							survey.setA5(Float.parseFloat(rs.getString("A5")));
-							survey.setA6(Float.parseFloat(rs.getString("A6")));
-							survey.setQ1(rs.getString("Q1"));
-							survey.setQ2(rs.getString("Q2"));
-							survey.setQ3(rs.getString("Q3"));
-							survey.setQ4(rs.getString("Q4"));
-							survey.setQ5(rs.getString("Q5"));
-							survey.setQ6(rs.getString("Q6"));
-							surveys.add(survey);
+						if (i == 1)
+							msg1.newO = reservation;
+						else
+							msg1.oldO = reservation;
+						break;
+					case "Complaints":
+						if(ComplaintsReport == null || i==1)
+						{
+							ComplaintsReport = new Complaint_Report(name, quarter, store, year);
+							if(storeID.equals("All"))
+								ComplaintsReport.setStore("All Stores");
 						}
+
+						/* build query for complaints */
+						ps = conn.prepareStatement("SELECT * FROM complaint WHERE Store_Id=?;");
+						ps.setString(1, store);
+						rs = ps.executeQuery();
+
+						if(i == 1)complaints.clear();
+						/* get all the complaints that appropriate to the relevant date */
+						while (rs.next()) 
+						{
+							if (checkDate(rs.getString("Date"), quarter, year)) 
+							{
+								Complain com = new Complain();
+								com.setDate(rs.getString("Date"));
+								com.setCustomer_ID(rs.getString("Customer_ID"));
+								complaints.add(com);
+							}
+						}
+						
+						ComplaintsReport.setComplaints(complaints);
+						ComplaintsReport.calculateReport();
+						if (i == 1)
+							msg1.newO = ComplaintsReport;
+						else
+							msg1.oldO = ComplaintsReport;
+						break;
+					case "Satisfaction":
+						if(Satisfaction == null || i==1)
+						{
+							Satisfaction = new Satisfaction_Report(name, quarter, store, year);
+							if(compare != 2)
+								Satisfaction.setStore("All Stores");
+						
+
+						/* build query for survey */
+						ps = conn.prepareStatement(
+								"SELECT * FROM survey WHERE Status='No Active' AND Conclusion != 'null';");
+						rs = ps.executeQuery();
+
+						while (rs.next()) {
+							if (checkDate(rs.getString("Date"), quarter, year)) {
+								Survey survey = new Survey(rs.getString("ID"), rs.getString("Date"),
+										rs.getString("Num_Of_Participant"), rs.getString("Conclusion"));
+								survey.setA1(Float.parseFloat(rs.getString("A1")));
+								survey.setA2(Float.parseFloat(rs.getString("A2")));
+								survey.setA3(Float.parseFloat(rs.getString("A3")));
+								survey.setA4(Float.parseFloat(rs.getString("A4")));
+								survey.setA5(Float.parseFloat(rs.getString("A5")));
+								survey.setA6(Float.parseFloat(rs.getString("A6")));
+								survey.setQ1(rs.getString("Q1"));
+								survey.setQ2(rs.getString("Q2"));
+								survey.setQ3(rs.getString("Q3"));
+								survey.setQ4(rs.getString("Q4"));
+								survey.setQ5(rs.getString("Q5"));
+								survey.setQ6(rs.getString("Q6"));
+								surveys.add(survey);
+							}
+						}
+						Satisfaction.setSurveys(surveys);
+						Satisfaction.calculateReport();
+						if (i == 1)
+							msg1.newO = Satisfaction;
+						else
+							msg1.oldO = Satisfaction;
+						}
+						break;
 					}
-					Satisfaction.setSurveys(surveys);
-					Satisfaction.calculateReport();
-					if (i == 1)
-						msg1.newO = Satisfaction;
-					else
-						msg1.oldO = Satisfaction;
-					break;
-				}
-				if (compare == 2) {
-					quarter = quarter2;
-					year = year2;
-					store = store2;
+					if (compare == 2) {
+						quarter = quarter2;
+						year = year2;
+						store = store2;
+					}
 				}
 			}
 
@@ -1652,7 +1686,20 @@ public class EchoServer extends AbstractServer {
 			ps = conn.prepareStatement(" SELECT * FROM survey WHERE Status = 'Active';");
 			rs = ps.executeQuery();
 			if (!rs.next()) {
+				/*get the last question*/
+				ps = conn.prepareStatement(" SELECT * FROM survey WHERE Status = 'No Active' AND ID=(SELECT MAX(ID) FROM survey);");
+				rs = ps.executeQuery();
+				rs.next();
+				Survey oldSurvey = new Survey();
+				oldSurvey.setQ1(rs.getString("Q1"));
+				oldSurvey.setQ2(rs.getString("Q2"));
+				oldSurvey.setQ3(rs.getString("Q3"));
+				oldSurvey.setQ4(rs.getString("Q4"));
+				oldSurvey.setQ5(rs.getString("Q5"));
+				oldSurvey.setQ6(rs.getString("Q6"));
+
 				msg1.newO = null; // this is mean that there is no active survey
+				msg1.oldO = oldSurvey;
 				msg1.freeField="No Active";
 				client.sendToClient(msg1);
 				return;

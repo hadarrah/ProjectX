@@ -265,6 +265,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     	}
     	else if(((Msg) message).getRole().equals("check if there is active survey for insert")) //for create
     	{
+    		active_survey = (Survey) (((Msg) message).oldO);
     		if(to_check == null)
         	{
     			/*the creating was successful -> run in new thread the new window*/
@@ -519,7 +520,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     	display_Reports_B.setVisible(false);
     	close_Survey_B.setVisible(false);
     	close_Sale_B.setVisible(false);
-		survey_b.setVisible(true);
+		survey_b.setVisible(false);
 
     	/*update the current controller to be management controller in general ClientConsole instance*/
     	Login_win.to_Client.setController(this);

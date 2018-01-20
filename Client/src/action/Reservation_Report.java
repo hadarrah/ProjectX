@@ -12,6 +12,7 @@ public class Reservation_Report extends Report{
 	public Reservation_Report(String name, String quarter, String store, String year) 
 	{
 		super(name, quarter, store, year);
+		this.item_in_order = null;
 	}
 
 	public ArrayList<Item> getItems() {

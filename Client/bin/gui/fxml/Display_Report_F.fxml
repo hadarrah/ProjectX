@@ -59,5 +59,6 @@
             <ComboBox fx:id="report_combo" onAction="#check_selected_type" prefWidth="200.0" promptText="Report" />
          </children>
       </HBox>
+      <Button fx:id="saveReport_B" layoutX="380.0" layoutY="533.0" mnemonicParsing="false" onAction="#save_report" text="Save Report" />
    </children>
 </Pane>

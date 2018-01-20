@@ -359,7 +359,7 @@ public class Compare_Report_Controller implements Initializable, ControllerI{
 		
 	    /*set the year combobox*/
 	    al.clear();
-	    for(i=2010; i<=current_year;i++)
+	    for(i=2017; i<=current_year;i++)
 	    	al.add(""+i);
     	list = FXCollections.observableArrayList(al); 
     	year_combo1.setItems(list);

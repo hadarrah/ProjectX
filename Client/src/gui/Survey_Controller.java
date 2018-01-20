@@ -174,5 +174,14 @@ public class Survey_Controller implements Initializable, ControllerI{
 	    
 	    /*update the current controller to be this controller in general ClientConsole instance*/
     	Login_win.to_Client.setController(this);
+    	
+    	/*set the last questions*/
+    	q1_text.setText(Managment_Controller.active_survey.getQ1());
+    	q2_text.setText(Managment_Controller.active_survey.getQ2());
+    	q3_text.setText(Managment_Controller.active_survey.getQ3());
+    	q4_text.setText(Managment_Controller.active_survey.getQ4());
+    	q5_text.setText(Managment_Controller.active_survey.getQ5());
+    	q6_text.setText(Managment_Controller.active_survey.getQ6());
+
     }
 }
