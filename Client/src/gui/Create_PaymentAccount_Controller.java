@@ -33,9 +33,8 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
     public TextField cc_1_text;
     public TextField cc_2_text;
     public Label invalid_detailsL_credit, invalid_detailsL_subscription, invalid_detailsL_ID;
-    public TextField customr_ID_text;
     public Button back_B;
-    public ComboBox<String> subscription_combo;
+    public ComboBox<String> subscription_combo, id_combo;
     public TextField cc_3_text;
     public TextField cc_4_text;
     public Button create_paymentAccount_B;
@@ -59,7 +58,7 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
     public void create_PaymentAccount(ActionEvent event) {
 
     	/*get the details from input fields*/
-    	String ID = customr_ID_text.getText();
+    	String ID = id_combo.getValue();
     	String CreditCard = cc_1_text.getText() + cc_2_text.getText() + cc_3_text.getText() + cc_4_text.getText();
     	String Subscription = subscription_combo.getValue();
     	
@@ -73,7 +72,7 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
 		event_log=event.copyFor(event.getSource(), event.getTarget());
 		 
     	/*check the inputs*/
-		if(ID.isEmpty()) 
+		if(ID == null) 
     	{
     		invalid_detailsL_ID.setVisible(true);
     		return;
@@ -89,16 +88,15 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
     		return;
     	}
     	
-    	
-    	
     	/*insert the input from user to instance of Payment Account"*/
     	Payment_Account new_paymentAccount = new Payment_Account(ID, CreditCard, Subscription, "Active");
 		Msg check_user_details= new Msg();
-		check_user_details.setSelect();
+		check_user_details.setInsert();
 		check_user_details.setTableName("person");
 		check_user_details.oldO=new_paymentAccount;
 		check_user_details.newO = Main_menu.current_user;
-		check_user_details.setRole("check if ID exist and add payment account");
+		check_user_details.freeUse = Login_win.chosen_store;
+		check_user_details.setRole("insert new payment account");
 		check_user_details.event=event;
 		Login_win.to_Client.accept((Object)check_user_details);
     }
@@ -165,13 +163,16 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
 		 
-    	/*set the subscription combobox*/
+    	/*set the combobox*/
     	ArrayList<String> al= new ArrayList<String>();
     	al.add("Year");
     	al.add("Month");
     	al.add("Per Order");
 	    list = FXCollections.observableArrayList(al); 
 	    subscription_combo.setItems(list);
+	    
+	    list = FXCollections.observableArrayList(Managment_Controller.customers_store); 
+	    id_combo.setItems(list);
 	    
 	    /*update the current controller to be this controller in general ClientConsole instance*/
     	Login_win.to_Client.setController(this);

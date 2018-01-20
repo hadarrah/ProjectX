@@ -29,7 +29,6 @@
             <Font size="13.0" />
          </font>
       </Label>
-      <TextField fx:id="customr_ID_text" layoutX="225.0" layoutY="125.0" />
       <TextField fx:id="cc_1_text" layoutX="185.0" layoutY="187.0" prefHeight="25.0" prefWidth="51.0" promptText="4 digit" />
       <TextField fx:id="cc_2_text" layoutX="252.0" layoutY="187.0" prefHeight="25.0" prefWidth="51.0" promptText="4 digit" />
       <TextField fx:id="cc_3_text" layoutX="322.0" layoutY="187.0" prefHeight="25.0" prefWidth="51.0" promptText="4 digit" />
@@ -61,7 +60,7 @@
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="invalid_detailsL_ID" layoutX="232.0" layoutY="129.0" text="You must fullfil this field" textFill="RED" visible="false">
+      <Label fx:id="invalid_detailsL_ID" layoutX="226.0" layoutY="151.0" text="You must choose this field" textFill="RED" visible="false">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font>
@@ -71,5 +70,6 @@
             <Font name="Arial Black" size="27.0" />
          </font>
       </Label>
+      <ComboBox fx:id="id_combo" layoutX="226.0" layoutY="125.0" prefWidth="150.0" promptText="choose id" />
    </children>
 </Pane>

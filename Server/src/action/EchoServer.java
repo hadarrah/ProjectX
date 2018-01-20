@@ -137,8 +137,6 @@ public class EchoServer extends AbstractServer {
 					get_user_active_orders(msg1, conn, client);
 				else if (msg1.getRole().equals("get user orders history"))
 					get_user_orders_history(msg1,conn,client);
-				else if (msg1.getRole().equals("check if ID exist and add payment account"))
-					check_id_exist(msg1, conn, client);
 				else if (msg1.getRole().equals("get payment account for personID"))
 					get_payment_account(msg1, conn, client);
 				else if (msg1.getRole().equals("check if there is active survey for insert"))
@@ -189,6 +187,8 @@ public class EchoServer extends AbstractServer {
 					get_report_to_display(msg1, conn, client);
 				else if (msg1.getRole().equals("check for start date subscription"))
 					check_start_date_paymentAccount(msg1, conn, client);
+				else if (msg1.getRole().equals("get combo customer ID for create payment account"))
+					get_customerID_for_payment_account(msg1, conn, client);
 			}
 			case "UPDATE": {
 				// System.out.println("in server- update case: "+msg1.getRole());
@@ -242,6 +242,8 @@ public class EchoServer extends AbstractServer {
 					insert_items_in_order(msg1, conn, client);
 				else if (msg1.getRole().equals("insert delivery"))
 					insert_delivery(msg1, conn, client);
+				else if (msg1.getRole().equals("insert new payment account"))
+					insert_paymentAccount(msg1, conn, client);
 			}
 			}// end switch
 		} // end try
@@ -532,6 +534,50 @@ public class EchoServer extends AbstractServer {
 
 	}
 
+	
+	/**
+	 * get the Customers id for create payment account
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static void get_customerID_for_payment_account(Msg msg1, Connection conn, ConnectionToClient client) {
+		ArrayList<String> customers = new ArrayList<String>();
+		String store = (String)msg1.oldO;
+		PreparedStatement ps;
+		ResultSet rs;
+		
+		try {
+			/** Building the query */
+
+			 ps = conn.prepareStatement("SELECT * FROM payment_account WHERE Store_ID != ?;");
+			 ps.setString(1, store);
+			 rs = ps.executeQuery();
+			 while(rs.next())
+				 if(!customers.contains(rs.getString("ID")))
+					 customers.add(rs.getString("ID"));
+			 
+			 /*remove customer with many stores that include our relevant store*/
+			 ps = conn.prepareStatement("SELECT * FROM payment_account WHERE Store_ID = ?;");
+			 ps.setString(1, store);
+			 rs = ps.executeQuery();
+			 while(rs.next())
+				 if(customers.contains(rs.getString("ID")))
+					 customers.remove(rs.getString("ID"));
+			 
+			 msg1.newO = customers;
+			client.sendToClient(msg1);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	
 	/**
 	 * get the Stores ids
 	 * 
@@ -1614,44 +1660,14 @@ public class EchoServer extends AbstractServer {
 	 * @param conn
 	 * @param client
 	 */
-	public static void check_id_exist(Msg msg1, Connection conn, ConnectionToClient client) {
+	public static void insert_paymentAccount(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Payment_Account user = (Payment_Account) msg1.oldO;
 		Person manager = (Person) msg1.newO;
+		String store = (String) msg1.freeUse;
 		PreparedStatement ps;
+		
 		try {
-			/* check if the id exist in person table */
-			ps = conn.prepareStatement(" SELECT * FROM " + msg1.getTableName() + " " + "WHERE ID=?;");
-			ps.setString(1, user.getID());
-			ResultSet rs;
-			rs = ps.executeQuery();
-			if (!rs.next()) {
-				msg1.newO = null; // this is mean that the id was not found in DB
-				client.sendToClient(msg1);
-				return;
-			} else // the user is exist in person table --> create the payment account
-			{
-				/* check if the user already exist in payment_account table */
-				ps = conn.prepareStatement(" SELECT * FROM payment_account WHERE ID=?;");
-				ps.setString(1, user.getID());
-				rs = ps.executeQuery();
-				if (rs.next()) {
-					msg1.newO = null; // this is mean that the id already in DB
-					client.sendToClient(msg1);
-					return;
-				}
-
-				/*get the store id from manager*/
-				ps = conn.prepareStatement(" SELECT * FROM store WHERE Manager_ID=?;");
-				ps.setString(1, manager.getUser_ID());
-				rs = ps.executeQuery();
-				rs.next();
-				String store = rs.getString("ID");
-				rs.close();
-				/*
-				 * if we reach here --> all the test are fine and we insert the new payment
-				 * account
-				 */
 				ps = conn.prepareStatement(
 						"INSERT INTO payment_account (ID, CreditCard, Status, Subscription, Store_ID, Start_Date) VALUES (?, ?, ?, ?, ?, ?);");
 				ps.setString(1, user.getID());
@@ -1665,7 +1681,7 @@ public class EchoServer extends AbstractServer {
 				msg1.newO = user;
 				client.sendToClient(msg1);
 				return;
-			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

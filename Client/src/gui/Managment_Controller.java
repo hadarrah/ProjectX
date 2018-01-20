@@ -49,7 +49,7 @@ public class Managment_Controller implements Initializable,ControllerI {
 	public static TreeMap<String , String> items;
 	public static Sale sale;
 	public static ArrayList<String> item_in_sale;
-	public static ArrayList<String> stores;
+	public static ArrayList<String> stores, customers_store;
 	public static Survey current_survey;
 	public static int ManagmentFlage=0;
 	public static boolean survey_open; 
@@ -153,8 +153,16 @@ public class Managment_Controller implements Initializable,ControllerI {
     }
 
     public void create_PaymentAccount(ActionEvent event) throws IOException {
-			move(event ,main.fxmlDir+ "Create_PaymentAccount_F.fxml");
+    	
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
 		
+    	Msg getCustomer = new Msg();
+    	getCustomer.setSelect();
+    	getCustomer.setRole("get combo customer ID for create payment account");
+    	getCustomer.oldO = Login_win.chosen_store;
+		Login_win.to_Client.accept((Object) getCustomer);  
     }
 
     public void edit_CustomersProfile(ActionEvent event) throws IOException {
@@ -341,6 +349,30 @@ public class Managment_Controller implements Initializable,ControllerI {
     	}
 
     }
+    
+    /**
+     * handle with customers id to create payment account
+     * @param message
+     */
+    public void receive_from_server_payment_account(Object message)
+    {
+    	customers_store = (ArrayList<String>)(((Msg) message).newO);
+    	/*there are complaints to display -> run in new thread the new window*/
+    	Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				 	try {
+				 		move(event_log ,main.fxmlDir+ "Create_PaymentAccount_F.fxml");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}  
+				
+			}
+		}); 
+    }
+
     /**
      * update amount of item in catalog
      */

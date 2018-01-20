@@ -114,9 +114,6 @@ public class ClientConsole implements ChatIF {
 				else if (check.getRole().equals("check if user already did this survey")) {
 					//((gui.Main_menu)mc).survey_premession(message);
 				}
-				else if (check.getRole().equals("check if ID exist and add payment account")) {
-					((gui.Create_PaymentAccount_Controller) mc).check_if_create_success(message);
-				}
 				else if (check.getRole().equals("get payment account for personID")) {
 					((gui.Order_Controller) mc).get_payment_account(message);
 				}
@@ -195,7 +192,9 @@ public class ClientConsole implements ChatIF {
 					((gui.Compare_Report_Controller) mc).get_report(message);
 				else if (check.getRole().equals("check for start date subscription"))
 					((gui.Main_menu) mc).get_answer_if_start_date_change(message);
-								
+				else if (check.getRole().equals("get combo customer ID for create payment account"))
+					((gui.Managment_Controller) mc).receive_from_server_payment_account(message);
+				
 				//else if (check.getRole().equals("check if the user already did this survey")) {
  				//	((gui.Main_menu)mc).survey_premession(message);
 				//}
@@ -242,7 +241,8 @@ public class ClientConsole implements ChatIF {
 					((gui.Payment_Controller) mc).insert_items_success(message);
 				else if(check.getRole().equals("insert card")) 
 					((gui.Payment_Controller) mc).insert_card_success(message);
-				
+				else if (check.getRole().equals("insert new payment account")) 
+					((gui.Create_PaymentAccount_Controller) mc).check_if_create_success(message);
 			}
 			
 			
