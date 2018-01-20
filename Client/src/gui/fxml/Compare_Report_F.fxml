@@ -15,7 +15,6 @@
             <Image url="@page2.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="back_B" layoutX="6.0" layoutY="574.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <Label layoutX="135.0" layoutY="24.0" text="Compare Reports">
          <font>
             <Font name="Nebulo Demo" size="36.0" />
@@ -109,5 +108,6 @@
          </font>
       </Label>
       <Separator layoutX="9.0" layoutY="148.0" prefHeight="0.0" prefWidth="476.0" />
+      <Button fx:id="back_B" layoutX="6.0" layoutY="574.0" mnemonicParsing="false" onAction="#back" text="Back" />
    </children>
 </Pane>

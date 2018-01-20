@@ -1,7 +1,11 @@
 package gui;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +42,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -45,7 +50,7 @@ public class Display_Report_Controller implements Initializable, ControllerI{
 
     public Label invalid_detailsL_ID, invalid_detailsL_Quarter, invalid_detailsL_Report,invalid_detailsL_Year;
     public ComboBox<String> report_combo,store_ID_combo, quarter_combo, year_combo;
-    public Button back_B, viewReport_B;
+    public Button back_B, viewReport_B, saveReport_B;
     public TextArea report_Text;
     public BarChart<String, Number> histogram;
 	public static ActionEvent event_log;
@@ -149,6 +154,44 @@ public class Display_Report_Controller implements Initializable, ControllerI{
     		store_ID_combo.setDisable(true);
     	else
     		store_ID_combo.setDisable(false);
+    	if(report_combo.getValue().equals("Complaints"))
+    		saveReport_B.setDisable(true);
+    	else
+    		saveReport_B.setDisable(false);
+    }
+    
+    /**
+     * handle with save report to txt file
+     * @param event
+     */
+    public void save_report(ActionEvent event)
+    {
+    	if(report_Text.getText().isEmpty())
+    	{
+	 	    Login_win.showPopUp("INFORMATION", "Message", "You must to choose report before save it!", "Please select report...");
+	 	    return;
+    	}
+    	FileChooser fileChooser = new FileChooser();
+    	FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+    	fileChooser.getExtensionFilters().add(extFilter);
+ 	    fileChooser.setTitle("Save file");
+ 	    
+ 	    File dest = fileChooser.showSaveDialog(main.primary);
+ 	    if(dest != null)
+ 	    {
+ 	    	PrintWriter writer;
+ 			try 
+ 			{
+ 				writer = new PrintWriter(dest);
+ 				writer.println(report_Text.getText());
+ 				writer.close();
+ 			} catch (FileNotFoundException e) {
+ 				// TODO Auto-generated catch block
+ 				e.printStackTrace();
+ 			}
+ 	    }
+ 	   
+	   
     }
     
     /**
@@ -255,7 +298,7 @@ public class Display_Report_Controller implements Initializable, ControllerI{
 		
 	    /*set the year combobox*/
 	    al.clear();
-	    for(i=2010; i<=current_year;i++)
+	    for(i=2017; i<=current_year;i++)
 	    	al.add(""+i);
     	list = FXCollections.observableArrayList(al); 
     	year_combo.setItems(list);
@@ -278,6 +321,7 @@ public class Display_Report_Controller implements Initializable, ControllerI{
     	{
     		for(String store: Managment_Controller.stores)
         		al.add(store);
+    		al.add("All");
     	}
     	list = FXCollections.observableArrayList(al); 
     	store_ID_combo.setItems(list);

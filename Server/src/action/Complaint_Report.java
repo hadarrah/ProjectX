@@ -53,7 +53,10 @@ public class Complaint_Report extends Report{
 	public void calculateReport()
 	{
 		int month;
-		
+		this.month1 = 0;
+		this.month2 = 0;
+		this.month3 = 0;
+
 		for(Complain c: complaints)
 		{
 			month = Integer.parseInt(c.getDate().substring(3, 5));

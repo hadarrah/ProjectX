@@ -25,15 +25,15 @@ public class Satisfaction_Report extends Report{
 
 		for(Survey s: surveys)
 		{
-			report += "\tSurvey ID: " + s.getID() +	"\n\tDate: " + s.getDate() + "\n\tNumber of participant: " + s.getNumOfParticipant();
-			report += "\n\tAverage answers for quastions:";
-			report += "\n\t"+ s.getQ1() + ": " + s.getA1();
-			report += "\n\t"+ s.getQ2() + ": " + s.getA2();
-			report += "\n\t"+ s.getQ3() + ": " + s.getA3();
-			report += "\n\t"+ s.getQ4() + ": " + s.getA4();
-			report += "\n\t"+ s.getQ5() + ": " + s.getA5();
-			report += "\n\t"+ s.getQ6() + ": " + s.getA6();
-			report += "\n\n\tExpert Conclusion: " + s.getConclusion() + "\n\n\n";
+			report += "Survey ID: " + s.getID() +	"\nDate: " + s.getDate() + "\nNumber of participant: " + s.getNumOfParticipant();
+			report += "\nAverage answers for quastions:";
+			report += "\n"+ s.getQ1() + ": " + s.getA1();
+			report += "\n"+ s.getQ2() + ": " + s.getA2();
+			report += "\n"+ s.getQ3() + ": " + s.getA3();
+			report += "\n"+ s.getQ4() + ": " + s.getA4();
+			report += "\n"+ s.getQ5() + ": " + s.getA5();
+			report += "\n"+ s.getQ6() + ": " + s.getA6();
+			report += "\n\nExpert Conclusion:\n" + s.getConclusion() + "\n\n\n";
 		}
 		
 		super.setDetails(report);
