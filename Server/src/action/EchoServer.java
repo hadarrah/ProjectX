@@ -404,6 +404,12 @@ public class EchoServer extends AbstractServer {
 	 * @param conn
 	 * @param client
 	 */
+	/**
+	 * insert new item to item_in_catalog table and create item id by max value in the table
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
 	public static void insertNewItemInCatalog(Msg msg1, Connection conn, ConnectionToClient client) {		
 		Msg msg = (Msg) msg1;
 		

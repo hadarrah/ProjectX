@@ -145,6 +145,8 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 	/** init the Msg with SELECTALL query **/
 	public void init() {
+		Next_B.setDisable(false);
+		ResetStyleLable();
 		AddCancel_B.setVisible(false);
 		AddSave_B.setVisible(false);
 		if (Managment_Controller.ManagmentFlage == 1) {
@@ -179,16 +181,20 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 			Msg msg = new Msg();
 			Item_In_Catalog itc = new Item_In_Catalog();
 			int amount;
-			amount = Integer.parseInt(txtAmount.getText());
+			amount = Integer.parseInt(txtAmount.getText());				
+			itc.setID(txtID.getText());
+			if(lblSale.isVisible()&&amount==0)
+				Login_win.showPopUp("ERROR", "Error Message", "Please delete sale first or set amount greater than 0", "");
+			else {
 			txtAmount.setStyle("");
 			txtAmount.setEditable(false);
-			itc.setID(txtID.getText());
 			itc.setAmount(amount);
 			msg.setUpdate();
 			msg.setRole("update amount");
 			msg.newO = itc;
 			msg.freeField = Login_win.chosen_store;
 			Login_win.to_Client.accept(msg);
+			}
 		} catch (NumberFormatException e) {
 			Login_win.showPopUp("ERROR", "", "Wrong Amount input", "");
 		}
@@ -366,10 +372,9 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-
 				Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");
-				OkSaveAmount_B.setVisible(false);
-				init();
+				OkSaveAmount_B.setVisible(false);				
+				init();				
 			}
 		});
 
@@ -384,14 +389,13 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-
 				Login_win.showPopUp("INFORMATION", "Message", "Delete Done successfully", "");
 				if (!(view_counter == 0))
-					view_counter--;
-				init();
-			}
-		});
-
+					view_counter=0;				
+				init();				
+				}
+		});		
+		
 	}
 
 	/**
@@ -567,7 +571,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		if (Itc_counter == 1) {
 			Prev_B.setDisable(true);
 			Next_B.setDisable(true);
-		}
+		}		
 		Prev_B.setDisable(true);
 		SetCounter(view_counter + 1, Itc_counter);
 
