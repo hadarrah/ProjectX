@@ -1645,9 +1645,10 @@ public class EchoServer extends AbstractServer {
 			return false;
 
 		try {
-			PreparedStatement ps = conn.prepareStatement(
-					"UPDATE " + msg1.getTableName() + " " + "SET Online=? WHERE ID=" + user.getUser_ID());
+			PreparedStatement ps = conn.prepareStatement("UPDATE person SET Online=? WHERE ID=?;");
 			ps.setString(1, new_status);
+			ps.setString(2, user.getUser_ID());
+
 			ps.executeUpdate();
 
 		}
@@ -1957,8 +1958,8 @@ public class EchoServer extends AbstractServer {
 		String current_status;
 
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT Online FROM " + schema_name + "." + msg1.getTableName()
-					+ " " + " WHERE ID=" + user.getUser_ID());
+			PreparedStatement ps = conn.prepareStatement("SELECT Online FROM person WHERE ID=?;");
+			ps.setString(1, user.getUser_ID());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				current_status = rs.getString(1);
