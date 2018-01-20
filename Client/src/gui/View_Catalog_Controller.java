@@ -145,6 +145,8 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 	/** init the Msg with SELECTALL query **/
 	public void init() {
+		Next_B.setDisable(false);
+		ResetStyleLable();
 		AddCancel_B.setVisible(false);
 		AddSave_B.setVisible(false);
 		if (Managment_Controller.ManagmentFlage == 1) {
@@ -366,10 +368,9 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-
 				Login_win.showPopUp("INFORMATION", "Message", "Update Done successfully", "");
-				OkSaveAmount_B.setVisible(false);
-				init();
+				OkSaveAmount_B.setVisible(false);				
+				init();				
 			}
 		});
 
@@ -384,14 +385,13 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-
 				Login_win.showPopUp("INFORMATION", "Message", "Delete Done successfully", "");
 				if (!(view_counter == 0))
-					view_counter--;
-				init();
-			}
-		});
-
+					view_counter=0;				
+				init();				
+				}
+		});		
+		
 	}
 
 	/**
@@ -567,7 +567,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		if (Itc_counter == 1) {
 			Prev_B.setDisable(true);
 			Next_B.setDisable(true);
-		}
+		}		
 		Prev_B.setDisable(true);
 		SetCounter(view_counter + 1, Itc_counter);
 
