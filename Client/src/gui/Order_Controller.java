@@ -465,22 +465,25 @@ public class Order_Controller implements Initializable, ControllerI {
 			while (acc == null) {
 				Thread.sleep(10);
 				i++;
-				if(i>3000) back(new ActionEvent());
+				if(i>300) back(new ActionEvent());
 			}			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		System.out.println("what");
 		this.order = new Order();
 		order.setPersonid(customer.getUser_ID());
 		order.setStatus("Active");
 		order.setStoreid(acc.getStoreID());
+		System.out.println("what");
 		
 		setRadioB();
 		setTextF();
 		setDatePicker();
+		System.out.println("what");
 
 	}
 

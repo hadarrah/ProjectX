@@ -63,8 +63,6 @@ public class Payment_Controller implements Initializable, ControllerI {
 	public float totalPrice = 0;
 	public float deliveryPrice = 20;
 
-	public static int orderid;
-
 	public String name, address, phone, time, date, storeLoc;
 
 	public Order order = Order_Controller.order;
@@ -157,7 +155,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 				content = "Your items will be waiting for you at the requested order date and time";
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Order was created successfully!");
-			alert.setHeaderText("Order done: " + Order_Controller.orderid);
+			alert.setHeaderText("Order done: " + order.getId());
 			alert.setContentText("For more information, please contact Netanel Azulai\n" + "\n" + content
 					+ "\n\nYou will be taken back to the main menu after pressing OK");
 			Optional<ButtonType> result = alert.showAndWait();
@@ -199,19 +197,10 @@ public class Payment_Controller implements Initializable, ControllerI {
 		Msg msg = new Msg();
 
 		order.TimeNow(); // set current time for order starting time.
-		// order.setPersonid(customer.getUser_ID());
-
-		// if (isDelivery)
-		// order.setBoolDelivery(true); // insert delivery after creation of order
-		// else
-		// order.setBoolDelivery(false);
 
 		order.setTotprice(Float.parseFloat(totp_TF.getText()));
 
 		order.setCard(Cart_Controller.cardType);
-
-		// order.setStoreid(acc.getStoreID()); // user's store id by payment_account
-		// registration
 
 		order.setRequestdate(date);
 		order.setRequesttime(time);
@@ -353,6 +342,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 
 		msg.oldO = newarr;
 		msg.newO = newamounts;
+		msg.freeField=order.getId();
 
 		Login_win.to_Client.accept(msg);
 	}
@@ -395,10 +385,6 @@ public class Payment_Controller implements Initializable, ControllerI {
 		Order created = (Order) (((Msg) msg).newO);
 
 		order.setId(created.getId());
-
-		Order_Controller.orderid = Integer.parseInt(order.getId());
-
-		System.out.println("order number: " + order.getId() + " has been created");
 
 		orderDone = true;
 

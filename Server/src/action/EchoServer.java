@@ -125,7 +125,7 @@ public class EchoServer extends AbstractServer {
 			 */
 			switch (query_type) {
 			case "SELECT": {
-
+				
 				if (msg1.getRole().equals("View all catalog items"))
 					ViewItems(msg1, conn, client);
 				else if (msg1.getRole().equals("check if user already did this survey")) {
@@ -1169,6 +1169,7 @@ public class EchoServer extends AbstractServer {
 		ArrayList<Item> items = (ArrayList<Item>) msg1.oldO; // arrives as individual items
 		HashMap<String, Integer> amounts = (HashMap<String, Integer>) msg1.newO; // amounts.(Item_ID)==amount
 		int orderID = (int) msg.num1;
+		String oid = msg1.freeField;
 
 		PreparedStatement ps;
 
@@ -1187,11 +1188,12 @@ public class EchoServer extends AbstractServer {
 					Self_Item si = (Self_Item)t;
 
 					for(Item item_in_self : si.items) {
-					ps = conn.prepareStatement("INSERT INTO self_item (ID, Item_Id, Type, Amount)" + " VALUES (?,?,?,?);");
+					ps = conn.prepareStatement("INSERT INTO self_item (ID, Item_Id, Type, Amount, OrderID)" + " VALUES (?,?,?,?,?);");
 					ps.setString(1, Integer.toString(newid));
 					ps.setString(2, item_in_self.getID());
 					ps.setString(3, t.getType());
 					ps.setString(4, Integer.toString(si.getItemAmount(item_in_self)) );
+					ps.setString(5, oid );
 
 					ps.executeUpdate();
 				}
@@ -1254,21 +1256,22 @@ public class EchoServer extends AbstractServer {
 				return;
 			}
 
-			rs.previous();
-
-			while (rs.next()) {
+			
 				acc.setID(rs.getString(1));
 				acc.setCreditCard(rs.getString(2));
 				acc.setStatus(rs.getString(3));
 				acc.setSubscription(rs.getString(4));
 				acc.setStoreID(rs.getString(5));
 				acc.setDate(rs.getString(6));
+				if(rs.getString(7) != null)
 				acc.setRefund_sum(Float.parseFloat(rs.getString(7)));
-			}
+				else acc.setRefund_sum((float)0.0);
+			
 
 
 			msg.newO = acc;
 			client.sendToClient(msg);
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();
