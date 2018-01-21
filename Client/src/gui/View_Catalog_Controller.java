@@ -390,7 +390,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 			public void run() {
 				Login_win.showPopUp("INFORMATION", "Message", "Delete Done successfully", "");
 				if (!(view_counter == 0))
-					view_counter=0;				
+					view_counter=0;			
 				init();				
 				}
 		});		
@@ -563,7 +563,6 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 * @param message
 	 */
 	public void initCatalog(Object message) {
-
 		Msg tmp = (Msg) message;
 		Itc = (ArrayList<Item_In_Catalog>) tmp.newO;
 		Itc_counter = Itc.size();
