@@ -403,13 +403,7 @@ public class EchoServer extends AbstractServer {
 	 * @param msg1
 	 * @param conn
 	 * @param client
-	 */
-	/**
-	 * insert new item to item_in_catalog table and create item id by max value in the table
-	 * @param msg1
-	 * @param conn
-	 * @param client
-	 */
+	 **/
 	public static void insertNewItemInCatalog(Msg msg1, Connection conn, ConnectionToClient client) {		
 		Msg msg = (Msg) msg1;
 		
@@ -2717,7 +2711,7 @@ public class EchoServer extends AbstractServer {
 	}
 
 	/**
-	 * this method gets the product name and change it. gets two Objects(product)
+	 * set details update from gui to DB
 	 * 
 	 * @param con
 	 * @param msg
@@ -2792,7 +2786,7 @@ public class EchoServer extends AbstractServer {
 	}
 
 	/**
-	 * change item status to deleted by update query
+	 * change item status to deleted with update query
 	 * @param msg
 	 * @param con
 	 * @param client
@@ -2810,47 +2804,6 @@ public class EchoServer extends AbstractServer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * this method gets the name of a product sends back the products details
-	 * 
-	 * @param msg
-	 * @param con
-	 * @param client
-	 */
-	public static void getProdectdetails(Object msg, Connection con, ConnectionToClient client) {
-		Msg msg1 = (Msg) msg;
-		Item p = (Item) msg1.oldO;
-		try {
-
-			/* send a query with the product name as a parameter */
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM hw2.product where ProductName=?");
-			ps.setString(1, p.getName());
-			ResultSet r = ps.executeQuery();
-			while (r.next()) {
-				p.setID(r.getString(1));
-				p.setName(r.getString(2));
-				p.setType(r.getString(3));
-				msg1.oldO = p;
-			}
-			/* back to client */
-			client.sendToClient(msg1);
-			r.close();
-		} catch (IOException x) {
-			System.err.println("unable to send msg to client");
-		} catch (SQLException ex)
-
-		{/* handle any errors */
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
-		}
-	}
-
-	public static void update_item_in_catalog(Object msg, Connection con, ConnectionToClient client) {
-		Msg msg1 = (Msg) msg;
-
 	}
 
 	/**

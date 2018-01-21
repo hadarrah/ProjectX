@@ -141,17 +141,19 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		});
 	}
 
-	/** init the Msg with SELECTALL query **/
+	/**
+	 * init msg with "select" query
+	 */
 	public void init() {
 		Next_B.setDisable(false);
 		ResetStyleLable();
 		AddCancel_B.setVisible(false);
 		AddSave_B.setVisible(false);
-		if (Managment_Controller.ManagmentFlage == 1) {
+		if (Managment_Controller.ManagmentFlage == 1) { //if chain employee
 			Edit_B.setDisable(false);
 			Delete_B.setDisable(false);
 		}
-		if (Managment_Controller.ManagmentFlage == 2) {
+		if (Managment_Controller.ManagmentFlage == 2) {//if store employee
 			SetAmount_B.setVisible(true);
 		}
 		Msg msg = new Msg();
@@ -174,6 +176,9 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 	}
 
+	/**
+	 * after setting amount, check input and create update query
+	 */
 	public void SaveSetAmount() {
 		try {
 			Msg msg = new Msg();
@@ -198,7 +203,9 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		}
 	}
 
-	/** set catalog to update current catalog mode **/
+	/** 
+	 * set catalog to update  mode
+	 */
 	public void UpdateCatalog() {
 		chosenStore = Login_win.chosen_store;
 		Login_win.chosen_store = null; // show catalog with no dependency on specific store
