@@ -452,13 +452,14 @@ public class Payment_Controller implements Initializable, ControllerI {
 		if (orderP.haveDelivery())
 			price += deliveryPrice;
 
+		price=(float) (Math.round(price*100.0)/100.0);
 		totp_TF.setText(Float.toString(price));
 	}
-
+	/**Back button function*/
 	public void back(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Order_F.fxml");
 	}
-	
+	/**Back to menu function*/
 	public void backMenu(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Main_menu_F.fxml");
 	}
@@ -549,7 +550,8 @@ public class Payment_Controller implements Initializable, ControllerI {
 		creditcard_R.setOnAction(handler);
 
 	}
-
+	
+	/**Radio button toggle function (called upon every event on each RadioButton)*/
 	public void payingMethod(ActionEvent e) {
 		if (paymentmethod_TG.getSelectedToggle() == cash_R) {
 			order.setPayment("Cash");

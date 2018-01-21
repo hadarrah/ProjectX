@@ -55,6 +55,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 	ArrayList<Item> products = null; // Items from the most recent query.
 	public Item p; // The attributes selected so far && selected item.
 
+	/**Add button function*/
 	public void addSelectedItem(ActionEvent event) {
 
 		boolean addItem = true; // Add the item? t=yes
@@ -306,6 +307,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		}
 	}
 
+	/**Back button function*/
 	public void back(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Self_Item_F.fxml");
 	}
