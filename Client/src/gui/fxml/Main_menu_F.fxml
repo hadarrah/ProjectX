@@ -29,7 +29,6 @@
       <VBox alignment="CENTER" layoutX="130.0" layoutY="216.0" prefHeight="236.0" prefWidth="240.0" spacing="15.0">
          <children>
             <Button fx:id="view_catalog_B" mnemonicParsing="false" onAction="#catalog" text="View catalog" />
-            <Button fx:id="order_B" mnemonicParsing="false" onAction="#order" text="Order" />
             <Button fx:id="cancel_order_B" mnemonicParsing="false" onAction="#cancel_order" text="Cancel order" />
             <Button fx:id="self_item_B" mnemonicParsing="false" onAction="#self_item" text="Create your own product" />
             <Button fx:id="complain_B" mnemonicParsing="false" onAction="#complain" text="Open a new complain" />
