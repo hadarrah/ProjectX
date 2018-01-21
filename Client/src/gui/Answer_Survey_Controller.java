@@ -106,10 +106,6 @@ public void form_submit(ActionEvent event) throws IOException {
  
 	}
       
-    
-      
-      
-        
 }
 /**
  * check if the user did answer all the six Q
