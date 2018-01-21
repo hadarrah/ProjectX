@@ -32,6 +32,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -307,7 +308,8 @@ public class Main_menu implements Initializable, ControllerI {
 		userCart = new Cart();
 		current_user = gui.Login_win.current_user;
 		if (!(Login_win.titelStore == null)) {
-			lblStore.setText("Hi "+Login_win.current_user.getUser_name()+"\n Welcome to "+Login_win.titelStore+" store");
+			lblStore.setText("Welcome "+Login_win.current_user.getUser_name()+"\n"+Login_win.titelStore);
+
 			lblStore.setVisible(true);
 		}
 		if (!(current_user.getPrivilege().equals("Customer"))) {
