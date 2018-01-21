@@ -18,6 +18,7 @@ public class main extends Application {
 	public static Stage primary;
 
 	
+	/**Initial page configuration*/
 	  public void start(Stage primaryStage) throws IOException
 	  {
 

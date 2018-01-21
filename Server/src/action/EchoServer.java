@@ -259,6 +259,13 @@ public class EchoServer extends AbstractServer {
 
 	}
 	
+	/**
+	 * Get active orders per customer and his paying account.
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
 	public static  void get_user_active_orders(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Msg msg = (Msg) msg1;
@@ -266,7 +273,7 @@ public class EchoServer extends AbstractServer {
 		ArrayList<Order> orders_history = new ArrayList<Order>();
 
 		try {
-			/** Building the query */
+			/* Building the query */
 
 			PreparedStatement ps = conn.prepareStatement(" SELECT * FROM  orders  where Person_ID=? and Status='Active' and Store_ID=?;");
 			ps.setString(1, cur_p.getUser_ID());
@@ -452,6 +459,13 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Insert card to customer's order
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
 	public static void insert_card(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		String oid = (String) msg1.freeField;
@@ -1057,6 +1071,13 @@ public class EchoServer extends AbstractServer {
 
 	}
 
+	/**
+	 * Get all customer's orders
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
 	public static void get_user_orders_id(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Msg msg = (Msg) msg1;
@@ -1085,7 +1106,14 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+	
+	/**
+	 * Insert the delivery requested by the customer
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
 	public static void insert_delivery(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Delivery d = (Delivery) msg1.oldO;
@@ -1114,7 +1142,14 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-	/**Insert order into DB*/
+	
+	/**
+	 * Insert the customer's order & get new order ID
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
 	public static void insert_order(Msg msg1, Connection conn, ConnectionToClient client) {
 		Order order = (Order) msg1.oldO;
 
@@ -1163,7 +1198,13 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
-	/**Insert items in order into DB*/
+	/**
+	 * Insert relevant items in customer's order into DB
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
 	public static void insert_items_in_order(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Msg msg = (Msg) msg1;
@@ -1392,6 +1433,7 @@ public class EchoServer extends AbstractServer {
 	 * @param msg1
 	 * @param conn
 	 * @param client
+	 * @throws IOException, SQLException 
 	 */
 	public static void get_the_current_survey_id(Msg msg1, Connection conn, ConnectionToClient client) {
 
@@ -1426,35 +1468,13 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-	/*
-	 * public static void set_customer_in_survey_answered(Msg msg1, Connection conn,
-	 * ConnectionToClient client) {
-	 * 
-	 * Msg msg = (Msg) msg1; Survey survey = (Survey) msg.oldO; Person customer =
-	 * (Person) msg.newO; try {
-	 * 
-	 * 
-	 * PreparedStatement ps = conn
-	 * .prepareStatement("INSERT INTO comments_survey (`ID`, `Customer_ID`) VALUES (?, ?);"
-	 * ); ps.setString(1, survey.getID()); ps.setString(2, customer.getUser_ID());
-	 * ps.executeUpdate(); } catch (SQLException e) { e.printStackTrace(); }
-	 * 
-	 * }
-	 */
-
-	public static void decoy(Msg msg, Connection con, ConnectionToClient client) throws IOException {
-
-		client.sendToClient(msg);
-	}
 
 	/**
-	 * Query for selecting items by Color-Type-Price combination
-	 * 
-	 * @param msg
-	 *            The message received from the client. msg.newO=max price.
-	 *            msg.oldO=min price.
+	 * Return an ArrayList<Item> with Customer's selected items for self item
+	 * @param msg1
+	 * @param conn
 	 * @param client
-	 *            The connection from which the message originated.
+	 * @throws IOException, SQLException 
 	 */
 	public static void SelectItemsCTP(Msg msg, Connection con, ConnectionToClient client) {
 
@@ -1470,7 +1490,7 @@ public class EchoServer extends AbstractServer {
 													// back from query
 
 		try {
-			/** Building the query */
+			/* Building the query */
 			PreparedStatement ps = con
 					.prepareStatement(" SELECT * FROM item WHERE Color=? AND Type=? " + "AND Price BETWEEN ? AND ?");
 			ps.setString(1, color);
@@ -1478,7 +1498,7 @@ public class EchoServer extends AbstractServer {
 			ps.setString(3, minprice);
 			ps.setString(4, maxprice);
 
-			/** Results */
+			/* Results */
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 
@@ -1490,7 +1510,7 @@ public class EchoServer extends AbstractServer {
 				((ArrayList<Item>) products).add(returnproduct);
 			}
 
-			/** back to client */
+			/* back to client */
 			msg1.newO = products;
 
 			client.sendToClient(msg);
@@ -1500,7 +1520,7 @@ public class EchoServer extends AbstractServer {
 			System.err.println("unable to send msg to client");
 		} catch (SQLException ex)
 
-		{/** handle any errors */
+		{/* handle any errors */
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
@@ -1508,6 +1528,13 @@ public class EchoServer extends AbstractServer {
 		return;
 	}
 
+	/**
+	 * Check if user already took the current survey
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException, SQLException 
+	 */
 	public static void check_if_user_took_this_survey(Msg msg1, Connection conn, ConnectionToClient client) {
 		Msg msg = (Msg) msg1;
 		Person user = (Person) msg.newO;
@@ -1541,6 +1568,13 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Check all relevant user details and returns his Payment_Account and Person with relevant info
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException, SQLException 
+	 */
 	public static void check_user_details(Msg msg1, Connection conn, ConnectionToClient client) {
 		Person user = (Person) msg1.oldO;
 		String a;
@@ -1636,6 +1670,13 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Change's user's status upon login or logout
+	 * @param msg1
+	 * @param conn
+	 * @param new_status
+	 * @throws SQLException 
+	 */
 	public static boolean change_online_status(Msg msg1, Connection conn, String new_status) {
 
 		Person user = (Person) msg1.oldO;
@@ -1696,6 +1737,12 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Check if survey exists and returns the latest active one if exists
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
 	public static void check_survey_exist(Msg msg1, Connection conn, ConnectionToClient client) {
 		PreparedStatement ps;
 		ResultSet rs;
@@ -1703,7 +1750,7 @@ public class EchoServer extends AbstractServer {
 			ps = conn.prepareStatement(" SELECT * FROM survey WHERE Status = 'Active';");
 			rs = ps.executeQuery();
 			if (!rs.next()) {
-				/*get the last question*/
+				/*get the last survey*/
 				ps = conn.prepareStatement(" SELECT * FROM survey WHERE Status = 'No Active' AND ID=(SELECT MAX(ID) FROM survey);");
 				rs = ps.executeQuery();
 				rs.next();
@@ -1952,6 +1999,12 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Check if user is online (connected from another machine)
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
 	public static boolean isConnected(Msg msg1, Connection conn) {
 		boolean isAlreadyCon = false;
 		Person user = (Person) msg1.oldO;
@@ -1976,7 +2029,7 @@ public class EchoServer extends AbstractServer {
 	}
 
 	/**
-	 * 
+	 * Get the questions which correlates with the current active survey
 	 * @param msg
 	 * @param con
 	 * @param client
@@ -2511,6 +2564,12 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Query for updating a given user's details and info
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
 	public static void Update_user_details(Object msg, Connection con, ConnectionToClient client) {
 		String ans = "Update done";
 		Msg msg1 = (Msg) msg;

@@ -52,6 +52,11 @@ public class Login_win  implements ControllerI,Initializable  {
 	public static String titelStore;
 	 
 	
+	/**
+	 * Login button action function
+	 * @param event
+	 * @throws IOException, InterruptedException
+	 */
 	public void hit_login(ActionEvent event) throws IOException, InterruptedException
 	{
 		chosen_store=null;
@@ -80,7 +85,10 @@ public class Login_win  implements ControllerI,Initializable  {
 		to_Client.accept((Object)check_user_details);	
 	}
 	
-	
+	/**
+	 * Confirm user details in the DB
+	 * @param obj
+	 */
 	public void get_comfirmation(Object obj) 
 	{	
 		
@@ -187,7 +195,15 @@ public class Login_win  implements ControllerI,Initializable  {
 				}
 			}); 	  
 	}
-	     
+	
+	/**
+	 * General function for the movement between the different windows
+	 * 
+	 * @param event
+	 * @param next_fxml
+	 *            = string of the specific fxml
+	 * @throws IOException
+	 */   
 	public void move(ActionEvent event)throws IOException 
 	{
 		  Parent menu;
@@ -212,7 +228,14 @@ public class Login_win  implements ControllerI,Initializable  {
 	      });        
 	}
 	
-	
+	/**
+	 * Static pop-up function which can be called from every fxml following login
+	 * 
+	 * @param typeOfPopUpString
+	 * @param title
+	 * @param header
+	 * @param content
+	 */
 	public static Optional<ButtonType> showPopUp(String typeOfPopUpString, String title, String header, String content)
 	{
 		Alert alert = null;
@@ -243,7 +266,7 @@ public class Login_win  implements ControllerI,Initializable  {
 		return result;
 	}
  
-	
+	/**Quit button action function*/
 	public void Quit_app()
 	 {
 		 /*saving data */
@@ -251,7 +274,7 @@ public class Login_win  implements ControllerI,Initializable  {
 	 }
 	
  /**
-  * creating a new client, saves the ref of this gui screen
+  * Initialize login: creating a new client, saves the ref of this gui screen
   */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

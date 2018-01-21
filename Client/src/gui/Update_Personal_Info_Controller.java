@@ -33,6 +33,7 @@ public class Update_Personal_Info_Controller implements ControllerI,Initializabl
 	public Button back_to_user_details_B,update_info_B;
 	
 	
+	/**Display current user's information on TextFields*/
 	public void display_cur_info(Person cur_user)
 	{
 		Person user=cur_user;
@@ -42,6 +43,8 @@ public class Update_Personal_Info_Controller implements ControllerI,Initializabl
 		
 		
 	}
+	
+	/**Back button function*/
 	 public void back_to_personal_info (ActionEvent event)throws IOException 
 		{
 			  Parent menu;
@@ -53,6 +56,7 @@ public class Update_Personal_Info_Controller implements ControllerI,Initializabl
 			 win_1.show();
 		}
 	
+	 /**Update user's details*/
 	 public void update_details()
 	 {
 		

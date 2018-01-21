@@ -421,7 +421,7 @@ public class Order_Controller implements Initializable, ControllerI {
 			}
 		});
 	}
-
+	/**Initialize page function*/
 	public void initialize(URL location, ResourceBundle resources) {
 		/*
 		 * Update current controller (Log_win.toClient == user's ClientConsole)

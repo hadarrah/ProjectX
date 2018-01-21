@@ -61,6 +61,9 @@ public class ClientConsole implements ChatIF {
 		}
 	}
 
+	/**
+	 * Set the current controller for the client
+	 */
 	public void setController(gui.ControllerI cont) {
 		this.mc = cont;
 	}

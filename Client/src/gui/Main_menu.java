@@ -46,6 +46,7 @@ public class Main_menu implements Initializable, ControllerI {
 	public static ActionEvent event_l,event_n;
 	public static Cart userCart;
 
+	/**Logout button function - get back to login initial window*/
 	public void back_logOut(ActionEvent event) throws IOException {
 		logout_flag = false;
 		lblStore.setVisible(false);
@@ -85,21 +86,10 @@ public class Main_menu implements Initializable, ControllerI {
 		win_1.show();
 	}
 
-//	public void order(ActionEvent event) throws IOException {
-//
-//		Parent menu;
-//		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Order_F.fxml"));
-//		Scene win1 = new Scene(menu);
-//		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
-//		win_1.setScene(win1);
-//		win_1.show();
-//	}
-
 	public void complain(ActionEvent event) throws IOException {
 
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Post_Complain_F.fxml"));
-		// to_Client.setController(new Managment_Controller());
 		Scene win1 = new Scene(menu);
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);
@@ -110,7 +100,6 @@ public class Main_menu implements Initializable, ControllerI {
 
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Managment_F.fxml"));
-		// to_Client.setController(new Managment_Controller());
 		Scene win1 = new Scene(menu);
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);
@@ -134,7 +123,6 @@ public class Main_menu implements Initializable, ControllerI {
 
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Active_Orders_F.fxml"));
-		// to_Client.setController(new Managment_Controller());
 		Scene win1 = new Scene(menu);
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);
@@ -144,7 +132,6 @@ public class Main_menu implements Initializable, ControllerI {
 	public void to_user_profile(ActionEvent event) throws IOException {
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Profile_F.fxml"));
-		// to_Client.setController(new Main_menu());
 		Scene win1 = new Scene(menu);
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);
@@ -175,11 +162,9 @@ public class Main_menu implements Initializable, ControllerI {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 					try {
 						move(event_l);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -191,7 +176,6 @@ public class Main_menu implements Initializable, ControllerI {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 
 					Optional<ButtonType> result = Login_win.showPopUp("ERROR", "Message",
 							"Sorry,you already took this survey", "Thank you!");
@@ -211,6 +195,7 @@ public class Main_menu implements Initializable, ControllerI {
 		win_1.show();
 	}
 
+	/**Show confirmation msg upon logout*/
 	private void show_logout_msg() {
 
 		Optional<ButtonType> option = Login_win.showPopUp("CONFIRMATION", "LogOut",
@@ -238,7 +223,7 @@ public class Main_menu implements Initializable, ControllerI {
 		Login_win.to_Client.accept((Object) getCustomer);
 	}
 	
-	/*
+	/**
 	 * handle with the result of checking the start date of subscription
 	 */
 	public void get_answer_if_start_date_change(Object msg) 
@@ -289,10 +274,10 @@ public class Main_menu implements Initializable, ControllerI {
 		}
 	}
 
+	/**General movement between pages function*/
 	public void move(ActionEvent event) throws IOException {
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Answer_Survey_F.fxml"));
-		// to_Client.setController(new Managment_Controller());
 		Scene win1 = new Scene(menu);
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);

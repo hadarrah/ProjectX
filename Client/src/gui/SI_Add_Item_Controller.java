@@ -7,14 +7,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import javax.swing.JOptionPane;
-
 import action.ClientConsole;
 import action.Item;
 import action.Msg;
 import action.Person;
-import action.Product;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

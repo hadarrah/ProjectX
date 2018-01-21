@@ -75,7 +75,12 @@ public class Payment_Controller implements Initializable, ControllerI {
 	private boolean itemsInDB = false;
 	private boolean cardInDB = false;
 	private boolean doRefund = false;
-
+	
+	
+	/**
+	 * Payment button action function - check if user input is valid and insert everything
+	 * to DB
+	*/
 	public void doPay(ActionEvent event) {
 
 		// Initialize flags
@@ -302,10 +307,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 						}
 					}
 
-					// else if (itemincart instanceof Item_In_Catalog) {}
-					// else { //if it is an ordinary item should not happen
-
-					if (newItem) { // if item does not appear;
+					if (newItem) { // if item does not exist in the array
 						int amnt = st.amounts.get(t);
 						newarr.add(t);
 						newamounts.put(t.getID(), amnt);
@@ -399,6 +401,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 		deliveryDone = true;
 	}
 	
+	/** Successful Refund update in customer's payment account */
 	public void update_refund_success(Object msg) {
 		Msg msg1 = (Msg)msg;
 		
@@ -406,7 +409,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 		accP.setRefund_sum(Float.parseFloat(msg1.freeField));
 	}
 
-	/** Set total price including delivery and subscription rates. */
+	/** Set total price including delivery and subscription rates, up to 2 decimal places rounded */
 	public void setTotalPrice() {
 		float price = userCart.calcTotalPrice();
 
