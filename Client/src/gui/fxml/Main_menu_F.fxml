@@ -26,7 +26,7 @@
       </Label>
       <Button fx:id="back_B" layoutX="14.0" layoutY="522.0" mnemonicParsing="false" onAction="#back_logOut" prefHeight="23.0" prefWidth="58.0" text="LogOut" />
       <Button fx:id="mannag_B" layoutX="411.0" layoutY="35.0" mnemonicParsing="false" onAction="#managment" text="Mannagment" visible="false" />
-      <VBox alignment="CENTER" layoutX="130.0" layoutY="156.0" prefHeight="236.0" prefWidth="240.0" spacing="15.0">
+      <VBox alignment="CENTER" layoutX="130.0" layoutY="216.0" prefHeight="236.0" prefWidth="240.0" spacing="15.0">
          <children>
             <Button fx:id="view_catalog_B" mnemonicParsing="false" onAction="#catalog" text="View catalog" />
             <Button fx:id="order_B" mnemonicParsing="false" onAction="#order" text="Order" />
@@ -37,9 +37,9 @@
          </children>
       </VBox>
       <Button fx:id="user_profile_B" layoutX="19.0" layoutY="100.0" mnemonicParsing="false" onAction="#to_user_profile" text="Profile" />
-      <Label fx:id="lblStore" alignment="CENTER" layoutX="73.0" layoutY="93.0" prefHeight="62.0" prefWidth="416.0" textAlignment="CENTER" textFill="#3733cc">
+      <Label fx:id="lblStore" alignment="CENTER" layoutX="25.0" layoutY="133.0" prefHeight="62.0" prefWidth="450.0" textAlignment="CENTER" textFill="#3733cc">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="Goudy Old Style Bold" size="24.0" />
          </font>
       </Label>
          

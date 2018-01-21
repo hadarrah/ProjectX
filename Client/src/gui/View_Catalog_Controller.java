@@ -341,6 +341,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		});
 		Pic_B.setVisible(false);
 		ChangePicture = 0;
+		
 		Delete_B.setDisable(false);
 		Add_B.setDisable(false);
 		init();
@@ -573,7 +574,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Prev_B.setDisable(true);
 		SetCounter(view_counter + 1, Itc_counter);
 
-		SetDetailsGui(Itc.get(0)); // default view is the first item in the array
+		SetDetailsGui(Itc.get(view_counter)); // default view is the first item in the array
 	}
 
 	/**
