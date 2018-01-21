@@ -29,7 +29,7 @@ public class Profile_Controller implements ControllerI,Initializable {
 	public VBox v_details;
 	
 	
-	
+	/**Move to Purchase History button function*/
 	public void to_purchase_history(ActionEvent event)throws IOException 
 	{
 		  Parent menu;

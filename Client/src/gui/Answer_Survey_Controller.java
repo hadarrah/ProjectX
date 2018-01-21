@@ -65,6 +65,7 @@ public void back_to_main(ActionEvent event) throws IOException {
 	 win_1.show();
 }
 
+/**Submit button action function*/
 public void form_submit(ActionEvent event) throws IOException {
 	int validity_flag = 0;
 	 if(users_id.getValue()==null)
@@ -433,7 +434,7 @@ public void get_customer_answers()
 	 
 }
 
-
+/**Insert customer's answers into DB*/
 public void update_survey_answers_inDB() 
 {
 	Msg msg= new Msg();
@@ -456,6 +457,8 @@ public void update_survey_answers_inDB()
 	
 	
 }
+
+/**Query for getting questions for the current active survey*/
 public void get_survey_qustion()
 {
 	Msg get_survey_q= new Msg();
@@ -467,7 +470,7 @@ public void get_survey_qustion()
   Login_win.to_Client.accept(get_survey_q);
 	
 }
-
+/**Setting questions for the current active survey*/
 public void set_survey_question(Object msg) 
 	{
 	

@@ -29,6 +29,11 @@
       <VBox alignment="CENTER" layoutX="130.0" layoutY="175.0" prefHeight="236.0" prefWidth="240.0" spacing="15.0">
          <children>
             <Button fx:id="view_catalog_B" mnemonicParsing="false" onAction="#catalog" text="View catalog" />
+ 
+            <Button fx:id="cancel_order_B" mnemonicParsing="false" onAction="#cancel_order" text="Cancel order" />
+            <Button fx:id="self_item_B" mnemonicParsing="false" onAction="#self_item" text="Create your own product" />
+            <Button fx:id="complain_B" mnemonicParsing="false" onAction="#complain" text="Open a new complain" />
+ 
             <Button fx:id="cart_B" mnemonicParsing="false" onAction="#cart" text="Cart" />
             <Button fx:id="self_item_B" mnemonicParsing="false" onAction="#self_item" text="Create your own product" />
             <Button fx:id="cancel_order_B" mnemonicParsing="false" onAction="#cancel_order" text="Cancel order" />
@@ -41,7 +46,6 @@
             <Font name="Goudy Old Style Bold" size="24.0" />
          </font>
       </Label>
-      <Button fx:id="order_B" layoutX="30.0" layoutY="430.0" mnemonicParsing="false" onAction="#order" text="Order" />
          
    </children>
 </Pane>

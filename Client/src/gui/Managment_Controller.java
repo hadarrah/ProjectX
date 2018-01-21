@@ -54,6 +54,7 @@ public class Managment_Controller implements Initializable,ControllerI {
 	public static int ManagmentFlage=0;
 	public static boolean survey_open; 
 
+	/**Move to updating catalog mode*/
     public void update_Catalog(ActionEvent event) throws IOException {
     	ManagmentFlage=1;    	
     	move(event,main.fxmlDir+ "View_Catalog1.fxml");
@@ -63,6 +64,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     	move(event, main.fxmlDir+ "Main_menu_F.fxml");
     }
 
+    /**check if there is active sale for insert*/
     public void create_Sale(ActionEvent event) {
 
     	/*save the event*/
@@ -77,7 +79,7 @@ public class Managment_Controller implements Initializable,ControllerI {
 		Login_win.to_Client.accept((Object)check_sale_exist);
     }
 
-    
+    /**check if there is active sale for close*/
     public void close_Sale(ActionEvent event) {
 
     	/*save the event*/
@@ -133,7 +135,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     
   
     
-    
+    /**send query to get customer ID to the complaint which is being answered*/
     public void answer_Complaint(ActionEvent event) throws IOException {
     	
     	/*save the event*/
@@ -169,6 +171,7 @@ public class Managment_Controller implements Initializable,ControllerI {
     	move(event ,main.fxmlDir+ "Edit_Customer_Profile_Man_F.fxml");
     }
     
+    /**Query which is checking if there is an active survey to answer*/
     public void answer_survey(ActionEvent event) throws IOException {
     	/*save the event*/
     	event_log =new ActionEvent();		 
@@ -181,6 +184,7 @@ public class Managment_Controller implements Initializable,ControllerI {
 		Login_win.to_Client.accept((Object)check_survey_exist);
     }
     
+    /**get a list of stores for report*/
     public void display_Reports(ActionEvent event) {
     	
     	/*save the event*/
@@ -194,6 +198,7 @@ public class Managment_Controller implements Initializable,ControllerI {
 		Login_win.to_Client.accept((Object)toSend);
     }
 
+    /**get the stores for report comparison*/
     public void compare_Reports(ActionEvent event) {
 
     	/*save the event*/

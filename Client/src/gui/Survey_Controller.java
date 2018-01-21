@@ -55,6 +55,7 @@ public class Survey_Controller implements Initializable, ControllerI{
     	move(event,main.fxmlDir+ "Managment_F.fxml");
     }
 
+    /**Insert a new survery into DB*/
     public void addvertise_Survey(ActionEvent event) 
     {
     	/*get the details from input fields*/
@@ -121,6 +122,7 @@ public class Survey_Controller implements Initializable, ControllerI{
     }
 
     
+    /**Return answer from server query upon survey creation*/
     public void create_survey_success(Object message)
     {
     	/*the creating was successful -> run in new thread the new window*/

@@ -7,14 +7,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import javax.swing.JOptionPane;
-
 import action.ClientConsole;
 import action.Item;
 import action.Msg;
 import action.Person;
-import action.Product;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,10 +52,12 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 	ArrayList<Item> products = null; // Items from the most recent query.
 	public Item p; // The attributes selected so far && selected item.
 
+	/**Add button function*/
 	public void addSelectedItem(ActionEvent event) {
 
 		boolean addItem = true; // Add the item? t=yes
 		String add = ""; // Label string to indicate if item has been added
+		boolean exists=false;
 
 		// If an item has been selected (null if user just entered the page)
 		if (p != null) {
@@ -67,6 +66,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 			HashMap<Item, Integer> amountMap = (HashMap<Item, Integer>) Self_Item_Controller.itemToAmount;
 			// If user pressed the Add Item button twice -> ask him if he is sure
 			if (productsArr.size() > 0 && p == productsArr.get(productsArr.size() - 1)) {
+				exists=true;
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Confirm Additional Same Item");
 				alert.setHeaderText("Confirmation of item addition");
@@ -85,9 +85,14 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 			// if user select Ok->add the item, green label.
 			if (addItem) {
 				add = "You have added " + p.getName();
-				amountMap.put(p, Integer.parseInt(this.amount_wanted_TF.getText()));
-				p.setType(type);
-				productsArr.add(p);
+				int oldAmn=0;
+				if(exists) {
+					oldAmn=amountMap.get(p);
+				}
+				int newAmn=Integer.parseInt(this.amount_wanted_TF.getText()) + oldAmn;
+				amountMap.put(p,newAmn);
+				if(exists) productsArr.get(productsArr.size() - 1).setAmount(newAmn);
+				else productsArr.add(p);
 				added_L.setTextFill(Color.web("#25a829"));
 			} else // else-> don't add item, red label.
 				added_L.setTextFill(Color.web("#ab0909"));
@@ -112,6 +117,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 			if (products.get(i).getName().equals(name)) {
 				price = products.get(i).getPrice();
 				p = products.get(i);
+				p.setType(type_CB.getValue().toString());
 				this.amount_wanted_TF.setText("1");
 				unit_price_TF.setText(Float.toString(price));
 				break;
@@ -298,6 +304,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		}
 	}
 
+	/**Back button function*/
 	public void back(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Self_Item_F.fxml");
 	}

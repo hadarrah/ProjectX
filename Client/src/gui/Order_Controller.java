@@ -216,8 +216,13 @@ public class Order_Controller implements Initializable, ControllerI {
 				}
 				
 			}
-			if(!badTime)
-				this.time = hour_TF.getText() + ":" + min_TF.getText(); // 14:36		
+			if(!badTime) {
+				String hour = hour_TF.getText();
+				String min = min_TF.getText();
+				if(hour_TF.getText().length()<2) hour="0"+hour_TF.getText().length();
+				if(min_TF.getText().length()<2) min="0"+min_TF.getText().length();
+				this.time = hour + ":" + min; // 14:36
+			}
 		}
 		
 
@@ -294,43 +299,12 @@ public class Order_Controller implements Initializable, ControllerI {
 	public void getDate(ActionEvent e) {
 	     this.date = datePick.getValue().format(dateFormatter);
 	}
-	
 
-//	/**Set total price including delivery and subscription rates.*/
-//	public void setTotalPrice() {
-//		float price = userCart.calcTotalPrice();
-//
-//
-//		
-//		double disc=0;
-//		
-//		switch (acc.getSubscription()){
-//		case "Year": disc=1;
-//		case "Month": disc=0.9;
-//		case "Per Order": disc = 0.65;
-//		}
-//		
-//		price*=disc;
-//		
-//		if(acc.getRefund_sum() >0) {
-//			price-=acc.getRefund_sum();
-//			refund_L.setVisible(true);
-//			refund_TF.setVisible(true);
-//		}
-//		else {
-//			refund_L.setVisible(false);
-//			refund_TF.setVisible(false);
-//		}
-//		
-//		if(delivery_P.isVisible())
-//			price+=deliveryPrice;
-//		
-//	}
-	
+	/**Back button function*/
 	public void back(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Main_Menu_F.fxml");
 	}
-	
+	/**Payment button function*/
 	public void payment(ActionEvent event) throws IOException {
 		move(event, main.fxmlDir + "Payment_F.fxml");
 	}
@@ -447,7 +421,7 @@ public class Order_Controller implements Initializable, ControllerI {
 			}
 		});
 	}
-
+	/**Initialize page function*/
 	public void initialize(URL location, ResourceBundle resources) {
 		/*
 		 * Update current controller (Log_win.toClient == user's ClientConsole)
@@ -465,7 +439,7 @@ public class Order_Controller implements Initializable, ControllerI {
 			while (acc == null) {
 				Thread.sleep(10);
 				i++;
-				if(i>3000) back(new ActionEvent());
+				if(i>300) back(new ActionEvent());
 			}			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -477,7 +451,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		order.setPersonid(customer.getUser_ID());
 		order.setStatus("Active");
 		order.setStoreid(acc.getStoreID());
-		
+
 		setRadioB();
 		setTextF();
 		setDatePicker();

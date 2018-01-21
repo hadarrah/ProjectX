@@ -125,7 +125,7 @@ public class EchoServer extends AbstractServer {
 			 */
 			switch (query_type) {
 			case "SELECT": {
-
+				
 				if (msg1.getRole().equals("View all catalog items"))
 					ViewItems(msg1, conn, client);
 				else if (msg1.getRole().equals("check if user already did this survey")) {
@@ -259,6 +259,13 @@ public class EchoServer extends AbstractServer {
 
 	}
 	
+	/**
+	 * Get active orders per customer and his paying account.
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
 	public static  void get_user_active_orders(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Msg msg = (Msg) msg1;
@@ -266,7 +273,7 @@ public class EchoServer extends AbstractServer {
 		ArrayList<Order> orders_history = new ArrayList<Order>();
 
 		try {
-			/** Building the query */
+			/* Building the query */
 
 			PreparedStatement ps = conn.prepareStatement(" SELECT * FROM  orders  where Person_ID=? and Status='Active' and Store_ID=?;");
 			ps.setString(1, cur_p.getUser_ID());
@@ -403,13 +410,7 @@ public class EchoServer extends AbstractServer {
 	 * @param msg1
 	 * @param conn
 	 * @param client
-	 */
-	/**
-	 * insert new item to item_in_catalog table and create item id by max value in the table
-	 * @param msg1
-	 * @param conn
-	 * @param client
-	 */
+	 **/
 	public static void insertNewItemInCatalog(Msg msg1, Connection conn, ConnectionToClient client) {		
 		Msg msg = (Msg) msg1;
 		
@@ -458,6 +459,13 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Insert card to customer's order
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
 	public static void insert_card(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		String oid = (String) msg1.freeField;
@@ -1063,6 +1071,13 @@ public class EchoServer extends AbstractServer {
 
 	}
 
+	/**
+	 * Get all customer's orders
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
 	public static void get_user_orders_id(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Msg msg = (Msg) msg1;
@@ -1091,7 +1106,14 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+	
+	/**
+	 * Insert the delivery requested by the customer
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
 	public static void insert_delivery(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Delivery d = (Delivery) msg1.oldO;
@@ -1120,7 +1142,14 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+	
+	/**
+	 * Insert the customer's order & get new order ID
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
 	public static void insert_order(Msg msg1, Connection conn, ConnectionToClient client) {
 		Order order = (Order) msg1.oldO;
 
@@ -1169,12 +1198,20 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Insert relevant items in customer's order into DB
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException 
+	 */
 	public static void insert_items_in_order(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Msg msg = (Msg) msg1;
 		ArrayList<Item> items = (ArrayList<Item>) msg1.oldO; // arrives as individual items
 		HashMap<String, Integer> amounts = (HashMap<String, Integer>) msg1.newO; // amounts.(Item_ID)==amount
 		int orderID = (int) msg.num1;
+		String oid = msg1.freeField;
 
 		PreparedStatement ps;
 
@@ -1193,22 +1230,24 @@ public class EchoServer extends AbstractServer {
 					Self_Item si = (Self_Item)t;
 
 					for(Item item_in_self : si.items) {
-					ps = conn.prepareStatement("INSERT INTO self_item (ID, Item_Id, Type, Amount)" + " VALUES (?,?,?,?);");
+					ps = conn.prepareStatement("INSERT INTO self_item (ID, Item_Id, Type, Amount, OrderID)" + " VALUES (?,?,?,?,?);");
 					ps.setString(1, Integer.toString(newid));
 					ps.setString(2, item_in_self.getID());
 					ps.setString(3, t.getType());
 					ps.setString(4, Integer.toString(si.getItemAmount(item_in_self)) );
+					ps.setString(5, oid );
 
 					ps.executeUpdate();
 				}
 					}
+				
+				if(!(t instanceof Self_Item)) {
 
 				// then associate the item with the order.
 				ps = conn.prepareStatement(
 						"INSERT INTO `item_in_order` (Order_ID, Item_ID, Type, Amount)" + " VALUES (?, ?, ?, ? );");
 
 				String id;
-				System.out.println("ORDER ID IS: " +orderID);
 
 				ps.setString(1, Integer.toString(orderID));
 				if (newid > -1)
@@ -1223,6 +1262,7 @@ public class EchoServer extends AbstractServer {
 				ps.executeUpdate();
 
 			}
+				}
 
 			client.sendToClient(msg);
 
@@ -1260,21 +1300,22 @@ public class EchoServer extends AbstractServer {
 				return;
 			}
 
-			rs.previous();
-
-			while (rs.next()) {
+			
 				acc.setID(rs.getString(1));
 				acc.setCreditCard(rs.getString(2));
 				acc.setStatus(rs.getString(3));
 				acc.setSubscription(rs.getString(4));
 				acc.setStoreID(rs.getString(5));
 				acc.setDate(rs.getString(6));
+				if(rs.getString(7) != null)
 				acc.setRefund_sum(Float.parseFloat(rs.getString(7)));
-			}
+				else acc.setRefund_sum((float)0.0);
+			
 
 
 			msg.newO = acc;
 			client.sendToClient(msg);
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1392,6 +1433,7 @@ public class EchoServer extends AbstractServer {
 	 * @param msg1
 	 * @param conn
 	 * @param client
+	 * @throws IOException, SQLException 
 	 */
 	public static void get_the_current_survey_id(Msg msg1, Connection conn, ConnectionToClient client) {
 
@@ -1426,35 +1468,13 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-	/*
-	 * public static void set_customer_in_survey_answered(Msg msg1, Connection conn,
-	 * ConnectionToClient client) {
-	 * 
-	 * Msg msg = (Msg) msg1; Survey survey = (Survey) msg.oldO; Person customer =
-	 * (Person) msg.newO; try {
-	 * 
-	 * 
-	 * PreparedStatement ps = conn
-	 * .prepareStatement("INSERT INTO comments_survey (`ID`, `Customer_ID`) VALUES (?, ?);"
-	 * ); ps.setString(1, survey.getID()); ps.setString(2, customer.getUser_ID());
-	 * ps.executeUpdate(); } catch (SQLException e) { e.printStackTrace(); }
-	 * 
-	 * }
-	 */
-
-	public static void decoy(Msg msg, Connection con, ConnectionToClient client) throws IOException {
-
-		client.sendToClient(msg);
-	}
 
 	/**
-	 * Query for selecting items by Color-Type-Price combination
-	 * 
-	 * @param msg
-	 *            The message received from the client. msg.newO=max price.
-	 *            msg.oldO=min price.
+	 * Return an ArrayList<Item> with Customer's selected items for self item
+	 * @param msg1
+	 * @param conn
 	 * @param client
-	 *            The connection from which the message originated.
+	 * @throws IOException, SQLException 
 	 */
 	public static void SelectItemsCTP(Msg msg, Connection con, ConnectionToClient client) {
 
@@ -1470,7 +1490,7 @@ public class EchoServer extends AbstractServer {
 													// back from query
 
 		try {
-			/** Building the query */
+			/* Building the query */
 			PreparedStatement ps = con
 					.prepareStatement(" SELECT * FROM item WHERE Color=? AND Type=? " + "AND Price BETWEEN ? AND ?");
 			ps.setString(1, color);
@@ -1478,7 +1498,7 @@ public class EchoServer extends AbstractServer {
 			ps.setString(3, minprice);
 			ps.setString(4, maxprice);
 
-			/** Results */
+			/* Results */
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 
@@ -1490,7 +1510,7 @@ public class EchoServer extends AbstractServer {
 				((ArrayList<Item>) products).add(returnproduct);
 			}
 
-			/** back to client */
+			/* back to client */
 			msg1.newO = products;
 
 			client.sendToClient(msg);
@@ -1500,7 +1520,7 @@ public class EchoServer extends AbstractServer {
 			System.err.println("unable to send msg to client");
 		} catch (SQLException ex)
 
-		{/** handle any errors */
+		{/* handle any errors */
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
@@ -1508,6 +1528,13 @@ public class EchoServer extends AbstractServer {
 		return;
 	}
 
+	/**
+	 * Check if user already took the current survey
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException, SQLException 
+	 */
 	public static void check_if_user_took_this_survey(Msg msg1, Connection conn, ConnectionToClient client) {
 		Msg msg = (Msg) msg1;
 		Person user = (Person) msg.newO;
@@ -1541,6 +1568,13 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Check all relevant user details and returns his Payment_Account and Person with relevant info
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 * @throws IOException, SQLException 
+	 */
 	public static void check_user_details(Msg msg1, Connection conn, ConnectionToClient client) {
 		Person user = (Person) msg1.oldO;
 		String a;
@@ -1636,6 +1670,13 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Change's user's status upon login or logout
+	 * @param msg1
+	 * @param conn
+	 * @param new_status
+	 * @throws SQLException 
+	 */
 	public static boolean change_online_status(Msg msg1, Connection conn, String new_status) {
 
 		Person user = (Person) msg1.oldO;
@@ -1696,6 +1737,12 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Check if survey exists and returns the latest active one if exists
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
 	public static void check_survey_exist(Msg msg1, Connection conn, ConnectionToClient client) {
 		PreparedStatement ps;
 		ResultSet rs;
@@ -1703,7 +1750,7 @@ public class EchoServer extends AbstractServer {
 			ps = conn.prepareStatement(" SELECT * FROM survey WHERE Status = 'Active';");
 			rs = ps.executeQuery();
 			if (!rs.next()) {
-				/*get the last question*/
+				/*get the last survey*/
 				ps = conn.prepareStatement(" SELECT * FROM survey WHERE Status = 'No Active' AND ID=(SELECT MAX(ID) FROM survey);");
 				rs = ps.executeQuery();
 				rs.next();
@@ -1952,6 +1999,12 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Check if user is online (connected from another machine)
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
 	public static boolean isConnected(Msg msg1, Connection conn) {
 		boolean isAlreadyCon = false;
 		Person user = (Person) msg1.oldO;
@@ -1976,7 +2029,7 @@ public class EchoServer extends AbstractServer {
 	}
 
 	/**
-	 * 
+	 * Get the questions which correlates with the current active survey
 	 * @param msg
 	 * @param con
 	 * @param client
@@ -2511,6 +2564,12 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * Query for updating a given user's details and info
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
 	public static void Update_user_details(Object msg, Connection con, ConnectionToClient client) {
 		String ans = "Update done";
 		Msg msg1 = (Msg) msg;
@@ -2717,7 +2776,7 @@ public class EchoServer extends AbstractServer {
 	}
 
 	/**
-	 * this method gets the product name and change it. gets two Objects(product)
+	 * set details update from gui to DB
 	 * 
 	 * @param con
 	 * @param msg
@@ -2792,7 +2851,7 @@ public class EchoServer extends AbstractServer {
 	}
 
 	/**
-	 * change item status to deleted by update query
+	 * change item status to deleted with update query
 	 * @param msg
 	 * @param con
 	 * @param client
@@ -2810,47 +2869,6 @@ public class EchoServer extends AbstractServer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * this method gets the name of a product sends back the products details
-	 * 
-	 * @param msg
-	 * @param con
-	 * @param client
-	 */
-	public static void getProdectdetails(Object msg, Connection con, ConnectionToClient client) {
-		Msg msg1 = (Msg) msg;
-		Item p = (Item) msg1.oldO;
-		try {
-
-			/* send a query with the product name as a parameter */
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM hw2.product where ProductName=?");
-			ps.setString(1, p.getName());
-			ResultSet r = ps.executeQuery();
-			while (r.next()) {
-				p.setID(r.getString(1));
-				p.setName(r.getString(2));
-				p.setType(r.getString(3));
-				msg1.oldO = p;
-			}
-			/* back to client */
-			client.sendToClient(msg1);
-			r.close();
-		} catch (IOException x) {
-			System.err.println("unable to send msg to client");
-		} catch (SQLException ex)
-
-		{/* handle any errors */
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
-		}
-	}
-
-	public static void update_item_in_catalog(Object msg, Connection con, ConnectionToClient client) {
-		Msg msg1 = (Msg) msg;
-
 	}
 
 	/**

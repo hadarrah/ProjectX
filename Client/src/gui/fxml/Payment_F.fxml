@@ -71,7 +71,7 @@
             <Label fx:id="refund_L" layoutX="35.0" layoutY="14.0" text="Refund:" />
             <TextField fx:id="refund_TF" editable="false" layoutX="90.0" layoutY="10.0" prefHeight="25.0" prefWidth="62.0" />
             <Label layoutX="219.0" layoutY="14.0" text="Subscribtion Type:" />
-            <TextField fx:id="subscribtion_TF" editable="false" layoutX="330.0" layoutY="10.0" prefHeight="25.0" prefWidth="63.0" />
+            <TextField fx:id="subscribtion_TF" editable="false" layoutX="330.0" layoutY="10.0" prefHeight="25.0" prefWidth="74.0" />
             <Label fx:id="disc_amn_L" layoutX="274.0" layoutY="34.0" text="Gives XX% Discount">
                <font>
                   <Font name="System Bold Italic" size="16.0" />

@@ -157,9 +157,9 @@ public class Self_Item_Controller implements Initializable, ControllerI {
 	/**Get currently selected item from ListView*/
 	public void getSelectedFromLV(ActionEvent event) {
 		Item pr = items_selected_LV.getSelectionModel().getSelectedItem();
-//		System.out.println(pr.getName() + " is selected");
 	}
 	
+	/**Set type ComboBox when query returns from server*/
 	public void setTypeCB() {
 		ArrayList<String> arr = new ArrayList<String>();
 		arr.add("As Is");
