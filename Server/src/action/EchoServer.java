@@ -1114,7 +1114,7 @@ public class EchoServer extends AbstractServer {
 		}
 
 	}
-
+	/**Insert order into DB*/
 	public static void insert_order(Msg msg1, Connection conn, ConnectionToClient client) {
 		Order order = (Order) msg1.oldO;
 
@@ -1163,6 +1163,7 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**Insert items in order into DB*/
 	public static void insert_items_in_order(Msg msg1, Connection conn, ConnectionToClient client) {
 
 		Msg msg = (Msg) msg1;
