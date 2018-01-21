@@ -10,9 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import com.sun.corba.se.impl.ior.GenericTaggedProfile;
-
 import action.Msg;
 import action.MyFile;
 import action.Person;
