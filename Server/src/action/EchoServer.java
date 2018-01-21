@@ -1198,13 +1198,14 @@ public class EchoServer extends AbstractServer {
 					ps.executeUpdate();
 				}
 					}
+				
+				if(!(t instanceof Self_Item)) {
 
 				// then associate the item with the order.
 				ps = conn.prepareStatement(
 						"INSERT INTO `item_in_order` (Order_ID, Item_ID, Type, Amount)" + " VALUES (?, ?, ?, ? );");
 
 				String id;
-				System.out.println("ORDER ID IS: " +orderID);
 
 				ps.setString(1, Integer.toString(orderID));
 				if (newid > -1)
@@ -1219,6 +1220,7 @@ public class EchoServer extends AbstractServer {
 				ps.executeUpdate();
 
 			}
+				}
 
 			client.sendToClient(msg);
 

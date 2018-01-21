@@ -119,6 +119,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 			if (products.get(i).getName().equals(name)) {
 				price = products.get(i).getPrice();
 				p = products.get(i);
+				p.setType(type_CB.getValue().toString());
 				this.amount_wanted_TF.setText("1");
 				unit_price_TF.setText(Float.toString(price));
 				break;
