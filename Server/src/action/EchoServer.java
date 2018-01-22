@@ -2750,8 +2750,7 @@ public class EchoServer extends AbstractServer {
 	 */
 	public static MyFile getFileInfo(String id,String type) {
 
-		String fileLocation;
-		
+		String fileLocation;		
 		fileLocation = System.getProperty("user.dir") + File.separator + "Pictures" + File.separator + type + id
 				+ ".jpg";
 		
