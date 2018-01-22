@@ -19,8 +19,8 @@
             <Image url="@page.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="add_items_B" layoutX="119.0" layoutY="502.0" mnemonicParsing="false" onAction="#addSelectedItem" prefHeight="25.0" prefWidth="121.0" text="Add Selected Item" />
-      <Button fx:id="back_B" layoutX="312.0" layoutY="502.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Button fx:id="add_items_B" layoutX="119.0" layoutY="545.0" mnemonicParsing="false" onAction="#addSelectedItem" prefHeight="25.0" prefWidth="121.0" text="Add Selected Item" />
+      <Button fx:id="back_B" layoutX="312.0" layoutY="545.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <Label layoutX="32.0" layoutY="34.0" />
       <Label layoutX="45.0" layoutY="163.0" text="Color:" />
       <Button fx:id="present_items_B" layoutX="367.0" layoutY="155.0" mnemonicParsing="false" onAction="#findItemsByAttributes" prefHeight="58.0" prefWidth="88.0" text="Present Items" />
@@ -34,8 +34,8 @@
       <Label layoutX="48.0" layoutY="322.0" text="Item List:" />
       <Accordion layoutX="72.0" layoutY="132.0" />
       <ComboBox fx:id="select_item_CB" layoutX="144.0" layoutY="318.0" onAction="#itemSelected" prefHeight="25.0" prefWidth="150.0" />
-      <TextField fx:id="amount_wanted_TF" layoutX="179.0" layoutY="399.0" prefHeight="25.0" prefWidth="80.0" promptText="N/A" />
-      <Label layoutX="50.0" layoutY="403.0" text="Amount Wanted:" />
+      <TextField fx:id="amount_wanted_TF" layoutX="179.0" layoutY="363.0" prefHeight="25.0" prefWidth="80.0" promptText="N/A" />
+      <Label layoutX="50.0" layoutY="367.0" text="Amount Wanted:" />
       <TextField fx:id="unit_price_TF" editable="false" layoutX="390.0" layoutY="318.0" prefHeight="25.0" prefWidth="65.0" promptText="N/A" />
       <Label layoutX="324.0" layoutY="322.0" text="Unit Price:" />
       <Label layoutX="351.0" layoutY="127.0" text="Select items to present" />
@@ -49,7 +49,7 @@
             <Font name="Arial Bold Italic" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="added_L" layoutX="240.0" layoutY="462.0" text="Added" textFill="#0053aa">
+      <Label fx:id="added_L" layoutX="140.0" layoutY="502.0" text="Item has been added successfully!" textFill="#0053aa">
          <font>
             <Font name="Arial Bold Italic" size="12.0" />
          </font>
@@ -59,5 +59,6 @@
             <Font name="Arial Black" size="28.0" />
          </font>
       </Label>
+      <ImageView fx:id="img_IV" fitHeight="150.0" fitWidth="200.0" layoutX="290.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </Pane>

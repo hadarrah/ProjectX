@@ -1506,8 +1506,11 @@ public class EchoServer extends AbstractServer {
 				returnproduct.setID(rs.getString(1)); // set details as needed
 				returnproduct.setName(rs.getString(2));
 				returnproduct.setPrice(Float.parseFloat(rs.getString(4)));
+				MyFile f = getFileInfo(rs.getString(1), "It");
+				returnproduct.setImage(f);
 				// insert to array (cast from Object)
 				((ArrayList<Item>) products).add(returnproduct);
+				System.out.println("in SelectItemsCTP changed");
 			}
 
 			/* back to client */

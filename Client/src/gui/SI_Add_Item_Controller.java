@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import javax.swing.JOptionPane;
 import action.ClientConsole;
 import action.Item;
 import action.Msg;
+import action.MyFile;
 import action.Person;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -24,6 +26,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -42,6 +46,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 	public TextField min_TF, max_TF, amount_wanted_TF, in_stock_TF, unit_price_TF;
 	public ComboBox<String> color_CB, type_CB, select_item_CB;
 	public Label select_item_L, selection_missing_L, added_L;
+	public ImageView img_IV;
 
 	ControllerI prevPage;
 	public String type, color;
@@ -117,6 +122,8 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 			if (products.get(i).getName().equals(name)) {
 				price = products.get(i).getPrice();
 				p = products.get(i);
+				Image img = CreateImage(p.getImage());
+				img_IV.setImage(img);
 				p.setType(type_CB.getValue().toString());
 				this.amount_wanted_TF.setText("1");
 				unit_price_TF.setText(Float.toString(price));
@@ -127,6 +134,22 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 	}
 
+	/**
+	 * create an image with byte array
+	 * 
+	 * @param msg
+	 * @return
+	 */
+	public Image CreateImage(Object msg) {
+		MyFile mf = (MyFile) msg;
+		System.out.println(mf);
+		Image img = null;
+		img = new Image(new ByteArrayInputStream(mf.getMybytearray()));
+		int fileSize = ((MyFile) msg).getSize();
+		System.out.println("Message received: " + msg);
+		System.out.println("length " + fileSize);
+		return img;
+	}
 	
 	/**
 	 * func: findItemsByAttributes
@@ -262,6 +285,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		select_item_CB.setValue(null);
 		amount_wanted_TF.setText("");
 		unit_price_TF.setText("");
+		img_IV.setImage(null);
 	}
 
 	/**
