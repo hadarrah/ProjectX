@@ -147,6 +147,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	public void init() {
 		Next_B.setDisable(false);
 		ResetStyleLable();
+		ResetXlable();
 		AddCancel_B.setVisible(false);
 		AddSave_B.setVisible(false);
 		if (Managment_Controller.ManagmentFlage == 1) { //if chain employee
@@ -348,7 +349,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		});
 		Pic_B.setVisible(false);
 		ChangePicture = 0;
-		
+		view_counter=0;
 		Delete_B.setDisable(false);
 		Add_B.setDisable(false);
 		init();
