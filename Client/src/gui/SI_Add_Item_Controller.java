@@ -45,7 +45,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 	public Button add_items_B, present_items_B, back_B;
 	public TextField min_TF, max_TF, amount_wanted_TF, in_stock_TF, unit_price_TF;
 	public ComboBox<String> color_CB, type_CB, select_item_CB;
-	public Label select_item_L, selection_missing_L, added_L;
+	public Label select_item_L, selection_missing_L, added_L,amtX_L;
 	public ImageView img_IV;
 
 	ControllerI prevPage;
@@ -63,6 +63,16 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		boolean addItem = true; // Add the item? t=yes
 		String add = ""; // Label string to indicate if item has been added
 		boolean exists=false;
+
+		try {
+		int k = Integer.parseInt(amount_wanted_TF.getText());
+		}
+		catch(NumberFormatException e) {
+			amtX_L.setVisible(true);
+			added_L.setVisible(false);
+			return;
+		}
+		amtX_L.setVisible(false);
 
 		// If an item has been selected (null if user just entered the page)
 		if (p != null) {
@@ -379,6 +389,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		selection_missing_L.setText("No Items Selected.");
 		selection_missing_L.setVisible(true);
 		added_L.setVisible(false);
+		amtX_L.setVisible(false);
 		/*return back via ESC*/
 		this.back_B.setCancelButton(true);
 		

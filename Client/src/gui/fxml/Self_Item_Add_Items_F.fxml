@@ -34,8 +34,8 @@
       <Label layoutX="48.0" layoutY="322.0" text="Item List:" />
       <Accordion layoutX="72.0" layoutY="132.0" />
       <ComboBox fx:id="select_item_CB" layoutX="144.0" layoutY="318.0" onAction="#itemSelected" prefHeight="25.0" prefWidth="150.0" />
-      <TextField fx:id="amount_wanted_TF" layoutX="179.0" layoutY="363.0" prefHeight="25.0" prefWidth="80.0" promptText="N/A" />
-      <Label layoutX="50.0" layoutY="367.0" text="Amount Wanted:" />
+      <TextField fx:id="amount_wanted_TF" layoutX="161.0" layoutY="405.0" prefHeight="25.0" prefWidth="80.0" promptText="N/A" />
+      <Label layoutX="50.0" layoutY="409.0" text="Amount Wanted:" />
       <TextField fx:id="unit_price_TF" editable="false" layoutX="390.0" layoutY="318.0" prefHeight="25.0" prefWidth="65.0" promptText="N/A" />
       <Label layoutX="324.0" layoutY="322.0" text="Unit Price:" />
       <Label layoutX="351.0" layoutY="127.0" text="Select items to present" />
@@ -60,5 +60,10 @@
          </font>
       </Label>
       <ImageView fx:id="img_IV" fitHeight="150.0" fitWidth="200.0" layoutX="290.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="amtX_L" layoutX="250.0" layoutY="406.0" text="X" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="16.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
