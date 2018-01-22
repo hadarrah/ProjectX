@@ -2647,7 +2647,7 @@ public class EchoServer extends AbstractServer {
 				Itc.setName(rs1.getString(2));
 				Itc.setPrice(rs1.getFloat(3));
 				Itc.setDescription(rs1.getString(4));
-				f = getFileInfo(Itc.getID());
+				f = getFileInfo(Itc.getID(),"Itc");
 				Itc.setImage(f);
 				Itc.setAmount(-1);
 				Itc_arr.add(Itc);
@@ -2700,7 +2700,7 @@ public class EchoServer extends AbstractServer {
 					Itc.setName(rs2.getString(2));
 					Itc.setPrice(rs2.getFloat(3));
 					Itc.setDescription(rs2.getString(4));
-					f = getFileInfo(Itc.getID());
+					f = getFileInfo(Itc.getID(),"Itc");
 					Itc.setImage(f);
 					Itc.setAmount(rs1.getInt(2));
 					Sale S = new Sale();
@@ -2745,11 +2745,13 @@ public class EchoServer extends AbstractServer {
 	 * @param id
 	 * @return
 	 */
-	public static MyFile getFileInfo(String id) {
+	public static MyFile getFileInfo(String id,String type) {
 
 		String fileLocation;
-		fileLocation = System.getProperty("user.dir") + File.separator + "Pictures" + File.separator + "Itc" + id
+		
+		fileLocation = System.getProperty("user.dir") + File.separator + "Pictures" + File.separator + type + id
 				+ ".jpg";
+		
 		MyFile to_send = new MyFile(id + ".jpg");
 		to_send.setDescription(fileLocation);
 		try {
