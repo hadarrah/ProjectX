@@ -13,7 +13,6 @@ import action.Person;
 import action.Self_Item;
 import action.Cart;
 import action.Item;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -32,10 +31,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -175,13 +172,7 @@ public class Self_Item_Controller implements Initializable, ControllerI {
  
 	/**Back to main Menu*/
 	public void back(ActionEvent event) throws IOException {
-		Parent menu;
-		menu = FXMLLoader.load(getClass().getResource( main.fxmlDir + "Main_Menu_F.fxml"));
-		Scene win1 = new Scene(menu);
-		 win1.getStylesheets().add(getClass().getResource("/gui/Main_menu.css").toExternalForm());
-		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
-		win_1.setScene(win1);
-		win_1.show();
+		move(event, main.fxmlDir + "Main_menu_F.fxml");
 	}
 
 	/**Move to Add Items page*/

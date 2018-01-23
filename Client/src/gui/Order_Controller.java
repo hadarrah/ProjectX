@@ -302,13 +302,14 @@ public class Order_Controller implements Initializable, ControllerI {
 
 	/**Back button function*/
 	public void back(ActionEvent event) throws IOException {
-		move(event, main.fxmlDir + "Main_Menu_F.fxml");
+		move(event, main.fxmlDir+"Cart_F.fxml");
 	}
+	
 	/**Payment button function*/
 	public void payment(ActionEvent event) throws IOException {
-		move(event, main.fxmlDir + "Payment_F.fxml");
+		move(event, main.fxmlDir+"Payment_F.fxml");
 	}
-
+	
 	/**
 	 * General function for the movement between the different windows
 	 * 
@@ -338,6 +339,8 @@ public class Order_Controller implements Initializable, ControllerI {
 			}
 		});
 	}
+
+
 
 	/**Set RadioButton Javafx*/
 	public void setRadioB() {

@@ -460,11 +460,11 @@ public class Payment_Controller implements Initializable, ControllerI {
 	}
 	/**Back button function*/
 	public void back(ActionEvent event) throws IOException {
-		move(event, main.fxmlDir + "Order_F.fxml");
+		move(event,main.fxmlDir + "Order_F.fxml");
 	}
 	/**Back to menu function*/
 	public void backMenu(ActionEvent event) throws IOException {
-		move(event, main.fxmlDir + "Main_menu_F.fxml");
+		move(event,main.fxmlDir + "Main_menu_F.fxml");
 	}
 
 	/**
