@@ -46,6 +46,7 @@ public class Main_menu implements Initializable, ControllerI {
 	public Button view_catalog_B, cancel_order_B, self_item_B, complain_B;
 	public static ActionEvent event_l,event_n;
 	public static Cart userCart;
+	public Label inCart_L;
 
 	/**Logout button function - get back to login initial window*/
 	public void back_logOut(ActionEvent event) throws IOException {
@@ -256,6 +257,16 @@ public class Main_menu implements Initializable, ControllerI {
 		getCustomer.setRole("check for pending complaints");
 		Login_win.to_Client.accept((Object) getCustomer);
 	}
+	/**Check if there are items in cart and present label under icon
+	 * with the amount of items currently in cart*/
+	public void check_items_in_cart() {
+		if(Cart_Controller.userCart.selectedItemsArr.size()>0) {
+			inCart_L.setVisible(true);
+			inCart_L.setText(Cart_Controller.userCart.selectedItemsArr.size()+" items in cart");
+		}
+			else
+			inCart_L.setVisible(false);
+	}
 
 	/**
 	 * handle with the result if there is pending complaints
@@ -308,6 +319,7 @@ public class Main_menu implements Initializable, ControllerI {
 		if (current_user.getPrivilege().equals("Customer")) {
 			check_start_date_subscription();
 		}
+		check_items_in_cart();
 
 	}
 

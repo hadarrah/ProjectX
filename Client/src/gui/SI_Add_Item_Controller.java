@@ -121,8 +121,9 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 		String name = select_item_CB.getValue();
 		float price = -1;
+		
+		add_items_B.setDisable(false);
 
-//		System.out.println("You have selected: " + name);
 
 		for (int i = 0; i < products.size(); i++) {
 			if (products.get(i).getName().equals(name)) {
@@ -148,12 +149,9 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 	 */
 	public Image CreateImage(Object msg) {
 		MyFile mf = (MyFile) msg;
-		System.out.println(mf);
 		Image img = null;
 		img = new Image(new ByteArrayInputStream(mf.getMybytearray()));
 		int fileSize = ((MyFile) msg).getSize();
-		System.out.println("Message received: " + msg);
-		System.out.println("length " + fileSize);
 		return img;
 	}
 	
@@ -263,8 +261,11 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 		select_item_CB.setItems(ObsList);
 
-		if (products.size() > 0)
+		if (products.size() > 0) {
 			select_item_L.setVisible(true);
+			select_item_CB.setDisable(false);
+		}
+		add_items_B.setDisable(true);
 
 
 		if (ObsList.size() <= 0) {
@@ -380,6 +381,9 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 		/* Set ComboBox */
 		setType();
 		setColor();
+		
+		select_item_CB.setDisable(true);
+		add_items_B.setDisable(true);
 
 		select_item_L.setVisible(false);
 		selection_missing_L.setText("No Items Selected.");
