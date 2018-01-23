@@ -96,8 +96,6 @@ public class Profile_Controller implements ControllerI,Initializable {
 		 
  	}
 	
-	
-	
 	  public void back_to_main(ActionEvent event)throws IOException 
 		{
 			  Parent menu;
