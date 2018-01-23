@@ -1787,101 +1787,89 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * check if there is already active sale in the user's store
-	 * 
 	 * @param msg1
 	 * @param conn
 	 * @param client
 	 */
-	public static void CheckForActiveSale(Msg msg1, Connection conn, ConnectionToClient client) {
-		Person employee = (Person) msg1.oldO;
+	public static void CheckForActiveSale(Msg msg1, Connection conn, ConnectionToClient client) 
+	{
+		Person employee = (Person)msg1.oldO;
 		PreparedStatement ps, psItem;
 		ResultSet rs, rsItem, rsClose;
-
-		String store, table = "";
-
-		// String store;
-
+		String store;
 		Sale sale = null;
-		SortedMap<String, String> items = new TreeMap<String, String>();
+		SortedMap<String , String> items = new TreeMap<String , String>();
 		ArrayList<String> items_in_sale = new ArrayList<String>();
 		boolean exist = false;
-
+		
 		try {
-			/* get the store id of the employee (every employee has a payment account) */
+			/*get the store id of the employee (every employee has a payment account)*/
 			ps = conn.prepareStatement(" SELECT * FROM payment_account WHERE ID = ?;");
 			ps.setString(1, employee.getUser_ID());
 			rs = ps.executeQuery();
 			rs.next();
 			store = rs.getString("Store_ID");
-
-			/* check if there is sale by checking all the items */
+			
+			/*check if there is sale by checking all the items*/
 			ps = conn.prepareStatement(" SELECT * FROM store WHERE ID = ?;");
 			ps.setString(1, store);
 			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				if (rs.getString("Sale_ID") != null) {
-					exist = true;
-
-					if (sale == null) {
-						/* get the details of sale */
+			
+			while(rs.next())
+			{
+				if(rs.getString("Sale_ID") != null)
+				{
+					exist=true;
+					
+					if(sale == null)
+					{
+						/*get the details of sale*/
 						ps = conn.prepareStatement(" SELECT * FROM sales WHERE ID = ?;");
-						ps.setString(1, rs.getString("Sale_ID"));
+						ps.setString(1,rs.getString("Sale_ID"));
 						rsClose = ps.executeQuery();
 						rsClose.next();
-						sale = new Sale(store, rsClose.getString("Description"), rsClose.getString("Discount"));
+						sale = new Sale(store,rsClose.getString("Description"),rsClose.getString("Discount"));
 						sale.setID(rsClose.getString("ID"));
 					}
-
-					if (rs.getString("Type").equals("Item"))
-						table = "item";
-					else
-						table = "item_in_catalog";
-
-					/*
-					 * get the name of each item from the origin table that participant in the sale
-					 */
-					psItem = conn.prepareStatement(" SELECT * FROM " + table + " WHERE ID = ?;");
-
+					
+					/*get the name of each item from the origin table that participant in the sale*/
+					psItem = conn.prepareStatement(" SELECT * FROM item_in_catalog WHERE ID = ?;");
 					psItem.setString(1, rs.getString("Item_ID"));
 					rsItem = psItem.executeQuery();
 					rsItem.next();
 					items_in_sale.add(rsItem.getString("Name"));
 				}
-				else // get the name of the item
+				else //get the name of the item
 				{
-
-					if (rs.getString("Type").equals("Item"))
-						table = "item";
-					else
-						table = "item_in_catalog";
-
-					if (rs.getString("Type").equals("Catalog")) // only for item from catalog
+					if(rs.getString("Type").equals("Catalog"))	//only for item from catalog
 					{
-						/* get the name of each item from the origin table */
+						/*get the name of each item from the origin table*/
 						psItem = conn.prepareStatement(" SELECT * FROM item_in_catalog WHERE ID = ?;");
 						psItem.setString(1, rs.getString("Item_ID"));
 						rsItem = psItem.executeQuery();
 						rsItem.next();
-						items.put(rsItem.getString("ID"), rsItem.getString("Name"));
+						if(rsItem.getString("Status").equals("Active"))
+							items.put(rsItem.getString("ID"), rsItem.getString("Name"));	
 					}
-
 				}
 			}
-
-			if (exist) {
+			
+			if(exist)
+			{
 				msg1.freeField = "There is sale"; // this is mean that there is active sale
 				msg1.oldO = sale;
 				msg1.newO = store;
 				msg1.freeUse = items_in_sale;
 				client.sendToClient(msg1);
-			} else {
+			}
+			else
+			{
 				msg1.freeField = "There is no sale"; // this is mean that there is no active sale
 				msg1.oldO = store; // save the store id for the future
 				msg1.freeUse = items;
 				client.sendToClient(msg1);
 			}
-
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
