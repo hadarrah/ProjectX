@@ -197,6 +197,8 @@ public class ClientConsole implements ChatIF {
 					((gui.Main_menu) mc).get_answer_if_start_date_change(message);
 				else if (check.getRole().equals("get combo customer ID for create payment account"))
 					((gui.Managment_Controller) mc).receive_from_server_payment_account(message);
+				else if (check.getRole().equals("check if already exist complaint"))
+					((gui.Main_menu) mc).get_answer_of_complaint(message);
 				
 				//else if (check.getRole().equals("check if the user already did this survey")) {
  				//	((gui.Main_menu)mc).survey_premession(message);

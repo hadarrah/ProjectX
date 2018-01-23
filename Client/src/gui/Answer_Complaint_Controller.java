@@ -90,12 +90,10 @@ public class Answer_Complaint_Controller implements Initializable,ControllerI{
 			
 			/*find the specific complaint to update*/
 			for(Complain com : Managment_Controller.complaint)
-				if(com.getCustomer_ID().equals(customer_ID_combo.getValue()))
+				if(com.getCustomer_ID().equals(customer_ID_combo.getValue()) && com.getComplain_ID().equals(complaint_ID_L.getText()))
 					{
 						com.setAnswer(answer);
 						com.setCompensation(compensation_Text.getText());
-						com.setCustomer_ID(customer_ID_combo.getValue());
-						com.setStore(store_ID_combo.getValue());
 						/*prepare msg to server*/
 						Msg commentToSet = new Msg();
 						commentToSet.setUpdate();

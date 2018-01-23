@@ -92,12 +92,18 @@ public class Main_menu implements Initializable, ControllerI {
 
 	public void complain(ActionEvent event) throws IOException {
 
-		Parent menu;
-		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Post_Complain_F.fxml"));
-		Scene win1 = new Scene(menu);
-		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
-		win_1.setScene(win1);
-		win_1.show();
+		/*save the event*/
+		event_l =new ActionEvent();		 
+		event_l=event.copyFor(event.getSource(), event.getTarget());
+		
+		 /*prepare msg to server*/
+		Msg msg = new Msg();
+		msg.setSelect();
+		msg.setRole("check if already exist complaint");
+		msg.oldO = Login_win.chosen_store;
+		msg.newO = Login_win.current_user.getUser_ID();
+
+		Login_win.to_Client.accept((Object) msg);
 	}
 
 	public void managment(ActionEvent event) throws IOException {
@@ -244,6 +250,50 @@ public class Main_menu implements Initializable, ControllerI {
 					return;
 				}
 			});
+		}
+	}
+	
+	/**
+	 * handle with the result of checking if there is complaint
+	 */
+	public void get_answer_of_complaint(Object msg) 
+	{
+		String answer = (String)((Msg)msg).newO;
+		if(answer.equals("No complaint"))
+		{
+			/* there are pending complaints -> run in new thread the new window */
+			Platform.runLater(new Runnable() {
+
+				@Override
+				public void run() {
+
+					Parent menu;
+					try {
+						menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Post_Complain_F.fxml"));
+						Scene win1 = new Scene(menu);
+						Stage win_1 = (Stage) ((Node) (event_l.getSource())).getScene().getWindow();
+						win_1.setScene(win1);
+						win_1.show();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			});
+		}
+		else
+		{
+			/*the creating was successful -> run in new thread the new window*/
+        	Platform.runLater(new Runnable() {
+    			
+    			@Override
+    			public void run() {
+			 	    Login_win.showPopUp("INFORMATION", "Message", "You already have a complaint in this store", "Please wait for answer...");
+    			 		return;
+
+    			}
+    		}); 
 		}
 	}
 	

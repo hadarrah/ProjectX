@@ -189,6 +189,8 @@ public class EchoServer extends AbstractServer {
 					check_start_date_paymentAccount(msg1, conn, client);
 				else if (msg1.getRole().equals("get combo customer ID for create payment account"))
 					get_customerID_for_payment_account(msg1, conn, client);
+				else if (msg1.getRole().equals("check if already exist complaint"))
+					check_complaint_exist(msg1, conn, client);
 			}
 			case "UPDATE": {
 				// System.out.println("in server- update case: "+msg1.getRole());
@@ -591,6 +593,42 @@ public class EchoServer extends AbstractServer {
 
 	}
 	
+	
+	/**
+	 * check if there is already complaint from this user from this store
+	 * 
+	 * @param msg1
+	 * @param conn
+	 * @param client
+	 */
+	public static void check_complaint_exist(Msg msg1, Connection conn, ConnectionToClient client) {
+		String store = (String)msg1.oldO;
+		String customer = (String)msg1.newO;
+
+		PreparedStatement ps;
+		ResultSet rs;
+		
+		try {
+			/** Building the query */
+
+			 ps = conn.prepareStatement("SELECT * FROM complaint WHERE Customer_ID = ? AND Store_Id = ? AND Status='Pending';");
+			 ps.setString(1, customer);
+			 ps.setString(2, store);
+			 rs = ps.executeQuery();
+			if(rs.next())
+				msg1.newO = "Exist complaint";
+			else
+				msg1.newO = "No complaint";
+			 
+			client.sendToClient(msg1);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 	
 	/**
 	 * get the Stores ids
