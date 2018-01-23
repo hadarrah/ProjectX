@@ -427,6 +427,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		});
 		Delete_B.setDisable(false);
 		Edit_B.setDisable(false);
+		view_counter=0;
 		init();
 	}
 
