@@ -71,7 +71,7 @@ public class Reservation_Report extends Report{
 		for(Item_In_Order iio: item_in_order)
 		{
 			if(iio.getItem().equals(id))
-				count++;
+				count += iio.getAmount();
 		}
 		return count;
 	}
