@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import org.controlsfx.control.textfield.*?>
 <?import javafx.scene.effect.*?>
 <?import com.jfoenix.controls.*?>
@@ -14,7 +15,7 @@
 
 <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600" prefWidth="500" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Main_menu">
    <children>
-      <ImageView fitHeight="600" fitWidth="500" opacity="0.8">
+      <ImageView fitHeight="600.0" fitWidth="500.0" opacity="0.8">
          <image>
             <Image url="@page.jpg" />
          </image>
@@ -24,23 +25,41 @@
             <Font name="Arial Black" size="28.0" />
          </font>
       </Label>
-      <Button fx:id="back_B" layoutX="14.0" layoutY="522.0" mnemonicParsing="false" onAction="#back_logOut" prefHeight="23.0" prefWidth="58.0" text="LogOut" />
+      <Button fx:id="back_B" layoutX="14.0" layoutY="522.0" mnemonicParsing="false" onAction="#back_logOut" prefHeight="31.0" prefWidth="77.0" text="LogOut" />
       <Button fx:id="mannag_B" layoutX="411.0" layoutY="35.0" mnemonicParsing="false" onAction="#managment" text="Mannagment" visible="false" />
-      <VBox alignment="CENTER" layoutX="130.0" layoutY="175.0" prefHeight="236.0" prefWidth="240.0" spacing="15.0">
+      <VBox alignment="CENTER" layoutX="130.0" layoutY="151.0" prefHeight="236.0" prefWidth="240.0" spacing="15.0">
          <children>
             <Button fx:id="view_catalog_B" mnemonicParsing="false" onAction="#catalog" text="View catalog" />
-            <Button fx:id="cart_B" mnemonicParsing="false" onAction="#cart" text="Cart" />
             <Button fx:id="self_item_B" mnemonicParsing="false" onAction="#self_item" text="Create your own product" />
             <Button fx:id="cancel_order_B" mnemonicParsing="false" onAction="#cancel_order" text="Cancel order" />
             <Button fx:id="complain_B" mnemonicParsing="false" onAction="#complain" text="Open a new complain" />
          </children>
       </VBox>
-      <Button fx:id="user_profile_B" layoutX="12.0" layoutY="92.0" mnemonicParsing="false" onAction="#to_user_profile" text="Profile" />
-      <Label fx:id="lblStore" alignment="CENTER" layoutX="93.0" layoutY="79.0" prefHeight="88.0" prefWidth="314.0" textAlignment="CENTER" textFill="#3733cc">
+      <Button fx:id="user_profile_B" layoutX="9.0" layoutY="92.0" mnemonicParsing="false" onAction="#to_user_profile" prefHeight="17.0" prefWidth="2.0">
+         <graphic>
+            <ImageView fitHeight="41.0" fitWidth="45.0">
+               <image>
+                  <Image url="@../../../ExternalGui/Apps-preferences-desktop-user-icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor></Button>
+      <Label fx:id="lblStore" alignment="CENTER" layoutX="97.0" layoutY="74.0" prefHeight="88.0" prefWidth="314.0" textAlignment="CENTER" textFill="#3733cc">
          <font>
             <Font name="Goudy Old Style Bold" size="24.0" />
          </font>
       </Label>
+      <Button fx:id="cart_B" layoutX="396.0" layoutY="162.0" mnemonicParsing="false" onAction="#cart" prefHeight="31.0" prefWidth="51.0">
+         <graphic>
+            <ImageView fitHeight="57.0" fitWidth="61.0">
+               <image>
+                  <Image url="@../../../ExternalGui/shop-cart-icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
          
    </children>
 </Pane>

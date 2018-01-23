@@ -70,6 +70,8 @@ public class Main_menu implements Initializable, ControllerI {
 			menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Login_F.fxml"));
 			// to_Client.setController(new Login_win());
 			Scene win1 = new Scene(menu);
+			 win1.getStylesheets().add(getClass().getResource("/gui/Login.css").toExternalForm());
+
 			Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 			win_1.setScene(win1);
 			win_1.show();
