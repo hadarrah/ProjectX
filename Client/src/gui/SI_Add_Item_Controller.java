@@ -8,8 +8,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javax.swing.JOptionPane;
-import action.ClientConsole;
 import action.Item;
 import action.Msg;
 import action.MyFile;
@@ -32,8 +30,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
@@ -340,14 +336,7 @@ public class SI_Add_Item_Controller implements Initializable, ControllerI {
 
 	/**Back button function*/
 	public void back(ActionEvent event) throws IOException {
-		Parent menu;
-		menu = FXMLLoader.load(getClass().getResource( main.fxmlDir + "Main_Menu_F.fxml"));
-		Scene win1 = new Scene(menu);
-		 win1.getStylesheets().add(getClass().getResource("/gui/Main_menu.css").toExternalForm());
-
-		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
-		win_1.setScene(win1);
-		win_1.show();
+		move(event,main.fxmlDir+"Self_Item_F.fxml");
 	}
 
 	/**
