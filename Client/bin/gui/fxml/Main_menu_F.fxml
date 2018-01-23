@@ -25,8 +25,8 @@
             <Font name="Arial Black" size="28.0" />
          </font>
       </Label>
-      <Button fx:id="back_B" layoutX="14.0" layoutY="522.0" mnemonicParsing="false" onAction="#back_logOut" prefHeight="31.0" prefWidth="77.0" text="LogOut" />
-      <Button fx:id="mannag_B" layoutX="376.0" layoutY="35.0" mnemonicParsing="false" onAction="#managment" prefHeight="31.0" prefWidth="116.0" text="Mannagment" visible="false" />
+      <Button fx:id="back_B" layoutX="14.0" layoutY="522.0" mnemonicParsing="false" onAction="#back_logOut" prefHeight="31.0" prefWidth="92.0" text="LogOut" />
+      <Button fx:id="mannag_B" layoutX="353.0" layoutY="35.0" mnemonicParsing="false" onAction="#managment" prefHeight="31.0" prefWidth="139.0" text="Mannagment" visible="false" />
       <VBox alignment="CENTER" layoutX="130.0" layoutY="151.0" prefHeight="236.0" prefWidth="240.0" spacing="15.0">
          <children>
             <Button fx:id="view_catalog_B" mnemonicParsing="false" onAction="#catalog" text="View catalog" />
@@ -36,16 +36,16 @@
          </children>
       </VBox>
       <Button fx:id="user_profile_B" layoutX="9.0" layoutY="92.0" mnemonicParsing="false" onAction="#to_user_profile" prefHeight="17.0" prefWidth="2.0">
-         <graphic>
-            <ImageView fitHeight="41.0" fitWidth="45.0">
-               <image>
-                  <Image url="@../../../ExternalGui/Apps-preferences-desktop-user-icon.png" />
-               </image>
-            </ImageView>
-         </graphic>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
-         </cursor></Button>
+         </cursor>
+         <graphic>
+            <ImageView>
+               <image>
+                  <Image url="@../../ExternalGui/Apps-preferences-desktop-user-icon.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
       <Label fx:id="lblStore" alignment="CENTER" layoutX="97.0" layoutY="74.0" prefHeight="88.0" prefWidth="314.0" textAlignment="CENTER" textFill="#3733cc">
          <font>
             <Font name="Goudy Old Style Bold" size="24.0" />
@@ -55,7 +55,7 @@
          <graphic>
             <ImageView>
                <image>
-                  <Image url="@../../../ExternalGui/Cart-icon%20(1).png" />
+                  <Image url="@../../ExternalGui/Cart-icon%20(1).png" />
                </image>
             </ImageView>
          </graphic>

@@ -5,11 +5,10 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JFX"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="mysql-connector-java-5.1.19-bin.jar"/>
-	<classpathentry kind="lib" path="ExternalGui/controlsfx-samples-8.40.14.jar"/>
-	<classpathentry kind="lib" path="ExternalGui/jfoenix.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/External"/>
+	<classpathentry exported="true" kind="lib" path="src/ExternalGui/jfoenix.jar"/>
+	<classpathentry exported="true" kind="lib" path="src/ExternalGui/controlsfx-samples-8.40.14.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
