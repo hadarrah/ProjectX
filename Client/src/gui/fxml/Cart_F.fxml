@@ -17,8 +17,8 @@
             <Image url="@page.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="order_B" layoutX="160.0" layoutY="543.0" mnemonicParsing="false" onAction="#order" prefHeight="33.0" prefWidth="65.0" text="Order" />
-      <Button fx:id="back_B" layoutX="300.0" layoutY="547.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Button fx:id="order_B" layoutX="283.0" layoutY="543.0" mnemonicParsing="false" onAction="#order" prefHeight="33.0" prefWidth="65.0" text="Order" />
+      <Button fx:id="back_B" layoutX="162.0" layoutY="547.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <Label layoutX="32.0" layoutY="34.0" />
       <Label layoutX="38.0" layoutY="122.0" text="Items Selected:" />
       <Button fx:id="remove_items_B" layoutX="365.0" layoutY="122.0" mnemonicParsing="false" onAction="#removeFromSelected" prefHeight="46.0" prefWidth="123.0" text="Remove Item" />
