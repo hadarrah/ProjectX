@@ -41,16 +41,8 @@ public class main extends Application {
 	   */
    public static void main(String[] args) 
    {
-	   if(args.length>0)
-		   user_host=args[0];
-	   if(user_host ==null)
-		   user_host = JOptionPane.showInputDialog("Enter destnation IP");
-	   if(user_host.equals(""))
-	   {
-		   JOptionPane.showMessageDialog(null, "Invalid IP");
-	   	   System.exit(0);
-	   }
-	   launch(user_host);
+	  
+	   launch(args);
 			
 	 }
 	}

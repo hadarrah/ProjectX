@@ -45,9 +45,15 @@ public class Cart {
 			
 			if(p instanceof Item_In_Catalog) {
 				Item_In_Catalog pc = (Item_In_Catalog)p;
-				if(pc.getSale()!=null) {
-					totalPrice += pc.getAmount()* (pc.getPrice() - (pc.getPrice()*Integer.parseInt(pc.getSale().getDiscount()))*0.01); 
-				}
+                if(pc.getSale().getID()!=null && pc.getSale().getID()!="") { 
+
+                    totalPrice += pc.getAmount()* (pc.getPrice() - (pc.getPrice()*Integer.parseInt(pc.getSale().getDiscount()))*0.01);  
+
+                } 
+
+                else  
+
+                    totalPrice +=pc.getPrice(); 
 			}
 		}
 		
