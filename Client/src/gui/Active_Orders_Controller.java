@@ -98,7 +98,6 @@ public static Order orderID_to_cancel= new Order();
 	 /**
 	  * sends a request to the server-> DB
 	  * to get this user order history
-	  * 
 	  */
 	  protected void getUserHistory() 
 	  {
