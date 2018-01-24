@@ -29,10 +29,10 @@
       <Button fx:id="mannag_B" layoutX="353.0" layoutY="35.0" mnemonicParsing="false" onAction="#managment" prefHeight="31.0" prefWidth="139.0" text="Mannagment" visible="false" />
       <VBox alignment="CENTER" layoutX="130.0" layoutY="151.0" prefHeight="236.0" prefWidth="240.0" spacing="15.0">
          <children>
-            <Button fx:id="view_catalog_B" mnemonicParsing="false" onAction="#catalog" text="View catalog" />
+            <Button fx:id="view_catalog_B" mnemonicParsing="false" onAction="#catalog" prefHeight="31.0" prefWidth="182.0" text="View catalog" />
             <Button fx:id="self_item_B" mnemonicParsing="false" onAction="#self_item" text="Create your own product" />
-            <Button fx:id="cancel_order_B" mnemonicParsing="false" onAction="#cancel_order" text="Cancel order" />
-            <Button fx:id="complain_B" mnemonicParsing="false" onAction="#complain" text="Open a new complain" />
+            <Button fx:id="cancel_order_B" mnemonicParsing="false" onAction="#cancel_order" prefHeight="31.0" prefWidth="180.0" text="Cancel order" />
+            <Button fx:id="complain_B" mnemonicParsing="false" onAction="#complain" prefHeight="31.0" prefWidth="196.0" text="Open a new complain" />
          </children>
       </VBox>
       <Button fx:id="user_profile_B" layoutX="21.0" layoutY="92.0" mnemonicParsing="false" onAction="#to_user_profile" prefHeight="17.0" prefWidth="2.0">
