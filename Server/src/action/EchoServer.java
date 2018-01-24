@@ -1,7 +1,5 @@
 package action;
 
-
- 
 import java.io.*;
 import java.net.URL;
 import java.sql.Connection;
@@ -512,7 +510,7 @@ public class EchoServer extends AbstractServer {
 			/** Building the query */
 
 			PreparedStatement ps = conn.prepareStatement(" SELECT ID "
-					+ "FROM person where Privilege='Customer' and ID not in ( SELECT  Customer_ID FROM zerli.comments_survey);");
+					+ "FROM person where Privilege='Customer' and ID not in ( SELECT  Customer_ID FROM comments_survey);");
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -1656,6 +1654,8 @@ public class EchoServer extends AbstractServer {
 						pay_account.setStatus(rs2.getString(3));
 						pay_account.setSubscription(rs2.getString(4));
 						pay_account.setStoreID(rs2.getString(5));
+						if(rs2.getString(7)!=null)
+						pay_account.setRefund_sum(Float.parseFloat(rs2.getString(7)));
 						pay_account_arr.add(pay_account);
 						PreparedStatement ps3 = conn.prepareStatement("SELECT ID,Location FROM store where ID=?;");
 						ps3.setString(1, rs2.getString(5));
