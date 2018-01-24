@@ -7,8 +7,6 @@ import client.*;
 import common.*;
 import gui.Login_win;
 import gui.Menu_controller;
-import gui.win2_Controller;
-
 //import controllers.*; //Future import
 
 /**
