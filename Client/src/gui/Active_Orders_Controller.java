@@ -35,7 +35,6 @@ public  static ArrayList<Order> order_history;
 public Button back_to_profile,cancel_orderb;
 public Label user_name;
 public static Order orderID_to_cancel= new Order();
-
 	  @FXML
 	  TableView<Order_History> table = new TableView<Order_History>();	  
 	  @FXML    
@@ -99,6 +98,8 @@ public static Order orderID_to_cancel= new Order();
 	 /**
 	  * sends a request to the server-> DB
 	  * to get this user order history
+	  * *
+	  * 
 	  */
 	  protected void getUserHistory() 
 	  {
