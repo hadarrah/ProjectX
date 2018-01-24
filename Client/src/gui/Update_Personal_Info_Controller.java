@@ -51,6 +51,8 @@ public class Update_Personal_Info_Controller implements ControllerI,Initializabl
 			  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+"Profile_F.fxml"));
 			//  to_Client.setController(new Main_menu());
 			 Scene win1= new Scene(menu);
+			 win1.getStylesheets().add(getClass().getResource("/gui/Profile.css").toExternalForm());
+
 			 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
 			 win_1.setScene(win1);
 			 win_1.show();

@@ -1657,6 +1657,7 @@ public class EchoServer extends AbstractServer {
 						pay_account.setStatus(rs2.getString(3));
 						pay_account.setSubscription(rs2.getString(4));
 						pay_account.setStoreID(rs2.getString(5));
+						pay_account.setRefund_sum(Float.parseFloat(rs2.getString(7)));
 						pay_account_arr.add(pay_account);
 						PreparedStatement ps3 = conn.prepareStatement("SELECT ID,Location FROM store where ID=?;");
 						ps3.setString(1, rs2.getString(5));

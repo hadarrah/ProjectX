@@ -24,22 +24,45 @@
       </Label>
       <Button fx:id="back_to_main_B" layoutX="14.0" layoutY="543.0" mnemonicParsing="false" onAction="#back_to_main" text="Back" />
       <Button fx:id="edit_details_B" layoutX="74.0" layoutY="444.0" mnemonicParsing="false" onAction="#to_update_info" text="Edit Personal Details" />
-      <VBox layoutX="339.0" layoutY="123.0" spacing="20.0">
+      <VBox layoutX="394.0" layoutY="123.0" spacing="20.0">
          <children>
-            <Button fx:id="history" contentDisplay="CENTER" mnemonicParsing="false" onAction="#to_purchase_history" prefHeight="31.0" prefWidth="147.0" text="View Purchase history" textAlignment="CENTER">
+            <Button fx:id="history" contentDisplay="CENTER" mnemonicParsing="false" onAction="#to_purchase_history" prefHeight="58.0" prefWidth="15.0" textAlignment="CENTER">
                <font>
                   <Font size="13.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="59.0" fitWidth="60.0">
+                     <image>
+                        <Image url="@../../ExternalGui/shopping-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
          </children>
       </VBox>
-      <JFXTextArea fx:id="details_txt" editable="false" focusColor="#0f4afc" labelFloat="true" layoutX="10.0" layoutY="101.0" prefHeight="323.0" prefWidth="305.0" style="-fx-border-color: gray;" unFocusColor="#ff0202">
+      <VBox layoutX="23.0" layoutY="139.0" prefHeight="148.0" prefWidth="279.0" spacing="6.0">
+         <children>
+            <Label fx:id="l_id" contentDisplay="CENTER" text="ID:" />
+            <Label fx:id="l_name" text="Name:" />
+            <Label fx:id="l_last_name" text="Last Name:" />
+            <Label fx:id="l_type" text="Type:" />
+            <Label fx:id="l_wwid" text="WWID:" />
+         </children>
+      </VBox>
+      <VBox layoutX="23.0" layoutY="308.0" prefHeight="140.0" prefWidth="438.0" spacing="7.0">
+         <children>
+            <Label fx:id="l_credit" prefHeight="28.0" prefWidth="438.0" text="Credit Card:" />
+            <Label fx:id="l_subs" text="Subscription:" />
+            <Label fx:id="l_status" text="Status:" />
+            <Label fx:id="l_balance" text="Balance:" />
+         </children>
+      </VBox>
+      <Label layoutX="91.0" layoutY="277.0" text="Account Details" underline="true">
          <font>
-            <Font name="System Bold Italic" size="21.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
-         <effect>
-            <Glow />
-         </effect>
-      </JFXTextArea>
+      </Label>
+      <Label layoutX="98.0" layoutY="102.0" text="Personal Details" underline="true" />
+      <Label layoutX="369.0" layoutY="102.0" prefHeight="21.0" prefWidth="117.0" text="Purchase History" />
    </children>
 </Pane>

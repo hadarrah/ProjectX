@@ -1,6 +1,5 @@
 package gui;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,16 +16,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class Profile_Controller implements ControllerI,Initializable {
-	public JFXTextArea details_txt;
 	public Button back_to_main_B,edit_details_B,history;
 	public VBox v_details;
+	public Label l_credit,l_subs,l_status,l_balance,l_id,l_name,l_last_name,l_type,l_wwid;
 	
 	
 	/**Move to Purchase History button function*/
@@ -48,54 +47,33 @@ public class Profile_Controller implements ControllerI,Initializable {
 	public void set_user_details(Person user)
 	{
 		Person current_user=user;
-		details_txt.setEditable(false);
-		details_txt.setFont(new Font("SansSerif", 17));
-		//details_txt.setStyle("-fx-background-color:orangered;");
-				 
-	  	String details="Personal Details";
-		 details_txt.appendText("\t\t\t"+details+"\n\n");
-	  
-		 details="ID:"+current_user.getUser_ID();
-		 details_txt.appendText(details+"\n\n");
-		 details="Name:"+current_user.getUser_name();
-		 details_txt.appendText(details+"\n\n");
-		 details="Last Name:"+current_user.getUser_last_name();
-		 details_txt.appendText(details+"\n\n");
-		  details="Type:"+current_user.getPrivilege();
-		 details_txt.appendText(details+"\n\n");
-		 if(!(current_user.getPrivilege().equals("Customer"))) {
-		 details="WWID:"+current_user.getWWID();
-		 details_txt.appendText(details+"\n\n\n");
-		  }
-		 
-		
-		 
-		 
-		 
-		 
+		 l_id.setText( "ID:"+ current_user.getUser_ID());
+		 l_name.setText( "Name:"+current_user.getUser_name());
+		 l_last_name.setText("Last Name:"+current_user.getUser_last_name());
+ 		 l_type.setText( "Type:"+current_user.getPrivilege());
+		 if(!(current_user.getPrivilege().equals("Customer")))  
+		 l_wwid.setText("WWID:"+current_user.getWWID());
+		 else
+			 l_wwid.setVisible(false);
+		   
 		if(!(gui.Login_win.current_user_pay_account.getCreditCard()==null)) 
 		{
-			
-		
-		 details="Account Details";
-		 details_txt.appendText("\t\t\t"+details+"\n\n");
-		 details_txt.setFont(new Font("SansSerif", 17));
-		 details="Credit Card:"+gui.Login_win.current_user_pay_account.getCreditCard();
-		 details_txt.appendText(details+"\n\n");
-		 details="Subscription:"+gui.Login_win.current_user_pay_account.getSubscription();
-		 details_txt.appendText(details+"\n\n");
-		 details="Status:"+gui.Login_win.current_user_pay_account.getStatus();
-		 details_txt.appendText(details+"\n\n");
+		 l_credit.setText("Credit Card:"+gui.Login_win.current_user_pay_account.getCreditCard());
+		 l_subs.setText("Subscription:"+gui.Login_win.current_user_pay_account.getSubscription());
+ 		 l_status.setText("Status:"+gui.Login_win.current_user_pay_account.getStatus());
+	 
+		 if(gui.Login_win.current_user_pay_account.getRefund_sum()==null)
+          l_balance.setText("Balance : 0");
+		 else
+		  l_balance.setText("Balance :"+Float.toString(gui.Login_win.current_user_pay_account.getRefund_sum())); 
 		 }
 		else {
-			 details="Payment Account wasn't set yet- Please Contact the store manager !";
-			 details_txt.setFont(new Font("Verdana", 12));
-			 details_txt.appendText("\t\t\t"+details+"\n\n");
-			
-		}
-		 
+			 l_credit.setText("Payment Account wasn't set yet- Please Contact the store manager !");
+			 l_status.setVisible(false);
+ 			 l_balance.setVisible(false);
+			 l_subs.setVisible(false);
+		}	 
  	}
-	
 	  public void back_to_main(ActionEvent event)throws IOException 
 		{
 			  Parent menu;
@@ -151,6 +129,7 @@ public class Profile_Controller implements ControllerI,Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
 		set_user_details(gui.Login_win.current_user);
 		// TODO Auto-generated method stub
 		
