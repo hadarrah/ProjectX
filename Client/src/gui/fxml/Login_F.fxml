@@ -46,5 +46,12 @@
       </Label>
       <ComboBox fx:id="cbxStore" layoutX="175.0" layoutY="196.0" prefWidth="150.0" promptText="Choose a store" visible="false" />
       <Button fx:id="BOK" layoutX="234.0" layoutY="251.0" mnemonicParsing="false" onAction="#Ok" text="OK" visible="false" />
+      <TextField fx:id="destination_IdT" layoutX="175.0" layoutY="116.0" prefWidth="150.0" promptText="Enter server Id" />
+      <Button fx:id="Bconnect" layoutX="194.0" layoutY="251.0" mnemonicParsing="false" onAction="#hit_connect" prefHeight="31.0" prefWidth="118.0" text="Connect To Server" />
+      <Label fx:id="invalid_IPL" layoutX="210.0" layoutY="141.0" text="Invalid IP" textFill="#eb0a0a" visible="false">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

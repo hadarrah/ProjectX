@@ -38,9 +38,9 @@ import javafx.scene.control.ComboBox;
 public class Login_win  implements ControllerI,Initializable  {
 	public static String user_name;
 	public static String user_pass;
-	public Button Blogin,Bmanngment,Bquit, BOK;
-	public TextField user_IdT,user_passT;
-	public Label invalid_detailsL;
+	public Button Blogin,Bmanngment,Bquit, BOK, Bconnect;
+	public TextField user_IdT,user_passT, destination_IdT;
+	public Label invalid_detailsL, invalid_IPL;
 	public Label welcomeL,already_conL,user_not_existL, must_storeL;
 	public ComboBox<String> cbxStore;
 	public static int login_counter=0;
@@ -65,7 +65,6 @@ public class Login_win  implements ControllerI,Initializable  {
 		 event_log =new ActionEvent();		 
 		 event_log=event.copyFor(event.getSource(), event.getTarget());
 	
-
 		/**check if the details that were entered is valid*/
 		if(user_IdT.getText().equals("") ||user_passT.getText().equals("") )
 		{
@@ -85,14 +84,39 @@ public class Login_win  implements ControllerI,Initializable  {
 		to_Client.accept((Object)check_user_details);	
 	}
 	
+	
+	/**
+	 * Connect button action function
+	 * @param event
+	 */
+	public void hit_connect(ActionEvent event)
+	{
+		if(destination_IdT.getText().equals(""))
+		{
+			invalid_IPL.setVisible(true);
+			return;
+		}
+		invalid_IPL.setVisible(false);
+		gui.main.user_host = destination_IdT.getText();
+		ClientConsole toClient = new ClientConsole(gui.main.user_host,5555,this);
+		to_Client=toClient;
+		
+		Blogin.setVisible(true);
+		user_IdT.setVisible(true);
+		user_passT.setVisible(true);
+		Bconnect.setVisible(false);
+		destination_IdT.setVisible(false);
+		return;
+	}
+	
 	/**
 	 * Confirm user details in the DB
 	 * @param obj
 	 */
 	public void get_comfirmation(Object obj) 
 	{	
-		
-	 	Msg msg=(Msg) obj;
+
+		Msg msg=(Msg) obj;
 		Person user=(Person) msg.newO;	
 		
 		if(user.isAlreadyConnected()==true) {
@@ -279,18 +303,22 @@ public class Login_win  implements ControllerI,Initializable  {
   * Initialize login: creating a new client, saves the ref of this gui screen
   */
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-	
-		ClientConsole toClient = new ClientConsole(gui.main.user_host,5555,this);
-		to_Client=toClient;
-		
-		// TODO Auto-generated method stub
-		
+	public void initialize(URL location, ResourceBundle resources) 
+	{
+		if(to_Client == null)	//new connection
+		{
+			Blogin.setVisible(false);
+			user_IdT.setVisible(false);
+			user_passT.setVisible(false);
+		}
+		else	//connection exist
+		{
+	    	to_Client.setController(this);
+			Blogin.setVisible(true);
+			user_IdT.setVisible(true);
+			user_passT.setVisible(true);
+			Bconnect.setVisible(false);
+			destination_IdT.setVisible(false);
+		}
 	}
-
-
- 
-
-
-	 
 }
