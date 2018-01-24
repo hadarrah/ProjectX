@@ -44,7 +44,7 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
 		Parent menu;
 		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Main_menu_F.fxml"));
 		 Scene win1= new Scene(menu);
-		 win1.getStylesheets().add(getClass().getResource("/gui/Main_menu.css").toExternalForm());
+		 win1.getStylesheets().add(getClass().getResource("css/Main_menu.css").toExternalForm());
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		 win_1.setScene(win1); 
 		 win_1.show();
@@ -134,7 +134,7 @@ public class Post_Complain_Controller implements ControllerI,Initializable {
 	    		 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Main_menu_F.fxml"));
  	    		 Scene win1= new Scene(menu);
 	    		 Stage win_1= (Stage) ((Node) (event_g.getSource())).getScene().getWindow();
-	    		 win1.getStylesheets().add(getClass().getResource("/gui/Main_menu.css").toExternalForm());
+	    		 win1.getStylesheets().add(getClass().getResource("css/Main_menu.css").toExternalForm());
 	    		 win_1.setScene(win1);
 	    		 win_1.show(); 
 	       

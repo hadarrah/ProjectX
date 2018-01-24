@@ -71,7 +71,7 @@ public class Main_menu implements Initializable, ControllerI {
 			menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Login_F.fxml"));
 			// to_Client.setController(new Login_win());
 			Scene win1 = new Scene(menu);
-			 win1.getStylesheets().add(getClass().getResource("/gui/Login.css").toExternalForm());
+			 win1.getStylesheets().add(getClass().getResource("css/Login.css").toExternalForm());
 
 			Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 			win_1.setScene(win1);
@@ -83,8 +83,8 @@ public class Main_menu implements Initializable, ControllerI {
 
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "View_Catalog1.fxml"));
-		// to_Client.setController(new Managment_Controller());
 		Scene win1 = new Scene(menu);
+		 win1.getStylesheets().add(getClass().getResource("css/View_Catalog.css").toExternalForm());
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);
 		win_1.show();
@@ -111,6 +111,7 @@ public class Main_menu implements Initializable, ControllerI {
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Managment_F.fxml"));
 		Scene win1 = new Scene(menu);
+		 win1.getStylesheets().add(getClass().getResource("css/Managment.css").toExternalForm());
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);
 		win_1.show();
@@ -121,6 +122,8 @@ public class Main_menu implements Initializable, ControllerI {
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Self_Item_F.fxml"));
 		Scene win1 = new Scene(menu);
+		 win1.getStylesheets().add(getClass().getResource("css/common.css").toExternalForm());
+
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);
 		win_1.show();
@@ -134,6 +137,8 @@ public class Main_menu implements Initializable, ControllerI {
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Active_Orders_F.fxml"));
 		Scene win1 = new Scene(menu);
+		 win1.getStylesheets().add(getClass().getResource("css/common.css").toExternalForm());
+
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);
 		win_1.show();
@@ -143,27 +148,13 @@ public class Main_menu implements Initializable, ControllerI {
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Profile_F.fxml"));
 		Scene win1 = new Scene(menu);
-		 win1.getStylesheets().add(getClass().getResource("/gui/Profile.css").toExternalForm());
+		 win1.getStylesheets().add(getClass().getResource("css/Profile.css").toExternalForm());
 
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);
 		win_1.show();
 	}
 
-	/* /* check if the user already took this survey *//*
-														   /public void take_survey(ActionEvent event) throws
-														   IOException {
-														   
-														  event_l = new ActionEvent(); event_l =
-														   event.copyFor(event.getSource(), event.getTarget());
-														   
-														   Msg msg = new Msg(); msg.setSelect();
-														  msg.setRole("check if user already did this survey");
-														   msg.setTableName("comments_survey"); msg.newO = current_user;
-														 * msg.oldO = current_survey; Login_win.to_Client.accept(msg);
-														 * 
-														 * }
-														 */
 	public void survey_premession(Object o) {
 		Msg msg = (Msg) o;
 
@@ -202,6 +193,8 @@ public class Main_menu implements Initializable, ControllerI {
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Cart_F.fxml"));
 		Scene win1 = new Scene(menu);
+		 win1.getStylesheets().add(getClass().getResource("css/common.css").toExternalForm());
+
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);
 		win_1.show();
@@ -273,6 +266,7 @@ public class Main_menu implements Initializable, ControllerI {
 					try {
 						menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Post_Complain_F.fxml"));
 						Scene win1 = new Scene(menu);
+						 win1.getStylesheets().add(getClass().getResource("css/common.css").toExternalForm());
 						Stage win_1 = (Stage) ((Node) (event_l.getSource())).getScene().getWindow();
 						win_1.setScene(win1);
 						win_1.show();
@@ -345,6 +339,7 @@ public class Main_menu implements Initializable, ControllerI {
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Answer_Survey_F.fxml"));
 		Scene win1 = new Scene(menu);
+		 win1.getStylesheets().add(getClass().getResource("css/common.css").toExternalForm());
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);
 		win_1.show();

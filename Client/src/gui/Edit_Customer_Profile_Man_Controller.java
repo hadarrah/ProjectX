@@ -263,6 +263,7 @@ public class Edit_Customer_Profile_Man_Controller implements Initializable, Cont
 		  Parent menu;
 		  menu = FXMLLoader.load(getClass().getResource(next_fxml));
 		 Scene win1= new Scene(menu);
+		 win1.getStylesheets().add(getClass().getResource("css/Managment.css").toExternalForm());
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		 win_1.setScene(win1);
 		 win_1.show();

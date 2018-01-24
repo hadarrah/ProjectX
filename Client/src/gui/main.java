@@ -25,7 +25,7 @@ public class main extends Application {
 		URL url = getClass().getResource(fxmlDir+ "Login_F.fxml");
 	 	Pane pane = FXMLLoader.load( url );
 	  	Scene scene = new Scene( pane );
-	  	scene.getStylesheets().add(getClass().getResource("/gui/Login.css").toExternalForm());
+	  	scene.getStylesheets().add(getClass().getResource("css/Login.css").toExternalForm());
 	  	primaryStage.setResizable(false);
 		
 	    // setting the stage

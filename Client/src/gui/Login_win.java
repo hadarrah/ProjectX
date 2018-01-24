@@ -210,7 +210,7 @@ public class Login_win  implements ControllerI,Initializable  {
 		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Main_menu_F.fxml"));
 		//  to_Client.setController(new Main_menu());
 		 Scene win1= new Scene(menu);
-		 win1.getStylesheets().add(getClass().getResource("/gui/Main_menu.css").toExternalForm());
+		 win1.getStylesheets().add(getClass().getResource("css/Main_menu.css").toExternalForm());
 
 		 Stage win_1= (Stage) ((Node) (event_log.getSource())).getScene().getWindow();
 		 win_1.setResizable(false);

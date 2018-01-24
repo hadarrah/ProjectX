@@ -301,7 +301,6 @@ public class Cart_Controller implements Initializable, ControllerI {
 		}
 		else {
 			this.cardDesc=cardDesc_TA.getText();
-			System.out.println("in Cart_Controller.order");
 			move(event, main.fxmlDir + "Order_F.fxml");
 		}
 	}
@@ -332,6 +331,7 @@ public class Cart_Controller implements Initializable, ControllerI {
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(next_fxml));
 		Scene win1 = new Scene(menu);
+		 win1.getStylesheets().add(getClass().getResource("css/common.css").toExternalForm());
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);
 		win_1.show();

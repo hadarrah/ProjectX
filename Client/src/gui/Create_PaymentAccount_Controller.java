@@ -142,6 +142,7 @@ public class Create_PaymentAccount_Controller implements Initializable, Controll
 		  Parent menu;
 		  menu = FXMLLoader.load(getClass().getResource(next_fxml));
 		 Scene win1= new Scene(menu);
+		 win1.getStylesheets().add(getClass().getResource("css/Managment.css").toExternalForm());
 		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		 win_1.setScene(win1);
 		 win_1.show();

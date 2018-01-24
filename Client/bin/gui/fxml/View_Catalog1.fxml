@@ -23,34 +23,34 @@
             <Font name="Arial Black" size="45.0" />
          </font>
       </Text>
-      <Pane fx:id="borderPane" layoutX="15.0" layoutY="105.0" prefHeight="400.0" prefWidth="469.0" style="-fx-border-color: black;">
+      <Pane fx:id="borderPane" layoutX="13.0" layoutY="100.0" prefHeight="400.0" prefWidth="476.0" style="-fx-border-color: black;">
          <children>
-            <Label layoutX="21.0" layoutY="189.0" prefHeight="30.0" text="ID:" textFill="#2700c2">
+            <Label layoutX="21.0" layoutY="189.0" prefHeight="30.0" text="ID:" textFill="#2700c2" underline="true">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="21.0" layoutY="228.0" text="Name:" textAlignment="CENTER" textFill="#2700c2">
+            <Label layoutX="21.0" layoutY="228.0" text="Name:" textAlignment="CENTER" textFill="#2700c2" underline="true">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="22.0" layoutY="316.0" prefHeight="30.0" text="Price:" textAlignment="CENTER" textFill="#2700c2">
+            <Label layoutX="22.0" layoutY="316.0" prefHeight="30.0" text="Price:" textAlignment="CENTER" textFill="#2700c2" underline="true">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lblAmount" layoutX="20.0" layoutY="358.0" prefHeight="30.0" text="Amount:" textAlignment="CENTER" textFill="#2700c2">
+            <Label fx:id="lblAmount" layoutX="20.0" layoutY="358.0" prefHeight="30.0" text="Amount:" textAlignment="CENTER" textFill="#2700c2" underline="true">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="21.0" layoutY="266.0" prefHeight="30.0" text="Description:" textAlignment="CENTER" textFill="#2700c2">
+            <Label layoutX="21.0" layoutY="266.0" prefHeight="30.0" text="Description:" textAlignment="CENTER" textFill="#2700c2" underline="true">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="Itemimg" fitHeight="170.0" fitWidth="170.0" layoutX="151.0" layoutY="12.0" pickOnBounds="true" smooth="false">
+            <ImageView fx:id="Itemimg" fitHeight="170.0" fitWidth="170.0" layoutX="171.0" layoutY="12.0" pickOnBounds="true" smooth="false">
                <viewport>
                   <Rectangle2D />
                </viewport>
@@ -74,9 +74,9 @@
             </Label>
             <TextField fx:id="txtID" alignment="CENTER" editable="false" layoutX="163.0" layoutY="192.0" promptText="Automatically" />
             <TextField fx:id="txtName" alignment="CENTER" editable="false" layoutX="163.0" layoutY="227.0" />
-            <TextField fx:id="txtAmount" alignment="CENTER" editable="false" layoutX="163.0" layoutY="361.0" />
+            <TextField fx:id="txtAmount" alignment="CENTER" editable="false" layoutX="163.0" layoutY="361.0" prefHeight="31.0" prefWidth="186.0" />
             <TextField fx:id="txtPrice" alignment="CENTER" editable="false" layoutX="163.0" layoutY="324.0" />
-            <TextArea fx:id="txtDescription" layoutX="163.0" layoutY="260.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="57.0" prefWidth="149.0" text="&#10;" wrapText="true" />
+            <TextArea fx:id="txtDescription" layoutX="163.0" layoutY="262.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="57.0" prefWidth="186.0" text="&#10;" wrapText="true" />
             <Label layoutX="148.0" layoutY="231.0" text="X" textFill="#e40808" visible="false" fx:id="xName">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
@@ -99,18 +99,25 @@
             <Button fx:id="OkSaveAmount_B" layoutX="332.0" layoutY="360.0" mnemonicParsing="false" onAction="#SaveSetAmount" text="OK" visible="false" />
          </children>
       </Pane>
-      <Button fx:id="back_B" layoutY="574.0" mnemonicParsing="false" onAction="#back" text="Back" />
-      <Button fx:id="Prev_B" layoutX="15.0" layoutY="506.0" mnemonicParsing="false" onAction="#prevItem" text="&lt;&lt;Prev" />
-      <Button fx:id="Next_B" layoutX="428.0" layoutY="506.0" mnemonicParsing="false" onAction="#nextItem" text="Next&gt;&gt;" />
-      <Text fx:id="txtCounter" layoutX="239.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+      <Button fx:id="back_B" layoutX="6.0" layoutY="563.0" mnemonicParsing="false" onAction="#back" prefHeight="31.0" prefWidth="69.0" text="Back" />
+      <Button fx:id="Prev_B" layoutX="14.0" layoutY="504.0" mnemonicParsing="false" onAction="#prevItem" text="&lt;&lt;Prev" />
+      <Button fx:id="Next_B" layoutX="417.0" layoutY="505.0" mnemonicParsing="false" onAction="#nextItem" text="Next&gt;&gt;" />
+      <Text fx:id="txtCounter" layoutX="250.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Text>
-      <Button fx:id="AddToCart_B" layoutX="214.0" layoutY="506.0" mnemonicParsing="false" onAction="#AddToCart" text="Add to cart" />
-      <Button fx:id="OK_B" layoutX="233.0" layoutY="504.0" mnemonicParsing="false" onAction="#OK" prefHeight="27.0" prefWidth="40.0" text="OK" visible="false" />
+      <Button fx:id="AddToCart_B" layoutX="215.0" layoutY="498.0" mnemonicParsing="false" onAction="#AddToCart">
+         <graphic>
+            <ImageView>
+               <image>
+                  <Image url="@../../ExternalGui/shop-cart-add-icon.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+      <Button fx:id="OK_B" layoutX="218.0" layoutY="504.0" mnemonicParsing="false" onAction="#OK" prefHeight="31.0" prefWidth="84.0" text="OK" visible="false" />
       <Pane fx:id="ManagePane" layoutX="120.0" layoutY="506.0" minHeight="30.0" prefHeight="46.0" prefWidth="260.0" style="-fx-background-color: blue; -fx-border-color: black;" visible="false">
          <children>
-            <Button fx:id="Add_B" layoutX="190.0" layoutY="10.0" mnemonicParsing="false" onAction="#AddNewItemToCatalog" text="Add">
+            <Button fx:id="Add_B" layoutX="190.0" layoutY="10.0" mnemonicParsing="false" onAction="#AddNewItemToCatalog" prefHeight="25.0" prefWidth="47.0" text="Add">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -127,7 +134,7 @@
             </Button>
          </children>
       </Pane>
-      <Button fx:id="Save_B" layoutX="224.0" layoutY="466.0" mnemonicParsing="false" onAction="#Save" text="Save" visible="false" />
+      <Button fx:id="Save_B" layoutX="224.0" layoutY="466.0" mnemonicParsing="false" onAction="#Save" prefHeight="31.0" prefWidth="57.0" text="Save" visible="false" />
       <Label layoutX="163.0" layoutY="426.0" text="X" textFill="#e40808" visible="false" fx:id="xPrice">
          <font>
             <Font name="System Bold Italic" size="12.0" />

@@ -20,7 +20,7 @@
             <Font name="Arial Black" size="33.0" />
          </font>
       </Label>
-      <Button fx:id="back_B" layoutX="35.0" layoutY="366.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Button fx:id="back_B" layoutX="26.0" layoutY="503.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <Button fx:id="create_Sale_B" layoutX="198.0" layoutY="95.0" mnemonicParsing="false" onAction="#create_Sale" text="Create Sale" />
       <Button fx:id="create_Survey_B" layoutX="191.0" layoutY="95.0" mnemonicParsing="false" onAction="#create_Survey" text="Create Survey" />
       <Button fx:id="answer_Complaint_B" layoutX="177.0" layoutY="207.0" mnemonicParsing="false" onAction="#answer_Complaint" text="Answer Complaint" />
@@ -31,7 +31,7 @@
       <Button fx:id="compare_Reports_B" layoutX="181.0" layoutY="95.0" mnemonicParsing="false" onAction="#compare_Reports" text="Compare Reports" />
       <Button fx:id="close_Survey_B" layoutX="193.0" layoutY="153.0" mnemonicParsing="false" onAction="#close_Survey" text="Close Survey" />
       <Button fx:id="close_Sale_B" layoutX="201.0" layoutY="153.0" mnemonicParsing="false" onAction="#close_Sale" text="Close Sale" />
-      <Button fx:id="survey_b" layoutX="185.0" layoutY="300.0" mnemonicParsing="false" onAction="#answer_survey" text="Survey">
+      <Button fx:id="survey_b" layoutX="362.0" layoutY="155.0" mnemonicParsing="false" onAction="#answer_survey" text="Survey">
          <graphic>
             <ImageView fx:id="survey_img" fitHeight="48.0" fitWidth="56.0">
                <image>

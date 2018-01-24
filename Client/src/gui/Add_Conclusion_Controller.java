@@ -82,9 +82,16 @@ public class Add_Conclusion_Controller implements Initializable,ControllerI{
 			conclusionToSet.freeField = survey_ID_combo.getValue();
 			Login_win.to_Client.accept((Object) conclusionToSet);
 	    }
-
     public void back(ActionEvent event) throws IOException {
-    	move(event, main.fxmlDir+ "Managment_F.fxml");
+    
+    	 Parent menu;
+		  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Managment_F.fxml"));
+		 Scene win1= new Scene(menu);
+		 win1.getStylesheets().add(getClass().getResource("css/Managment.css").toExternalForm());
+		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		 win_1.setScene(win1);
+		 win_1.show();
+		 
     }
     
     
@@ -117,7 +124,14 @@ public class Add_Conclusion_Controller implements Initializable,ControllerI{
 			public void run() {
 				 	try {
 				 	    Login_win.showPopUp("INFORMATION", "Message", "Your conclusion was submitted - have a GOOD day!", "Thank you!");
-						move(event_log , main.fxmlDir+ "Managment_F.fxml");
+				 		 Parent menu;
+						  menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Managment_F.fxml"));
+						 Scene win1= new Scene(menu);
+						 win1.getStylesheets().add(getClass().getResource("css/Managment.css").toExternalForm());
+						 Stage win_1= (Stage) ((Node) (event_log.getSource())).getScene().getWindow();
+						 win_1.setScene(win1);
+						 win_1.show();
+				 	    
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
