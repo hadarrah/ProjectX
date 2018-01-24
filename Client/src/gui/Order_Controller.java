@@ -197,14 +197,36 @@ public class Order_Controller implements Initializable, ControllerI {
 		    	 
 		} 
 		
-		if(hour_TF.getText()==null || min_TF.getText()==null
-			||  hour_TF.getText().equals("") || min_TF.getText().equals("") )
+		boolean notNumber=false;
+		try {
+			Integer.parseInt(hour_TF.getText());
+			Integer.parseInt(min_TF.getText());
+		}
+		catch(NumberFormatException e) {
+			notNumber=true;
+		}
+
+		if(	   notNumber
+			|| hour_TF.getText()==null || min_TF.getText()==null
+			|| hour_TF.getText().equals("") || min_TF.getText().equals("")
+			|| Integer.parseInt(hour_TF.getText())>23 || Integer.parseInt(hour_TF.getText())<0
+			|| Integer.parseInt(min_TF.getText())>59 || Integer.parseInt(min_TF.getText())<0)
 			tX_L.setVisible(true);
-		else {
+		else 
 			tX_L.setVisible(false);
+		
 
 			badTime=false;
-			int day = Integer.parseInt(date.substring(0, 2));
+			int day;
+			boolean noDate=false;
+			try{
+				Integer.parseInt(date.substring(0, 2));
+			}
+			catch(NullPointerException e) {
+				noDate=true;
+			}
+			if(!noDate) {
+			day= Integer.parseInt(date.substring(0, 2));
 			if(day==lday) {
 				int omin=Integer.parseInt(min_TF.getText());
 				int ohour=Integer.parseInt(hour_TF.getText());
@@ -214,17 +236,17 @@ public class Order_Controller implements Initializable, ControllerI {
 							"");
 					badTime=true;
 				}
+				}
 				
 			}
 			if(!badTime) {
 				String hour = hour_TF.getText();
 				String min = min_TF.getText();
-				if(hour_TF.getText().length()<2) hour="0"+hour_TF.getText().length();
-				if(min_TF.getText().length()<2) min="0"+min_TF.getText().length();
+				if(hour_TF.getText().length()<2) hour="0"+hour_TF.getText();
+				if(min_TF.getText().length()<2) min="0"+min_TF.getText();
 				this.time = hour + ":" + min; // 14:36
 			}
-		}
-		
+				
 
 		if(		nameX_L.isVisible()
 			||  addX_L.isVisible()

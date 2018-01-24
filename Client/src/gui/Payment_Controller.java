@@ -209,6 +209,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 
 		order.setRequestdate(date);
 		order.setRequesttime(time);
+		
 		if (this.paymentmethod_TG.getSelectedToggle() == cash_R)
 			p = "Cash";
 		else
