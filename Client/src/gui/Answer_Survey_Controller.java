@@ -3,7 +3,6 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -16,21 +15,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -49,10 +43,11 @@ public TextArea user_comments;
 public ComboBox<String> users_id;
 public static Survey current_survey;
 ObservableList<String> list;
- /**
-  * need to be 10 radio button 
-  */
-
+/**
+ * go back to main menu
+ * @param event
+ * @throws IOException
+ */
 public void back_to_main(ActionEvent event) throws IOException {
 
 
@@ -65,7 +60,15 @@ public void back_to_main(ActionEvent event) throws IOException {
 	 win_1.show();
 }
 
-/**Submit button action function*/
+/**
+ * check if the form is valid after the user click on submit
+ * if not-> error msg is shown
+ * if the form is ok-> the answers submits to the DB 
+ * 
+ * @param event
+ * @throws IOException
+ */
+
 public void form_submit(ActionEvent event) throws IOException {
 	int validity_flag = 0;
 	 if(users_id.getValue()==null)
@@ -92,8 +95,8 @@ public void form_submit(ActionEvent event) throws IOException {
       {
     	  Parent menu;
     		 menu = FXMLLoader.load(getClass().getResource(main.fxmlDir+ "Main_menu_F.fxml"));
-    		// to_Client.setController(new Managment_Controller());
     		 Scene win1= new Scene(menu);
+    		 win1.getStylesheets().add(getClass().getResource("/gui/Main_menu.css").toExternalForm());
     		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
     		 win_1.setScene(win1);
     		 win_1.show();
@@ -426,8 +429,7 @@ public void get_customer_answers()
 	{
 		current_survey.setA6(10);
 	}
-	
-	 
+ 
 }
 
 /**Insert customer's answers into DB*/
@@ -449,9 +451,7 @@ public void update_survey_answers_inDB()
 	msg.newO=person;
 	
 	Login_win.to_Client.accept(msg);
-	
-	
-	
+
 }
 
 /**Query for getting questions for the current active survey*/
@@ -502,7 +502,7 @@ public void setCustomersId() {
 	msg.setSelect();
 	msg.setRole("get customres id");
 	msg.setTableName("person");
-	msg.freeField=gui.Login_win.chosen_store;////////////////////////
+	msg.freeField=gui.Login_win.chosen_store;
 	Login_win.to_Client.accept(msg);
 	
 	

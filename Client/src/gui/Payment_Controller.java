@@ -463,8 +463,15 @@ public class Payment_Controller implements Initializable, ControllerI {
 		move(event,main.fxmlDir + "Order_F.fxml");
 	}
 	/**Back to menu function*/
+
 	public void backMenu(ActionEvent event) throws IOException {
-		move(event,main.fxmlDir + "Main_menu_F.fxml");
+		Parent menu;
+		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Main_menu_F.fxml"));
+		Scene win1 = new Scene(menu);
+		 win1.getStylesheets().add(getClass().getResource("/gui/Main_menu.css").toExternalForm());
+		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		win_1.setScene(win1);
+		win_1.show();
 	}
 
 	/**

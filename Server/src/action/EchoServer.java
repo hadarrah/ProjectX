@@ -1,9 +1,5 @@
 package action;
-
-
- 
 import java.io.*;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -23,16 +19,8 @@ import java.util.TreeMap;
 import java.util.logging.FileHandler;
 import javax.swing.JOptionPane;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-
 import java.sql.PreparedStatement;
 import ocsf.server.*;
-
 /**
  * This class overrides some of the methods in the abstract superclass in order
  * to give more functionality to the server.
@@ -513,7 +501,7 @@ public class EchoServer extends AbstractServer {
 			/** Building the query */
 
 			PreparedStatement ps = conn.prepareStatement(" SELECT ID "
-					+ "FROM person where Privilege='Customer' and ID not in ( SELECT  Customer_ID FROM zerli.comments_survey);");
+					+ "FROM person where Privilege='Customer' and ID not in ( SELECT  Customer_ID FROM comments_survey);");
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -538,6 +526,7 @@ public class EchoServer extends AbstractServer {
 					i--;
 			
 				}
+			 
 			msg.newO = id;
 			
 			client.sendToClient(msg);

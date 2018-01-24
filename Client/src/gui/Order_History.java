@@ -1,9 +1,6 @@
  package gui;
 
 public class Order_History {
-	 
-	 
-	  
 	   private String ID;
 	   private String Delivery;
 	   private String Price;
@@ -27,11 +24,6 @@ public class Order_History {
 	     
 	   }
 	  
-	   
-	 
- 
-
-
 
 	public String getID() {
 		return ID;

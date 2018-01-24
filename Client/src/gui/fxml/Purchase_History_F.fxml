@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
@@ -13,14 +14,19 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TableView fx:id="table" layoutX="49.0" layoutY="79.0"   prefHeight="453.0" prefWidth="498.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="79.0">
+                  <ImageView fitHeight="600.0" fitWidth="571.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@page.jpg" />
+                     </image>
+                  </ImageView>
+                  <TableView fx:id="table" layoutX="49.0" layoutY="79.0" prefHeight="453.0" prefWidth="498.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="79.0">
                     <columns>
-                      <TableColumn fx:id="OrderId" prefWidth="69.0" text="Order ID" />
-                      <TableColumn fx:id="Status" prefWidth="68.0" text="Status" />
-                        <TableColumn fx:id="Price" prefWidth="75.0" text="Price" />
-                        <TableColumn fx:id="Order_date" prefWidth="93.0" text="Order Date" />
-                        <TableColumn fx:id="Delivery" editable="false" prefWidth="71.0" resizable="false" text="Delivery" />
-                        <TableColumn fx:id="Req_date" prefWidth="121.0" text="Req _date" />
+                      <TableColumn fx:id="Status" prefWidth="61.0" text="Status" />
+                        <TableColumn fx:id="Price" prefWidth="71.0" text="Price" />
+                        <TableColumn fx:id="Order_date" prefWidth="89.0" text="Order Date" />
+                        <TableColumn fx:id="Delivery" editable="false" prefWidth="65.0" resizable="false" text="Delivery" />
+                        <TableColumn fx:id="Req_date" prefWidth="114.0" text="Req _date" />
+                      <TableColumn fx:id="OrderId" prefWidth="97.0" text="Order ID" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
