@@ -1,5 +1,9 @@
 package action;
+
+
+ 
 import java.io.*;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,8 +23,16 @@ import java.util.TreeMap;
 import java.util.logging.FileHandler;
 import javax.swing.JOptionPane;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
 import java.sql.PreparedStatement;
 import ocsf.server.*;
+
 /**
  * This class overrides some of the methods in the abstract superclass in order
  * to give more functionality to the server.
@@ -49,11 +61,11 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * Constructs an instance of the echo server.
-	 * gets the table name, user name and password
-	 * also init the log file , if not exist
+	 *
 	 * @param port
-	 * The port number to connect on.
+	 *            The port number to connect on.
 	 */
+	@SuppressWarnings("deprecation")
 	public EchoServer(int port) {
 		super(port);
 		/* adding a log file */
@@ -63,7 +75,6 @@ public class EchoServer extends AbstractServer {
 			logger.addHandler(fh);
 			SimpleFormatter formatter = new SimpleFormatter();
 			fh.setFormatter(formatter);
-
 		} catch (SecurityException e) {
 			 
 			e.printStackTrace();
@@ -88,15 +99,13 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * This method handles any messages received from the client. This method check
-	 * which kind of query arrived from client 
+	 * which kind of query arrived from client
+	 * 
 	 * @param msg
-	 *  The message received from the client.
+	 *            The message received from the client.
 	 * @param client
-	 * The connection from which the message originated.
-	 * @func
-	 * first find the kind of the query then, check the role of the msg (the role is
-	 * a simple short string)
-	 **/
+	 *            The connection from which the message originated.
+	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		
 		Msg msg1 = (Msg) msg;
@@ -109,7 +118,10 @@ public class EchoServer extends AbstractServer {
 			//logger.info("SQL connection succeed");
 			System.out.println("SQL connection succeed");
 			/* Define which kind the message the server got */
-			
+			/**
+			 * first find the kind of the query then, check the role of the msg (the role is
+			 * a simple short string)
+			 */
 			switch (query_type) {
 			case "SELECT": {
 				
@@ -500,7 +512,7 @@ public class EchoServer extends AbstractServer {
 			/** Building the query */
 
 			PreparedStatement ps = conn.prepareStatement(" SELECT ID "
-					+ "FROM person where Privilege='Customer' and ID not in ( SELECT  Customer_ID FROM comments_survey);");
+					+ "FROM person where Privilege='Customer' and ID not in ( SELECT  Customer_ID FROM zerli.comments_survey);");
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -525,7 +537,6 @@ public class EchoServer extends AbstractServer {
 					i--;
 			
 				}
-			 
 			msg.newO = id;
 			
 			client.sendToClient(msg);
@@ -918,11 +929,12 @@ public class EchoServer extends AbstractServer {
 	}
 
 	/**
-	 * help function to determine if the date within relevant range of year and quarter
+	 * help function to determine if the date within relevant range of year and
+	 * quarter
 	 * @param date
 	 * @param quarter
 	 * @param yearSpecific
-	 * 
+	 * @return
 	 */
 	public boolean checkDate(String date, String quarter, String yearSpecific) {
 		String month, year;
@@ -1052,6 +1064,7 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * get the details of the user active orders according the user id
+	 * 
 	 * @param msg1
 	 * @param conn
 	 * @param client
@@ -1351,7 +1364,7 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * insert a new complain to the system, generate the number of the complain id
-	 * ,the init complain status is pending 
+	 * the init complain status is pending 
 	 * @param msg1
 	 * @param conn
 	 * @param client
@@ -1401,6 +1414,7 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * insert a new sale
+	 * 
 	 * @param msg1
 	 * @param conn
 	 * @param client
@@ -1559,7 +1573,6 @@ public class EchoServer extends AbstractServer {
 	 * @param msg1
 	 * @param conn
 	 * @param client
-	 * @return true/false 
 	 * @throws IOException, SQLException 
 	 */
 	public static void check_if_user_took_this_survey(Msg msg1, Connection conn, ConnectionToClient client) {
@@ -1643,7 +1656,6 @@ public class EchoServer extends AbstractServer {
 						pay_account.setStatus(rs2.getString(3));
 						pay_account.setSubscription(rs2.getString(4));
 						pay_account.setStoreID(rs2.getString(5));
-						pay_account.setRefund_sum(Float.parseFloat(rs2.getString(7)));
 						pay_account_arr.add(pay_account);
 						PreparedStatement ps3 = conn.prepareStatement("SELECT ID,Location FROM store where ID=?;");
 						ps3.setString(1, rs2.getString(5));
@@ -1955,6 +1967,7 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * replace the status of specific survey (by id from msg1) to be "No Active"
+	 * 
 	 * @param msg1
 	 * @param conn
 	 * @param client
@@ -2187,6 +2200,7 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * get all customers id
+	 * 
 	 * @param msg1
 	 * @param conn
 	 * @param client
@@ -2239,6 +2253,7 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * get the customer id for combobox in add comments to survey
+	 * 
 	 * @param msg1
 	 * @param conn
 	 * @param client
@@ -2272,6 +2287,7 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * set the new details of customer by system manager
+	 * 
 	 * @param msg1
 	 * @param conn
 	 * @param client
@@ -2364,6 +2380,7 @@ public class EchoServer extends AbstractServer {
 
 	/**
 	 * set the new details of customer by system manager
+	 * 
 	 * @param msg1
 	 * @param conn
 	 * @param client
