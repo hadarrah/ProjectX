@@ -83,13 +83,13 @@ public class EchoServer extends AbstractServer {
 		 */
 	 
 		 
-		user_name = JOptionPane.showInputDialog("Enter User name  ");
+	/*	user_name = JOptionPane.showInputDialog("Enter User name  ");
 		if (user_name.equals("")) {
 			JOptionPane.showMessageDialog(null, "Invalid name");
 			System.exit(0);
 		}
 		user_pass = JOptionPane.showInputDialog("Enter Password  ");
-		schema_name = JOptionPane.showInputDialog("Enter Schema Name ");
+		schema_name = JOptionPane.showInputDialog("Enter Schema Name ");*/
 
 	}
 
