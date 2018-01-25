@@ -63,7 +63,7 @@
                   <DropShadow />
                </effect>
             </Label>
-            <ComboBox fx:id="cbxAmount" layoutX="294.0" layoutY="363.0" prefHeight="27.0" prefWidth="57.0" promptText="10" visible="false" />
+            <ComboBox fx:id="cbxAmount" layoutX="348.0" layoutY="363.0" prefHeight="27.0" prefWidth="57.0" promptText="10" visible="false" />
             <Label fx:id="lblOutOfStock" alignment="CENTER" layoutX="-17.0" layoutY="18.0" prefHeight="25.0" prefWidth="147.0" rotate="-25.6" style="-fx-background-color: red; -fx-border-color: white;" text="Out Of Stock" textAlignment="CENTER" textFill="#fcf8f8" visible="false">
                <effect>
                   <DropShadow />
@@ -108,14 +108,14 @@
          </font></Text>
       <Button fx:id="AddToCart_B" layoutX="215.0" layoutY="498.0" mnemonicParsing="false" onAction="#AddToCart">
          <graphic>
-            <ImageView fitHeight="34.0" fitWidth="33.0">
+            <ImageView fitHeight="59.0" fitWidth="60.0">
                <image>
                   <Image url="@../../ExternalGui/shop-cart-add-icon.png" />
                </image>
             </ImageView>
          </graphic></Button>
       <Button fx:id="OK_B" layoutX="218.0" layoutY="504.0" mnemonicParsing="false" onAction="#OK" prefHeight="31.0" prefWidth="84.0" text="OK" visible="false" />
-      <Pane fx:id="ManagePane" layoutX="120.0" layoutY="499.0" minHeight="30.0" prefHeight="50.0" prefWidth="260.0" style="-fx-background-color: blue; -fx-border-color: black;">
+      <Pane fx:id="ManagePane" layoutX="120.0" layoutY="499.0" minHeight="30.0" prefHeight="50.0" prefWidth="260.0" style="-fx-background-color: blue; -fx-border-color: black;" visible="false">
          <children>
             <Button fx:id="Add_B" layoutX="190.0" layoutY="10.0" mnemonicParsing="false" onAction="#AddNewItemToCatalog" prefHeight="25.0" prefWidth="47.0" text="Add">
                <font>
