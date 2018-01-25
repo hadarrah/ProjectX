@@ -654,12 +654,12 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 */
 	public Image CreateImage(Object msg) {
 		MyFile mf = (MyFile) msg;
-		System.out.println(mf);
+	//	System.out.println(mf);
 		Image img = null;
 		img = new Image(new ByteArrayInputStream(mf.getMybytearray()));
 		int fileSize = ((MyFile) msg).getSize();
-		System.out.println("Message received: " + msg);
-		System.out.println("length " + fileSize);
+		//System.out.println("Message received: " + msg);
+	//	System.out.println("length " + fileSize);
 		return img;
 	}
 
