@@ -108,7 +108,7 @@
          </font></Text>
       <Button fx:id="AddToCart_B" layoutX="215.0" layoutY="498.0" mnemonicParsing="false" onAction="#AddToCart">
          <graphic>
-            <ImageView fitHeight="59.0" fitWidth="60.0">
+            <ImageView fitHeight="34.0" fitWidth="36.0">
                <image>
                   <Image url="@../../ExternalGui/shop-cart-add-icon.png" />
                </image>
