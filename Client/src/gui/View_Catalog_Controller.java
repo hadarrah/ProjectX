@@ -237,6 +237,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		Pic_B.setVisible(true);
 		Delete_B.setDisable(true);
 		Add_B.setDisable(true);
+		AddToCart_B.setVisible(false);
 	}
 
 	/**
