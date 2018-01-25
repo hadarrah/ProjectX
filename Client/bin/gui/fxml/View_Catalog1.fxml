@@ -63,7 +63,7 @@
                   <DropShadow />
                </effect>
             </Label>
-            <ComboBox fx:id="cbxAmount" layoutX="319.0" layoutY="358.0" prefHeight="27.0" prefWidth="57.0" promptText="10" visible="false" />
+            <ComboBox fx:id="cbxAmount" layoutX="294.0" layoutY="363.0" prefHeight="27.0" prefWidth="57.0" promptText="10" visible="false" />
             <Label fx:id="lblOutOfStock" alignment="CENTER" layoutX="-17.0" layoutY="18.0" prefHeight="25.0" prefWidth="147.0" rotate="-25.6" style="-fx-background-color: red; -fx-border-color: white;" text="Out Of Stock" textAlignment="CENTER" textFill="#fcf8f8" visible="false">
                <effect>
                   <DropShadow />
@@ -74,7 +74,7 @@
             </Label>
             <TextField fx:id="txtID" alignment="CENTER" editable="false" layoutX="163.0" layoutY="192.0" promptText="Automatically" />
             <TextField fx:id="txtName" alignment="CENTER" editable="false" layoutX="163.0" layoutY="227.0" />
-            <TextField fx:id="txtAmount" alignment="CENTER" editable="false" layoutX="163.0" layoutY="361.0" prefHeight="31.0" prefWidth="186.0" />
+            <TextField fx:id="txtAmount" alignment="CENTER" editable="false" layoutX="163.0" layoutY="361.0" prefHeight="31.0" prefWidth="105.0" />
             <TextField fx:id="txtPrice" alignment="CENTER" editable="false" layoutX="163.0" layoutY="324.0" />
             <TextArea fx:id="txtDescription" layoutX="163.0" layoutY="262.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="57.0" prefWidth="186.0" text="&#10;" wrapText="true" />
             <Label layoutX="148.0" layoutY="231.0" text="X" textFill="#e40808" visible="false" fx:id="xName">

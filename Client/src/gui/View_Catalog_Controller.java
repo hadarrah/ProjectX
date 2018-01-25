@@ -736,7 +736,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 * after select amount, add item to cart
 	 */
 	public void OK() {
-		Login_win.showPopUp("CONFIRMATION", "Message", "Item successfully added", " ");
+		Login_win.showPopUp("INFORMATION", "Message", "Item successfully added", " ");
 		OK_B.setVisible(false);
 		AddToCart_B.setVisible(true);
 		cbxAmount.setVisible(false);

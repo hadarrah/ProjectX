@@ -174,11 +174,16 @@ public class Order_Controller implements Initializable, ControllerI {
 			
 		
 			// self collect
-		} else if (selectdelivery_TG.getSelectedToggle() == this.self_R)
+		} else if (selectdelivery_TG.getSelectedToggle() == this.self_R) {
 			isDelivery = false;
+			nameX_L.setVisible(false);
+			addX_L.setVisible(false);
+			phX_L.setVisible(false);
+		}
 
 		// empty or non-numeric date & if 1>day>31 || 1>month>12
-		if (this.date==null) { dX_L.setVisible(true); }
+		if (this.date==null || this.date=="") { dX_L.setVisible(true); }
+
 		else {
 		     int day = Integer.parseInt(date.substring(0, 2));
 		     int month = Integer.parseInt(date.substring(3, 5));

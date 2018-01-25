@@ -119,11 +119,17 @@ public class Main_menu implements Initializable, ControllerI {
 
 	public void self_item(ActionEvent event) throws IOException {
 
+		if(			Login_win.current_user_pay_account.getCreditCard()==null
+				||  Login_win.current_user_pay_account.getCreditCard()=="") {
+			Login_win.showPopUp("INFORMATION", "No Payment Account", "You don't have a payment account"
+					, "Please contact the store's manager to create a payment account");
+		return;
+		}
+		
 		Parent menu;
 		menu = FXMLLoader.load(getClass().getResource(main.fxmlDir + "Self_Item_F.fxml"));
 		Scene win1 = new Scene(menu);
 		 win1.getStylesheets().add(getClass().getResource("css/common.css").toExternalForm());
-
 		Stage win_1 = (Stage) ((Node) (event.getSource())).getScene().getWindow();
 		win_1.setScene(win1);
 		win_1.show();

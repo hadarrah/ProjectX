@@ -299,6 +299,8 @@ public class Cart_Controller implements Initializable, ControllerI {
 		else if (this.card_TG.getSelectedToggle()==null) {
 			cselX_L.setVisible(true);
 		}
+		else if(this.card_TG.getSelectedToggle()==yes_card_R && card_CB.getValue()==null)
+			cbX_L.setVisible(true);
 		else {
 			this.cardDesc=cardDesc_TA.getText();
 			move(event, main.fxmlDir + "Order_F.fxml");
