@@ -324,14 +324,19 @@ public class Main_menu implements Initializable, ControllerI {
 	 */
 	public void get_answer_if_exist_complaint(Object msg) {
 		ArrayList<Complain> toCheck = (ArrayList<Complain>) (((Msg) msg).newO);
+		
 		if (!toCheck.isEmpty()) {
 			/* there are pending complaints -> run in new thread the new window */
 			Platform.runLater(new Runnable() {
 
 				@Override
 				public void run() {
-					Login_win.showPopUp("INFORMATION", "Important Message", "There are pending complaints",
-							"Please response to the complaints immediately");
+					if(((Msg)msg).oldO != null && ((Msg)msg).oldO.equals("24 over"))
+						Login_win.showPopUp("INFORMATION", "Important Message", "There are pending complaints that post before 24 hours!!!",
+								"Please response to the complaints immediately");
+					else
+						Login_win.showPopUp("INFORMATION", "Important Message", "There are pending complaints",
+								"Please response to the complaints immediately");
 					return;
 				}
 			});

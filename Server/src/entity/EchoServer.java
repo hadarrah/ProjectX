@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -2129,7 +2130,7 @@ public class EchoServer extends AbstractServer {
 	 * @param conn
 	 * @param client
 	 */
-	public static void GetComboForAnsComplaint(Msg msg1, Connection conn, ConnectionToClient client) {
+	public void GetComboForAnsComplaint(Msg msg1, Connection conn, ConnectionToClient client) {
 		PreparedStatement ps;
 		ResultSet rs;
 		ArrayList<Complain> complaint = new ArrayList<Complain>();
@@ -2142,6 +2143,9 @@ public class EchoServer extends AbstractServer {
 
 			/* insert the results to the ArrayList */
 			while (rs.next()) {
+				if(check_24_hours(rs.getString("Hour"), rs.getString("Date")))
+					msg1.oldO = "24 over";
+
 				id = rs.getString("ID");
 				customer_id = rs.getString("Customer_ID");
 				user_text = rs.getString("Text");
@@ -2162,6 +2166,28 @@ public class EchoServer extends AbstractServer {
 		}
 	}
 
+	/**
+	 * check if 24 hours over for complaint
+	 * @param time
+	 * @param date
+	 * @return
+	 */
+	public boolean check_24_hours(String time, String date)
+	{
+		int com_hour = Integer.parseInt(time.substring(0, 2));
+		int com_minutes = Integer.parseInt(time.substring(3, 5));
+		int sum_hour;
+		
+		Calendar myCalendar = new GregorianCalendar(Integer.parseInt(date.substring(6)), Integer.parseInt(date.substring(3,5))-1, Integer.parseInt(date.substring(0,2)), com_hour, com_minutes);
+		Date myDate = myCalendar.getTime();
+		Date date2 = new Date();
+		sum_hour = (int)((date2.getTime()-myDate.getTime())/(1000*60*60));
+
+		if(sum_hour>=24)
+			return true;
+		return false;
+	}
+	
 	/**
 	 * set the new conclusion in survey table
 	 * 
