@@ -154,6 +154,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 * init msg with "select" query
 	 */
 	public void init() {
+		
 		Next_B.setDisable(false);
 		ResetStyleLable();
 		ResetXlable();
@@ -164,7 +165,9 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 			Delete_B.setDisable(false);
 		}
 		if (Managment_Controller.ManagmentFlage == 2) {//if store employee
+			
 			SetAmount_B.setVisible(true);
+			
 		}
 		Msg msg = new Msg();
 		msg.setRole("View all catalog items");
@@ -602,7 +605,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 	 *            Item_In_Catalog Object
 	 */
 	public void SetDetailsGui(Item_In_Catalog It) {
-		if (Managment_Controller.ManagmentFlage == 1) {
+		if (Managment_Controller.ManagmentFlage == 1||Managment_Controller.ManagmentFlage == 2) {
 			AddToCart_B.setVisible(false);
 		}
 		Platform.runLater(new Runnable() {
@@ -635,7 +638,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 
 				} else
 					lblSale.setVisible(false);
-				AddToCart_B.setVisible(true);
+				//AddToCart_B.setVisible(true);
 				if (!(It.getAmount() == -1) && !(It.getAmount() == 0)) {
 					ArrayList<String> Amount = new ArrayList<String>();
 					for (int i = 1; i <= Itc.get(view_counter).getAmount(); i++) {
@@ -759,11 +762,14 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		 * update the current controller to be view catalog controller in general
 		 * ClientConsole instance
 		 */
+		System.out.println(Managment_Controller.ManagmentFlage);
 		current_user = controller.Login_win.current_user;
 		Login_win.to_Client.setController(this);
 		if (Managment_Controller.ManagmentFlage == 1) {
 			UpdateCatalog();
-		} else
+		} else if(Managment_Controller.ManagmentFlage==2)
+			AddToCart_B.setVisible(false);
+		
 			init();
 	}
 

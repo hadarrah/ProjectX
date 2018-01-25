@@ -106,14 +106,7 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Text>
-      <Button fx:id="AddToCart_B" layoutX="215.0" layoutY="498.0" mnemonicParsing="false" onAction="#AddToCart">
-         <graphic>
-            <ImageView fitHeight="34.0" fitWidth="36.0">
-               <image>
-                  <Image url="@../../ExternalGui/shop-cart-add-icon.png" />
-               </image>
-            </ImageView>
-         </graphic></Button>
+      <Button fx:id="AddToCart_B" layoutX="210.0" layoutY="503.0" mnemonicParsing="false" onAction="#AddToCart" prefHeight="25.0" prefWidth="79.0" text="Add to cart" />
       <Button fx:id="OK_B" layoutX="218.0" layoutY="504.0" mnemonicParsing="false" onAction="#OK" prefHeight="31.0" prefWidth="84.0" text="OK" visible="false" />
       <Pane fx:id="ManagePane" layoutX="120.0" layoutY="499.0" minHeight="30.0" prefHeight="50.0" prefWidth="260.0" style="-fx-background-color: blue; -fx-border-color: black;" visible="false">
          <children>

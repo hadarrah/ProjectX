@@ -388,7 +388,7 @@ public class Managment_Controller implements Initializable,ControllerI {
      * update amount of item in catalog
      */
     public void updateStock(ActionEvent event) throws IOException {
-    	ManagmentFlage=2;    	
+    	ManagmentFlage=2;   	
     	move(event,main.fxmlDir+ "View_Catalog1.fxml");
     }
 

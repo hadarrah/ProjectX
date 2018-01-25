@@ -21,8 +21,3 @@
         #16f4fc,
         radial-gradient(center 50% 50%, radius 100%, #16f4fc, #16f4fc);
 }
-#AddToCart_B{
-	     -fx-background-color:transparent;
-      -fx-border-color:transparent;
-      -fx-text-fill:transparent; 
-}
