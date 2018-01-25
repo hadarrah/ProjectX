@@ -95,6 +95,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 		checkUserOrder();
 
 		if (noErrors == true) {
+
 			insertOrderToDB();
 
 			// Wait in incremets of 10ms for thread to finish the order process
@@ -118,6 +119,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 						e.printStackTrace();
 					}
 			}
+			
 			insertItemsToDB();
 
 			while (!itemsInDB)
@@ -138,6 +140,8 @@ public class Payment_Controller implements Initializable, ControllerI {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+				
+
 			}
 			
 			if(doRefund)
@@ -201,7 +205,13 @@ public class Payment_Controller implements Initializable, ControllerI {
 		String p;
 		Msg msg = new Msg();
 
-		order.TimeNow(); // set current time for order starting time.
+		LocalDateTime now = LocalDateTime.now();
+		String lyear = Integer.toString(now.getYear());
+		String lmonth = Integer.toString(now.getMonthValue());
+		String lday = Integer.toString(now.getDayOfMonth());
+		String locdate = Order_Controller.locdate;
+
+		order.TimeNow(locdate); // set current time for order starting time.
 
 		order.setTotprice(Float.parseFloat(totp_TF.getText()));
 
@@ -209,7 +219,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 
 		order.setRequestdate(date);
 		order.setRequesttime(time);
-		
+
 		if (this.paymentmethod_TG.getSelectedToggle() == cash_R)
 			p = "Cash";
 		else
@@ -220,10 +230,9 @@ public class Payment_Controller implements Initializable, ControllerI {
 		msg.setInsert();
 		order.setStatus("Active");
 		msg.oldO = order;
-		
+
 
 		Login_win.to_Client.accept(msg);
-
 		// Order has been created
 		// we insert the delivery (if exists) from within create_order_success
 		// we insert all the items to DB from within create_order_success
@@ -284,7 +293,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 
 			if (itemincart instanceof Self_Item) { // if item is self_item
 				Self_Item st = (Self_Item) itemincart;
-				if (st.getType() != "As Is")
+//				if (st.getType() != "As Is")
 					newarr.add(st);
 				newamounts.put(st.getID(), 1);
 

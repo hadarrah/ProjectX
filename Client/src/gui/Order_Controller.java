@@ -55,7 +55,8 @@ public class Order_Controller implements Initializable, ControllerI {
 	public Label store_L,otX_L,dX_L,tX_L,pmX_L,nameX_L,phX_L,addX_L;
 	public DatePicker datePick;
 	
-	public int lday, lmonth, lyear, lhour, lmin;	
+	public int lday, lmonth, lyear, lhour, lmin;
+	public static String locdate;
     public String pattern = "dd/MM/yyyy";
     public DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
 
@@ -113,8 +114,9 @@ public class Order_Controller implements Initializable, ControllerI {
 		
 		// check if it is not frozen or blocked
 		if (acc != null) {
-			if (acc.getStatus() == "Block" || acc.getStatus() == "Frozen") {
-				System.out.println("ERROR, Account is blocked or frozen (insertOrderToDB)");
+			if (acc.getStatus().equals("Block") || acc.getStatus().equals("Frozen")) {
+				Login_win.showPopUp("ERROR", "Payment Account", "Your payment account is frozen or blocked"
+						, "Please contact your store's manager");
 				return;
 			}
 		}
@@ -182,7 +184,7 @@ public class Order_Controller implements Initializable, ControllerI {
 		}
 
 		// empty or non-numeric date & if 1>day>31 || 1>month>12
-		if (this.date==null || this.date=="") { dX_L.setVisible(true); }
+		if (this.date==null || this.date.equals("")) { dX_L.setVisible(true); }
 
 		else {
 		     int day = Integer.parseInt(date.substring(0, 2));
@@ -190,6 +192,13 @@ public class Order_Controller implements Initializable, ControllerI {
 		     int year = Integer.parseInt(date.substring(6, 10));
 		     
 		     dX_L.setVisible(false);
+		     
+		     LocalDateTime now = LocalDateTime.now();
+				int lyear = now.getYear();
+				int lmonth = now.getMonthValue();
+				int lday = now.getDayOfMonth();
+		     
+		     
 		     
 		     if(lyear+2<=year) dX_L.setVisible(true);
 		     else if(lyear==year) {
@@ -231,16 +240,25 @@ public class Order_Controller implements Initializable, ControllerI {
 				noDate=true;
 			}
 			if(!noDate) {
-			day= Integer.parseInt(date.substring(0, 2));
-			if(day==lday) {
+				
 				int omin=Integer.parseInt(min_TF.getText());
 				int ohour=Integer.parseInt(hour_TF.getText());
-				if(( (60*ohour - 60*lhour) + (omin-lmin) ) < 180 ) {
+				LocalDateTime now = LocalDateTime.now();
+				int lhour = now.getHour();
+				int lmin = now.getMinute();
+
+				lday=now.getDayOfMonth();
+				day= Integer.parseInt(date.substring(0, 2));
+
+			if(day==lday) {
+				if(	   ((60*ohour - 60*lhour) + (omin-lmin)) < 180 
+					|| (ohour<lhour)
+					|| ((ohour>=lhour && omin<lmin)) ) {
 					tX_L.setVisible(true);
 					Login_win.showPopUp("INFORMATION", "Cannot Provide Order", "We can deliver an order with a minimum of 3 hours since request",
 							"");
 					badTime=true;
-				}
+					}
 				}
 				
 			}
@@ -408,11 +426,16 @@ public class Order_Controller implements Initializable, ControllerI {
 	public void setDatePicker() {
 		
 		LocalDateTime now = LocalDateTime.now();
-		lyear = now.getYear();
-		lmonth = now.getMonthValue();
-		lday = now.getDayOfMonth();
+		int lyear = now.getYear();
+		int lmonth = now.getMonthValue();
+		int lday = now.getDayOfMonth();
 		lhour = now.getHour();
 		lmin = now.getMinute();
+		String rmonth=Integer.toString(lmonth);
+		String rday=Integer.toString(lday);
+		if(rmonth.length()==1) rmonth="0"+rmonth;
+		if(rday.length()==1) rday="0"+rday;
+		locdate = rday+"/"+rmonth+"/"+Integer.toString(lyear);
 		
 		 datePick.setConverter(new StringConverter<LocalDate>() {
 		     String pattern = "dd/MM/yyyy";

@@ -235,7 +235,7 @@ public class EchoServer extends AbstractServer {
 					insert_new_complain(msg1, conn, client);
 				else if (msg1.getRole().equals("insert new sale"))
 					insert_new_sale(msg1, conn, client);
-				else if (msg1.getRole().equals("insert order"))
+				else if (msg1.getRole().equals("insert order")) 
 					insert_order(msg1, conn, client);
 				else if (msg1.getRole().equals("insert items in order"))
 					insert_items_in_order(msg1, conn, client);
@@ -1182,11 +1182,9 @@ public class EchoServer extends AbstractServer {
 	 */
 	public static void insert_order(Msg msg1, Connection conn, ConnectionToClient client) {
 		Order order = (Order) msg1.oldO;
-
 		PreparedStatement ps;
 		ResultSet rs;
 		try {
-
 			/* get the last ID */
 			ps = conn.prepareStatement("SELECT max(ID) FROM orders;");
 			rs = ps.executeQuery();
@@ -1200,7 +1198,6 @@ public class EchoServer extends AbstractServer {
 			order.setId(Integer.toString(newid + 1)); // max oid+1
 			ps.setString(1, order.getId()); // insert the last id + 1
 			ps.setString(2, order.getPersonid());
-
 			String deliv = "No";
 			if (order.haveDelivery() == true)
 				deliv = "Yes";
@@ -1214,11 +1211,9 @@ public class EchoServer extends AbstractServer {
 			ps.setString(9, order.getCreatedate());
 			ps.setString(10, order.getRequesttime());
 			ps.setString(11, order.getRequestdate());
-
 			ps.executeUpdate();
 
 			msg1.newO = order;
-
 			client.sendToClient((Msg) msg1);
 
 		} catch (SQLException e) {
@@ -1286,7 +1281,10 @@ public class EchoServer extends AbstractServer {
 					id = t.getID();
 
 				ps.setString(2, id);
-				ps.setString(3, t.getType());
+				String type = "Catalog";
+				if(!(t.getType().equals("Catalog")) )
+					type="Item";
+				ps.setString(3, type);
 				ps.setString(4, Integer.toString(amounts.get(t.getID())));
 
 				ps.executeUpdate();

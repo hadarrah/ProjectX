@@ -119,9 +119,9 @@ public class Order implements Serializable{
 		return requesttime;
 	}
 
-	public String TimeNow() {
+	public String TimeNow(String locdate) {
 		String time = LocalDateTime.now().toString();
-		this.createdate=time.substring(0, 10);
+		this.createdate=locdate; //time.substring(0, 10);
 		setCreatedate(createdate);
 		this.createtime=time.substring(11,16);
 		setCreatetime(createtime);
