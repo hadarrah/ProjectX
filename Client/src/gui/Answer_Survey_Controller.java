@@ -487,14 +487,14 @@ public void set_survey_question(Object msg)
 	q5.setText(survey.getQ5());
 	q6.setText(survey.getQ6()); 
 	current_survey=survey;
-			
+	/*set the radio buttons by groups*/
+	 setRadioB();
+	 setCustomersId();
 		}
 	});
 	 
 
-	/*set the radio buttons by groups*/
-		 setRadioB();
-		 setCustomersId();
+	
 	}
 
 public void setCustomersId() {
@@ -502,6 +502,7 @@ public void setCustomersId() {
 	msg.setSelect();
 	msg.setRole("get customres id");
 	msg.setTableName("person");
+	msg.oldO = current_survey.getID();
 	msg.freeField=gui.Login_win.chosen_store;
 	Login_win.to_Client.accept(msg);
 	

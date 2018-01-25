@@ -504,14 +504,15 @@ public class EchoServer extends AbstractServer {
 		Msg msg = (Msg) msg1;
 		ArrayList<String> id = new ArrayList<String>();
 		ArrayList<String> account_id = new ArrayList<String>();
+		String survey = (String)msg.oldO;
 		String temp;
 
 		try {
 			/** Building the query */
 
 			PreparedStatement ps = conn.prepareStatement(" SELECT ID "
-					+ "FROM person where Privilege='Customer' and ID not in ( SELECT  Customer_ID FROM comments_survey);");
-
+					+ "FROM person where Privilege='Customer' and ID not in ( SELECT  Customer_ID FROM comments_survey WHERE ID=?);");
+			ps.setString(1, survey);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				temp = rs.getString(1);
@@ -525,17 +526,11 @@ public class EchoServer extends AbstractServer {
 			
 			while (rs2.next()) {
 				temp = rs2.getString(1);
-				account_id.add(temp);
-
+				if(id.contains(temp))
+					account_id.add(temp);
 			}
-			
-			for(int i=0;i<id.size();i++)
-				if(!(account_id.contains(id.get(i)))) {
-					id.remove(id.get(i));
-					i--;
-			
-				}
-			msg.newO = id;
+
+			msg.newO = account_id;
 			
 			client.sendToClient(msg);
 
