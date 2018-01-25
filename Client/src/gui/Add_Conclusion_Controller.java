@@ -106,6 +106,8 @@ public class Add_Conclusion_Controller implements Initializable,ControllerI{
     	    	participant_L.setText(survey.getNumOfParticipant());
     	    	if(survey.getConclusion()!=null)
     	    		conclusion_Text.setText(survey.getConclusion());
+    	    	else
+    	    		conclusion_Text.clear();
     		}
     	
     }
