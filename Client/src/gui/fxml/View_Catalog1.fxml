@@ -115,7 +115,7 @@
             </ImageView>
          </graphic></Button>
       <Button fx:id="OK_B" layoutX="218.0" layoutY="504.0" mnemonicParsing="false" onAction="#OK" prefHeight="31.0" prefWidth="84.0" text="OK" visible="false" />
-      <Pane fx:id="ManagePane" layoutX="120.0" layoutY="499.0" minHeight="30.0" prefHeight="50.0" prefWidth="260.0" style="-fx-background-color: blue; -fx-border-color: black;">
+      <Pane fx:id="ManagePane" layoutX="120.0" layoutY="499.0" minHeight="30.0" prefHeight="50.0" prefWidth="260.0" style="-fx-background-color: blue; -fx-border-color: black;" visible="false">
          <children>
             <Button fx:id="Add_B" layoutX="190.0" layoutY="10.0" mnemonicParsing="false" onAction="#AddNewItemToCatalog" prefHeight="25.0" prefWidth="47.0" text="Add">
                <font>
