@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="entity.Server_Controller">
+   <children>
+      <ImageView fitHeight="616.0" fitWidth="582.0" layoutX="-29.0">
+         <image>
+            <Image url="@flower-background-pictures-1.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="Bquit" layoutX="27.0" layoutY="351.0" mnemonicParsing="false" onAction="#Quit_app" text="Quit" />
+      <Label layoutX="160.0" layoutY="55.0" prefHeight="39.0" prefWidth="219.0" text="ZerLi Server" textFill="#118cdd">
+         <font>
+            <Font name="Arial Black" size="26.0" />
+         </font></Label>
+      <TextField fx:id="name_T" layoutX="175.0" layoutY="116.0" prefWidth="150.0" promptText="Name" />
+      <PasswordField fx:id="pass_T" layoutX="175.0" layoutY="156.0" prefWidth="150.0" promptText="Password" />
+      <TextField fx:id="scheme_T" layoutX="173.0" layoutY="196.0" prefWidth="150.0" promptText="Scheme" />
+      <Button fx:id="Bconnect" layoutX="194.0" layoutY="251.0" mnemonicParsing="false" onAction="#hit_connect" prefHeight="31.0" prefWidth="118.0" text="Connect" />
+      <Button fx:id="Bdisconnect" layoutX="194.0" layoutY="251.0" mnemonicParsing="false" onAction="#hit_disconnect" prefHeight="31.0" prefWidth="118.0" text="Disconnect " />
+      <Label fx:id="disconnected_L" layoutX="217.0" layoutY="292.0" text="Disconnected" textFill="#f21313" />
+      <Label fx:id="connected_L" layoutX="217.0" layoutY="292.0" text="Connected" textFill="#15f013" />
+      <Label fx:id="invalid_name" layoutX="156.0" layoutY="120.0" text="X" textFill="#f21313" />
+      <Label fx:id="invalid_pass" layoutX="156.0" layoutY="160.0" text="X" textFill="#f21313" />
+      <Label fx:id="invalid_scheme" layoutX="156.0" layoutY="200.0" text="X" textFill="#f21313" />
+   </children>
+</Pane>

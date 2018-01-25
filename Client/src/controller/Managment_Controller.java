@@ -1,0 +1,609 @@
+package controller;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import javax.swing.JOptionPane;
+
+import entity.Complain;
+import entity.Msg;
+import entity.Person;
+import entity.Sale;
+import entity.Survey;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+
+public class Managment_Controller implements Initializable,ControllerI {
+
+    public Button create_Survey_B;
+    public Button updateStockB;
+    public Button update_Catalog_B;
+    public Button answer_Complaint_B;
+    public Button create_Sale_B;
+    public Button back_B;
+    public Button create_PaymentAccount_B;
+    public Button compare_Reports_B;
+    public Button conclusion_Survey_B;
+    public Button edit_CustomersProfile_B;
+    public Button display_Reports_B;
+    public Button close_Survey_B;
+    public Button close_Sale_B,survey_b;
+	public static ActionEvent event_log;
+	public static Survey active_survey;
+	public static ArrayList<Complain> complaint;
+	public static String storeID;
+	public static TreeMap<String , String> items;
+	public static Sale sale;
+	public static ArrayList<String> item_in_sale;
+	public static ArrayList<String> stores, customers_store;
+	public static Survey current_survey;
+	public static int ManagmentFlage=0;
+	public static boolean survey_open; 
+
+	/**Move to updating catalog mode*/
+    public void update_Catalog(ActionEvent event) throws IOException {
+    	ManagmentFlage=1;    	
+    	move(event,main.fxmlDir+ "View_Catalog1.fxml");
+    }
+ 
+    public void back(ActionEvent event) throws IOException {
+  	  Parent menu;
+	  menu = FXMLLoader.load(getClass().getResource( main.fxmlDir+ "Main_menu_F.fxml"));
+	 Scene win1= new Scene(menu);
+	 win1.getStylesheets().add(getClass().getResource("css/Main_menu.css").toExternalForm());
+	 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
+	 win_1.setScene(win1);
+	 win_1.show();
+    }
+
+    /**check if there is active sale for insert*/
+    public void create_Sale(ActionEvent event) {
+
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+    	
+    	/*check if already exist an active sale*/
+    	Msg check_sale_exist = new Msg();
+    	check_sale_exist.setSelect();
+    	check_sale_exist.setRole("check if there is active sale for insert");
+    	check_sale_exist.oldO = Login_win.current_user;
+		Login_win.to_Client.accept((Object)check_sale_exist);
+    }
+
+    /**check if there is active sale for close*/
+    public void close_Sale(ActionEvent event) {
+
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+    	
+    	/*check if already exist an active sale*/
+    	Msg check_sale_exist = new Msg();
+    	check_sale_exist.setSelect();
+    	check_sale_exist.setRole("check if there is active sale for close");
+    	check_sale_exist.oldO = Login_win.current_user;
+		Login_win.to_Client.accept((Object)check_sale_exist);
+    }
+    
+    /**
+     * handle function for pressing 'create survey' -> first we check if already exist active survey
+     * @param event
+     * @throws IOException
+     */
+    public void create_Survey(ActionEvent event) throws IOException {
+		
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+    	/*check if already exist an active survey*/
+    	Msg check_survey_exist = new Msg();
+    	check_survey_exist.setSelect();
+    	check_survey_exist.setRole("check if there is active survey for insert");
+		Login_win.to_Client.accept((Object)check_survey_exist);
+    }
+
+    /**
+     * handle function for pressing 'close survey' -> first we check if there is active survey
+     * @param event
+     */
+    public void close_Survey(ActionEvent event) {
+
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+		
+		/*check if already exist an active survey*/
+    	Survey temp_survey = new Survey();
+    	Msg check_survey_exist = new Msg();
+    	check_survey_exist.setSelect();
+    	check_survey_exist.oldO = temp_survey;
+    	check_survey_exist.setTableName("survey");
+    	check_survey_exist.setRole("check if there is active survey for close");
+    	check_survey_exist.event=event;
+		Login_win.to_Client.accept((Object)check_survey_exist);
+		
+    }
+    
+  
+    
+    /**send query to get customer ID to the complaint which is being answered*/
+    public void answer_Complaint(ActionEvent event) throws IOException {
+    	
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+		
+    	Msg getCustomer = new Msg();
+    	getCustomer.setSelect();
+    	getCustomer.setTableName("complaint");
+    	getCustomer.setRole("get combo customer ID for answer complaint");
+		Login_win.to_Client.accept((Object) getCustomer);   
+		}
+
+    public void conclusion_Survey(ActionEvent event) throws IOException {
+		move(event ,main.fxmlDir+ "Add_Conclusion_F.fxml");
+
+    }
+
+    public void create_PaymentAccount(ActionEvent event) throws IOException {
+    	
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+		
+    	Msg getCustomer = new Msg();
+    	getCustomer.setSelect();
+    	getCustomer.setRole("get combo customer ID for create payment account");
+    	getCustomer.oldO = Login_win.chosen_store;
+		Login_win.to_Client.accept((Object) getCustomer);  
+    }
+
+    public void edit_CustomersProfile(ActionEvent event) throws IOException {
+    	move(event ,main.fxmlDir+ "Edit_Customer_Profile_Man_F.fxml");
+    }
+    
+    /**Query which is checking if there is an active survey to answer*/
+    public void answer_survey(ActionEvent event) throws IOException {
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+		
+		/*check if already exist an active survey*/
+    	Msg check_survey_exist = new Msg();
+    	check_survey_exist.setSelect();
+    	check_survey_exist.setRole("check if there is active survey for add answer");
+		Login_win.to_Client.accept((Object)check_survey_exist);
+    }
+    
+    /**get a list of stores for report*/
+    public void display_Reports(ActionEvent event) {
+    	
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+		
+		/*get all the stores*/
+    	Msg toSend = new Msg();
+    	toSend.setSelect();
+    	toSend.setRole("get the stores for report");
+		Login_win.to_Client.accept((Object)toSend);
+    }
+
+    /**get the stores for report comparison*/
+    public void compare_Reports(ActionEvent event) {
+
+    	/*save the event*/
+    	event_log =new ActionEvent();		 
+		event_log=event.copyFor(event.getSource(), event.getTarget());
+		
+		/*get all the stores*/
+    	Msg toSend = new Msg();
+    	toSend.setSelect();
+    	toSend.setRole("get the stores for report compare");
+		Login_win.to_Client.accept((Object)toSend);
+    }
+    /**
+     * get message from server and act regarding to the answer
+     * for "create survey" => if there is active survey we pop up a error message, else we continue to the next window
+     * for "close survey" => if there is no active survey we pop up a error message, else we continue to the next window
+     * @param message
+     */
+    public void check_if_survey_active(Object message)
+    {
+    	/*save the answer from server*/
+    	Survey to_check = (Survey) (((Msg) message).newO);
+
+    	if(((Msg) message).getRole().equals("check if there is active survey for close") || ((Msg) message).getRole().equals("check if there is active survey for add answer")) //for close and add answer
+    	{
+    		if(to_check == null)
+        	{
+    			/*the creating was successful -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+                		Login_win.showPopUp("ERROR", "System error", "There is no active survey", "");
+        			 		return;
+
+        			}
+        		}); 
+        	}
+    		else if(((Msg) message).getRole().equals("check if there is active survey for close"))
+    		{
+    			/*save the instance of survey in static var for future uses in other controller*/
+    			active_survey = to_check;
+    			
+    			/*the creating was successful -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+        				 	try {
+        						move(event_log , main.fxmlDir+ "Close_Survey_F.fxml");
+        					} catch (IOException e) {
+        						// TODO Auto-generated catch block
+        						e.printStackTrace();
+        					}  
+        			}
+        		});
+    		}
+    		else if(((Msg) message).getRole().equals("check if there is active survey for add answer"))
+    		{
+    			/*save the instance of survey in static var for future uses in other controller*/
+    			active_survey = to_check;
+    			current_survey = to_check;
+    			/*the creating was successful -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+        				 	try {
+        						move(event_log , main.fxmlDir+ "Answer_Survey_F.fxml");
+        					} catch (IOException e) {
+        						// TODO Auto-generated catch block
+        						e.printStackTrace();
+        					}  
+        			}
+        		});
+    		}
+    	}
+    	else if(((Msg) message).getRole().equals("check if there is active survey for insert")) //for create
+    	{
+    		active_survey = (Survey) (((Msg) message).oldO);
+    		if(to_check == null)
+        	{
+    			/*the creating was successful -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+        				 	try {
+        						move(event_log , main.fxmlDir+ "Create_Survey_F.fxml");
+        					} catch (IOException e) {
+        						// TODO Auto-generated catch block
+        						e.printStackTrace();
+        					}  
+        				
+        			}
+        		}); 
+        	}
+    		else
+    		{
+    			/*the creating was successful -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+                		Login_win.showPopUp("ERROR", "System error", "There is already active survey", "Please close this survey before you try again...");
+        			 		return;
+
+        			}
+        		}); 
+    		}
+    	}
+    	
+    }
+    
+    /**
+     * handle function which check if there are complaints to display
+     * @param message
+     * @throws IOException
+     */
+    public void check_for_complaint(Object message) throws IOException
+    {
+    	complaint = new ArrayList<Complain>();
+    	complaint = (ArrayList<Complain>)(((Msg) message).newO);
+    	if(complaint.isEmpty())
+    	{
+    		/*there are no complaints -> run in new thread the new window*/
+        	Platform.runLater(new Runnable() {
+    			
+    			@Override
+    			public void run() {
+    				 	Login_win.showPopUp("ERROR", "System error", "There are no pending complaints", "");  
+    			 		return;
+
+    			}
+    		}); 
+    	}
+    	else
+    	{
+    		/*there are complaints to display -> run in new thread the new window*/
+        	Platform.runLater(new Runnable() {
+    			
+    			@Override
+    			public void run() {
+    				 	try {
+    			        	move(event_log ,main.fxmlDir+ "Answer_Complaint_F.fxml");
+    					} catch (IOException e) {
+    						// TODO Auto-generated catch block
+    						e.printStackTrace();
+    					}  
+    				
+    			}
+    		}); 
+    	}
+
+    }
+    
+    /**
+     * handle with customers id to create payment account
+     * @param message
+     */
+    public void receive_from_server_payment_account(Object message)
+    {
+    	customers_store = (ArrayList<String>)(((Msg) message).newO);
+    	/*there are complaints to display -> run in new thread the new window*/
+    	Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				 	try {
+				 		move(event_log ,main.fxmlDir+ "Create_PaymentAccount_F.fxml");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}  
+				
+			}
+		}); 
+    }
+
+    /**
+     * update amount of item in catalog
+     */
+    public void updateStock(ActionEvent event) throws IOException {
+    	ManagmentFlage=2;    	
+    	move(event,main.fxmlDir+ "View_Catalog1.fxml");
+    }
+
+    /**
+     * handle function which check if there is active sale
+     * @param message
+     * @throws IOException
+     */
+    public void check_for_sale(Object message) throws IOException
+    {
+    	String answer = (String)(((Msg) message).freeField);
+    	
+    	
+    	if(answer.equals("There is sale"))
+    	{
+    		if(((Msg) message).getRole().equals("check if there is active sale for insert"))
+    		{
+    			/*there is already active sale -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+        				 	Login_win.showPopUp("ERROR", "System error", "There is already sale in your store", "Please close this sale before you add a new sale");  
+        			 		return;
+
+        			}
+        		}); 
+    		}
+    		else //for close
+    		{
+    			sale = (Sale)(((Msg) message).oldO);
+    			item_in_sale = (ArrayList<String>)(((Msg) message).freeUse);
+    			storeID = (String)(((Msg) message).newO);
+    			/*there is  active sale -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+        				 	try {
+        			        	move(event_log ,main.fxmlDir+ "Close_Sale_F.fxml");
+        					} catch (IOException e) {
+        						// TODO Auto-generated catch block
+        						e.printStackTrace();
+        					}  
+        				
+        			}
+        		}); 
+    		}
+    		
+    	}
+    	else
+    	{
+    		if(((Msg) message).getRole().equals("check if there is active sale for insert"))
+    		{
+    			storeID = (String)(((Msg) message).oldO);
+    			items = (TreeMap<String , String>)(((Msg) message).freeUse);
+    			/*there is no active sale -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+            		
+        			@Override
+        			public void run() {
+        				 	try {
+        			        	move(event_log ,main.fxmlDir+ "Create_Sale_F.fxml");
+        					} catch (IOException e) {
+        						// TODO Auto-generated catch block
+        						e.printStackTrace();
+        					}  
+        				
+        			}
+        		}); 
+    		}
+    		else //for close
+    		{
+    			/*there is no already active sale -> run in new thread the new window*/
+            	Platform.runLater(new Runnable() {
+        			
+        			@Override
+        			public void run() {
+        				 	Login_win.showPopUp("ERROR", "System error", "There is no active sale in your store", "");  
+        			 		return;
+
+        			}
+        		}); 
+    		}
+    		
+    	}
+
+    }
+    
+    /**
+     * receive the stores from server and move on to display report
+     * @param message
+     * @throws IOException 
+     */
+    public void get_stores_for_report(Object message) throws IOException
+    {
+    	stores = (ArrayList<String>)(((Msg) message).oldO);
+    	if((((Msg) message).getRole()).equals("get the stores for report"))
+    	{
+    	Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+		    	try {
+					move(event_log ,main.fxmlDir+ "Display_Report_F.fxml");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}); 
+    	}
+    	else
+    	{
+    		Platform.runLater(new Runnable() {
+    			
+    			@Override
+    			public void run() {
+    		    	try {
+    					move(event_log ,main.fxmlDir+ "Compare_Report_F.fxml");
+    				} catch (IOException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+    			}
+    		}); 
+    	}
+    }
+    
+    /**
+     * General function for the movement between the different windows
+     * @param event
+     * @param next_fxml = string of the specific fxml
+     * @throws IOException
+     */
+    public void move(ActionEvent event, String next_fxml)throws IOException 
+	{
+		  Parent menu;
+		  menu = FXMLLoader.load(getClass().getResource(next_fxml));
+		 Scene win1= new Scene(menu);
+		 win1.getStylesheets().add(getClass().getResource("css/common.css").toExternalForm());
+		 Stage win_1= (Stage) ((Node) (event.getSource())).getScene().getWindow();
+		 win_1.setScene(win1);
+		 win_1.show();
+		 
+		  //close window by X button
+		 win_1.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	          public void handle(WindowEvent we) {
+	        	  Msg  msg=new Msg();
+	      		Person user_logout=Login_win.current_user;
+	      		msg.setRole("user logout");
+	      		msg.setTableName("person");
+	      		msg.setUpdate();
+	      		msg.oldO=user_logout;
+	      		Login_win.to_Client.accept(msg);
+	          }
+	      });        
+	}
+    
+    
+    @Override
+	public void initialize(URL location, ResourceBundle resources)
+	{
+    	/*set the buttons not visible*/
+    	create_Survey_B.setVisible(false);
+    	update_Catalog_B.setVisible(false);
+    	answer_Complaint_B.setVisible(false);
+    	create_Sale_B.setVisible(false);
+    	create_PaymentAccount_B.setVisible(false);
+    	compare_Reports_B.setVisible(false);
+    	conclusion_Survey_B.setVisible(false);
+    	edit_CustomersProfile_B.setVisible(false);
+    	display_Reports_B.setVisible(false);
+    	close_Survey_B.setVisible(false);
+    	close_Sale_B.setVisible(false);
+		survey_b.setVisible(false);
+
+    	/*update the current controller to be management controller in general ClientConsole instance*/
+    	Login_win.to_Client.setController(this);
+    	
+    	/*check which privilege has the user*/
+    	String privilege = Main_menu.current_user.getPrivilege();
+    	
+    	switch(privilege)
+    	{
+    		case "Chain Employee":
+    			update_Catalog_B.setVisible(true);
+    			break;
+    		case "Customer Service Employee":
+    			create_Survey_B.setVisible(true);
+    			answer_Complaint_B.setVisible(true);
+    			close_Survey_B.setVisible(true);
+        		break;
+    		case "Chain Manager":
+    			display_Reports_B.setVisible(true);
+    			compare_Reports_B.setVisible(true);
+        		break;
+    		case "Store Manager":
+    			create_PaymentAccount_B.setVisible(true);
+    			display_Reports_B.setVisible(true);
+    			create_Sale_B.setVisible(true);
+    			close_Sale_B.setVisible(true);
+        		break;
+    		case "Service Expert":
+    			conclusion_Survey_B.setVisible(true);
+        		break;
+    		case "Store Employee":
+    			create_Sale_B.setVisible(true);
+    			close_Sale_B.setVisible(true);
+    			updateStockB.setVisible(true);
+    			survey_b.setVisible(true);
+        		break;
+    		case "System Manager":
+    			edit_CustomersProfile_B.setVisible(true);
+        		break;
+    	}
+	}
+}
