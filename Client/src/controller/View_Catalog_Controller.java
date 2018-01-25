@@ -762,7 +762,7 @@ public class View_Catalog_Controller implements ControllerI, Initializable {
 		 * update the current controller to be view catalog controller in general
 		 * ClientConsole instance
 		 */
-		System.out.println(Managment_Controller.ManagmentFlage);
+		
 		current_user = controller.Login_win.current_user;
 		Login_win.to_Client.setController(this);
 		if (Managment_Controller.ManagmentFlage == 1) {
