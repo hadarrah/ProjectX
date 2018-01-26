@@ -34,7 +34,13 @@ public class Complain  implements Serializable{
 		 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			Date date = new Date();
 			this.date = dateFormat.format(date);
-			this.hour = ""+LocalDateTime.now().getHour()+":"+LocalDateTime.now().getMinute();
+			String h = String.valueOf(LocalDateTime.now().getHour());
+			String m = String.valueOf(LocalDateTime.now().getMinute());
+			if(h.length() == 1)
+				h = "0" + h;
+			if(m.length() == 1)
+				m = "0" + m;
+			this.hour = h+":"+m;
 	}
 	
 	public Complain (String id,String Customer_id,String status,String answer,String comp,String user_text)
