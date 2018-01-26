@@ -77,6 +77,8 @@ public class Payment_Controller implements Initializable, ControllerI {
 	private boolean cardInDB = false;
 	private boolean doRefund = false;
 	
+	public static int oid;
+	
 	
 	/**
 	 * Payment button action function - check if user input is valid and insert everything
@@ -96,58 +98,11 @@ public class Payment_Controller implements Initializable, ControllerI {
 		checkUserOrder();
 
 		if (noErrors == true) {
-
 			insertOrderToDB();
-
-			// Wait in incremets of 10ms for thread to finish the order process
-			while (!orderDone)
-				try {
-					Thread.sleep(10);// wait
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			if (order.haveDelivery()) {
-				insertDeliveryToDB();
-
-				// Wait in incremets of 10ms for thread to finish the delivery process
-				while (!deliveryDone)
-					try {
-						Thread.sleep(10);// wait
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			}
 			
-			insertItemsToDB();
-
-			while (!itemsInDB)
-				try {
-					Thread.sleep(10);// wait
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			if (order.getCard() != null && order.getCard() != "") {
-				insertCardToDB();
-
-				while (!cardInDB)
-					try {
-						Thread.sleep(10);// wait
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				
-
-			}
 			
 			if(doRefund)
 				updateRefund();
-
 
 			good = true;
 
@@ -156,6 +111,13 @@ public class Payment_Controller implements Initializable, ControllerI {
 		// Process successful
 		// If everything went well -> order, delivery and items are in database
 		if (good) {
+
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			pmX_L.setVisible(false);
 
 			String content;
@@ -165,7 +127,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 				content = "Your items will be waiting for you at the requested order date and time";
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Order was created successfully!");
-			alert.setHeaderText("Order done: " + order.getId());
+			alert.setHeaderText("Order done: " + this.order.getId());
 			alert.setContentText("For more information, please contact Netanel Azulai\n" + "\n" + content
 					+ "\n\nYou will be taken back to the main menu after pressing OK");
 			Optional<ButtonType> result = alert.showAndWait();
@@ -377,7 +339,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 
 	/** Successful item insert to DB */
 	public void insert_items_success(Object msg) {
-		int oid = (int) ((Msg) msg).num1;
+		oid = (int) ((Msg) msg).num1;
 		System.out.println("Items for order " + oid + " " + "been added!");
 		itemsInDB = true;
 	}
@@ -399,7 +361,16 @@ public class Payment_Controller implements Initializable, ControllerI {
 
 		order.setId(created.getId());
 
-		orderDone = true;
+		if (order.haveDelivery()) {
+			insertDeliveryToDB();
+		}
+		
+		insertItemsToDB();
+
+		if (order.getCard() != null && !order.getCard().equals(""))
+			insertCardToDB();
+		
+
 
 	}
 

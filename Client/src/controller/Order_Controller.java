@@ -252,9 +252,11 @@ public class Order_Controller implements Initializable, ControllerI {
 				day= Integer.parseInt(date.substring(0, 2));
 
 			if(day==lday) {
+				System.out.println("line 255 ordercont oh: "+ohour+" lh: "+lhour+" om: "+omin+" lm: "+lmin);
+				System.out.println((60*ohour - 60*lhour) + (omin-lmin));
 				if(	   ((60*ohour - 60*lhour) + (omin-lmin)) < 180 
 					|| (ohour<lhour)
-					|| ((ohour>=lhour && omin<lmin)) ) {
+					|| ((ohour==lhour && omin<lmin)) ) {
 					tX_L.setVisible(true);
 					Login_win.showPopUp("INFORMATION", "Cannot Provide Order", "We can deliver an order with a minimum of 3 hours since request",
 							"");
