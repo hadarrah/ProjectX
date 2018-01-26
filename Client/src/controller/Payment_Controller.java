@@ -322,7 +322,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 		Login_win.to_Client.accept(msg);
 	}
 	
-	/** insert the selected card to DB */
+	/** update refund in DB */
 	public void updateRefund() {
 		Msg msg = new Msg();
 
