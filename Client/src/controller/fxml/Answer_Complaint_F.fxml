@@ -103,5 +103,10 @@
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </Label>
+      <Label fx:id="invalid_detailsL_Store" layoutX="352.0" layoutY="146.0" text="You must choose store" textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

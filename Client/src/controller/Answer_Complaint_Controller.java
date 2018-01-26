@@ -40,7 +40,7 @@ public class Answer_Complaint_Controller implements Initializable,ControllerI{
 
 		public TextArea answer_Text;
 		public Button submit_answer_B, back_B;
-		public Label complaint_ID_L, hour_L, date_L, invalid_detailsL_com;
+		public Label complaint_ID_L, hour_L, date_L, invalid_detailsL_com, invalid_detailsL_Store;
 		public Label invalid_detailsL_ID, invalid_detailsL_comment, invalid_detailsL_comment_length;
 		public TextField compensation_Text;
 		public ComboBox<String> customer_ID_combo, store_ID_combo;
@@ -62,7 +62,8 @@ public class Answer_Complaint_Controller implements Initializable,ControllerI{
 	    	invalid_detailsL_ID.setVisible(false);
 	    	invalid_detailsL_comment_length.setVisible(false);
 	    	invalid_detailsL_com.setVisible(false);
-	    	
+			invalid_detailsL_Store.setVisible(false);
+
 			String answer = "";
 			answer = answer_Text.getText();
 			
@@ -70,6 +71,11 @@ public class Answer_Complaint_Controller implements Initializable,ControllerI{
 			if(customer_ID_combo.getValue() == null)
 			{
 				invalid_detailsL_ID.setVisible(true);
+				return;
+			}
+			if(store_ID_combo.getValue() == null)
+			{
+				invalid_detailsL_Store.setVisible(true);
 				return;
 			}
 			if(!isFloat(compensation_Text.getText()))
@@ -253,6 +259,7 @@ public class Answer_Complaint_Controller implements Initializable,ControllerI{
     	invalid_detailsL_ID.setVisible(false);
     	invalid_detailsL_comment_length.setVisible(false);
     	invalid_detailsL_com.setVisible(false);
+    	invalid_detailsL_Store.setVisible(false);
     	store_ID_combo.setDisable(true);
     	
     	/*set the details of survey in fields*/
