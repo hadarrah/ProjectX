@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Managment_Controller">
+   <children>
+      <ImageView fitHeight="600.0" fitWidth="571.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@page.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="update_Catalog_B" layoutX="186.0" layoutY="95.0" mnemonicParsing="false" onAction="#update_Catalog" text="Update Catalog" />
+      <Label layoutX="168.0" layoutY="23.0" text="Managment" textFill="#0d0d0c">
+         <font>
+            <Font name="Arial Black" size="33.0" />
+         </font>
+      </Label>
+      <Button fx:id="back_B" layoutX="26.0" layoutY="503.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Button fx:id="create_Sale_B" layoutX="198.0" layoutY="95.0" mnemonicParsing="false" onAction="#create_Sale" text="Create Sale" />
+      <Button fx:id="create_Survey_B" layoutX="191.0" layoutY="95.0" mnemonicParsing="false" onAction="#create_Survey" text="Create Survey" />
+      <Button fx:id="answer_Complaint_B" layoutX="177.0" layoutY="207.0" mnemonicParsing="false" onAction="#answer_Complaint" text="Answer Complaint" />
+      <Button fx:id="conclusion_Survey_B" layoutX="158.0" layoutY="95.0" mnemonicParsing="false" onAction="#conclusion_Survey" text="Add Conclusion To Survey" />
+      <Button fx:id="create_PaymentAccount_B" layoutX="161.0" layoutY="257.0" mnemonicParsing="false" onAction="#create_PaymentAccount" text="Create Payment Account" />
+      <Button fx:id="edit_CustomersProfile_B" layoutX="169.0" layoutY="95.0" mnemonicParsing="false" onAction="#edit_CustomersProfile" text="Edit Customers Profile" />
+      <Button fx:id="display_Reports_B" layoutX="186.0" layoutY="207.0" mnemonicParsing="false" onAction="#display_Reports" text="Display Reports" />
+      <Button fx:id="compare_Reports_B" layoutX="181.0" layoutY="95.0" mnemonicParsing="false" onAction="#compare_Reports" text="Compare Reports" />
+      <Button fx:id="close_Survey_B" layoutX="193.0" layoutY="153.0" mnemonicParsing="false" onAction="#close_Survey" text="Close Survey" />
+      <Button fx:id="close_Sale_B" layoutX="201.0" layoutY="153.0" mnemonicParsing="false" onAction="#close_Sale" text="Close Sale" />
+      <Button fx:id="survey_b" layoutX="362.0" layoutY="155.0" mnemonicParsing="false" onAction="#answer_survey" text="Survey">
+         <graphic>
+            <ImageView fx:id="survey_img" fitHeight="48.0" fitWidth="56.0">
+               <image>
+                  <Image fx:id="survey_img" url="@survey2.gif" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+      <Button fx:id="updateStockB" layoutX="201.0" layoutY="207.0" mnemonicParsing="false" onAction="#updateStock" text="Update stock" visible="false" />
+   </children>
+</Pane>

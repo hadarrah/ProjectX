@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Post_Complain_Controller">
+   <children>
+      <ImageView fitHeight="600.0" fitWidth="571.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@page.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="127.0" layoutY="28.0" text="Post a New Complian" textFill="#433f3f">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <VBox fillWidth="false" layoutX="140.0" layoutY="124.0" prefHeight="300.0" prefWidth="363.0" spacing="25.0">
+         <children>
+            <ComboBox fx:id="topic_names" prefHeight="31.0" prefWidth="190.0" />
+            <TextField fx:id="user_id" prefHeight="31.0" prefWidth="205.0" />
+            <TextArea fx:id="user_txt_complain" prefHeight="187.0" prefWidth="304.0" />
+         </children>
+      </VBox>
+      <Button fx:id="back_to_main" layoutX="21.0" layoutY="528.0" mnemonicParsing="false" onAction="#back_to_main" text="Back" />
+      <Button fx:id="sumbit_complain" layoutX="416.0" layoutY="528.0" mnemonicParsing="false" onAction="#submit_complain" text="Submit" />
+      <Label fx:id="date" layoutX="413.0" layoutY="33.0" text="DATE" />
+      <CheckBox layoutX="148.0" layoutY="437.0" mnemonicParsing="false" text="CheckBox" />
+      <VBox layoutX="27.0" layoutY="124.0" prefHeight="200.0" prefWidth="113.0">
+         <children>
+            <Label fx:id="complain_topic" text="Complain Topic:" />
+            <Label text="User Id:">
+               <padding>
+                  <Insets right="15.0" top="38.0" />
+               </padding>
+            </Label>
+            <Label fx:id="user_complain" text="Your Complain:">
+               <padding>
+                  <Insets top="35.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</Pane>

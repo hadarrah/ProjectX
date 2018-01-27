@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Login_win">
+   <children>
+      <ImageView fitHeight="616.0" fitWidth="582.0" layoutX="-29.0">
+         <image>
+            <Image url="@flower-background-pictures-1.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="56.0" layoutY="174.0" />
+      <Label fx:id="invalid_detailsL" layoutX="209.0" layoutY="308.0" text="Invalid Details" textFill="RED" visible="false">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Button fx:id="Bquit" layoutX="27.0" layoutY="351.0" mnemonicParsing="false" onAction="#Quit_app" text="Quit" />
+      <Button fx:id="Blogin" layoutX="219.0" layoutY="251.0" mnemonicParsing="false" onAction="#hit_login" prefHeight="31.0" prefWidth="68.0" text="Login" />
+      <Label layoutX="160.0" layoutY="55.0" prefHeight="39.0" prefWidth="219.0" text="ZerLi System" textFill="#118cdd">
+         <font>
+            <Font name="Arial Black" size="26.0" />
+         </font></Label>
+      <TextField fx:id="user_IdT" layoutX="175.0" layoutY="116.0" prefWidth="150.0" promptText="Enter User Id" />
+      <PasswordField fx:id="user_passT" layoutX="175.0" layoutY="156.0" prefWidth="150.0" promptText="Enter User Password" />
+      <Label fx:id="user_not_existL" layoutX="193.0" layoutY="280.0" text="user is not exist" textFill="#eb0a0a" visible="false">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="already_conL" layoutX="168.0" layoutY="280.0" text="User Is alrady connceted!" textFill="RED" visible="false">
+         <font>
+            <Font name="System Bold Italic" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="welcomeL" layoutX="201.0" layoutY="280.0" text="Welcome !" textFill="#29940c" visible="false">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbxStore" layoutX="175.0" layoutY="196.0" prefWidth="150.0" promptText="Choose a store" visible="false" />
+      <Button fx:id="BOK" layoutX="234.0" layoutY="251.0" mnemonicParsing="false" onAction="#Ok" text="OK" visible="false" />
+      <TextField fx:id="destination_IdT" layoutX="175.0" layoutY="116.0" prefWidth="150.0" promptText="Enter server Id" />
+      <Button fx:id="Bconnect" layoutX="194.0" layoutY="251.0" mnemonicParsing="false" onAction="#hit_connect" prefHeight="31.0" prefWidth="118.0" text="Connect To Server" />
+      <Label fx:id="invalid_IPL" layoutX="210.0" layoutY="141.0" text="Invalid IP" textFill="#eb0a0a" visible="false">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
