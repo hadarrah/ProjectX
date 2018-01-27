@@ -161,19 +161,27 @@ public class Add_Conclusion_Controller implements Initializable,ControllerI{
      */
     public void setCombo(Object msg)
     {
-    	ArrayList<String> surveyID = new ArrayList<String>();
-    	noActive_survey = (ArrayList<Survey>) (((Msg) msg).newO);
-    	if(noActive_survey == null)
-    	{
-	 	    Login_win.showPopUp("ERROR", "Message", "There is no survey to display", "");
-	 	    return;
-    	}
-    	for(Survey survey : noActive_survey)
-    	{
-    		surveyID.add(survey.getID());
-    	}
-    	ObservableList<String> list = FXCollections.observableArrayList(surveyID);
-    	survey_ID_combo.setItems(list);
+    	/*the creating was successful -> run in new thread the new window*/
+    	Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ArrayList<String> surveyID = new ArrayList<String>();
+		    	noActive_survey = (ArrayList<Survey>) (((Msg) msg).newO);
+		    	if(noActive_survey == null)
+		    	{
+			 	    Login_win.showPopUp("ERROR", "Message", "There is no survey to display", "");
+			 	    return;
+		    	}
+		    	for(Survey survey : noActive_survey)
+		    	{
+		    		surveyID.add(survey.getID());
+		    	}
+		    	ObservableList<String> list = FXCollections.observableArrayList(surveyID);
+		    	survey_ID_combo.setItems(list);
+				
+			}
+		}); 
     }
     
     /**

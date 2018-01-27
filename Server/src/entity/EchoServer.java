@@ -876,7 +876,7 @@ public class EchoServer extends AbstractServer {
 
 						/* build query for survey */
 						ps = conn.prepareStatement(
-								"SELECT * FROM survey WHERE Status='No Active' AND Conclusion != 'null';");
+								"SELECT * FROM survey WHERE Status='No Active' AND Conclusion is not null;");
 						rs = ps.executeQuery();
 
 						while (rs.next()) {
@@ -2290,13 +2290,13 @@ public class EchoServer extends AbstractServer {
 
 		try {
 			/* set up and execute the update query */
-			ps = conn.prepareStatement("SELECT * FROM survey WHERE Status = ?;");
+			ps = conn.prepareStatement("SELECT * FROM survey WHERE Status = ? AND Conclusion is null;");
 			ps.setString(1, "No Active");
 			rs = ps.executeQuery();
-			while (rs.next())
+			while (rs.next()) 
 				forCombo.add(new Survey(rs.getString("ID"), rs.getString("Date"), rs.getString("Num_Of_Participant"),
 						rs.getString("Conclusion")));
-
+			
 			if (forCombo.isEmpty())
 				msg1.newO = null;
 			else
