@@ -575,6 +575,12 @@ public class EchoServer extends AbstractServer {
 				 if(customers.contains(rs.getString("ID")))
 					 customers.remove(rs.getString("ID"));
 			 
+			 ps = conn.prepareStatement("SELECT * FROM person WHERE ID not in (SELECT ID FROM payment_account);");
+			 rs = ps.executeQuery();
+			 while(rs.next())
+				 if(!customers.contains(rs.getString("ID")))
+					 customers.add(rs.getString("ID"));
+			 
 			 msg1.newO = customers;
 			client.sendToClient(msg1);
 
