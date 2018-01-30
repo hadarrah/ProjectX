@@ -38,7 +38,7 @@ import javafx.stage.WindowEvent;
 
 public class Answer_Complaint_Controller implements Initializable,ControllerI{
 
-		public TextArea answer_Text;
+		public TextArea answer_Text, complaint_Text;
 		public Button submit_answer_B, back_B;
 		public Label complaint_ID_L, hour_L, date_L, invalid_detailsL_com, invalid_detailsL_Store;
 		public Label invalid_detailsL_ID, invalid_detailsL_comment, invalid_detailsL_comment_length;
@@ -143,6 +143,7 @@ public class Answer_Complaint_Controller implements Initializable,ControllerI{
 					complaint_ID_L.setText(com.getComplain_ID());
 					hour_L.setText(com.getHour());
 					date_L.setText(com.getDate());
+					complaint_Text.setText(com.getUser_txt());
 				}
 	}
 	
