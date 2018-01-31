@@ -113,7 +113,7 @@ public class Payment_Controller implements Initializable, ControllerI {
 		if (good) {
 
 			try {
-				Thread.sleep(500);
+				Thread.sleep(700);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -144,6 +144,21 @@ public class Payment_Controller implements Initializable, ControllerI {
 
 		else {
 			System.out.println("There has been some problem in creating the order");
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error");
+		alert.setHeaderText("There was an error with your order, your cart will be wiped");
+		alert.setContentText("For more information, please contact Netanel Azulai\n"
+				+ "\n\nYou will be taken back to the main menu after pressing OK");
+		Optional<ButtonType> result = alert.showAndWait();
+
+		userCart.cleanCart();
+
+		try {
+			backMenu(event);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		}
 	}
 
